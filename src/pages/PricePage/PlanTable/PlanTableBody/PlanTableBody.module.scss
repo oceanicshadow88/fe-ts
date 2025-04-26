@@ -1,0 +1,62 @@
+.body {
+  th {
+    text-align: left;
+    color: rgb(128, 128, 128);
+    border-bottom: none;
+  }
+  td {
+    border-right: 1px solid #e7e7e7;
+  }
+  td:last-child {
+    border: none;
+  }
+  .header {
+    padding: 60px 20px 40px 0px;
+    color:rgb(79, 83, 102);
+  }
+  .second_header {
+    padding: 80px 20px 40px 0px;
+    color:rgb(79, 83, 102);
+  }
+  .item {
+    padding: 20px 20px 20px 0px;
+  }
+}
+
+.content_tr {
+
+  display: table-row;
+  vertical-align: inherit;
+
+  i {
+    width: 34px;
+    height: 34px;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+
+  i.bullet {
+    position: relative;
+    margin-left: -10px;
+  }
+
+  i.bullet::before {
+    content: "";
+    position: absolute;
+    background-color: #dcdcdc;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    left: calc(50% - 5px);
+    top: calc(50% - 5px);
+  }
+
+  i.check::before {
+    content: url("https://www.sortly.com/wp-content/themes/sortly_2022_redesign/assets/img/icons/check-red.svg");
+    margin-right: 10px;
+    width: 24px;
+    max-height: 10px;
+    display: inline-block;
+  }
+
+}

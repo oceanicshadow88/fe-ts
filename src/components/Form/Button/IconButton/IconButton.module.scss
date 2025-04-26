@@ -1,0 +1,44 @@
+$btnBgColor: #e0e2e8;
+$btnTextColor: #626d83;
+$tooltipBgColor: #172644;
+$tooltipTextColor: white;
+$hoverBgColor: #c9d8f0;
+$activeBgColor: #d3e3fc;
+
+.iconButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.2rem;
+  outline: none;
+  background-color: $btnBgColor;
+  color: $btnTextColor;
+  position: relative;
+  cursor: pointer;
+  .tooltip {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: $tooltipBgColor;
+    color: $tooltipTextColor;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+    visibility: hidden;
+    z-index: 1;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    background-color: $hoverBgColor;
+  }
+
+  &:hover .tooltip {
+    visibility: visible;
+  }
+
+  &:active {
+    background-color: $activeBgColor;
+  }
+}

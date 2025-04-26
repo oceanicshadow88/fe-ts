@@ -1,0 +1,18 @@
+.formField {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background-color: white;
+  border: 1px solid rgb(2, 87, 255);
+  height: 40px;
+  padding-left: 0.5rem;
+  border-radius: 5px;
+  .input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 15px;
+  }
+}

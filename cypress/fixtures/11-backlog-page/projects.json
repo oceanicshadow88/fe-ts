@@ -1,0 +1,1977 @@
+[
+  {
+    "id": "6358beaba662585de524593e",
+    "name": "kitman-test1",
+    "key": "KIT",
+    "projectLeadId": null,
+    "ownerId": null,
+    "assigneeId": "1",
+    "boardId": "6358beaba662585de524593d",
+    "iconUrl": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1676979360682.jpeg",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [
+      {
+        "name": "Retro Meeting",
+        "shortcutLink": "https://action.parabol.co/new-summary/hLadF4YqS4",
+        "id": "635922b0c8bba1bca7efb8dc"
+      },
+      {
+        "name": "JIRA",
+        "shortcutLink": "https://010001.atlassian.net/jira/software/projects/TEC/boards/2",
+        "id": "635922dcc8bba1bca7efb8ee"
+      }
+    ],
+    "createdAt": "2022-10-26T04:59:23.738Z",
+    "updatedAt": "2023-02-21T11:36:04.180Z",
+    "__v": 0
+  },
+  {
+    "id": "63e10f5f05ab3d9b220f7118",
+    "name": "WEB3",
+    "key": "WEB",
+    "projectLeadId": null,
+    "ownerId": null,
+    "assigneeId": "1",
+    "boardId": "63e10f5f05ab3d9b220f7117",
+    "iconUrl": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1676979295062.jpg",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-02-06T14:31:59.582Z",
+    "updatedAt": "2023-02-21T11:34:59.711Z",
+    "__v": 0
+  },
+  {
+    "id": "63eb5b2ec2d370bdcd64ed55",
+    "name": "projectttt",
+    "key": "PRO",
+    "projectLeadId": {
+      "email": "joe.hz.au@gmail.com",
+      "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+      "createdAt": "2022-09-25T02:56:58.574Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666d3d377d106f9a8b86d"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf5",
+          "id": "63f99e6a910e26fee78efdf1"
+        }
+      ],
+      "updatedAt": "2023-02-25T05:42:31.490Z",
+      "name": "Joe",
+      "id": "632fc37a89d19ed1f57c7ab1"
+    },
+    "ownerId": {
+      "email": "shirleymm118@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817330764.webp",
+      "createdAt": "2022-09-27T11:06:08.723Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "63587a9db75521ab7737c7f0",
+          "roleId": "631d94d08a05945727602ce0",
+          "id": "6359046e253dd7bffe551080"
+        }
+      ],
+      "updatedAt": "2022-11-30T14:08:55.630Z",
+      "name": "hyna",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "shirleymm118@gmail.com",
+      "userName": "",
+      "id": "6332d92189d19ed1f5e91b1b"
+    },
+    "assigneeId": "1",
+    "boardId": "63eb5b2ec2d370bdcd64ed54",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-02-14T09:58:06.062Z",
+    "updatedAt": "2023-02-14T09:58:06.062Z",
+    "__v": 0
+  },
+  {
+    "id": "63f85413ed3adaeec187f2a8",
+    "name": "test New",
+    "key": "TES",
+    "projectLeadId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "roles": [],
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "63f85413ed3adaeec187f2a7",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-02-24T06:07:15.618Z",
+    "updatedAt": "2023-02-24T06:07:15.618Z",
+    "__v": 0
+  },
+  {
+    "id": "63f85cfcb2c54910c4189d3f",
+    "name": "test-6",
+    "key": "TES",
+    "projectLeadId": {
+      "email": "joe.hz.au@gmail.com",
+      "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+      "createdAt": "2022-09-25T02:56:58.574Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666d3d377d106f9a8b86d"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf5",
+          "id": "63f99e6a910e26fee78efdf1"
+        }
+      ],
+      "updatedAt": "2023-02-25T05:42:31.490Z",
+      "name": "Joe",
+      "id": "632fc37a89d19ed1f57c7ab1"
+    },
+    "roles": [
+      "63f85cfcb2c54910c4189d3b",
+      "63f85cfcb2c54910c4189d3c",
+      "63f85cfcb2c54910c4189d3d",
+      "63f85cfcb2c54910c4189d3e"
+    ],
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "63f85cfcb2c54910c4189d3a",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-02-24T06:45:16.266Z",
+    "updatedAt": "2023-02-24T06:45:16.266Z",
+    "__v": 0
+  },
+  {
+    "id": "63f85d61a1e80120dff4e907",
+    "name": "test-6",
+    "key": "TES",
+    "projectLeadId": {
+      "email": "joe.hz.au@gmail.com",
+      "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+      "createdAt": "2022-09-25T02:56:58.574Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666d3d377d106f9a8b86d"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf5",
+          "id": "63f99e6a910e26fee78efdf1"
+        }
+      ],
+      "updatedAt": "2023-02-25T05:42:31.490Z",
+      "name": "Joe",
+      "id": "632fc37a89d19ed1f57c7ab1"
+    },
+    "roles": [
+      "63f85d61a1e80120dff4e903",
+      "63f85d61a1e80120dff4e904",
+      "63f85d61a1e80120dff4e905",
+      "63f85d61a1e80120dff4e906"
+    ],
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "63f85d61a1e80120dff4e902",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-02-24T06:46:57.939Z",
+    "updatedAt": "2023-02-24T06:46:57.939Z",
+    "__v": 0
+  },
+  {
+    "id": "63f85d91a1e80120dff4e95f",
+    "name": "test-7",
+    "key": "TES",
+    "projectLeadId": {
+      "email": "joe.hz.au@gmail.com",
+      "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+      "createdAt": "2022-09-25T02:56:58.574Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666d3d377d106f9a8b86d"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf5",
+          "id": "63f99e6a910e26fee78efdf1"
+        }
+      ],
+      "updatedAt": "2023-02-25T05:42:31.490Z",
+      "name": "Joe",
+      "id": "632fc37a89d19ed1f57c7ab1"
+    },
+    "roles": [
+      "63f85d91a1e80120dff4e95b",
+      "63f85d91a1e80120dff4e95c",
+      "63f85d91a1e80120dff4e95d",
+      "63f85d91a1e80120dff4e95e"
+    ],
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "63f85d91a1e80120dff4e95a",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-02-24T06:47:45.255Z",
+    "updatedAt": "2023-02-24T06:47:45.255Z",
+    "__v": 0
+  },
+  {
+    "id": "63fc2954954752aacabacb4d",
+    "name": "123",
+    "key": "123",
+    "projectLeadId": {
+      "email": "joe.hz.au@gmail.com",
+      "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+      "createdAt": "2022-09-25T02:56:58.574Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666d3d377d106f9a8b86d"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf5",
+          "id": "63f99e6a910e26fee78efdf1"
+        }
+      ],
+      "updatedAt": "2023-02-25T05:42:31.490Z",
+      "name": "Joe",
+      "id": "632fc37a89d19ed1f57c7ab1"
+    },
+    "roles": [
+      {
+        "name": "Admin",
+        "slug": "admin",
+        "permission": [
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff",
+          "631d94d08a05945727602ce7"
+        ],
+        "id": "63fc2954954752aacabacb4e"
+      },
+      {
+        "name": "Developer",
+        "slug": "developer",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc"
+        ],
+        "id": "63fc2954954752aacabacb4f"
+      },
+      {
+        "name": "Product Manager",
+        "slug": "product-manager",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff"
+        ],
+        "id": "63fc2954954752aacabacb50"
+      },
+      {
+        "name": "Guest",
+        "slug": "guest",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cf7"
+        ],
+        "id": "63fc2954954752aacabacb51"
+      },
+      {
+        "name": "NBPLUS",
+        "slug": "NBPLUS",
+        "permission": ["631d94d08a05945727602ce7"],
+        "id": "63fc297e954752aacabacc85"
+      },
+      {
+        "name": "NBPLUS+++",
+        "slug": "NBPLUS+++",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfe"
+        ],
+        "id": "63fc2d53954752aacabacd98"
+      },
+      {
+        "name": "NBPLUS++++++",
+        "slug": "NBPLUS++++++",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff"
+        ],
+        "id": "63fc36a7954752aacabad0a8"
+      },
+      {
+        "name": "NBPLUS+",
+        "slug": "NBPLUS+",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7"
+        ],
+        "id": "63fc3708954752aacabad145"
+      },
+      {
+        "name": "NBPLUS++++",
+        "slug": "NBPLUS++++",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cf0"
+        ],
+        "id": "63fc3969954752aacabad1f8"
+      }
+    ],
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "63fc2954954752aacabacb4c",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-02-27T03:53:56.130Z",
+    "updatedAt": "2023-02-27T05:02:33.803Z",
+    "__v": 0
+  },
+  {
+    "id": "63fc3a8c954752aacabad2ae",
+    "name": "test New",
+    "key": "TES",
+    "projectLeadId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "roles": [
+      {
+        "name": "Admin",
+        "slug": "admin",
+        "permission": [
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff",
+          "631d94d08a05945727602ce7"
+        ],
+        "id": "63fc3a8c954752aacabad2af"
+      },
+      {
+        "name": "Developer",
+        "slug": "developer",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc"
+        ],
+        "id": "63fc3a8c954752aacabad2b0"
+      },
+      {
+        "name": "Product Manager",
+        "slug": "product-manager",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff"
+        ],
+        "id": "63fc3a8c954752aacabad2b1"
+      },
+      {
+        "name": "Guest",
+        "slug": "guest",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cf7"
+        ],
+        "id": "63fc3a8c954752aacabad2b2"
+      }
+    ],
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "63fc3a8c954752aacabad2ad",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-02-27T05:07:24.267Z",
+    "updatedAt": "2023-02-27T05:07:24.267Z",
+    "__v": 0
+  },
+  {
+    "id": "63fc3c51954752aacabad3eb",
+    "name": "test default",
+    "key": "TES",
+    "projectLeadId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "roles": [
+      {
+        "name": "Admin",
+        "slug": "admin",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cff"
+        ],
+        "id": "63fc3c51954752aacabad3ec"
+      },
+      {
+        "name": "Developer",
+        "slug": "developer",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cfd"
+        ],
+        "id": "63fc3c51954752aacabad3ed"
+      },
+      {
+        "name": "Product Manager",
+        "slug": "product-manager",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff"
+        ],
+        "id": "63fc3c51954752aacabad3ee"
+      },
+      {
+        "name": "NBPLUS",
+        "slug": "NBPLUS",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf7"
+        ],
+        "id": "63ff58002845877a89f13403"
+      }
+    ],
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "63fc3c51954752aacabad3ea",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-02-27T05:14:57.123Z",
+    "updatedAt": "2023-03-01T13:49:52.890Z",
+    "__v": 43
+  },
+  {
+    "id": "63fda3c2a5a538c1a229a389",
+    "name": "Filter testing",
+    "key": "FIL",
+    "projectLeadId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "63fda3c2a5a538c1a229a388",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-02-28T06:48:34.232Z",
+    "updatedAt": "2023-02-28T06:48:34.232Z",
+    "__v": 0
+  },
+  {
+    "id": "63fdc410a5a538c1a229b36a",
+    "name": "q",
+    "key": "Q",
+    "projectLeadId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "63fdc410a5a538c1a229b369",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-02-28T09:06:24.247Z",
+    "updatedAt": "2023-02-28T09:06:24.247Z",
+    "__v": 0
+  },
+  {
+    "id": "63ff6c5912967107fb9738c6",
+    "name": "test New",
+    "key": "TES",
+    "projectLeadId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "roles": [
+      {
+        "name": "Admin",
+        "slug": "admin",
+        "permission": [
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff",
+          "631d94d08a05945727602ce7"
+        ],
+        "id": "63ff6c5912967107fb9738c7"
+      },
+      {
+        "name": "Developer",
+        "slug": "developer",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cfd"
+        ],
+        "id": "63ff6c5912967107fb9738c8"
+      },
+      {
+        "name": "Product Manager",
+        "slug": "product-manager",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff"
+        ],
+        "id": "63ff6c5912967107fb9738c9"
+      },
+      {
+        "name": "Guest",
+        "slug": "guest",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cfb"
+        ],
+        "id": "63ff6c5912967107fb9738ca"
+      },
+      {
+        "name": "NBPLUS",
+        "slug": "NBPLUS",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf7"
+        ],
+        "id": "64004d1d66d69916c809fabe"
+      },
+      {
+        "name": "NBPLUS",
+        "slug": "NBPLUS",
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfe"
+        ],
+        "id": "64004d3366d69916c809fae6"
+      },
+      {
+        "name": "NBPLUS+",
+        "slug": "NBPLUS+",
+        "allowDelete": true,
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cfa"
+        ],
+        "id": "6401f8dc522aabf28213525a"
+      }
+    ],
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "63ff6c5912967107fb9738c5",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-03-01T15:16:41.709Z",
+    "updatedAt": "2023-03-03T13:40:55.044Z",
+    "__v": 3
+  },
+  {
+    "id": "64001e78e375175228cc5d27",
+    "name": "sssss",
+    "key": "SSS",
+    "projectLeadId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "64001e78e375175228cc5d26",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-03-02T03:56:40.140Z",
+    "updatedAt": "2023-03-02T03:56:40.140Z",
+    "__v": 0
+  },
+  {
+    "id": "6401ad15eea16b9bf6c47d3a",
+    "name": "test Role",
+    "key": "TES",
+    "projectLeadId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "roles": [
+      {
+        "name": "Admin",
+        "slug": "admin",
+        "allowDelete": false,
+        "permission": [
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff",
+          "631d94d08a05945727602ce7"
+        ],
+        "id": "6401ad15eea16b9bf6c47d3b"
+      },
+      {
+        "name": "Developer",
+        "slug": "developer",
+        "allowDelete": false,
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cfd"
+        ],
+        "id": "6401ad15eea16b9bf6c47d3c"
+      },
+      {
+        "name": "Product Manager",
+        "slug": "product-manager",
+        "allowDelete": false,
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff"
+        ],
+        "id": "6401ad15eea16b9bf6c47d3d"
+      },
+      {
+        "name": "Guest",
+        "slug": "guest",
+        "allowDelete": false,
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cfb"
+        ],
+        "id": "6401ad15eea16b9bf6c47d3e"
+      },
+      {
+        "name": "NBPLUS",
+        "slug": "NBPLUS",
+        "allowDelete": true,
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff"
+        ],
+        "id": "6401ad31eea16b9bf6c47db5"
+      },
+      {
+        "name": "NBPLUS+",
+        "slug": "NBPLUS+",
+        "allowDelete": true,
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfe"
+        ],
+        "id": "6401f7e8522aabf282135081"
+      }
+    ],
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "6401ad15eea16b9bf6c47d39",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-03-03T08:17:25.350Z",
+    "updatedAt": "2023-03-04T04:29:16.067Z",
+    "__v": 4
+  },
+  {
+    "id": "6401f933522aabf28213537c",
+    "name": "test New",
+    "key": "TES",
+    "projectLeadId": {
+      "email": "davidg9911mail@gmail.com",
+      "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+      "createdAt": "2022-10-04T07:55:21.286Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "634e9f20162cb5e204e4e538",
+          "roleId": "631d94d08a05945727602ce0",
+          "id": "635551d2063fa76f9e8e5834"
+        },
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635557bc063fa76f9e8e598b"
+        },
+        {
+          "projectId": "6358c090a662585de5245a2d",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "63821762a6c3f10a7e8b06ab"
+        }
+      ],
+      "updatedAt": "2022-11-26T13:40:50.163Z",
+      "name": "David Guo",
+      "id": "633be6e9c94265ad05d0eca6"
+    },
+    "roles": [
+      {
+        "name": "Admin",
+        "slug": "admin",
+        "allowDelete": false,
+        "permission": [
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602ce9",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff",
+          "631d94d08a05945727602ce7"
+        ],
+        "id": "6401f933522aabf28213537d"
+      },
+      {
+        "name": "Developer",
+        "slug": "developer",
+        "allowDelete": false,
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cfd"
+        ],
+        "id": "6401f933522aabf28213537e"
+      },
+      {
+        "name": "Product Manager",
+        "slug": "product-manager",
+        "allowDelete": false,
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ce8",
+          "631d94d08a05945727602cea",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cec",
+          "631d94d08a05945727602ced",
+          "631d94d08a05945727602cee",
+          "631d94d08a05945727602cef",
+          "631d94d08a05945727602cf0",
+          "631d94d08a05945727602cf1",
+          "631d94d08a05945727602cf2",
+          "631d94d08a05945727602cf3",
+          "631d94d08a05945727602cf4",
+          "631d94d08a05945727602cf5",
+          "631d94d08a05945727602cf6",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cf8",
+          "631d94d08a05945727602cf9",
+          "631d94d08a05945727602cfa",
+          "631d94d08a05945727602cfb",
+          "631d94d08a05945727602cfc",
+          "631d94d08a05945727602cfd",
+          "631d94d08a05945727602cfe",
+          "631d94d08a05945727602cff"
+        ],
+        "id": "6401f933522aabf28213537f"
+      },
+      {
+        "name": "Guest",
+        "slug": "guest",
+        "allowDelete": false,
+        "permission": [
+          "631d94d08a05945727602ce7",
+          "631d94d08a05945727602ceb",
+          "631d94d08a05945727602cf7",
+          "631d94d08a05945727602cfb"
+        ],
+        "id": "6401f933522aabf282135380"
+      }
+    ],
+    "ownerId": {
+      "email": "kitman200220022002@gmail.com",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        },
+        {
+          "projectId": "63f98693f45a92dd93934b13",
+          "roleId": "63f98693f45a92dd93934b15",
+          "id": "63f98bc5692a7c50b114ff3c"
+        },
+        {
+          "projectId": "63f991d2365ebbac8818ebf3",
+          "roleId": "63f991d2365ebbac8818ebf4",
+          "id": "63f9a32e059920c4ba1bd522"
+        },
+        {
+          "projectId": "63fc2954954752aacabacb4d",
+          "roleId": "63fc3708954752aacabad145",
+          "id": "63fc2973954752aacabacc56"
+        },
+        {
+          "projectId": "63fc3c51954752aacabad3eb",
+          "roleId": "63fc3c51954752aacabad3ec",
+          "id": "63fc6cff4322fee2ec197d9b"
+        }
+      ],
+      "updatedAt": "2023-02-28T06:23:39.507Z",
+      "name": "kitman",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "kitman200220022002@gmail.com",
+      "userName": "",
+      "id": "631dd53189d19ed1f532fb85"
+    },
+    "assigneeId": "1",
+    "boardId": "6401f933522aabf28213537b",
+    "iconUrl": "",
+    "star": false,
+    "isDelete": false,
+    "shortcut": [],
+    "createdAt": "2023-03-03T13:42:11.596Z",
+    "updatedAt": "2023-03-03T13:42:11.596Z",
+    "__v": 0
+  }
+]

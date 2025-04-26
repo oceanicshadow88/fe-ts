@@ -1,0 +1,177 @@
+.registerMainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  .techScrumIcon {
+    margin: 40px 0 10px 0;
+    width: 50%;
+    height: 10%;
+    align-self: center;
+  }
+
+  .registerForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px auto 24px;
+    width: 400px;
+    padding: 32px 40px;
+    background: rgb(255, 255, 255);
+    border-radius: 3px;
+    box-shadow: rgb(0 0 0 / 10%) 0px 0px 10px;
+    box-sizing: border-box;
+    color: rgb(94, 108, 132);
+
+    .registerEmailBoxContainer {
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .emailBoxImgContainer {
+        height: 40%;
+        text-align: center;
+        .emailBoxImg {
+          width: 100px;
+          height: auto;
+        }
+      }
+      .emailBoxNotification {
+        font-size: 28px;
+      }
+    }
+
+    .registerTitle {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .registerCompany {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      width: 400px;
+      padding: 0 40px 0 40px;
+      .registerCompanyInput {
+        margin-bottom: 0;
+      }
+    }
+
+    input {
+      padding: 8px 6px;
+      height: 36px;
+      border: 2px solid #ccc;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .registerPolicy {
+      font-size: 13px;
+      margin-bottom: 25px;
+
+      .registerPolicyLink {
+        text-decoration: none;
+        color: rgb(0, 82, 204);
+      }
+    }
+
+    .registerSubmitBtn {
+      align-items: baseline;
+      border-width: 0px;
+      border-radius: 3px;
+      display: inline-flex;
+      font-weight: 500;
+      max-width: 100%;
+      position: relative;
+      text-align: center;
+      background-color: #0052cc;
+      white-space: nowrap;
+      cursor: pointer;
+      padding: 0px 10px;
+      vertical-align: middle;
+      width: 100%;
+      justify-content: center;
+      color: white;
+      height: 40px;
+      line-height: 40px;
+
+      &:disabled{
+        background-color: #0052cc;
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .thirdPartyRegisterContainer {
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 40px;
+
+      .thirdPartyRegisterTitle {
+        font-size: 15px;
+        color: #5e6c84;
+      }
+
+      .thirdPartyBtn {
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+        border: 1px #5e6c84 solid;
+        background: transparent;
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #5e6c84;
+
+        .thirdPartyBtn:hover {
+          cursor: pointer !important;
+        }
+
+        .thirdPartyImg {
+          height: 25px;
+          width: 27%;
+        }
+
+        .thirdPartyDesc {
+          width: 73%;
+          text-align: center;
+        }
+      }
+    }
+
+    .registerLoginContainer {
+      margin-top: 20px;
+      .registerLogin {
+        font-size: 13px;
+        text-decoration: none;
+        color: rgb(0, 82, 204);
+      }
+    }
+  }
+
+  .registerFooter {
+    color: rgb(107, 119, 140);
+    padding-top: 16px;
+    font-size: 14px;
+    text-align: center;
+    line-height: 20px;
+    text-decoration: none;
+
+    .techScrumFooterIcon {
+      height: 35px;
+      color: gray;
+    }
+
+    .registerFooterText {
+      .registerFooterTextLink {
+        text-decoration: none;
+        color: rgb(0, 82, 204);
+      }
+    }
+  }
+}

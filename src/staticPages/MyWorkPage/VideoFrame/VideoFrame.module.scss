@@ -1,0 +1,12 @@
+.video {
+  background-color: #fff;
+  max-width: 90%;
+  box-shadow: 0 1px 11px rgb(0 0 0 / 15%);
+  margin: 0 auto;
+  transition: 0.3s;
+  block-size: auto;
+  display: block;
+  @media screen and (max-width: 768px) {
+    max-width: 100%;
+  }
+}

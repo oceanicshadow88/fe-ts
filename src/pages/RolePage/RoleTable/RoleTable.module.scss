@@ -1,0 +1,106 @@
+.roles-table-container {
+  border-collapse: collapse;
+  width: 100%;
+  thead,
+  tbody {
+    border-bottom: 2px solid #dfe1e6;
+  }
+
+  .role-header {
+    th {
+      padding: 4px 8px;
+      border: none;
+      box-sizing: border-box;
+      font-weight: 600;
+      text-align: left;
+      vertical-align: top;
+      color: #5e6c84;
+      transition: all 0.3s;
+      text-transform: uppercase;
+    }
+
+    th:hover {
+      background-color: rgba(9, 30, 66, 0.08);
+    }
+  }
+
+  .role-body {
+    transition: all 0.3s;
+
+    th {
+      padding: 4px 8px;
+      border: none;
+      box-sizing: border-box;
+      font-weight: 600;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .permissions {
+      .default-status {
+        display: flex;
+        gap: 8px;
+      }
+    }
+
+    .moreBtn-container {
+      width: 120px;
+      padding: 0px;
+      .moreBtn {
+        background-color: rgb(255 255 255 /0%);
+      }
+
+      .cancelBtn {
+        background-color: #e03131;
+      }
+      .cancelBtn:hover {
+        background-color: #c92a2a;
+      }
+
+      button {
+        margin: 6px;
+        width: 100%;
+        border: none;
+        background-color: #0052cc;
+        align-items: center;
+        border-width: 0px;
+        border-radius: 6px;
+        display: inline-flex;
+        cursor: pointer;
+        height: 32px;
+        padding: 0px 10px;
+        transition: all 0.3s;
+        justify-content: center;
+      }
+
+      .editBtn:hover {
+        background-color: #0042a3;
+      }
+    }
+  }
+
+  .role-body:hover {
+    background-color: #fafbfc;
+  }
+
+  .moreBtn-container {
+    position: relative;
+    display: inline-block;
+
+    .drop-down {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0%;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .moreBtn-container:hover {
+    .drop-down {
+      display: block;
+    }
+  }
+}

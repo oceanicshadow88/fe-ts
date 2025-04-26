@@ -1,0 +1,144 @@
+@import '../../variables.scss';
+
+.contactPage {
+  background-image: url(https://themexriver.com/appilo-theme/seo-agency/wp-content/uploads/sites/56/2021/11/hero-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  background-position: center center;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  z-index: 1;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 270px 75px 75px 75px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  @media (max-width: 768px) {
+    padding: 0;
+    margin-top: 60px;
+  }
+
+  .circleContainer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    max-width: 500px;
+  }
+
+  .container {
+    background: white;
+    border-radius: 50px;
+    display: flex;
+    padding: 50px;
+    max-width: 1680px;
+    margin: auto;
+    width: 100%;
+    justify-content: space-around;
+    z-index: 1;
+    position: relative;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      width: 80%;
+      padding: 30px;
+      margin-top: 60px;
+    }
+  }
+  .formTitle {
+    color: #1d1c39;
+    font-size: 32px;
+    line-height: 115%;
+    font-weight: 400;
+    text-align: center;
+    @media (max-width: 997px) {
+      font-size: 26px;
+    }
+    @media (max-width: 568px) {
+      font-size: 22px;
+    }
+  }
+
+  .container::before {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    content: '';
+    background-image: url(../../assets/dots.png), url(../../assets/dots.png);
+    background-repeat: no-repeat, no-repeat;
+    background-size: 20%, 20%;
+    background-position: right -52px, center 400px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.1;
+  }
+
+  .content {
+    background: $primaryColor;
+    padding: 50px;
+    margin-top: -150px;
+    margin-bottom: 167px;
+    @media (max-width: 768px) {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      padding: 20px;
+    }
+    p,
+    h1 {
+      color: white;
+    }
+    p {
+      font-size: 20px;
+      word-wrap: break-word;
+    }
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+    li {
+      display: flex;
+      list-style: none;
+      color: white;
+      padding: 0;
+      margin: 40px 0;
+      font-size: 22px;
+      b {
+        font-size: 24px;
+      }
+
+      .textContainer {
+        margin-left: 30px;
+        @media (max-width: 768px) {
+          margin-left: 15px;
+          width: 80%;
+          padding: 10px;
+        }
+      }
+
+      .info1 {
+        color: #dadada;
+        margin: 40px 0 0 0;
+      }
+    }
+  }
+
+  .info {
+    font-weight: 900;
+  }
+}
+
+.contactHeader {
+  width: 100%;
+  min-height: 500px;
+  background: $primaryColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  h1 {
+    color: white;
+    font-size: 50px;
+  }
+}

@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+$small: 1000px;
+
+.partnersContainer * {
+  margin: 0;
+  padding: 0;
+}
+
+.partnersContainer {
+  background-color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+  padding-top: 50px;
+
+  .heading {
+    padding-top: 50px;
+    font-size: 30px;
+  }
+
+  .subHeading {
+    padding-top: 20px;
+    padding-bottom: 50px;
+    font-size: 20px;
+  }
+
+  .customerLogs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    padding-bottom: 50px;
+
+    .singleLogContainer {
+      width: 13%;
+      margin: 20px;
+
+      .brandImg {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+  }
+}

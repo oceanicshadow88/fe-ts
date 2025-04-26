@@ -1,0 +1,40 @@
+@import '../../../pages/ReportPage/styles/variables.scss';
+.mainWrapper {
+  margin-block-start: $size-14;
+
+  .controlWrapper {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      margin-block-end: $size-10;
+      text-transform: capitalize;
+      font-size: $size-14;
+      font-weight: 500;
+
+      display: flex;
+      align-items: center;
+      gap: $size-10;
+
+      cursor: pointer;
+
+      input[type='radio'] {
+        cursor: pointer;
+      }
+    }
+  }
+
+  textarea {
+    all: unset;
+    width: 50%;
+    margin-block-start: $size-10;
+    border: 1px solid $color-grey-2;
+    padding-inline: $size-10;
+    padding-block: calc($size-12 / 2);
+    border-radius: calc($size-10 / 3);
+
+    &::placeholder {
+      font-weight: 200;
+    }
+  }
+}

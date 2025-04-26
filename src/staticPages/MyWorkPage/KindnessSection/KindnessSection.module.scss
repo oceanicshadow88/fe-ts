@@ -1,0 +1,48 @@
+.wrapper {
+  max-width: 1200px;
+  padding: 35px 25px;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin: 0 auto;
+  position: relative;
+  @media screen and (max-width: 1200px) {
+    justify-content: center;
+  }
+  @media screen and (max-width: 768px) {
+    justify-content: start;
+  }
+}
+
+.item {
+  background: url(https://clickup.com/images/kindness/free-training.svg) no-repeat center left;
+  background-size: 45px 45px;
+  min-height: 50px;
+  padding-left: 60px;
+  font: 400 16px/25px 'Roboto', sans-serif;
+  position: relative;
+  text-align: left;
+  color: #171f2d;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin: 0 15px;
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  @media screen and (max-width: 1200px) {
+    margin: 15px;
+  }
+}
+
+.itemSecurity {
+  background: url(https://clickup.com/images/kindness/security.svg) no-repeat center left;
+}
+
+.itemUptime {
+  background: url(https://clickup.com/images/kindness/uptime.svg) no-repeat center left;
+}

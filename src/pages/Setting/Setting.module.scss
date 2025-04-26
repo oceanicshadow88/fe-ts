@@ -1,0 +1,71 @@
+@import '../../variables.scss';
+
+.settingPage{
+    display: flex;
+}
+
+.settingContainer{
+    background-color: rgb(246, 248, 249);
+    width: 100%;
+}
+
+.settingMiniContainer{
+    max-width: 1080px;
+    margin: auto;
+}
+
+
+.divider{
+    flex-shrink: 0;
+    width: 100%;
+    height: 1px;
+    margin-top: 32px;
+    background-color: rgb(229, 231, 239);
+    opacity: 1;
+    border:0
+}
+
+.headerText{
+    display: inline-block;
+    font-style: normal;
+    font-stretch: normal;
+    word-break: break-word;
+    margin: 10px 0 0 0;
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.5;
+    color: rgb(79, 83, 102);
+}
+
+.gap{
+    gap:50px
+}
+
+.row{
+    margin: 24px 0;
+}
+
+.modal{
+    max-width: 500px!important;
+    padding: 40px;
+    p{
+        margin: 20px 0 50px 0;
+        font-size: 18px;
+    }
+}
+
+.modalBtn{
+    display: flex;
+    justify-content: flex-end;
+    button{
+        margin-left: 20px;
+    }
+}
+
+
+.p{
+    font-size: 14px;
+    font-weight: bold;
+    margin: 7px 0 20px 0px;
+}

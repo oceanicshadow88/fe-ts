@@ -1,0 +1,11 @@
+.tabContainer {
+  width: 100%;
+  padding: 0 24px;
+
+  .tabList {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+}

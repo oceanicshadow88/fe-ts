@@ -1,0 +1,224 @@
+@import '../../../variables.scss';
+@import '../base.scss';
+
+.unauthorizePageContainer {
+  background-repeat: no-repeat;
+  position: relative;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  height: 100vh;
+  background-color: #f6f8f9;
+  overflow: hidden;
+}
+
+.unauthorizePageContainer::before {
+  background-image: url(https://themexriver.com/appilo-theme/saas-classic-dark/wp-content/themes/appilo/img/saas-classic/banner/b-shape1.png);
+  right: 0;
+  width: 100%;
+  content: '';
+  top: 2%;
+  height: 100vh;
+  position: absolute;
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-size: 90%;
+}
+
+.circleContainer {
+  position: absolute;
+  right: 250px;
+  top: 0;
+  max-width: 500px;
+  animation: 7s apldg_rotate_animation ease-in-out infinite;
+  animation-direction: alternate;
+}
+
+.shape2Container {
+  img {
+    max-width: 616px;
+    opacity: 0.5;
+  }
+  position: absolute;
+  left: -300px;
+  bottom: -750px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
+
+.shape3Container {
+  position: absolute;
+  left: 10%;
+  bottom: 20%;
+  animation: 20s apldg_move_animation linear infinite;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
+
+.shape4Container {
+  position: absolute;
+  right: -25%;
+  bottom: 40%;
+  animation: 5s apldg_rotate_animation2 linear infinite;
+  animation-direction: alternate;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  opacity: 0.3;
+  img {
+    max-width: 600px;
+  }
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
+  max-width: 1220px;
+}
+
+.homeLeft {
+  width: 46%;
+}
+
+.heading {
+  margin: 0;
+  @include headingLarge;
+  text-align: left;
+}
+
+.homeRight {
+  width: 58%;
+  overflow: hidden;
+  padding-top: 20px;
+  video {
+    border-radius: 5px;
+  }
+}
+
+.subTitle {
+  color: #7c828d;
+  margin: 5px auto 25px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 29px;
+  font-family: 'Roboto', sans-serif;
+}
+
+@-webkit-keyframes apldg_move_animation {
+  0% {
+    -webkit-transform: translate(0) rotate(0deg);
+    transform: translate(0) rotate(0deg);
+  }
+  25% {
+    -webkit-transform: translate(200px, 100px) rotate(90deg);
+    transform: translate(200px, 100px) rotate(90deg);
+  }
+  50% {
+    -webkit-transform: transalate(600px, 200px) rotate(180deg);
+    transform: transalate(600px, 200px) rotate(180deg);
+  }
+  75% {
+    -webkit-transform: translate(-50px) rotate(270deg);
+    transform: translate(-50px) rotate(270deg);
+  }
+  100% {
+    -webkit-transform: translate(0) rotate(360deg);
+    transform: translate(0) rotate(360deg);
+  }
+}
+
+@keyframes apldg_move_animation {
+  0% {
+    -webkit-transform: translate(0) rotate(0deg);
+    transform: translate(0) rotate(0deg);
+  }
+  25% {
+    -webkit-transform: translate(200px, 100px) rotate(90deg);
+    transform: translate(200px, 100px) rotate(90deg);
+  }
+  50% {
+    -webkit-transform: transalate(600px, 200px) rotate(180deg);
+    transform: transalate(600px, 200px) rotate(180deg);
+  }
+  75% {
+    -webkit-transform: translate(-50px) rotate(270deg);
+    transform: translate(-50px) rotate(270deg);
+  }
+  100% {
+    -webkit-transform: translate(0) rotate(360deg);
+    transform: translate(0) rotate(360deg);
+  }
+}
+
+@-webkit-keyframes apldg_rotate_animation {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes apldg_rotate_animation {
+  from {
+    right: 250px;
+  }
+  to {
+    right: 350px;
+  }
+}
+
+@keyframes apldg_rotate_animation2 {
+  from {
+    bottom: 20%;
+  }
+  to {
+    bottom: 30%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .heading {
+    @include headingMedium;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    flex-direction: column;
+    padding: 0 25px;
+    @include borderBox;
+    margin: 180px auto 0;
+  }
+  .homeLeft {
+    width: 100%;
+    padding: 0;
+  }
+  .homeRight {
+    width: 100%;
+    padding: 0;
+    margin-top: 50px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .heading {
+    @include headingSmall;
+  }
+}

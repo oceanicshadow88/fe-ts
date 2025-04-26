@@ -1,0 +1,99 @@
+@import '../base.scss';
+
+.container {
+  margin-top: 0;
+  padding: 25px 0;
+  z-index: 1;
+  position: relative;
+  color: #292d34;
+  @media screen and (max-width: 768px) {
+    padding: 0;
+  }
+}
+
+.emailSection {
+  padding: 0;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  @include borderBox;
+  @media screen and (max-width: 1200px) {
+    padding: 0 25px;
+  }
+}
+
+.wrapper {
+  background: #fff;
+  width: 100%;
+  box-shadow: 0 15px 45px rgb(16 30 54 / 16%);
+  border-radius: 9px;
+  padding: 35px 45px;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  @include borderBox;
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+  }
+  @media screen and (max-width: 600px) {
+    padding: 25px;
+  }
+}
+
+.header {
+  letter-spacing: 0.42px;
+  color: #333;
+  margin: 0;
+  text-align: left;
+  font: 800 27px/48px 'Roboto', sans-serif;
+  @media screen and (max-width: 1000px) {
+    text-align: center;
+  }
+  @media screen and (max-width: 600px) {
+    margin-bottom: 30px;
+  }
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  max-width: 485px;
+  width: 100%;
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 50%;
+    background: url(https://clickup.com/images/v2/dots.svg) repeat center/auto;
+    top: 0;
+    z-index: 0;
+  }
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
+.form input {
+  z-index: 1;
+  @media screen and (max-width: 600px) {
+    max-width: 300px;
+    width: 100%;
+  }
+}
+
+.form button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  &::after {
+    display: none;
+  }
+  @media screen and (max-width: 600px) {
+    max-width: 300px;
+    margin: 15px 0 0 0;
+  }
+}

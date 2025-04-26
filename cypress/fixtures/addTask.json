@@ -1,0 +1,23 @@
+{
+  "title": "123",
+  "tags": [],
+  "comments": [],
+  "status": {
+    "id": "63565445d377d106f9a8b608",
+    "name": "to do",
+    "slug": "to-do",
+    "order": 0
+  },
+  "projectId": "63565445d377d106f9a8b611",
+  "boardId": "63565445d377d106f9a8b610",
+  "sprintId": null,
+  "description": "123",
+  "storyPoint": 0,
+  "dueAt": "2022-10-27T10:56:01.565Z",
+  "reporterId": "632fc37a89d19ed1f57c7ab1",
+  "typeId": "631d94d08a05945727602cd1",
+  "attachmentUrls": [],
+  "createdAt": "2022-10-27T10:56:16.061Z",
+  "updatedAt": "2022-10-27T10:56:16.061Z",
+  "id": "635a63d0faf98e9043c9ddf6"
+}

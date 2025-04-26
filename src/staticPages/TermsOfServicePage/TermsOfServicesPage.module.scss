@@ -1,0 +1,87 @@
+@import "../../variables.scss";
+$headingTextColor: #3d5278;
+$lightColor: $primaryColor;
+
+.container {
+  p {
+    width: 100%;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 17px;
+    color: #555;
+
+    a {
+      color: $lightColor;
+      text-decoration: none;
+    }
+  }
+
+  .highlightedText {
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 19px;
+    color: $headingTextColor;
+  }
+
+  h3 {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 19px;
+    color: $headingTextColor;
+  }
+  ul {
+    padding-left: 30px;
+
+    li {
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 17px;
+      color: #555;
+      margin-bottom: 13px;
+    }
+  }
+
+  @media (min-width: 425px) {
+    p {
+      font-size: 12px;
+    }
+
+    h2 {
+      font-size: 14px;
+    }
+
+    h3 {
+      font-size: 14px;
+    }
+
+    ul {
+      li {
+        font-size: 12px;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    p {
+      font-size: 14px;
+    }
+
+    h2 {
+      font-size: 16px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+    ul {
+      li {
+        font-size: 14px;
+      }
+    }
+  }
+}

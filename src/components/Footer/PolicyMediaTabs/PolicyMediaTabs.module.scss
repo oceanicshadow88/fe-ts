@@ -1,0 +1,82 @@
+$max_size: 992px;
+$small_size: 768px;
+
+.policiesMediaDownloadPlatform{
+    background-color: #0b0e1f;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    width:100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left:10%;
+    padding-right:10%;
+
+    @media(max-width: $small_size) {
+        flex-direction: column;
+        min-height: 150px;
+    }
+    .leftItem{
+        align-self: center;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 1);
+        a{
+            cursor: pointer;
+            align-self: flex-end;
+            text-decoration: none;
+            color: #727491;
+            &:hover{
+                color: #fff;
+            }
+        }
+    }
+
+    .middleItem{
+        display: flex;
+        justify-content: space-between;
+        min-width: 230px;
+        @media(max-width:$small_size){
+            min-width: 200px;
+            justify-content: space-between;
+            align-self: center;
+        }
+
+        a{
+            align-self: center;
+            color: #727491;
+
+            &:hover{
+                color: #fff;
+            }
+
+            svg{
+                width: 24px;
+                height: 24px;
+
+                @media(min-width:$small_size) and (max-width:$max_size){
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+    }
+
+    .rightItem{
+        align-self: center;
+        a{
+            img{
+                max-width:135px;
+                max-height:40px;
+                width: 100%;
+                height: 100%;
+
+                @media(max-width:$max_size){
+                    max-width:118px;
+                    max-height:35px;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}

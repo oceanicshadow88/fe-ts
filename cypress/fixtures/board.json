@@ -1,0 +1,94 @@
+{
+  "id": "63565445d377d106f9a8b610",
+  "title": "tes",
+  "taskStatus": [
+    {
+      "id": "63565445d377d106f9a8b608",
+      "name": "to do",
+      "slug": "to-do",
+      "order": 0,
+      "taskList": [
+        {
+          "assignId": null,
+          "title": "test",
+          "tags": [],
+          "comments": [],
+          "status": "63565445d377d106f9a8b608",
+          "projectId": "63565445d377d106f9a8b611",
+          "boardId": "63565445d377d106f9a8b610",
+          "sprintId": null,
+          "description": "",
+          "storyPoint": 0,
+          "dueAt": "2022-10-24T09:01:49.927Z",
+          "reporterId": "632fc37a89d19ed1f57c7ab1",
+          "typeId": "631d94d08a05945727602cd1",
+          "attachmentUrls": [],
+          "createdAt": "2022-10-24T09:01:57.330Z",
+          "updatedAt": "2022-10-24T09:01:57.330Z",
+          "id": "63565485d377d106f9a8b643"
+        },
+        {
+          "assignId": null,
+          "title": "hello",
+          "tags": [],
+          "comments": [],
+          "status": "63565445d377d106f9a8b608",
+          "projectId": "63565445d377d106f9a8b611",
+          "boardId": "63565445d377d106f9a8b610",
+          "sprintId": null,
+          "description": "",
+          "storyPoint": 0,
+          "dueAt": "2022-10-24T11:46:40.956Z",
+          "reporterId": "632fc37a89d19ed1f57c7ab1",
+          "typeId": "631d94d08a05945727602cd1",
+          "attachmentUrls": [],
+          "createdAt": "2022-10-24T11:46:59.191Z",
+          "updatedAt": "2022-10-24T11:46:59.191Z",
+          "id": "63567b33e9bcb85c00640d0d"
+        },
+        {
+          "assignId": null,
+          "title": "hi",
+          "tags": [],
+          "comments": [],
+          "status": "63565445d377d106f9a8b608",
+          "projectId": "63565445d377d106f9a8b611",
+          "boardId": "63565445d377d106f9a8b610",
+          "sprintId": null,
+          "description": "",
+          "storyPoint": 0,
+          "dueAt": "2022-10-24T11:46:40.956Z",
+          "reporterId": "632fc37a89d19ed1f57c7ab1",
+          "typeId": "631d94d08a05945727602cd1",
+          "attachmentUrls": [],
+          "createdAt": "2022-10-24T11:47:01.003Z",
+          "updatedAt": "2022-10-24T11:47:01.003Z",
+          "id": "63567b35e9bcb85c00640d14"
+        }
+      ]
+    },
+    {
+      "id": "63565445d377d106f9a8b609",
+      "name": "in progress",
+      "slug": "in-progress",
+      "order": 1,
+      "taskList": []
+    },
+    {
+      "id": "63565445d377d106f9a8b60a",
+      "name": "review",
+      "slug": "review",
+      "order": 2,
+      "taskList": []
+    },
+    {
+      "id": "63565445d377d106f9a8b60b",
+      "name": "done",
+      "slug": "done",
+      "order": 3,
+      "taskList": []
+    }
+  ],
+  "createdAt": "2022-10-24T09:00:54.111Z",
+  "updatedAt": "2022-10-24T09:00:54.111Z"
+}

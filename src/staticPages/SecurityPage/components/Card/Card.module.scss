@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+$small: 1000px;
+
+.securityCardDivContainer {
+  text-align: center;
+  background-color: rgb(245, 247, 250);
+
+  .headaing {
+    padding-top: 50px;
+  }
+
+  .subHeading {
+    font-size: 19.6px;
+    color: #494e6a;
+    margin: 21px 0px;
+  }
+
+  .securityCards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .securityCardContainer {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      background-color: white;
+      transition: 0.3s;
+      width: 20%;
+      border-radius: 5px;
+      margin: 20px;
+
+      @media screen and (max-width: $small) {
+        width: 80%;
+      }
+
+      .webAssetsImg {
+        width: 100%;
+        border-radius: 5px 5px 0px 0px;
+      }
+
+      .securityCardDesc {
+        text-align: left;
+        padding-top: 10px;
+        padding-left: 20px;
+        padding-right: 16px;
+        padding-bottom: 30px;
+
+       .webAssetsDesc{
+          font-size: 15px;
+        }
+
+        .learnMore {
+          color: #6a84ed;
+        }
+      }
+    }
+
+    .securityCardContainer:hover {
+      cursor: pointer;
+      box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    @media screen and (max-width: $small) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}

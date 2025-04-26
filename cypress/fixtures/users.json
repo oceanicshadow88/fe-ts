@@ -1,0 +1,183 @@
+[
+  {
+    "email": "kitman200220022002@gmail.com",
+    "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817672461.png",
+    "createdAt": "2022-09-11T12:31:46.017Z",
+    "isAdmin": 1,
+    "projectsRoles": [
+      {
+        "projectId": "6350c09984d4276f1347d489",
+        "roleId": "631d94d08a05945727602cdf",
+        "id": "635666c1d377d106f9a8b85d"
+      },
+      {
+        "projectId": "63f98693f45a92dd93934b13",
+        "roleId": "63f98693f45a92dd93934b15",
+        "id": "63f98bc5692a7c50b114ff3c"
+      },
+      {
+        "projectId": "63f991d2365ebbac8818ebf3",
+        "roleId": "63f991d2365ebbac8818ebf4",
+        "id": "63f9a32e059920c4ba1bd522"
+      },
+      {
+        "projectId": "63fc2954954752aacabacb4d",
+        "roleId": "63fc3708954752aacabad145",
+        "id": "63fc2973954752aacabacc56"
+      },
+      {
+        "projectId": "63fc3c51954752aacabad3eb",
+        "roleId": "63fc3c51954752aacabad3ec",
+        "id": "63fc6cff4322fee2ec197d9b"
+      }
+    ],
+    "updatedAt": "2023-03-12T00:22:27.833Z",
+    "name": "kitman",
+    "abbreviation": "",
+    "jobTitle": "",
+    "location": "kitman200220022002@gmail.com",
+    "userName": "",
+    "id": "631dd53189d19ed1f532fb85"
+  },
+  {
+    "email": "joe.hz.au@gmail.com",
+    "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+    "createdAt": "2022-09-25T02:56:58.574Z",
+    "isAdmin": 1,
+    "projectsRoles": [
+      {
+        "projectId": "6350c09984d4276f1347d489",
+        "roleId": "631d94d08a05945727602cdf",
+        "id": "635666d3d377d106f9a8b86d"
+      },
+      {
+        "projectId": "63f991d2365ebbac8818ebf3",
+        "roleId": "63f991d2365ebbac8818ebf5",
+        "id": "63f99e6a910e26fee78efdf1"
+      }
+    ],
+    "updatedAt": "2023-02-25T05:42:31.490Z",
+    "name": "Joe",
+    "id": "632fc37a89d19ed1f57c7ab1"
+  },
+  {
+    "email": "shirleymm118@gmail.com",
+    "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1669817330764.webp",
+    "createdAt": "2022-09-27T11:06:08.723Z",
+    "isAdmin": 1,
+    "projectsRoles": [
+      {
+        "projectId": "63587a9db75521ab7737c7f0",
+        "roleId": "631d94d08a05945727602ce0",
+        "id": "6359046e253dd7bffe551080"
+      }
+    ],
+    "updatedAt": "2022-11-30T14:08:55.630Z",
+    "name": "hyna",
+    "abbreviation": "",
+    "jobTitle": "",
+    "location": "shirleymm118@gmail.com",
+    "userName": "",
+    "id": "6332d92189d19ed1f5e91b1b"
+  },
+  {
+    "email": "teddy.xiaofe@gmail.com",
+    "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+    "createdAt": "2022-09-27T13:09:43.071Z",
+    "isAdmin": 1,
+    "projectsRoles": [],
+    "updatedAt": "2022-09-27T13:10:45.340Z",
+    "name": "teddy.xiaofe@gmail.com",
+    "id": "6332f61789d19ed1f5ed4ff1"
+  },
+  {
+    "email": "565311899@qq.com",
+    "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+    "createdAt": "2022-09-28T07:56:48.487Z",
+    "isAdmin": 1,
+    "projectsRoles": [],
+    "updatedAt": "2022-09-28T07:57:28.472Z",
+    "name": "jack",
+    "id": "6333fe4089d19ed1f511b516"
+  },
+  {
+    "email": "jamessihang@hotmail.com",
+    "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+    "createdAt": "2022-09-29T02:18:44.741Z",
+    "isAdmin": 1,
+    "projectsRoles": [],
+    "updatedAt": "2022-09-29T02:26:08.164Z",
+    "name": "James Liu",
+    "id": "63350085c94265ad05d31302"
+  },
+  {
+    "email": "davidg9911mail@gmail.com",
+    "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+    "createdAt": "2022-10-04T07:55:21.286Z",
+    "isAdmin": 1,
+    "projectsRoles": [
+      {
+        "projectId": "634e9f20162cb5e204e4e538",
+        "roleId": "631d94d08a05945727602ce0",
+        "id": "635551d2063fa76f9e8e5834"
+      },
+      {
+        "projectId": "6350c09984d4276f1347d489",
+        "roleId": "631d94d08a05945727602cdf",
+        "id": "635557bc063fa76f9e8e598b"
+      },
+      {
+        "projectId": "6358c090a662585de5245a2d",
+        "roleId": "631d94d08a05945727602cdf",
+        "id": "63821762a6c3f10a7e8b06ab"
+      }
+    ],
+    "updatedAt": "2022-11-26T13:40:50.163Z",
+    "name": "David Guo",
+    "id": "633be6e9c94265ad05d0eca6"
+  },
+  {
+    "email": "anthony0716@hotmail.com",
+    "isAdmin": 0,
+    "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1675985752215.jpg",
+    "projectsRoles": [
+      {
+        "projectId": "6387521b185362f033085c69",
+        "roleId": "631d94d08a05945727602cdf",
+        "id": "63e582bccc7419e65c92945b"
+      },
+      {
+        "projectId": "6358beaba662585de524593e",
+        "roleId": "631d94d08a05945727602cdf",
+        "id": "63fd4daca5a538c1a2295de8"
+      }
+    ],
+    "createdAt": "2023-02-09T23:33:16.512Z",
+    "updatedAt": "2023-02-28T00:41:16.175Z",
+    "name": "JoeJoe_ZhouTian",
+    "abbreviation": "",
+    "jobTitle": "",
+    "location": "",
+    "userName": "JoeJoe_ZhouTian",
+    "id": "63e582bccc7419e65c929458"
+  },
+  {
+    "email": "wei19970101@gmail.com",
+    "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+    "createdAt": "2023-03-01T01:00:12.700Z",
+    "isAdmin": 1,
+    "projectsRoles": [],
+    "updatedAt": "2023-03-06T12:23:08.092Z",
+    "name": "Andy W",
+    "customerId": "cus_NT3Nhg8l2UrINM",
+    "currentChargeEndDate": "2023-03-04T13:00:00.000Z",
+    "currentChargeStartDate": "2023-03-04T13:00:00.000Z",
+    "paymentHistoryId": [
+      "sub_1MiFaOFPj1yAUwnceEKzg4qK",
+      "sub_1MiFaOFPj1yAUwnceEKzg4qK",
+      "sub_1MiFaOFPj1yAUwnceEKzg4qK",
+      "sub_1Mi7GRFPj1yAUwncErF6h2Uj"
+    ],
+    "id": "63fea39da93a3876770a34e9"
+  }
+]

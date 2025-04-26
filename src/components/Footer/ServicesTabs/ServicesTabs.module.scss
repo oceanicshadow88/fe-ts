@@ -1,0 +1,25 @@
+$max_size: 992px;
+$small_size: 768px;
+
+.servicesList {
+  background-color: #1d1c35;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 60px;
+  padding-right: 5%;
+  padding-left: 5%;
+
+  @media (min-width: $small_size) and (max-width: $max_size) {
+    padding-right: 7.5%;
+    padding-left: 7.5%;
+  }
+
+  @media (max-width: $small_size) {
+    flex-direction: column;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+}

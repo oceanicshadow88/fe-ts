@@ -1,0 +1,14 @@
+.scrollContainer {
+  flex: 1;
+  padding-bottom: 3rem;
+  padding-left: 20px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: flex-end;
+}

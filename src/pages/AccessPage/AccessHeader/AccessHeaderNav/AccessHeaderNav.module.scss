@@ -1,0 +1,51 @@
+.navLayout {
+  display: block;
+
+  font-size: 14px;
+  line-height: 1.42857142857143;
+  margin-left: -40px;
+  margin-bottom: -16px;
+  min-height: 16px;
+}
+
+.navLayout ol {
+  display: flex;
+  padding-inline-start: 40px;
+}
+
+.navLayout ol li {
+  display: flex;
+  height: 1.71429em;
+  line-height: 1.71429em;
+}
+
+.navLayout ol li a {
+  border-radius: 3px;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  justify-content: center;
+}
+
+.navLayout ol > li:not(:last-child)::after {
+  content: '/';
+  padding: 0px 8px;
+  text-align: center;
+  width: 8px;
+  color: #6b778c !important;
+}
+
+.navLayout ol a span {
+  transition: opacity 0.3s ease 0s;
+  font-size: inherit;
+  font-style: normal;
+  font-weight: 500;
+  // color: rgb(69, 79, 96);
+  color: #6b778c !important;
+  opacity: 1.2;
+}
+
+.navLayout ol a span:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}

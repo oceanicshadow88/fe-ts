@@ -1,0 +1,36 @@
+.keyInputSection {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  label {
+    font-size: 14px;
+    color: #172b4d;
+    display: flex;
+    flex-direction: column;
+  }
+  span {
+    font-size: 0.86em;
+    color: #6b778c;
+    font-weight: 700;
+    display: inline-block;
+  }
+  input {
+    background-color: #fafbfc;
+    border-color: #dfe1e6;
+    color: #091e42;
+    cursor: text;
+    border-radius: 3px;
+    border-width: 2px;
+    border-style: solid;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.43;
+    margin-top: 4px;
+    padding: 8px 6px;
+    text-transform: uppercase;
+    &:focus-visible {
+      outline-color: #4c9aff;
+    }
+  }
+}

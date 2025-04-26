@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+$small: 1000px;
+
+.faqRoot * {
+  margin: 0;
+  padding: 0;
+}
+
+.faqRoot {
+  text-align: center;
+
+  .heading {
+    padding-top: 70px;
+    padding-bottom: 70px;
+    font-size: 30px;
+  }
+
+  .faqDetailesContainer {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: white;
+    width: 60%;
+    border-radius: 5px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 50px;
+
+    .breaker {
+      width: 100%;
+    }
+
+    .faqDetailes:hover {
+      background-color: #727491;
+    }
+
+    .faqDetailes {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: 0.3s;
+    }
+
+    .faqInfoContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      font-weight: bolder;
+
+      @media screen and (max-width: $small) {
+        flex-direction: column;
+      }
+
+      .descContainer {
+        width: 70%;
+        padding: 20px;
+        text-align: left;
+
+        .emailLink {
+          text-decoration: none;
+          color: #6a84ed;
+        }
+      }
+
+      .buttonContainer {
+        width: 30%;
+        padding: 20px;
+        text-align: right;
+
+        .linkButton {
+          padding: 10px;
+          font-size: 15px;
+          max-width: 100%;
+          border-radius: 5px;
+          border: 2px solid #6a84ed;
+          background-color: white;
+          color: #6a84ed;
+          transition: 0.3s;
+        }
+
+        .linkButton:hover {
+          cursor: pointer;
+          background-color: #6a84ed;
+          color: white;
+        }
+      }
+    }
+  }
+}

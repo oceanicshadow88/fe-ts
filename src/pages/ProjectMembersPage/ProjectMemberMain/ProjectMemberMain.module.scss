@@ -1,0 +1,204 @@
+$name-width: 30%;
+$email-width: 30%;
+$role-width: 20%;
+$btn-width: 20%;
+
+.projectMemberMainContainer {
+  position: relative;
+  margin: 0;
+  margin-bottom: 24px;
+  padding: 0;
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+    margin: 12px 0 0 0;
+    thead {
+      border-bottom: 2px solid #dfe1e6;
+      tr {
+        border-collapse: collapse;
+        text-indent: initial;
+        border-spacing: 2px;
+        .names {
+          padding: 4px 8px;
+          border: none;
+          box-sizing: border-box;
+          font-size: 12px;
+          font-weight: 600;
+          position: relative;
+          text-align: left;
+          vertical-align: top;
+          color: #5e6c84;
+          width: $name-width;
+          &:hover {
+            cursor: pointer;
+            background-color: rgba(9, 30, 66, 0.08);
+          }
+          span {
+            position: relative;
+            white-space: nowrap;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgb(94, 108, 132);
+            line-height: 1.43;
+          }
+        }
+        .email {
+          padding: 4px 8px;
+          border: none;
+          box-sizing: border-box;
+          font-size: 12px;
+          font-weight: 600;
+          position: relative;
+          text-align: left;
+          vertical-align: top;
+          color: #5e6c84;
+          width: $email-width;
+          &:hover {
+            cursor: pointer;
+            background-color: rgba(9, 30, 66, 0.08);
+          }
+          span {
+            position: relative;
+            white-space: nowrap;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgb(94, 108, 132);
+            line-height: 1.43;
+          }
+        }
+        .role {
+          padding: 4px 8px;
+          border: none;
+          box-sizing: border-box;
+          font-size: 12px;
+          font-weight: 600;
+          position: relative;
+          text-align: left;
+          vertical-align: top;
+          color: #5e6c84;
+          width: $role-width;
+          span {
+            position: relative;
+            white-space: nowrap;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgb(94, 108, 132);
+            line-height: 1.43;
+          }
+        }
+        .buttons {
+          padding: 4px 8px;
+          border: none;
+          box-sizing: border-box;
+          font-size: 12px;
+          font-weight: 600;
+          position: relative;
+          text-align: left;
+          vertical-align: top;
+          color: #5e6c84;
+          width: 4.25%;
+          width: $btn-width;
+        }
+      }
+    }
+    tbody {
+      vertical-align: top;
+      border-bottom: 2px solid #dfe1e6;
+      width: 100%;
+      tr {
+        &:hover {
+          background-color: #fafbfc;
+        }
+        .name {
+          align-items: center;
+          padding: 8px 0 10px 0;
+          display: flex;
+          flex: 1 1 auto;
+          flex-direction: row;
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          img {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            margin-right: -24px;
+            border-radius: 3px;
+            display: inline-block;
+            vertical-align: middle;
+            border: 0;
+          }
+          span {
+            margin-left: 32px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.43;
+            letter-spacing: normal;
+          }
+        }
+        .email {
+            text-align: left;
+            padding: 8px 0 10px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.43;
+            letter-spacing: normal;
+          }
+        }
+        .role {
+          overflow: hidden;
+          border: none;
+          text-align: left;
+          padding: 8px 0 10px 0;
+          span {
+            padding: 8px 0 10px 0;
+          }
+        }
+        .buttons {
+          button {
+            margin: 3px;
+            align-items: baseline;
+            border-width: 0px;
+            border-radius: 3px;
+            box-sizing: border-box;
+            display: inline-flex;
+            font-size: 14px;
+            font-style: normal;
+            font-family: inherit;
+            font-weight: 500;
+            max-width: 100%;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            white-space: nowrap;
+            background: #0052cc;
+            cursor: pointer;
+            height: 2.28571em;
+            line-height: 2.28571em;
+            padding: 0px 10px;
+            vertical-align: middle;
+            width: auto;
+            justify-content: center;
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+}

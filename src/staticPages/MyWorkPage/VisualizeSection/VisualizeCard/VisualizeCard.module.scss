@@ -1,0 +1,96 @@
+@import '../../base.scss';
+@import '../../../../variables.scss';
+
+.visualizeCard {
+  width: 48%;
+  padding: 35px 45px 50px;
+  position: relative;
+  background: #fff;
+  box-shadow: 0 15px 45px rgb(16 30 54 / 15%);
+  border-radius: 4px;
+  @include borderBox;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 5px;
+    top: 0;
+    background: linear-gradient(0deg, #9f8fff 0, #7b68ee 100%);
+  }
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 60px;
+  }
+}
+
+.visualizeCard:last-child::before {
+  background: linear-gradient(0.75deg, #ff9ec9 0, #fd71af 100%);
+}
+
+.cardImgWrapper {
+  margin-bottom: 30px;
+  margin-top: -70px;
+  height: 320px;
+  @media screen and (max-width: 1000px) {
+    height: auto;
+  }
+}
+
+.cardImg {
+  block-size: auto;
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+  display: block;
+}
+
+.cardHeader {
+  margin: 0 0 40px 0;
+  color: $textPrimaryColor;
+  font: 800 35px/50px 'Roboto', sans-serif;
+  @media screen and (max-width: 600px) {
+    font: 800 28px/40px 'Roboto', sans-serif;
+  }
+}
+
+.list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.listItem {
+  margin-bottom: 35px;
+  color: #292d34;
+  font: 500 14px/20px 'Roboto', sans-serif;
+  position: relative;
+  padding-left: 50px;
+  padding-right: 20px;
+  &::before {
+    background: url(https://clickup.com/images/icons/white_check-mark.svg) no-repeat center/13px,
+      linear-gradient(0deg, #9f8fff 0, #7b68ee 100%);
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    border-radius: 12px;
+    width: 36px;
+    height: 36px;
+    box-shadow: 0 10px 15px rgb(16 30 54 / 15%);
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+  @media screen and (max-width: 460px) {
+    margin-bottom: 12px;
+  }
+}
+
+.visualizeCard:last-child .listItem::before {
+  background: url(https://clickup.com/images/icons/white_check-mark.svg) no-repeat center/13px,
+    linear-gradient(0.01deg, #ff9ec9 0, #fd71af 100%);
+}

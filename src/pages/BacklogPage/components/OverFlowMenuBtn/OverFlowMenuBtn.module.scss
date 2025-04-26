@@ -1,0 +1,75 @@
+$textColor: #616c82;
+$bgColorGray: rgb(239, 239, 239);
+$bgColorDarkGray: rgb(216, 216, 216);
+$bgColorDark: rgb(40, 54, 84);
+$borderColor: #ebecf0;
+.optionBtnContainer {
+  visibility: hidden;
+  position: relative;
+  .optionBtn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: $bgColorGray;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background-color: $bgColorDarkGray;
+    }
+  }
+
+
+  .clickOptionBtn {
+    background-color: $bgColorDark;
+    color: rgb(232, 232, 234);
+  }
+  .optionBtnDropDown {
+    display: none;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background-color: white;
+    z-index: 100;
+    border: 1px solid $borderColor;
+    border-radius: 5px;
+    ul,
+    p {
+      margin: 0;
+      padding: 0;
+    }
+    ul {
+      list-style: none;
+      padding-top: 10px;
+      p {
+        font-size: 13px;
+        color: $textColor;
+        padding-left: 10px;
+        margin-bottom: 10px;
+      }
+      .dropDownBtn {
+        width: 100%;
+        background-color: white;
+        border: none;
+        text-align: left;
+        height: 30px;
+        padding: 0px 20px 0px 10px;
+        cursor: pointer;
+        font-size: 15px;
+        white-space: nowrap;
+      }
+      .dropDownBtn:hover {
+        background-color: $bgColorGray;
+      }
+    }
+  }
+  .showOptionBtnDropDown {
+    display: block;
+  }
+  .showDropDownOnTop {
+    top: auto;
+    bottom: 33px;
+  }
+}

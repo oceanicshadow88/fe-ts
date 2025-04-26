@@ -1,0 +1,56 @@
+{
+  "id": "642652025ab8a4f27b003a55",
+  "title": "CPT1",
+  "taskStatus": [
+    {
+      "id": "642652025ab8a4f27b003a5c",
+      "name": "to do",
+      "slug": "to-do",
+      "order": 0,
+      "taskList": [
+        {
+          "title": "should create task",
+          "tags": [],
+          "comments": [],
+          "status": "642652025ab8a4f27b003a5c",
+          "priority": "Medium",
+          "projectId": { "id": "642652025ab8a4f27b003a56", "key": "CPT" },
+          "boardId": "642652025ab8a4f27b003a55",
+          "sprintId": null,
+          "description": "",
+          "storyPoint": 0,
+          "dueAt": "2023-03-31T03:57:24.613Z",
+          "reporterId": "64129b2d2110dfcdc0dd2da4",
+          "assignId": {
+            "id": "64129b2d2110dfcdc0dd2da4",
+            "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1679373195973.ico",
+            "name": "wendy123"
+          },
+          "typeId": "631d94d08a05945727602cd6",
+          "isActive": true,
+          "attachmentUrls": [],
+          "createdAt": "2023-03-31T03:57:35.064Z",
+          "updatedAt": "2023-03-31T04:15:13.530Z",
+          "id": "64265a2fc2c30adddb5cc239"
+        }
+      ]
+    },
+    {
+      "id": "642652025ab8a4f27b003a5d",
+      "name": "in progress",
+      "slug": "in-progress",
+      "order": 1,
+      "taskList": []
+    },
+    {
+      "id": "642652025ab8a4f27b003a5e",
+      "name": "review",
+      "slug": "review",
+      "order": 2,
+      "taskList": []
+    },
+    { "id": "642652025ab8a4f27b003a5f", "name": "done", "slug": "done", "order": 3, "taskList": [] }
+  ],
+  "createdAt": "2023-03-31T03:22:42.965Z",
+  "updatedAt": "2023-03-31T03:22:42.965Z"
+}

@@ -1,0 +1,44 @@
+.errorContainer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 10%;
+  width: 50%;
+  text-align: center;
+  background-color: white;
+  max-height: 500px;
+  max-width: 500px;
+  margin-top: 10%;
+  padding: 30px 0;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  h6 {
+    font-weight: 500;
+    font-size: 28px;
+    margin: 20px 0;
+  }
+  .successTik {
+    max-width: 250px;
+    max-height: 250px;
+  }
+  button {
+    //   padding: 5px;
+    //   background-color: blue;
+    //   color: white;
+    //   width: 100px;
+    //   border: 0;
+    //   border-radius: 3px;
+    //   cursor: pointer;
+    //   align-self: center;
+    background-color: #ac003e;
+    width: 150px;
+    height: 40px;
+    color: white;
+    font-size: 14px;
+    border-radius: 16px;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+  }
+}

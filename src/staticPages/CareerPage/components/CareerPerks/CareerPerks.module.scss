@@ -1,0 +1,239 @@
+@mixin perk {
+  position: relative;
+  padding: 25px 35px;
+  text-align: left;
+  color: #1d1c39;
+}
+
+@mixin perkImage {
+  background: #eee;
+  overflow: hidden;
+}
+
+.careerPerksContainer {
+  text-align: center;
+  max-width: 1224px;
+
+  .careerPerksTitle {
+    color: #1d1c39;
+    margin-bottom: 20px;
+    font-size: 46px;
+    font-weight: 745;
+    line-height: 115%;
+  }
+
+  .careerPerksText {
+    color: #494e6a;
+    max-width: 841px;
+    margin: 0 auto;
+    font-size: 18px;
+    letter-spacing: 0.75px;
+    line-height: 145%;
+    font-weight: 400;
+  }
+
+  .careerPerksGrid {
+    margin-top: 72px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 200px 79px 209px 310px 298px;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+    row-gap: 10px;
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+    .perkText {
+      display: block;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .perkDetails {
+      position: absolute;
+      z-index: 100;
+      top: 140px;
+      left: 67px;
+      padding: 33px 45px;
+      max-width: 400px;
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 16px 24px rgb(0 0 0 / 6%), 0 2px 6px rgb(0 0 0 / 4%), 0 0 1px rgb(0 0 0 / 4%);
+      border-radius: 18px;
+      opacity: 0;
+      transform: translateY(5%);
+      transition: all 0.2s ease-in-out;
+      text-align: left;
+      box-sizing: border-box;
+
+      .perkDetailsList {
+        margin: 0;
+        padding: 0;
+        list-style-type: disc;
+        li {
+          margin-bottom: 19px;
+          font-size: 16px;
+          font-weight: 500;
+          letter-spacing: 0.75px;
+          line-height: 145%;
+        }
+      }
+
+      .perkDetailsFooter {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 150%;
+        color: #1d1c39;
+        letter-spacing: 0.75px;
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        img {
+          height: 30px;
+          width: auto;
+        }
+        span {
+          margin-left: 17px;
+          display: block;
+          max-width: 300px;
+          box-sizing: border-box;
+        }
+      }
+    }
+
+    .perk1 {
+      background: #85f1b8;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      grid-row-start: 1;
+      grid-row-end: 3;
+      @include perk();
+      &:hover {
+        .perkDetails {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+
+    .perk2 {
+      background: #ff97da;
+      grid-column-start: 6;
+      grid-column-end: 9;
+      grid-row-start: 1;
+      grid-row-end: 2;
+      @include perk();
+      &:hover {
+        .perkDetails {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+
+    .perk3 {
+      background: #50c8fc;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      grid-column-start: 4;
+      grid-column-end: 7;
+      grid-row-start: 2;
+      grid-row-end: 4;
+      @include perk();
+      &:hover {
+        .perkDetails {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+
+    .perk4 {
+      background: #879df2;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      @include perk();
+      &:hover {
+        .perkDetails {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+
+    .perk5 {
+      background: #6dfded;
+      grid-column-start: 4;
+      grid-column-end: 7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      @include perk();
+      &:hover {
+        .perkDetails {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+
+    .img1 {
+      grid-column-start: 1;
+      grid-column-end: 1;
+      grid-row-start: 3;
+      grid-row-end: 4;
+      @include perkImage();
+    }
+
+    .img2 {
+      grid-column-start: 2;
+      grid-column-end: 4;
+      @include perkImage();
+    }
+
+    .img3 {
+      grid-column-start: 4;
+      grid-column-end: 6;
+      grid-row-start: 1;
+      grid-row-end: 2;
+      @include perkImage();
+    }
+
+    .img4 {
+      grid-column-start: 7;
+      grid-column-end: 9;
+      grid-row-start: 2;
+      grid-row-end: 4;
+      @include perkImage();
+    }
+
+    .img5 {
+      grid-column-start: 4;
+      grid-column-end: 9;
+      @include perkImage();
+    }
+
+    .img6 {
+      grid-column-start: 1;
+      grid-column-end: 2;
+      @include perkImage();
+    }
+
+    .img7 {
+      grid-column-start: 2;
+      grid-column-end: 4;
+      @include perkImage();
+    }
+
+    .img8 {
+      grid-column-start: 7;
+      grid-column-end: 9;
+      @include perkImage();
+    }
+  }
+}

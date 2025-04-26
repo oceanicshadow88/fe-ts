@@ -1,0 +1,19 @@
+.projectMemberHeaderNavContainer {
+  text-decoration: none;
+  h1 {
+    font-size: 14px;
+    cursor: default;
+    color: #6b778c;
+    a {
+      color: #6b778c;
+      text-decoration: none;
+      &:hover{
+        text-decoration: underline;
+      }
+      &:active {
+        color: #6b778c;
+        text-decoration: underline;
+      }
+    }
+  }
+}

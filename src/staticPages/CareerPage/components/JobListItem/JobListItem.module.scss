@@ -1,0 +1,102 @@
+@import "../../../../variables.scss";
+
+.careerCard{
+  max-width: 30%;
+  width: 100%;
+  background-color: white;
+  margin: 20px 0;
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid #e5e5e5;
+
+  .tag{
+    padding: 5px 20px;
+
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  h3{
+    font-size: 22px;
+  }
+
+  p{
+    color:#979797;
+    font-size:14px;
+  }
+
+  ul{
+    padding: 0 20px;
+    color:$primaryColor;
+    li{
+      font-size: 14px;
+      margin: 10px 0;
+    }
+  }
+
+  .applyButtonText{
+    color: $primaryColor;
+    background: transparent;
+    padding: 10px 24px;
+    font-size: 12px;
+    border-radius: 99px;
+    border: 1px solid $primaryColor;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  .applyButtonText:hover{
+    background: $primaryColor;
+    color:white;
+  }
+}
+
+.borderForSuccessPage {
+  border-bottom: 6px, solid, white;
+}
+
+.close {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 5px; 
+  margin-top: 5px; 
+}
+
+.close:hover {
+  cursor: pointer;
+}
+
+.modalPadding {
+  padding: 30px 80px 80px 80px;
+}
+
+.iconPosition {
+  text-align: center;
+  color: greenyellow;
+}
+
+.messagePosition {
+  text-align: center;
+}
+
+.orange{
+  background: #EA6A36;
+  color:#FFDBCC
+}
+
+.red{
+  background: #D30C6E;
+  color:#F1A9CE
+}
+
+.blue{
+  background: #0658f5;
+  color:#e3ecfb
+}
+
+.pupple{
+  background:$primaryColor;
+  color:#E4D6FD;
+
+}

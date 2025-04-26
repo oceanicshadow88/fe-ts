@@ -1,0 +1,54 @@
+@import '../base.scss';
+@import '../../../variables.scss';
+
+.visualizeSection {
+  max-width: 1160px;
+  width: 100%;
+  margin: 100px auto 0;
+  padding: 0 10px;
+  position: relative;
+  @include borderBox;
+}
+
+.cardsWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 75px 0 90px;
+  -webkit-box-pack: justify;
+  @media screen and (max-width: 1200px) {
+    padding: 0 25px;
+  }
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+  @media screen and (max-width: 500px) {
+    padding: 0;
+  }
+}
+
+.header {
+  text-align: center;
+  margin: 20px 0 15px;
+  @include headingLarge;
+}
+
+.subHeader {
+  color: #7b68ee;
+  font: 800 11px/12px 'Roboto', sans-serif;
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+@media screen and (max-width: 1200px) {
+  .header {
+    @include headingMedium;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .header {
+    @include headingSmall;
+  }
+}

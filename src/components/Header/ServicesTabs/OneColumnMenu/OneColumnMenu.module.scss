@@ -1,0 +1,64 @@
+$max_size: 768px;
+$small_size: 1000px;
+
+.subNavOneColumnNotActive {
+  display: none;
+}
+
+.subNavOneColumn {
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  right: 0;
+  top: 70px;
+  max-height: calc(95vh - 40px);
+  @media (max-width: $max_size) {
+    top: 0;
+    position: relative;
+    max-height: none;
+    width: 100%;
+  }
+  .serviceContainerOneColumn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    max-width: 1224px;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid grey;
+    border-top: none;
+    padding: 10px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 3px;
+    box-shadow: rgb(9 30 66 / 8%) 0px 0px 0px 1px, rgb(9 30 66 / 8%) 0px 2px 1px,
+      rgb(9 30 66 / 31%) 0px 0px 20px -6px;
+    @media (max-width: $max_size) {
+      flex-direction: column;
+      padding-top: 5px;
+      padding-left: 0;
+    }
+    div {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.2s, transform 0.4s;
+      min-width: 280px;
+      @media (max-width: $max_size) {
+        border-left: 0;
+        padding: 0 1px;
+      }
+      h1 {
+        font-weight: 400;
+        font-size: 14px;
+        color: #727491;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+        @media (max-width: $max_size) {
+          margin-bottom: 10px;
+          padding: 0;
+        }
+      }
+    }
+  }
+}

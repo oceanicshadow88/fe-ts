@@ -1,0 +1,44 @@
+[
+  {
+    "id": "6340129a5eb06d386302b22b",
+    "name": "Backend",
+    "slug": "Backend",
+    "createdAt": "2022-10-07T11:50:50.559Z",
+    "updatedAt": "2022-10-07T11:50:50.559Z"
+  },
+  {
+    "id": "6381d2cfa6c3f10a7e8ae07e",
+    "name": "Frontend",
+    "slug": "Frontend",
+    "createdAt": "2022-11-26T08:48:15.559Z",
+    "updatedAt": "2022-11-26T08:48:15.559Z"
+  },
+  {
+    "id": "63821552a6c3f10a7e8b029e",
+    "name": "Fullstack",
+    "slug": "Fullstack",
+    "createdAt": "2022-11-26T13:32:02.888Z",
+    "updatedAt": "2022-11-26T13:32:02.888Z"
+  },
+  {
+    "id": "6384356974f5a87e15259511",
+    "name": "Database",
+    "slug": "Database",
+    "createdAt": "2022-11-28T04:13:29.056Z",
+    "updatedAt": "2022-11-28T04:13:29.056Z"
+  },
+  {
+    "id": "63843ee974f5a87e152595c2",
+    "name": "Documentation",
+    "slug": "Documentation",
+    "createdAt": "2022-11-28T04:54:01.894Z",
+    "updatedAt": "2022-11-28T04:54:01.894Z"
+  },
+  {
+    "id": "6387607a185362f03308750e",
+    "name": "Refactor",
+    "slug": "Refactor",
+    "createdAt": "2022-11-30T13:54:02.499Z",
+    "updatedAt": "2022-11-30T13:54:02.499Z"
+  }
+]

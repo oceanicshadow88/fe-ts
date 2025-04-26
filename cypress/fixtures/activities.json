@@ -1,0 +1,35 @@
+[
+  {
+    "operation": "updated",
+    "userId": {
+      "id": "631dd53189d19ed1f532fb85",
+      "email": "kitman200220022002@gmail.com",
+      "__v": 0,
+      "active": true,
+      "activeCode": "",
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1665799533694.png",
+      "createdAt": "2022-09-11T12:31:46.017Z",
+      "isAdmin": 1,
+      "projectsRoles": [
+        {
+          "projectId": "6350c09984d4276f1347d489",
+          "roleId": "631d94d08a05945727602cdf",
+          "id": "635666c1d377d106f9a8b85d"
+        }
+      ],
+      "updatedAt": "2022-10-24T10:19:45.417Z",
+      "name": "kitman",
+      "password": "$2b$08$6ggLLlQGiXWZTQTcS2zXe.8X7zFpx5Ajz8wKaxC.R7zbrU8fAa0ra",
+      "refreshToken": "nrGHmn02Dz",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "",
+      "userName": ""
+    },
+    "taskId": "63565485d377d106f9a8b643",
+    "isDeleted": false,
+    "createdAt": "2022-11-10T01:16:20.391Z",
+    "updatedAt": "2022-11-10T01:16:20.391Z",
+    "id": "636c50e459754ecaed6dc693"
+  }
+]

@@ -1,0 +1,132 @@
+.container {
+  a {
+    display: flex;
+    box-sizing: border-box;
+    min-height: 40px;
+    margin: 0px;
+    padding: 8px 20px;
+    align-items: center;
+    border: 0px;
+    font-size: 14px;
+    outline: 0px;
+    text-decoration: none;
+    -webkit-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    cursor: pointer;
+    max-width: 320px;
+    height: 50px;
+    .projectIcon {
+      width: 27.99px;
+      height: 27.99px;
+      margin-right: 9px;
+      margin-left: 3.5px;
+      display: flex;
+      align-items: center;
+
+      img {
+        border-radius: 2px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 14px;
+      font-weight: 400;
+      color: rgb(23, 43, 77);
+      padding: 0;
+      margin: 0;
+      text-transform: initial;
+      width: 202.03px;
+      margin-left: 2px;
+    }
+
+    .starContainer {
+      display: inline-block;
+      margin: 2px;
+      color: rgb(23, 43, 77);
+      padding-left: 18px;
+      button {
+        align-items: baseline;
+        border-width: 0px;
+        border-radius: 3px;
+        box-sizing: border-box;
+        display: inline-flex;
+        font-size: inherit;
+        font-style: normal;
+        font-family: inherit;
+        font-weight: 500;
+        max-width: 100%;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: background 0.1s ease-out 0s,
+          box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+        background: none;
+        cursor: pointer;
+        padding: 0px;
+
+        .starOutlineIcon {
+          width: 16px;
+          height: 16px;
+          color: #8993a4;
+        }
+        .starFilledIcon {
+          width: 16px;
+          height: 16px;
+          color: rgb(255, 171, 0);
+        }
+        &:hover {
+          filter: brightness(1.2);
+        }
+      }
+
+      .notification,
+      .removeNotification {
+        width: 100%;
+        display: block;
+        position: fixed;
+        z-index: 600;
+        cursor: default;
+        border-radius: 3px;
+        box-sizing: border-box;
+        font-size: 12px;
+        line-height: 1.3;
+        max-width: 95px;
+        padding: 2px 6px;
+        overflow-wrap: break-word;
+        background-color: var(--ds-background-boldNeutral-resting, #172b4d);
+        color: var(--ds-text-onBold, #ffffff);
+        left: 245px;
+        margin-top: 3px;
+
+        font-style: normal;
+        font-weight: 400;
+        visibility: hidden;
+        transition: visibility 0.1s ease-in-out;
+
+        &:hover {
+          visibility: visible;
+        }
+      }
+
+      .removeNotification {
+        min-width: 132px;
+        left: 228px;
+      }
+
+      &:hover .notification {
+        visibility: visible;
+      }
+
+      &:hover .removeNotification {
+        visibility: visible;
+      }
+    }
+  }
+}

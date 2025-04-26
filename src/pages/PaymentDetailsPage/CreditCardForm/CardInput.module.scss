@@ -1,0 +1,20 @@
+@use '../../../variables.scss' as *;
+
+.input {
+  font-size: 14px;
+  color: gray;
+  padding: 8px 6px;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 3px;
+  border: 2px solid #dee1e6;
+  outline: none;
+  min-width: 120px;
+  transition: 0.2s;
+  &:focus {
+    border: 2px solid $primaryColor;
+  }
+}
+
+.input__error {
+  background-color: rgba(255, 192, 203, 1);
+}

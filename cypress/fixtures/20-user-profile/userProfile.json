@@ -1,0 +1,20 @@
+{
+  "email": "coffeetsang20@gmail.com",
+  "isAdmin": 1,
+  "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+  "paymentHistoryId": [],
+  "subscriptionHistoryId": [],
+  "stripePaymentIntentId": null,
+  "invoiceHistory": [],
+  "productHistory": [],
+  "tenants": ["64d7075e2952bf46f4ea87de"],
+  "projectsRoles": [],
+  "createdAt": "2023-08-30T12:04:25.421Z",
+  "updatedAt": "2023-10-18T09:41:35.071Z",
+  "name": "techscrum",
+  "abbreviation": "",
+  "jobTitle": "",
+  "location": "",
+  "userName": "dd",
+  "id": "64d9bfcd6e31d8b97a99a745"
+}

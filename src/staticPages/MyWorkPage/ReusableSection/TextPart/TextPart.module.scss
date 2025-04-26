@@ -1,0 +1,59 @@
+@import '../../../../variables.scss';
+@import '../../base.scss';
+
+.textPart {
+  width: 41%;
+  padding: 30px;
+  text-align: left;
+  .subtitle {
+    color: $primaryColor;
+    font: 800 11px/12px 'Roboto', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .text {
+    color: #7c828d;
+    font: 400 14px/25px 'Roboto', sans-serif;
+    margin: 15px auto;
+    max-width: 1000px;
+  }
+}
+
+.heading {
+  margin: 20px 0 50px;
+  @include headingLarge;
+  position: relative;
+  &::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 5px;
+    border-radius: 7px;
+    position: static;
+    margin-top: 30px;
+    background: linear-gradient(90deg, #9f8fff 100%, #7b68ee 0);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .heading {
+    @include headingMedium;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .textPart {
+    width: 100%;
+    text-align: center;
+  }
+  .heading::after {
+    margin: 30px auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .heading {
+    @include headingSmall;
+  }
+}

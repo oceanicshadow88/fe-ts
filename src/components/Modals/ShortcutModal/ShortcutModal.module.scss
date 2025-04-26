@@ -1,0 +1,59 @@
+.background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background-color: rgba(9, 30, 66, 0.54);
+}
+
+.container {
+  position: fixed;
+  background-color: rgb(255, 255, 255);
+  border-radius: 3px;
+  box-shadow: rgb(9 30 66 / 8%) 0px 0px 0px 1px, rgb(9 30 66 / 8%) 0px 2px 1px,
+    rgb(9 30 66 / 31%) 0px 0px 20px -6px;
+  color: rgb(9, 30, 66);
+  flex-direction: column;
+  display: flex;
+  left: 0px;
+  right: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: calc(100% - 120px);
+  width: 600px;
+  top: 15%;
+}
+
+.container header {
+  position: relative;
+  .headerBanner {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    height: 60px;
+    background-color: rgb(222, 235, 255);
+    border-radius: 3px 3px 0px 0px;
+  }
+
+  .addImage {
+    position: relative;
+    display: flex;
+    img {
+      padding: 0px;
+      width: 146px;
+      height: 116px;
+      margin: 0px auto;
+    }
+  }
+}
+
+.dialog {
+  padding: 0px 48px 18px 48px;
+}
+
+.modalTitle{
+  font-size: 18px;
+}

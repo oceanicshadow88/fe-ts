@@ -1,0 +1,28 @@
+.searchBar{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+
+    input{
+    border-bottom-right-radius: 3.01px;
+    padding: 4px 6px;
+    height: 2em;
+    background-color: transparent;
+    border: 0px;
+    color: #091e42;
+    cursor: inherit;
+    font-size: 14px;
+    min-width: 0px;
+    outline: none;
+    width: 100%;
+    line-height: 1.42857;
+    }
+}
+.autocompleteItems {
+    border-bottom: 1px solid;
+    padding: 10px 5px;
+    cursor: pointer;
+    color: lightblue;
+    font-weight: bold;
+}

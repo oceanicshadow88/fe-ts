@@ -1,0 +1,136 @@
+@mixin labelfont {
+  font-size: 16px;
+  font-weight: 400;
+  color: #626d83;
+}
+@mixin labelTagStyle {
+  background-color: #f0f0f0;
+  @include labelfont;
+  padding: 0px 4px;
+  border-radius: 5px;
+}
+.labelDropdownContainerActive {
+  height: 100%;
+  width: 200px;
+  padding: 0 12px;
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  align-self: flex-start;
+  .labelDropdownButton {
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    max-height: 100%;
+    border: none;
+    background-color: transparent;
+    &:hover {
+      background-color: #ebecf0;
+      cursor: pointer;
+    }
+    .noneLabel {
+      @include labelfont;
+    }
+    .labelTag {
+      @include labelTagStyle;
+    }
+  }
+  .labelDropdownMenu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+
+    .labelInputContainer {
+      @include labelfont;
+      margin-top: 12px;
+      padding: 2px 6px;
+      width: 100%;
+      border: 1px solid #c9d4ea;
+      border-radius: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      .existingLabelsContainer {
+        display: flex;
+        flex-grow: 1;
+        flex-wrap: wrap;
+        gap: 5px;
+        overflow-x: auto;
+        .existingLabelItem {
+          @include labelTagStyle;
+          svg {
+            margin-left: 2px;
+            margin-bottom: -3px;
+          }
+        }
+        .inputLabelExsiting {
+          border: none;
+          &:focus-visible {
+            outline: none;
+          }
+        }
+        .inputLabelNew {
+          border: none;
+          height: 20px;
+          border-radius: 4px;
+          &:focus-visible {
+            outline: none;
+          }
+        }
+      }
+    }
+
+    .suggestLabelsContainer {
+      margin-top: 10px;
+      width: 308px;
+      max-height: 200px;
+      overflow-y: auto;
+      .suggestLabelsTitle {
+        margin-top: 5px;
+        margin-left: 7px;
+        @include labelfont;
+      }
+      .suggestLabelsList {
+        position: absolute;
+        z-index: 9999;
+        width: 308px;
+        max-height: 200px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0px;
+        border: 0.5px solid #c9d4ea;
+        border-radius: 4px;
+        background-color: #fff;
+        .suggestLabelItem {
+          @include labelfont;
+          padding-left: 7px;
+          background-color: transparent;
+          text-align: left;
+          border: none;
+          &:hover {
+            background-color: #f0f0f0;
+            border-left: 2px solid #3563e9;
+          }
+        }
+        .allLabelsList {
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap;
+          gap: 5px;
+        }
+      }
+    }
+  }
+}
+
+.labelDropdownContainerDeactive {
+  @extend .labelDropdownContainerActive;
+  width: 100%;
+  &:hover {
+    background-color: #ebecf0;
+  }
+}

@@ -1,0 +1,105 @@
+.subMenuContainer{
+    margin: 0 50px;
+}
+
+.shortcutsLinksContainer{
+    margin: 20px 50px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.shortcutItem{
+    width: 100%;
+    padding: 20px;
+    border: 3px solid rgb(218, 221, 227);
+    margin: 20px 0;
+    border-radius: 10px;
+    color:black;
+}
+.shortcutItem a{
+    text-decoration: none;
+}
+.shortcutItem a:visited{
+    color: black !important;
+}
+
+.shortcutModal{
+    max-width: 500px!important;
+    overflow: visible!important;
+
+    .shortcutImg{
+        max-width: 100px;
+        position: absolute;
+        left:0;
+        right:0;
+        margin: auto;
+        top:-50px;
+    }
+}
+
+.shortcutItem:hover .buttonsContainer{
+    opacity: 1;
+ 
+}
+
+.buttonsContainer{
+    margin-top: 20px;
+    opacity: 0;
+    transition: all .25s ease-in-out;
+    display: flex;
+    gap: 15px;
+}
+
+.buttonsContainer button{
+    cursor: pointer;
+}
+
+
+.shortcutContent{
+    font-size: 20px;
+}
+
+.icon{
+    font-size: 25px;
+}
+
+.tip{
+    margin: 20px 50px;
+    font-weight: 900;
+    font-size: 16px;
+}
+
+.createCardIcon{
+    border-radius: 5px;
+    background-color: rgba(246, 248, 251, 0.15);
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+  }
+
+.searchInput{
+    max-width: 400px;
+    border: 3px solid rgb(218, 221, 227);
+    label{
+        background-color: #f6f8f9;
+    }
+}
+
+.container {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    padding-top: 30px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: auto;
+    background: rgb(246, 248, 249);
+}
+
+  
+.header{
+    margin: 0 0 0 30px;
+    color:rgb(34, 34, 34);
+}
+  
+  

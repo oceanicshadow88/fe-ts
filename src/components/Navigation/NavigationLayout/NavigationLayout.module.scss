@@ -1,0 +1,33 @@
+@import '../../../variables.scss';
+$white: rgb(245, 245, 245);
+
+.container {
+    box-sizing: border-box;
+    color: $white;
+    min-width: 280px;
+    // background-color: var(--ds-surface, $primaryColor);
+    // -webkit-clip-path: polygon(0% 0%, 0% 100%, 85% 100%, 98% 85%, 84% 55%, 98% 25%, 88% 0%);
+    // clip-path: polygon(0% 0%, 0% 100%, 85% 100%, 98% 85%, 84% 55%, 98% 25%, 88% 0%);
+    background-image: url('../../../assets/bg.png');
+    background-size: 100% 100%;
+    max-height: 100vh;
+    padding: 30px 12px 30px 12px;
+    font-family: Poppins, sans-serif;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: sticky;
+    top: 0;
+    min-height: 70vh;
+    z-index: 99;
+  }
+
+  .container::-webkit-scrollbar {
+    background-color: $primaryColor;
+    width: 6px;
+  }
+  
+  .container:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+  }
+  

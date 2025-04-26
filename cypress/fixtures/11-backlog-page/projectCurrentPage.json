@@ -1,0 +1,27 @@
+{
+  "id": "6358beaba662585de524593e",
+  "name": "kitman-test1",
+  "key": "KIT",
+  "projectLeadId": null,
+  "ownerId": null,
+  "assigneeId": "1",
+  "boardId": "6358beaba662585de524593d",
+  "iconUrl": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1676979360682.jpeg",
+  "star": false,
+  "isDelete": false,
+  "shortcut": [
+    {
+      "name": "Retro Meeting",
+      "shortcutLink": "https://action.parabol.co/new-summary/hLadF4YqS4",
+      "id": "635922b0c8bba1bca7efb8dc"
+    },
+    {
+      "name": "JIRA",
+      "shortcutLink": "https://010001.atlassian.net/jira/software/projects/TEC/boards/2",
+      "id": "635922dcc8bba1bca7efb8ee"
+    }
+  ],
+  "createdAt": "2022-10-26T04:59:23.738Z",
+  "updatedAt": "2023-03-10T00:39:58.743Z",
+  "__v": 0
+}

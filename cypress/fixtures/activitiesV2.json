@@ -1,0 +1,60 @@
+[
+  {
+    "operation": "created",
+    "userId": {
+      "paymentHistoryId": [],
+      "id": "64129b2d2110dfcdc0dd2da4",
+      "email": "coffeetsang20@gmail.com",
+      "isAdmin": 1,
+      "refreshToken": "Ts4tXfNLoc",
+      "active": true,
+      "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1679373195973.ico",
+      "tenants": [
+        "64129b2c2110dfcdc0dd2d9f",
+        "64129bf7d1669d78f8f034fe",
+        "641466d0a5ee037dc750e20c",
+        "641471e1a0a61d02795c3920",
+        "64156f68899f164b0ad590e6",
+        "6415904b1d28fe14f85fb754",
+        "64217b723c2df8ac727cbb47"
+      ],
+      "projectsRoles": [
+        {
+          "projectId": "641673fb0b80211502d3506b",
+          "roleId": "641679ac459e0e37bde2ace6",
+          "id": "64167885ec8cae809cd93a92"
+        },
+        {
+          "projectId": "64168106ed2a76ad02bf366c",
+          "roleId": "64168106ed2a76ad02bf366d",
+          "id": "641682c04a7a3314ed2000b3"
+        },
+        {
+          "projectId": "6418e1d36c21de191de9e380",
+          "roleId": "6418e1d36c21de191de9e381",
+          "id": "64190107138513a13f31fc3a"
+        },
+        {
+          "projectId": "641912f771c79643bebdec7c",
+          "roleId": "641912f771c79643bebdec7d",
+          "id": "64191cbd09bb793df5232e56"
+        }
+      ],
+      "createdAt": "2023-03-16T04:29:33.147Z",
+      "updatedAt": "2023-03-29T13:48:21.759Z",
+      "__v": 6,
+      "activeCode": "",
+      "name": "wendy123",
+      "password": "$2b$08$tGTWYYYnr4FugUTwfAAuOugxhagZAU8EqIVfbmWuTBLW7qs3QQV6O",
+      "abbreviation": "",
+      "jobTitle": "",
+      "location": "",
+      "userName": ""
+    },
+    "taskId": "64265a2fc2c30adddb5cc239",
+    "isDeleted": false,
+    "createdAt": "2023-03-31T03:57:35.702Z",
+    "updatedAt": "2023-03-31T03:57:35.702Z",
+    "id": "64265a2fc2c30adddb5cc248"
+  }
+]

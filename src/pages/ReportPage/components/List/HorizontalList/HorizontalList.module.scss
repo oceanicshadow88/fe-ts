@@ -1,0 +1,43 @@
+@import '../../../styles/variables.scss';
+@import '../List.module.scss';
+
+.listWrapper {
+  margin-block: $size-40 $size-22;
+
+  .listTitle {
+    margin-block-end: $size-12;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: $size-12;
+    line-height: $size-17;
+    color: $color-grey-0;
+    margin-right: $size-16 / 2;
+  }
+
+  .horizontalList {
+    @include reset-list;
+
+    display: flex;
+    flex-wrap: wrap;
+    margin-block-end: $size-18;
+
+    li {
+      font-weight: 700;
+      font-size: $size-17;
+      line-height: 1;
+      color: $color-grey-0;
+      text-align: center;
+      text-transform: capitalize;
+
+      &:not(:last-child) {
+        padding-inline-end: $size-22 / 2;
+        border-right: 1px solid $color-black;
+      }
+
+      &:not(:first-child) {
+        padding-inline-start: $size-22 / 2;
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+
+
+h1 {
+  line-height: 1.103448275862069;
+  color: var(--ds-text-highEmphasis, var(--ds-text-highEmphasis, #172b4d));
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.inputContent {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+}
+
+.inputContent p {
+  font-size: 0.857143em;
+  font-style: inherit;
+  line-height: 1.33333;
+  color: var(--ds-text-subtlest, var(--ds-text-subtlest, #6b778c));
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 0px;
+  margin-bottom: 4px;
+
+  span {
+    padding-left: 2px;
+    color: var(--ds-text-danger, #de350b);
+  }
+}
+
+//.inputContent input {
+//   align-items: center;
+//   background-color: var(--ds-background-input, #fafbfc);
+//   border-color: var(--ds-border, #dfe1e6);
+//   color: var(--ds-text, #091e42);
+//   cursor: text;
+//   border-radius: 3px;
+//   border-width: 2px;
+//   border-style: solid;
+//   box-sizing: border-box;
+//   display: flex;
+//   font-size: 14px;
+//   justify-content: space-between;
+//   max-width: 100%;
+//   overflow: hidden;
+//   transition: background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
+//   overflow-wrap: break-word;
+//   pointer-events: auto;
+//   padding: 8px 6px;
+// }
+
+.inputContent button:hover {
+  background: var(--ds-background-neutral, rgba(9, 30, 66, 0.1));
+}
+
+.inputContent button:focus {
+  background-color: #fff;
+  outline: 2px solid #4c9fff;
+}
+
+.inputContent button::placeholder {
+  overflow: hidden;
+  color: var(--ds-text-lowEmphasis, #5e6c84);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.42857142857143;
+}
+
+.inputContent button {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.42857142857143;
+  color: var(--ds-text-highEmphasis, #172b4d);
+}
+
+.proTip {
+  font-size: 12px;
+  line-height: 1.25455;
+  color: rgb(107, 119, 140);
+  margin-top: 8px;
+  font-weight: 500;
+  letter-spacing: -0.02rem;
+}
+
+.colorRed{
+  color: red !important;
+}
+
+.headerTitle{
+  font-size: 25px;
+}

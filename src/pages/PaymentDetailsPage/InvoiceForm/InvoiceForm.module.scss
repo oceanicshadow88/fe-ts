@@ -1,0 +1,37 @@
+@use '../../../variables.scss' as *;
+
+.invoice__form {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  gap: 0.5rem;
+  width: 65%;
+  min-width: 250px;
+  max-width: 400px;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #dee1e6;
+}
+
+.textSecondary {
+  font-size: 14px;
+  color: gray;
+}
+
+.pageBtn {
+  background-color: $primaryColor;
+  color: white;
+  font-weight: bold;
+  padding: 0.5em 0.8em;
+  border: none;
+  border-radius: 5px;
+  align-self: flex-end;
+  cursor: pointer;
+  &:hover {
+    background-color: $primaryColor-hover;
+  }
+}
+
+.pageBtn__disabled {
+  cursor: not-allowed
+}

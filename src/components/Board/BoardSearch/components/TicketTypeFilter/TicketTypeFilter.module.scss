@@ -1,0 +1,63 @@
+.taskTypeFilterContainer {
+  margin-left: 20px;
+  position: relative;
+  .taskTypeFilterBtnContainer {
+    .taskTypeFilterBtn {
+      display: flex;
+      align-items: center;
+      padding: 8px 13px 8px 8px;
+      border: none;
+      border-radius: 5px;
+      .biChevronDownIcon {
+        margin-left: 8px;
+      }
+    }
+    .taskTypeFilterBtnUnpressed {
+      color: #42526e;
+      background-color: transparent;
+    }
+    .taskTypeFilterBtnPressed {
+      background-color: #6a2add;
+      color: white;
+    }
+    .taskTypeFilterBtn:hover {
+      cursor: pointer;
+      background-color: #6a2add;
+      color: white;
+      transition: 0.5s;
+    }
+  }
+  .taskTypeFilterDropdownContainer {
+    background-color: white;
+    position: absolute;
+    top: 35px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: rgb(9 30 66 / 8%) 0px 0px 0px 1px, rgb(9 30 66 / 8%) 0px 2px 1px,
+      rgb(9 30 66 / 31%) 0px 0px 20px -6px;
+    width: 150px;
+    border-radius: 5px;
+    z-index: 3;
+
+    .taskTypeFilterDropdownBtn {
+      background-color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      .taskTypeFilterDropdownCheck {
+        font-size: 20px;
+      }
+      .taskTypeFilterDropdownIcon {
+        margin-left: 5px;
+      }
+      .taskTypeFilterDropdownName {
+        margin-left: 5px;
+      }
+    }
+    .taskTypeFilterDropdownBtn:hover {
+      cursor: pointer;
+      background-color: #e0e0e0;
+    }
+  }
+}

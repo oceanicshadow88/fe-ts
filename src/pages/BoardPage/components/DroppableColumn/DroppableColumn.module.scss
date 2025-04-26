@@ -1,0 +1,36 @@
+@import '../../../../variables.scss';
+
+.columnsContainer {
+  padding: 0px 10px;
+}
+
+.columnInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 20px;
+  padding-bottom: 20px;
+  h1.name {
+    font-size: 18px;
+    line-height: 1.14286;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ds-text-subtlest, black);
+  }
+
+  h1.num {
+    font-size: 18px;
+    line-height: 1.14286;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: $primaryColor;
+  }
+}
+
+.column {
+  position: relative;
+  width: 270px;
+  min-height: 800px;
+  background: transparent;
+  border-radius: 5px;
+}

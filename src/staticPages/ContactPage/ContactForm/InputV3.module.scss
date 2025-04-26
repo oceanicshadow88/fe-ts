@@ -1,0 +1,50 @@
+@use '../../../variables.scss' as *;
+
+.inputField {
+  position: relative;
+  color: $textPrimaryColor;
+  background-color: #f7f7f7;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  &:hover {
+    border-color: $primaryColor;
+  }
+  .label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    transition: all 100ms linear;
+  }
+  .label__focused {
+    top: 0;
+    transform: translateY(75%);
+    font-size: 0.75rem;
+    color: gray;
+  }
+  .input {
+    display: block;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 0.5rem;
+    outline: none;
+    background-color: transparent;
+    padding: 2.25em 1em 1em;
+  }
+  .input__error {
+    background-color: rgba(255, 192, 203,0.4);
+  }
+  textarea {
+    resize: none;
+  }
+}
+
+.errMsg {
+  margin: 0 1rem;
+  line-height: 1.5;
+  font-size: 0.75rem;
+  color: red;
+}

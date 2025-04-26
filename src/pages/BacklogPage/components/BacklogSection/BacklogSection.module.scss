@@ -1,0 +1,36 @@
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.heading {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  align-items: center;
+  -moz-column-gap: 0.5rem;
+  column-gap: 0.5rem;
+  h1 {
+    font-size: 1rem;
+    font-weight: 700;
+    display: inline;
+    @include ellipsis;
+  }
+
+  .issueCount {
+    margin-left: 1rem;
+    @include ellipsis;
+  }
+}

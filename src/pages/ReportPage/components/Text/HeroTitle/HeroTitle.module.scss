@@ -1,0 +1,94 @@
+@import '../../../styles/variables.scss';
+
+.heroTitle {
+  h2 {
+    margin-top: $size-18;
+    margin-bottom: $size-16;
+
+    font-size: $size-50;
+    line-height: $size-65;
+
+    color: $color-grey-0;
+
+    @media screen and (max-width: 1200px) {
+      font-size: $size-45;
+      line-height: $size-65;
+    }
+
+    @media screen and (max-width: 1000px) {
+      font-size: $size-40;
+      line-height: $size-50;
+    }
+
+    @media screen and (max-width: 768px) {
+      font-size: $size-35;
+      line-height: $size-50;
+    }
+
+    @media screen and (max-width: 600px) {
+      font-size: $size-35;
+      line-height: $size-50;
+    }
+  }
+
+  .shrinkH2 {
+    font-size: $size-45;
+    line-height: $size-55;
+
+    @media screen and (max-width: 1200px) {
+      font-size: $size-40;
+      line-height: $size-50;
+    }
+
+    @media screen and (max-width: 1000px) {
+      font-size: $size-32;
+      line-height: $size-45;
+    }
+
+    @media screen and (max-width: 768px) {
+      font-size: $size-28;
+      line-height: $size-40;
+    }
+
+    @media screen and (max-width: 600px) {
+      font-size: $size-28;
+      line-height: $size-40;
+    }
+  }
+
+  .subText {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: $size-12;
+    margin-bottom: $size-22;
+  }
+
+  .textCenter {
+    text-align: center;
+  }
+
+  .textColorYellow {
+    color: $color-yellow-dark;
+  }
+
+  .textColorGreen {
+    color: $color-green;
+  }
+
+  .textColorPurple {
+    color: $color-purple;
+  }
+
+  .textColorBlue {
+    color: $color-blue;
+  }
+
+  .textColorPink {
+    color: $color-pink;
+  }
+
+  .textColorDefault {
+    color: $color-black;
+  }
+}

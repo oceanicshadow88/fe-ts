@@ -1,0 +1,58 @@
+@import '../../../variables.scss';
+@import '../base.scss';
+
+.wrapper {
+  padding: 60px 0;
+  &:hover video {
+    transform: scale(1.03);
+  }
+}
+
+.reusableSection {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  max-width: 1220px;
+  margin: 0 auto;
+  &::before {
+    background: url(https://clickup.com/images/diamonds/purple-diamond.svg) no-repeat top
+      left/contain;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 95%;
+    top: 60%;
+    width: 600px;
+    height: 600px;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.squareToLeft {
+  &::before {
+    left: 8%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .reusableSection {
+    flex-direction: column;
+    padding: 0 25px;
+    @include borderBox;
+    &::before {
+      display: none;
+    }
+  }
+  .columnReverse {
+    flex-direction: column-reverse;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .wrapper {
+    padding: 30px 0;
+  }
+}

@@ -1,0 +1,16 @@
+$max_size: 992px;
+$small_size: 768px;
+
+.TechScrumLabel {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 5.5rem 30px;
+  overflow: hidden;
+  width:100%;
+  @media (max-width: $small_size) {
+    flex-direction: column;
+  }
+}

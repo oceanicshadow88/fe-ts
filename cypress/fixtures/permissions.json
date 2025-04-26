@@ -1,0 +1,202 @@
+[
+    {
+        "id": "631d94d08a05945727602ce7",
+        "slug": "view:projects",
+        "description": "View Project",
+        "createdAt": "2022-09-11T07:57:04.479Z",
+        "updatedAt": "2022-09-11T07:57:04.479Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602ce8",
+        "slug": "edit:projects",
+        "description": "Edit Project",
+        "createdAt": "2022-09-11T07:57:04.504Z",
+        "updatedAt": "2022-09-11T07:57:04.504Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602ce9",
+        "slug": "delete:projects",
+        "description": "Delete Project",
+        "createdAt": "2022-09-11T07:57:04.527Z",
+        "updatedAt": "2022-09-11T07:57:04.527Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cea",
+        "slug": "create:boards",
+        "description": "Create Boards",
+        "createdAt": "2022-09-11T07:57:04.551Z",
+        "updatedAt": "2022-09-11T07:57:04.551Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602ceb",
+        "slug": "view:boards",
+        "description": "View Boards",
+        "createdAt": "2022-09-11T07:57:04.575Z",
+        "updatedAt": "2022-09-11T07:57:04.575Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cec",
+        "slug": "edit:boards",
+        "description": "Edit Boards",
+        "createdAt": "2022-09-11T07:57:04.599Z",
+        "updatedAt": "2022-09-11T07:57:04.599Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602ced",
+        "slug": "delete:boards",
+        "description": "Delete Boards",
+        "createdAt": "2022-09-11T07:57:04.622Z",
+        "updatedAt": "2022-09-11T07:57:04.622Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cee",
+        "slug": "create:members",
+        "description": "Add Members",
+        "createdAt": "2022-09-11T07:57:04.645Z",
+        "updatedAt": "2022-09-11T07:57:04.645Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cef",
+        "slug": "view:members",
+        "description": "View Members",
+        "createdAt": "2022-09-11T07:57:04.668Z",
+        "updatedAt": "2022-09-11T07:57:04.668Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cf0",
+        "slug": "edit:members",
+        "description": "Edit Members",
+        "createdAt": "2022-09-11T07:57:04.694Z",
+        "updatedAt": "2022-09-11T07:57:04.694Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cf1",
+        "slug": "delete:members",
+        "description": "Delete Members",
+        "createdAt": "2022-09-11T07:57:04.725Z",
+        "updatedAt": "2022-09-11T07:57:04.725Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cf2",
+        "slug": "create:roles",
+        "description": "Add Roles",
+        "createdAt": "2022-09-11T07:57:04.749Z",
+        "updatedAt": "2022-09-11T07:57:04.749Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cf3",
+        "slug": "view:roles",
+        "description": "View Roles",
+        "createdAt": "2022-09-11T07:57:04.776Z",
+        "updatedAt": "2022-09-11T07:57:04.776Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cf4",
+        "slug": "edit:roles",
+        "description": "Edit Roles",
+        "createdAt": "2022-09-11T07:57:04.801Z",
+        "updatedAt": "2022-09-11T07:57:04.801Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cf5",
+        "slug": "delete:roles",
+        "description": "Delete Roles",
+        "createdAt": "2022-09-11T07:57:04.825Z",
+        "updatedAt": "2022-09-11T07:57:04.825Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cf6",
+        "slug": "create:shortcuts",
+        "description": "Add Shortcuts",
+        "createdAt": "2022-09-11T07:57:04.847Z",
+        "updatedAt": "2022-09-11T07:57:04.847Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cf7",
+        "slug": "view:shortcuts",
+        "description": "View Shortcuts",
+        "createdAt": "2022-09-11T07:57:04.870Z",
+        "updatedAt": "2022-09-11T07:57:04.870Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cf8",
+        "slug": "edit:shortcuts",
+        "description": "Edit Shortcuts",
+        "createdAt": "2022-09-11T07:57:04.893Z",
+        "updatedAt": "2022-09-11T07:57:04.893Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cf9",
+        "slug": "delete:shortcuts",
+        "description": "Delete Shortcuts",
+        "createdAt": "2022-09-11T07:57:04.916Z",
+        "updatedAt": "2022-09-11T07:57:04.916Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cfa",
+        "slug": "create:tasks",
+        "description": "Add Tasks",
+        "createdAt": "2022-09-11T07:57:04.940Z",
+        "updatedAt": "2022-09-11T07:57:04.940Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cfb",
+        "slug": "view:tasks",
+        "description": "View Tasks",
+        "createdAt": "2022-09-11T07:57:04.963Z",
+        "updatedAt": "2022-09-11T07:57:04.963Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cfc",
+        "slug": "edit:tasks",
+        "description": "Edit Tasks",
+        "createdAt": "2022-09-11T07:57:04.986Z",
+        "updatedAt": "2022-09-11T07:57:04.986Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cfd",
+        "slug": "delete:tasks",
+        "description": "Delete Tasks",
+        "createdAt": "2022-09-11T07:57:05.009Z",
+        "updatedAt": "2022-09-11T07:57:05.009Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cfe",
+        "slug": "view:settings",
+        "description": "View Settings",
+        "createdAt": "2022-09-11T07:57:05.032Z",
+        "updatedAt": "2022-09-11T07:57:05.032Z",
+        "__v": 0
+    },
+    {
+        "id": "631d94d08a05945727602cff",
+        "slug": "edit:settings",
+        "description": "Edit Settings",
+        "createdAt": "2022-09-11T07:57:05.055Z",
+        "updatedAt": "2022-09-11T07:57:05.055Z",
+        "__v": 0
+    }
+]

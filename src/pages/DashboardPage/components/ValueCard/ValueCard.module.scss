@@ -1,0 +1,28 @@
+@import '../../../ReportPage/styles/variables.scss';
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $size-10;
+
+  align-items: center;
+  padding: $size-20;
+  background-color: $color-white;
+  border-radius: $size-10;
+  .title {
+    font-size: $size-24;
+    font-weight: 400;
+    align-self: flex-start;
+    text-transform: capitalize;
+  }
+
+  .value {
+    font-size: $size-45;
+    font-weight: 900;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: $color-grey-0;
+  }
+}

@@ -1,0 +1,227 @@
+{
+  "id": "642577b3251568e0864d1373",
+  "name": "ZHOU",
+  "key": "ZHO",
+  "projectLeadId": {
+    "email": "coffeetsang20@gmail.com",
+    "isAdmin": 1,
+    "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1679373195973.ico",
+    "tenants": [
+      "64129b2c2110dfcdc0dd2d9f",
+      "64129bf7d1669d78f8f034fe",
+      "641466d0a5ee037dc750e20c",
+      "641471e1a0a61d02795c3920",
+      "64156f68899f164b0ad590e6",
+      "6415904b1d28fe14f85fb754",
+      "64217b723c2df8ac727cbb47"
+    ],
+    "projectsRoles": [
+      {
+        "projectId": "641673fb0b80211502d3506b",
+        "roleId": "641679ac459e0e37bde2ace6",
+        "id": "64167885ec8cae809cd93a92"
+      },
+      {
+        "projectId": "64168106ed2a76ad02bf366c",
+        "roleId": "64168106ed2a76ad02bf366d",
+        "id": "641682c04a7a3314ed2000b3"
+      },
+      {
+        "projectId": "6418e1d36c21de191de9e380",
+        "roleId": "6418e1d36c21de191de9e381",
+        "id": "64190107138513a13f31fc3a"
+      },
+      {
+        "projectId": "641912f771c79643bebdec7c",
+        "roleId": "641912f771c79643bebdec7d",
+        "id": "64191cbd09bb793df5232e56"
+      }
+    ],
+    "createdAt": "2023-03-16T04:29:33.147Z",
+    "updatedAt": "2023-03-29T13:48:21.759Z",
+    "name": "wendy123",
+    "abbreviation": "",
+    "jobTitle": "",
+    "location": "",
+    "userName": "",
+    "currentProduct": "prod_NbiNiIalPuPAxE",
+    "customerId": "cus_NboCUq63wHmPfZ",
+    "currentInvoice": "64243d76c52f6b92b81a26d1",
+    "invoiceHistory": ["6422cd9ba8ab35c981e4f5c4", "64243d76c52f6b92b81a26d1"],
+    "freeTrialEndDate": "2023-03-28T13:00:00.000Z",
+    "freeTrialStartDate": "2023-03-27T13:00:00.000Z",
+    "productHistory": ["prod_NbiNiIalPuPAxE"],
+    "stripePaymentIntentId": "pi_3MqaaHFPj1yAUwnc018yAKTy",
+    "subscriptionHistoryId": ["pi_3MqaaHFPj1yAUwnc018yAKTy"],
+    "currentChargeEndDate": "2023-03-28T13:00:00.000Z",
+    "currentChargeStartDate": "2023-03-27T13:00:00.000Z",
+    "currentPaymentHistoryId": "642441a5c52f6b92b81a26f0",
+    "id": "64129b2d2110dfcdc0dd2da4"
+  },
+  "roles": [
+    {
+      "name": "Admin",
+      "slug": "admin",
+      "allowDelete": false,
+      "permission": [
+        "631d94d08a05945727602ce8",
+        "631d94d08a05945727602ce9",
+        "631d94d08a05945727602cea",
+        "631d94d08a05945727602ceb",
+        "631d94d08a05945727602cec",
+        "631d94d08a05945727602ced",
+        "631d94d08a05945727602cee",
+        "631d94d08a05945727602cef",
+        "631d94d08a05945727602cf0",
+        "631d94d08a05945727602cf1",
+        "631d94d08a05945727602cf2",
+        "631d94d08a05945727602cf3",
+        "631d94d08a05945727602cf4",
+        "631d94d08a05945727602cf5",
+        "631d94d08a05945727602cf6",
+        "631d94d08a05945727602cf7",
+        "631d94d08a05945727602cf8",
+        "631d94d08a05945727602cf9",
+        "631d94d08a05945727602cfa",
+        "631d94d08a05945727602cfb",
+        "631d94d08a05945727602cfc",
+        "631d94d08a05945727602cfd",
+        "631d94d08a05945727602cfe",
+        "631d94d08a05945727602cff",
+        "631d94d08a05945727602ce7"
+      ],
+      "id": "642577b3251568e0864d1374"
+    },
+    {
+      "name": "Developer",
+      "slug": "developer",
+      "allowDelete": false,
+      "permission": [
+        "631d94d08a05945727602ce7",
+        "631d94d08a05945727602ceb",
+        "631d94d08a05945727602cf6",
+        "631d94d08a05945727602cf7",
+        "631d94d08a05945727602cf8",
+        "631d94d08a05945727602cf9",
+        "631d94d08a05945727602cfa",
+        "631d94d08a05945727602cfb",
+        "631d94d08a05945727602cfc",
+        "631d94d08a05945727602cef",
+        "631d94d08a05945727602cf3",
+        "631d94d08a05945727602cfd"
+      ],
+      "id": "642577b3251568e0864d1375"
+    },
+    {
+      "name": "Product Manager",
+      "slug": "product-manager",
+      "allowDelete": false,
+      "permission": [
+        "631d94d08a05945727602ce7",
+        "631d94d08a05945727602ce8",
+        "631d94d08a05945727602cea",
+        "631d94d08a05945727602ceb",
+        "631d94d08a05945727602cec",
+        "631d94d08a05945727602ced",
+        "631d94d08a05945727602cee",
+        "631d94d08a05945727602cef",
+        "631d94d08a05945727602cf0",
+        "631d94d08a05945727602cf1",
+        "631d94d08a05945727602cf2",
+        "631d94d08a05945727602cf3",
+        "631d94d08a05945727602cf4",
+        "631d94d08a05945727602cf5",
+        "631d94d08a05945727602cf6",
+        "631d94d08a05945727602cf7",
+        "631d94d08a05945727602cf8",
+        "631d94d08a05945727602cf9",
+        "631d94d08a05945727602cfa",
+        "631d94d08a05945727602cfb",
+        "631d94d08a05945727602cfc",
+        "631d94d08a05945727602cfd",
+        "631d94d08a05945727602cfe",
+        "631d94d08a05945727602cff"
+      ],
+      "id": "642577b3251568e0864d1376"
+    },
+    {
+      "name": "Guest",
+      "slug": "guest",
+      "allowDelete": false,
+      "permission": [
+        "631d94d08a05945727602ce7",
+        "631d94d08a05945727602ceb",
+        "631d94d08a05945727602cf7",
+        "631d94d08a05945727602cfb"
+      ],
+      "id": "642577b3251568e0864d1377"
+    }
+  ],
+  "ownerId": {
+    "email": "coffeetsang20@gmail.com",
+    "isAdmin": 1,
+    "avatarIcon": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1679373195973.ico",
+    "tenants": [
+      "64129b2c2110dfcdc0dd2d9f",
+      "64129bf7d1669d78f8f034fe",
+      "641466d0a5ee037dc750e20c",
+      "641471e1a0a61d02795c3920",
+      "64156f68899f164b0ad590e6",
+      "6415904b1d28fe14f85fb754",
+      "64217b723c2df8ac727cbb47"
+    ],
+    "projectsRoles": [
+      {
+        "projectId": "641673fb0b80211502d3506b",
+        "roleId": "641679ac459e0e37bde2ace6",
+        "id": "64167885ec8cae809cd93a92"
+      },
+      {
+        "projectId": "64168106ed2a76ad02bf366c",
+        "roleId": "64168106ed2a76ad02bf366d",
+        "id": "641682c04a7a3314ed2000b3"
+      },
+      {
+        "projectId": "6418e1d36c21de191de9e380",
+        "roleId": "6418e1d36c21de191de9e381",
+        "id": "64190107138513a13f31fc3a"
+      },
+      {
+        "projectId": "641912f771c79643bebdec7c",
+        "roleId": "641912f771c79643bebdec7d",
+        "id": "64191cbd09bb793df5232e56"
+      }
+    ],
+    "createdAt": "2023-03-16T04:29:33.147Z",
+    "updatedAt": "2023-03-29T13:48:21.759Z",
+    "name": "wendy123",
+    "abbreviation": "",
+    "jobTitle": "",
+    "location": "",
+    "userName": "",
+    "currentProduct": "prod_NbiNiIalPuPAxE",
+    "customerId": "cus_NboCUq63wHmPfZ",
+    "currentInvoice": "64243d76c52f6b92b81a26d1",
+    "invoiceHistory": ["6422cd9ba8ab35c981e4f5c4", "64243d76c52f6b92b81a26d1"],
+    "freeTrialEndDate": "2023-03-28T13:00:00.000Z",
+    "freeTrialStartDate": "2023-03-27T13:00:00.000Z",
+    "productHistory": ["prod_NbiNiIalPuPAxE"],
+    "stripePaymentIntentId": "pi_3MqaaHFPj1yAUwnc018yAKTy",
+    "subscriptionHistoryId": ["pi_3MqaaHFPj1yAUwnc018yAKTy"],
+    "currentChargeEndDate": "2023-03-28T13:00:00.000Z",
+    "currentChargeStartDate": "2023-03-27T13:00:00.000Z",
+    "currentPaymentHistoryId": "642441a5c52f6b92b81a26f0",
+    "id": "64129b2d2110dfcdc0dd2da4"
+  },
+  "assigneeId": "1",
+  "boardId": "642577b3251568e0864d1372",
+  "iconUrl": "https://kitmanimage.s3.ap-southeast-2.amazonaws.com/1680177061361.jpg",
+  "star": false,
+  "isDelete": false,
+  "description": "www.egglord.com description",
+  "websiteUrl": "www.egglord.com",
+  "shortcut": [],
+  "createdAt": "2023-03-30T11:51:15.991Z",
+  "updatedAt": "2023-03-30T11:51:15.991Z",
+  "__v": 0
+}

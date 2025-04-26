@@ -1,0 +1,118 @@
+@import '../ReportPage/styles/variables.scss';
+
+@mixin pdf-btn-style {
+  appearance: button;
+  backface-visibility: hidden;
+
+  border-radius: 6px;
+  border-width: 0;
+  box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset, rgba(50, 50, 93, 0.1) 0 2px 5px 0,
+    rgba(0, 0, 0, 0.07) 0 1px 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, sans-serif;
+  font-size: 100%;
+  font-weight: 600;
+  height: $size-40;
+  line-height: 1.15;
+  outline: none;
+  overflow: hidden;
+  padding: 0 25px;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  transform: translateZ(0);
+  transition: all 0.2s, box-shadow 0.08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  &:hover {
+    box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset, rgba(50, 50, 93, 0.2) 0 6px 15px 0,
+      rgba(0, 0, 0, 0.1) 0 2px 2px 0;
+  }
+
+  &:focus {
+    box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset, rgba(50, 50, 93, 0.2) 0 6px 15px 0,
+      rgba(0, 0, 0, 0.1) 0 2px 2px 0, rgba(50, 151, 211, 0.3) 0 0 0 4px;
+  }
+
+  &:disabled {
+    cursor: default;
+    box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset, rgba(50, 50, 93, 0.1) 0 2px 5px 0,
+      rgba(0, 0, 0, 0.07) 0 1px 1px 0;
+    color: #fff;
+    background-color: #c2c2c2;
+  }
+}
+
+.mainWrapper {
+  min-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  padding-block-start: $size-30;
+  padding-inline-end: $size-30;
+
+  .dashboardWrapper {
+    background-color: $color-grey-3;
+    // min-height: 75vh;
+    border-radius: $size-14;
+    padding: $size-20;
+    margin: 10px 0;
+    h2 {
+      font-size: clamp($size-20, 3vw, $size-30);
+    }
+
+    .dashboardGridLayout {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(200px, 1fr));
+      grid-template-rows: repeat(4, minmax(90px, 1fr));
+
+      grid-template-areas:
+        'value-card-1 value-card-2 value-card-3 value-card-4'
+        'chart-card-1 chart-card-1 chart-card-2 chart-card-2'
+        'chart-card-1 chart-card-1 chart-card-2 chart-card-2'
+        'chart-card-1 chart-card-1 chart-card-2 chart-card-2';
+
+      gap: $size-18;
+
+      & > div:nth-child(3) {
+        p {
+          color: $color-brand-youtube;
+        }
+      }
+
+      @media screen and (max-width: 1396px) {
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+        grid-template-rows: repeat(6, minmax(100px, 1fr));
+
+        grid-template-areas:
+          'value-card-1 value-card-2'
+          'value-card-3 value-card-4'
+          'chart-card-1 chart-card-1'
+          'chart-card-1 chart-card-1'
+          'chart-card-2 chart-card-2'
+          'chart-card-2 chart-card-2';
+      }
+    }
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $size-24;
+
+  .exportPDFbtn {
+    @include pdf-btn-style;
+    background-color: $color-brand;
+  }
+
+  .closePDFbtn {
+    @include pdf-btn-style;
+    background-color: $color-red;
+  }
+}

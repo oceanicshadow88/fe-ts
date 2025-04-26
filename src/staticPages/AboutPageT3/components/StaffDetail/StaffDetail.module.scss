@@ -1,0 +1,103 @@
+.intro-container {
+  width: 100%;
+  max-width: 720px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  position: fixed;
+  box-shadow: 0 0 30px rgb(0 0 0 / 20%);
+  background-color: #fff;
+  border-color: #fff;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    height: 65%;
+    top: 58%;
+  }
+
+  .inner-container {
+    width: 100%;
+    padding: 6% 6% 3% 6%;
+    text-align: left;
+    @media (max-width: 768px) {
+      height: 80%;
+    }
+
+    .detail-img {
+      float: right;
+      width: 200px;
+      margin-top: -135px;
+      margin-right: -20px;
+
+      @media (max-width: 768px) {
+        width: 35%;
+        margin-top: -110px;
+        margin-right: 0px;
+      }
+
+      .staffImg {
+        width: 100%;
+        object-position: 50% 20%;
+        border-radius: 50%;
+        object-fit: cover;
+        aspect-ratio: 1/1;
+        transition: all 0.4s;
+        box-shadow: 0 2.4rem 4.8rem rgb(0 0 0 / 8%);
+        margin-bottom: 16px;
+
+        @media (max-width: 768px) {
+          margin-bottom: 0px;
+        }
+      }
+    }
+
+    .detail-header {
+      .staffName {
+        line-height: 1em;
+        font-weight: 300;
+        font-size: 48px;
+        text-transform: capitalize;
+        padding-bottom: 9px;
+      }
+
+      .position {
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 1.8px;
+        line-height: 1.3em;
+        text-transform: uppercase;
+        color: #6a2add;
+      }
+    }
+
+    .detail-intro {
+      padding-top: 34px;
+      padding-bottom: 10px;
+      font-size: 24px;
+      line-height: 40px;
+      font-weight: 300;
+      white-space: pre-line;
+
+      @media (max-width: 768px) {
+        display: block;
+        overflow: scroll;
+        height: 75%;
+        padding-top: 10px;
+        padding-bottom: 5px;
+      }
+
+      p {
+        @media (max-width: 768px) {
+          font-size: 16px;
+          line-height: 175%;
+        }
+      }
+    }
+  }
+}
+
+.icon {
+  text-decoration: none;
+  color: #007297;
+}

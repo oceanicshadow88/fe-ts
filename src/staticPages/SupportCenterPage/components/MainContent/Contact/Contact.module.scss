@@ -1,0 +1,74 @@
+@import '../../../../../variables.scss';
+$max_size: 768px;
+$small_size: 1000px;
+
+.contact {
+  margin-top: 50px;
+  width: 100%;
+}
+
+.contactContainer {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.workTime {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 21px 12px 84px;
+}
+
+.workTime p {
+  color: $textPrimaryColor;
+  font-size: 1.4rem;
+  font-weight: 300;
+  text-align: center;
+  @media (max-width: $max_size) {
+    font-size: 1.2rem;
+  }
+}
+
+.contactDetail {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  @media (max-width: $max_size) {
+    flex-direction: column;
+  }
+}
+
+.contactDetailForm {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  @media (max-width: $max_size) {
+    margin-bottom: 40px;
+    padding: 1rem;
+  }
+}
+
+.emailContainer {
+  color: $textPrimaryColor;
+  padding: 0 12px;
+}
+
+.emailContainer h4 {
+  font-size: 1.8rem;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+
+.emailContainer p {
+  margin-bottom: 42px;
+}
+
+.emailContainer a {
+  text-decoration: none;
+  margin-left: 4px;
+  color: #6a84ed;
+}

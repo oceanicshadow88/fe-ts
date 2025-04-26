@@ -1,0 +1,18 @@
+@mixin headingLarge {
+  font: 800 50px/69px 'Roboto', sans-serif;
+  color: $textPrimaryColor;
+}
+
+@mixin headingMedium {
+  font: 800 40px/50px 'Roboto', sans-serif;
+  color: $textPrimaryColor;
+}
+
+@mixin headingSmall {
+  font: 800 35px/50px 'Roboto', sans-serif;
+  color: $textPrimaryColor;
+}
+
+@mixin borderBox {
+  box-sizing: border-box;
+}

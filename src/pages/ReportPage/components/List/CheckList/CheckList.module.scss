@@ -1,0 +1,57 @@
+@import '../../../styles/variables.scss';
+@import '../List.module.scss';
+
+.checkList {
+  @include reset-list;
+  padding-inline-start: $size-28;
+  // margin-block-end: $size-40;
+
+  .listItem {
+    display: flex;
+    align-items: center;
+    gap: $size-12;
+    font-weight: 500;
+    font-size: $size-13;
+    line-height: $size-24;
+    margin-block-end: 8px;
+
+    .iconContainer {
+      width: $size-35;
+      aspect-ratio: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: $size-12;
+      box-shadow: 0 10px 15px rgb(16 30 54 / 15%);
+      background-color: $color-yellow-dark;
+
+      &Pink {
+        background-color: $color-pink;
+      }
+
+      &Blue {
+        background-color: $color-blue;
+      }
+
+      &Brand {
+        background-color: $color-brand;
+      }
+
+      &Green {
+        background-color: $color-green-dark;
+      }
+
+      &Default {
+        background-color: $color-grey-2;
+      }
+    }
+
+    p {
+      flex: 1;
+    }
+  }
+}
+
+.noLeadingPadding {
+  padding-inline-start: 0;
+}

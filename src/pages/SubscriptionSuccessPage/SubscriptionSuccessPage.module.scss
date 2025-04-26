@@ -1,0 +1,42 @@
+@use '../../variables.scss' as *;
+
+.sectionContainer {
+  height: 100vh;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.button {
+  background-color: $primaryColor;
+  color: white;
+  font-weight: bold;
+  padding: 0.5em 0.8em;
+  border: none;
+  text-decoration: none;
+  &:hover {
+    background-color: $primaryColor-hover;
+  }
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #FFF;
+  border-bottom-color: #FF3D00;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

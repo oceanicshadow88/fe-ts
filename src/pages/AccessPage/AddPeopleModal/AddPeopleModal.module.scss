@@ -1,0 +1,232 @@
+.background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background-color: rgba(9, 30, 66, 0.54);
+}
+
+.container {
+  position: fixed;
+  background-color: rgb(255, 255, 255);
+  border-radius: 3px;
+  box-shadow: rgb(9 30 66 / 8%) 0px 0px 0px 1px, rgb(9 30 66 / 8%) 0px 2px 1px,
+    rgb(9 30 66 / 31%) 0px 0px 20px -6px;
+  color: rgb(9, 30, 66);
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  z-index: 999;
+  min-width: 400px;
+  margin-left: 25%;
+  margin-top: 12%;
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  min-height: 0px;
+  max-height: 100%;
+  padding: 20px;
+}
+
+.dialog header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dialog header h1 {
+  font-size: 1.42857em;
+  font-style: inherit;
+  line-height: 1.2;
+  color: var(--ds-text, var(--ds-text, #172b4d));
+  font-weight: 500;
+  letter-spacing: -0.008em;
+}
+
+.bodyContent {
+  height: 127px;
+  width: 352px;
+}
+
+.inputContent {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin-top: 10px;
+  width: inherit;
+}
+
+.inputContent input {
+  box-sizing: border-box;
+}
+
+.inputContent input,
+.inputContent button {
+  align-items: center;
+  background-color: var(--ds-background-subtleNeutral-resting, #f4f5f7);
+  border-color: var(--ds-border-neutral, #f4f5f7);
+  border-radius: 3px;
+  display: flex;
+  min-height: 40px;
+  justify-content: space-between;
+  position: relative;
+  outline-color: #4c9fff;
+  padding: 3px 40px 2px 10px;
+  width: inherit;
+  cursor: pointer;
+  border: 0;
+}
+
+.inputContent input:hover,
+.inputContent button:hover {
+  background: var(--ds-background-neutral, rgba(9, 30, 66, 0.1));
+  border-color: var(--ds-border-neutral, #f4f5f7);
+  box-sizing: border-box;
+}
+
+.inputContent input:focus,
+.inputContent button:focus {
+  background-color: #fff;
+}
+
+.inputContent input::placeholder,
+.inputContent button::placeholder {
+  overflow: hidden;
+  color: var(--ds-text-lowEmphasis, #5e6c84);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.42857142857143;
+
+}
+
+.inputContent button {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.42857142857143;
+
+  color: var(--ds-text-highEmphasis, #172b4d);
+}
+
+.inputImg {
+  height: 20px;
+  width: 20px;
+  position: fixed;
+  margin-left: 320px;
+  margin-top: 10px;
+  opacity: 0.8;
+}
+
+.roleContent {
+  width: 352px;
+  margin-top: 20px;
+}
+
+.roleContent .inputImg {
+  height: 23px;
+  width: 23px;
+  opacity: 0.7;
+}
+
+.roleContent span {
+  font-size: 0.857143em;
+  font-style: inherit;
+  line-height: 1.33333;
+  color: var(--ds-text-subtlest, var(--ds-text-subtlest, #6b778c));
+  font-weight: 600;
+  display: inline-block;
+
+  cursor: default;
+}
+
+.roleContent .inputContent {
+  margin-top: 5px;
+}
+
+.inputContent button:focus {
+  outline: 2px solid #4c9fff;
+}
+
+.dialog footer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  transition: box-shadow 200ms ease 0s;
+  z-index: 1;
+  padding: 30px 8px 8px;
+  box-shadow: none;
+}
+
+.footerContent {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.footerContent .cancelButton {
+  border-width: 0px;
+  border-radius: 3px;
+  display: inline-flex;
+  font-size: inherit;
+  font-style: normal;
+  font-family: inherit;
+  font-weight: 600;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  white-space: nowrap;
+  background: none;
+  cursor: pointer;
+  height: 2.28571em;
+  line-height: 2.28571em;
+  padding: 0px 10px;
+  justify-content: center;
+  color: var(--ds-text, #42526e) !important;
+}
+
+.footerContent .cancelButton:hover {
+  background-color: #efefef;
+}
+
+.footerContent .cancelButton span {
+  transition: opacity 0.3s ease 0s;
+  opacity: 1;
+  margin: 0px 2px;
+}
+
+.footerContent .cancelButton:active {
+  color: #1d0fe4 !important;
+  background-color: #a4b5ed;
+  filter: brightness(1.2);
+}
+
+.addButton {
+  margin-left: 8px;
+  border-width: 0px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: inline-flex;
+  font-size: inherit;
+  font-style: normal;
+  font-family: inherit;
+  font-weight: 700;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  background: var(--ds-background-brand-bold, #0052cc);
+  cursor: pointer;
+  height: 2.28571em;
+  line-height: 2.28571em;
+  padding: 0px 10px;
+  color: #fff;
+}
+
+.addButton:hover {
+  filter: brightness(1.2);
+}
+
+.footerContent .addButton:active {
+  background-color: var(--ds-background-brand-bold, #0052cc);
+  filter: grayscale(0.2);
+}

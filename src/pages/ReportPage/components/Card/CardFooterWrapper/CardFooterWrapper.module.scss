@@ -1,0 +1,19 @@
+@import '../../../styles/variables.scss';
+
+.cardFooterWrapper {
+  cursor: pointer;
+
+  position: absolute;
+  width: 100%;
+  height: $size-65;
+  inset-inline: 0;
+  bottom: 0;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(123, 104, 238, 0.05);
+}

@@ -1,0 +1,88 @@
+$btHoverBg: rgb(245, 245, 247);
+$borderColor: #ebecf0;
+$bgColorDark: rgb(40, 54, 84);
+
+.buttonContainer {
+  height: 100%;
+  border-radius: 5px;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  &:hover {
+    background-color: $btHoverBg;
+  }
+  img {
+    margin-right: 5px;
+  }
+}
+
+.buttonClicked {
+  background-color: $bgColorDark;
+  color: white;
+}
+.dropDownButtonContainer {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  border: none;
+  align-items: center;
+  background-color: white;
+  text-transform: capitalize;
+  cursor: pointer;
+  border-left: 2px solid white;
+  &:hover {
+    background-color: $btHoverBg;
+    border-left: 2px solid rgb(33, 81, 197);
+  }
+  img {
+    margin: 0 5px;
+  }
+  p {
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.container {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  height: 70%;
+}
+
+.optionsContainer {
+  background-color: white;
+  border: 1px solid $borderColor;
+  border-radius: 5px;
+  position: absolute;
+  top: 30px;
+  z-index: 99;
+}
+
+.showDropDownOnTop {
+  top: auto;
+  bottom: 33px;
+}
+
+.listContainer {
+  display: none;
+  flex-direction: column;
+  list-style: none;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  height: 80px;
+  width: 150px;
+  li {
+    height: 40%;
+  }
+}
+
+.show {
+  display: inline-flex;
+}

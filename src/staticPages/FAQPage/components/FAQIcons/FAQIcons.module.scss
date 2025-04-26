@@ -1,0 +1,51 @@
+$light-gray: rgb(207, 207, 207);
+$dark-gray: rgb(107, 107, 107);
+.FAQicons {
+  background-color: white;
+  .container {
+    width: 65%;
+    margin: auto;
+    .iconsContainer {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 63px 0px;
+      justify-content: center;
+      .iconContainer {
+        width: 32%;
+        height: 250px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        cursor: pointer;
+        border: 2px solid white;
+        @media (max-width: 768px) {
+          width: 100%;
+          flex-direction: row;
+          height: auto;
+        }
+
+        .iconDescription {
+          font-size: 20px;
+          color: $dark-gray;
+          text-align: center;
+          @media (max-width: 768px) {
+            font-size: 16px;
+            margin-left: 10px;
+            width: 32%;
+          }
+        }
+        .iconImg {
+          width: 100px;
+          height: 100px;
+          margin-bottom: 20px;
+        }
+      }
+      .iconContainer:hover {
+        border: 2px solid $light-gray;
+      }
+    }
+  }
+}

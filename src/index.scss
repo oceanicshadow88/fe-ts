@@ -1,0 +1,69 @@
+@import "./variables.scss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+:root {
+  --data-color-menu-link: #ffcc00;
+  --data-color-secondary: #4b4b4b;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button{
+  font-family: 'Roboto', sans-serif;
+}
+
+
+.active{
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.2)!important;
+}
+
+.active::before {
+  content: "";
+  position: absolute;
+  height: 0px;
+  width: 0px;
+  left: 0px;
+  top: 13px;
+  background: #0052CC;
+  border-radius: 0px 1.998px 1.998px 0px;
+
+}
+
+.colorRed{
+  color: red !important;
+}
+
+.primaryColor{
+  color: $primaryColor !important;
+}
+
+.container{
+  max-width: 1000px;
+  width: 100%;
+  margin: auto;
+}
+
+.spaceBetween{
+  justify-content: space-between;
+}
+
+.background--grey{
+  background-color: #f6f8f9;
+}
+
+.relative{
+  position: relative;
+}
+
+.width-100{
+  width: 100%;
+}
+
+.primaryColorBackground{
+  background: $primaryColor!important;
+}

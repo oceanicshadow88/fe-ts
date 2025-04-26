@@ -1,0 +1,223 @@
+/* eslint-disable no-unused-vars */
+import React, { useContext, useEffect, useState } from 'react';
+import { FaPen } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import { MdContentCopy } from 'react-icons/md';
+import { useParams } from 'react-router-dom';
+import IconButton from '../../../../components/Form/Button/IconButton/IconButton';
+import styles from './TicketItem.module.scss';
+import OverFlowMenuBtn from '../OverFlowMenuBtn/OverFlowMenuBtn';
+import PriorityBtn from '../PriorityBtn/PriorityBtn';
+import AssigneeBtn from '../AssigneeBtn/AssigneeBtn';
+import useOutsideAlerter from '../../../../hooks/OutsideAlerter';
+import TypeEdit from './TypeEdit';
+import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvider';
+import StatusBtn from '../StatusBtn/StatusBtn';
+import { ITicketBasic, ITicketDetails } from '../../../../types';
+import {
+  updateTicket,
+  deleteTicket,
+  updateTicketSprint,
+  removeTicket
+} from '../../../../api/ticket/ticket';
+import TicketDetailCard from '../../../../components/TicketDetailCard/TicketDetailCard';
+import { ModalContext } from '../../../../context/ModalProvider';
+
+interface ITicketInput {
+  ticket: ITicketBasic;
+  showDropDownOnTop?: boolean;
+  onTicketChanged: () => void;
+}
+export default function TicketItem({ ticket, showDropDownOnTop, onTicketChanged }: ITicketInput) {
+  const [title, setTitle] = useState(ticket.title);
+  const [value, setValue] = useState(ticket.type);
+  const projectDetails = useContext(ProjectDetailsContext);
+  const { showModal } = useContext(ModalContext);
+  const { projectId = '' } = useParams();
+
+  const updateTicketTitleContent = async () => {
+    if (title.trim() === ticket.title) {
+      return;
+    }
+    const data = { title: title.trim() };
+    await updateTicket(ticket.id, data);
+    onTicketChanged();
+  };
+
+  const updateTicketType = async (newTypeId: string) => {
+    const data = { type: newTypeId };
+    await updateTicket(ticket.id, data);
+    onTicketChanged();
+  };
+
+  const { visible, setVisible, myRef } = useOutsideAlerter(false);
+
+  const saveKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== 'Enter') {
+      return;
+    }
+    updateTicketTitleContent();
+    setVisible(false);
+    onTicketChanged();
+  };
+
+  const onClickDelete = async () => {
+    await deleteTicket(ticket.id);
+    onTicketChanged();
+    setVisible(false);
+  };
+
+  const onClickAddToBacklog = async () => {
+    await updateTicketSprint(ticket.id, null);
+    onTicketChanged();
+    setVisible(false);
+  };
+
+  const onClickAddToSprint = async (sprintId: string) => {
+    await updateTicketSprint(ticket.id, sprintId);
+    onTicketChanged();
+    setVisible(false);
+  };
+
+  const onClickCopyLink = () => {
+    navigator.clipboard.writeText(`${window.location.origin}/tickets/${ticket.id}`);
+    toast.success('Copied', {
+      theme: 'colored',
+      className: 'primaryColorBackground'
+    });
+  };
+
+  const onSavedTicket = async (data: ITicketDetails) => {
+    const updateData = {
+      ...data,
+      ...{ project: data.project.id },
+      ...{ labels: data.labels?.map((tag) => tag.id) }
+    };
+
+    await updateTicket(data.id, updateData);
+    onTicketChanged();
+  };
+
+  useEffect(() => {
+    setTitle(ticket.title);
+    setValue(ticket.type);
+  }, [ticket]);
+
+  if (projectDetails.isLoadingDetails) {
+    return <></>;
+  }
+  return (
+    <div
+      className={styles.container}
+      onFocus={() => {}}
+      onBlur={() => {}}
+      data-testid={`ticket-hover-${ticket.id}`}
+      data-testid-count="filter-issues"
+      ref={myRef}
+      onDoubleClick={() => {
+        showModal(
+          'ticketDetailCard',
+          <TicketDetailCard
+            projectId={projectId}
+            ticketId={ticket.id}
+            onDeletedTicket={removeTicket}
+            onSavedTicket={onSavedTicket}
+          />
+        );
+      }}
+    >
+      <div className={styles.taskInfo}>
+        <TypeEdit
+          ticketId={ticket.id}
+          value={value}
+          onChange={(option) => setValue(option)}
+          updateTicketType={updateTicketType}
+        />
+        {visible ? (
+          <input
+            type="text"
+            defaultValue={ticket.title}
+            onKeyDown={saveKeyPress}
+            className={styles.taskInput}
+            data-testid={'ticket-title-input-'.concat(ticket.id)}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          />
+        ) : (
+          <div className={styles.taskTitle} data-testid={`ticket-${ticket.id}`}>
+            {ticket.title}
+          </div>
+        )}
+        {!visible && (
+          <div className={styles.editButton}>
+            <IconButton
+              icon={<MdContentCopy size={12} />}
+              ticketId={ticket.id}
+              tooltip="Copy Link"
+              onClick={onClickCopyLink}
+            />
+            <IconButton
+              icon={<FaPen size={12} />}
+              ticketId={ticket.id}
+              tooltip="Edit"
+              onClick={() => {
+                setVisible(true);
+              }}
+            />
+          </div>
+        )}
+      </div>
+      <div className={styles.toolBar}>
+        <PriorityBtn
+          showDropDownOnTop={showDropDownOnTop}
+          ticketId={ticket.id}
+          priority={ticket.priority}
+          getBacklogDataApi={onTicketChanged}
+        />
+        <StatusBtn
+          statusId={ticket?.status}
+          ticketId={ticket?.id}
+          statusOptions={projectDetails.statuses}
+          showDropDownOnTop={showDropDownOnTop}
+          getBacklogDataApi={onTicketChanged}
+        />
+        <AssigneeBtn
+          ticketId={ticket.id}
+          assignee={ticket?.assign}
+          userList={projectDetails.users}
+          showDropDownOnTop={showDropDownOnTop}
+          getBacklogDataApi={onTicketChanged}
+        />
+        <OverFlowMenuBtn
+          ticketId={ticket.id}
+          showDropDownOnTop={showDropDownOnTop}
+          className={styles.optionBtn}
+          items={[
+            {
+              name: 'Copy issue link',
+              onClick: onClickCopyLink,
+              show: true
+            },
+            {
+              name: 'Add to Backlog',
+              onClick: onClickAddToBacklog,
+              show: Boolean(ticket.sprint?.id)
+            },
+            ...projectDetails.sprints.map((item) => {
+              return {
+                name: `Add to ${item.name}`,
+                onClick: () => onClickAddToSprint(item.id),
+                show: !ticket.sprint?.id
+              };
+            }),
+            { name: 'Delete', onClick: onClickDelete, show: true }
+          ]}
+        />
+      </div>
+    </div>
+  );
+}
+TicketItem.defaultProps = {
+  showDropDownOnTop: false
+};

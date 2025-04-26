@@ -1,0 +1,20 @@
+.jobList {
+  font-size: 18px;
+
+  .jobListHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .jobListTitle {
+      font-size: 32px;
+      line-height: 115%;
+      font-weight: 400;
+      margin-top: 15px;
+    }
+  }
+}
+
+.jobList::before{
+  font-size: 30px;
+}

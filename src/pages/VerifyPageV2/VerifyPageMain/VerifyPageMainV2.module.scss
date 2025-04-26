@@ -1,0 +1,221 @@
+$small_size: 704px;
+
+.registerMain {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin: auto;
+  a {
+    text-decoration: none;
+    color: rgb(0, 82, 204);
+  }
+
+  img {
+    margin: 40px 0 10px 0;
+    width: 80%;
+    height: 10%;
+    align-self: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto 24px;
+    width: 400px;
+    padding: 32px 40px;
+    background: rgb(255, 255, 255);
+    border-radius: 3px;
+    box-shadow: rgb(0 0 0 / 10%) 0px 0px 10px;
+    box-sizing: border-box;
+    color: rgb(94, 108, 132);
+
+    min-height: 370px;
+    h1 {
+      font-size: 16px;
+      align-self: center;
+      margin: 0px;
+      &:nth-child(2) {
+        margin-bottom: 16px;
+      }
+    }
+
+    input {
+      padding: 8px 6px;
+      height: 36px;
+      border: 2px solid #ccc;
+      margin-top: 16px;
+    }
+
+    input.email {
+      display: block;
+    }
+
+    input.password {
+      display: block;
+    }
+
+    p {
+      font-size: 12px;
+      padding: 0px;
+      align-self: center;
+
+      &:nth-child(6) {
+        font-size: 15px;
+      }
+    }
+
+    button {
+      align-items: baseline;
+      border-width: 0px;
+      border-radius: 3px;
+      display: inline-flex;
+      font-weight: 500;
+      max-width: 100%;
+      position: relative;
+      text-align: center;
+      background-color: #0052cc;
+      white-space: nowrap;
+      cursor: pointer;
+      padding: 0px 10px;
+      vertical-align: middle;
+      width: 100%;
+      justify-content: center;
+      color: white;
+      height: 40px;
+      line-height: 40px;
+
+      &:hover {
+        background-color: blue;
+      }
+    }
+
+    .btnList {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+
+      a {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: baseline;
+        border-width: 0px;
+        border-radius: 3px;
+        box-sizing: border-box;
+        font-style: normal;
+        max-width: 100%;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+        cursor: pointer;
+        vertical-align: middle;
+        width: 100%;
+        font-weight: bold;
+        color: #42526e;
+        line-height: 40px;
+        background: rgb(255, 255, 255);
+        box-shadow: rgb(0 0 0 / 20%) 1px 1px 5px 0px;
+
+        img {
+          height: 18px;
+          width: 18px;
+          margin: auto 0 auto 8px;
+          align-self: flex-start;
+        }
+        span {
+          width: 100%;
+        }
+      }
+    }
+
+    .formFooter {
+      color: rgb(107, 119, 140);
+      padding-top: 16px;
+      margin-top: 32px;
+      border-top: 1px solid rgb(213, 216, 222);
+      font-size: 14px;
+      text-align: center;
+      line-height: 20px;
+
+      a {
+        color: rgb(0, 82, 204);
+      }
+    }
+
+    .emailTip {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      img {
+        max-width: 50%;
+        height: auto;
+        align-self: center;
+      }
+      h1 {
+        align-self: center;
+      }
+    }
+  }
+
+  p {
+    color: rgb(107, 119, 140);
+    align-self: center;
+  }
+
+  .registerMainFooter {
+    width: 80%;
+    text-align: center;
+    max-width: 25%;
+    color: black;
+    @media (max-width: $small_size) {
+      width: 60%;
+    }
+  }
+  .registerMessageContainer {
+    padding-top: 50px;
+    padding-bottom: 120px;
+    text-align: center;
+
+    .verifySuccessImg {
+      max-width: 50%;
+      height: 100px;
+      align-self: center;
+      margin-bottom: 50px;
+    }
+  }
+}
+
+.loadingContainer {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  p {
+    width: 100%;
+    padding: 0px;
+    align-self: center;
+    position: absolute;
+    bottom: 15px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 20px !important;
+    font-weight: bold;
+  }
+}
+
+.errorIcon {
+  max-width: 25% !important;
+}
+.errorMessage {
+  margin-top: 120px !important;
+  font-size: 25px !important;
+}
+
+.logo {
+  width: 15% !important;
+}

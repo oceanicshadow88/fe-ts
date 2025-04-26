@@ -1,0 +1,79 @@
+@import '../../../../variables.scss';
+$bgColor: white;
+$borderColor: #ebecf0;
+$textColor: #616c82;
+$btnColorGray: rgb(100, 109, 129);
+$btnBgColorGray: rgb(224, 226, 231);
+$btnColorBlue: rgb(31, 70, 160);
+$btnBgColorBlue: rgb(224, 235, 253);
+$btnColorGreen: rgb(42, 100, 71);
+$btnBgColorGreen: rgb(232, 251, 240);
+$btnColorPurple: $primaryColor;
+$btnBgColorPurple: rgb(238, 232, 251);
+.statusBtnContainer {
+  position: relative;
+}
+.statusBtn {
+  height: 1.5rem;
+  margin-left: 10px;
+}
+
+.dropDownBtnBlue {
+  color: $btnColorBlue;
+  background-color: $btnBgColorBlue;
+}
+.dropDownBtnGreen {
+  color: $btnColorGreen;
+  background-color: $btnBgColorGreen;
+}
+.dropDownBtnGray {
+  color: $btnColorGray;
+  background-color: $btnBgColorGray;
+}
+.dropDownBtnPurple {
+  color: $btnColorPurple;
+  background-color: $btnBgColorPurple;
+}
+.btnDropDownContainer {
+  background-color: $bgColor;
+  position: absolute;
+  top: 25px;
+  right: 0;
+  display: none;
+  z-index: 100;
+  min-width: 150px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid $borderColor;
+  .btnDropDownListContainer {
+    padding: 0;
+    li {
+      list-style: none;
+      border-left: 2px solid white;
+      .dropDownBtn {
+        width: 100%;
+        background-color: transparent;
+        padding: 0;
+        justify-content: flex-start;
+        span {
+          height: 1.5rem;
+          display: flex;
+          align-items: center;
+          padding: 0px 10px;
+          border-radius: 5px;
+        }
+      }
+    }
+    li:hover {
+      border-left: 2px solid $btnColorBlue;
+      background-color: #f6f6f6;
+    }
+  }
+}
+.showDropDownOnTop {
+  top: auto;
+  bottom: 30px;
+}
+.showBtnDropDownContainer {
+  display: block;
+}

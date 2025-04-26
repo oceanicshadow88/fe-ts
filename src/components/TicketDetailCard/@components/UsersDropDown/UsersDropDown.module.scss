@@ -1,0 +1,47 @@
+.userDropDown {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-left: -2px;
+
+  .userBtn {
+    display: flex;
+    gap: 8px;
+    padding: 0;
+    background-color: transparent;
+    color: rgb(9, 30, 66);
+
+    span {
+      font-weight: 400;
+      font-size: 16px;
+    }
+  }
+
+  .userDropDownList {
+    list-style: none;
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+    padding: 10px 0;
+    border: 0.5px solid #c9d4ea;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 0;
+    width: 308px;
+    background-color: #fff;
+    color: rgb(9, 30, 66);
+
+    li {
+      height: inherit;
+      padding: 0px 10px;
+      &:hover {
+        background-color: #f0f0f0;
+        border-left: 2px solid #3563e9;
+      }
+    }
+  }
+}

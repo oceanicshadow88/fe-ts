@@ -1,0 +1,32 @@
+@use '../../../variables.scss' as *;
+
+.container {
+  position: relative;
+  .input {
+    width: 100%;
+    padding: 8px 6px;
+    background-color: rgba(0, 0, 0, 0.01);
+    outline: none;
+    border-radius: 3px;
+    border: 2px solid #dee1e6;
+    transition: 0.2s;
+    &:focus {
+      border: 2px solid $primaryColor;
+    }
+  }
+
+  .input__error {
+    border: 2px solid red;
+  }
+  .inputStatus {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.loadedEmail {
+  padding: 8px 6px;
+  font-size: 14px;
+}

@@ -1,0 +1,41 @@
+@import '../../../../../variables.scss';
+$max_size: 768px;
+
+.questionContainer {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid grey;
+}
+
+.questionContent {
+  padding: 20px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 500;
+  @media (max-width: $max_size) {
+    font-size: 16px;
+    text-align: left;
+  }
+}
+
+.btn button{
+  margin-right: 20px;
+  padding: 20px;
+  border: none;
+  background-color: #fff;
+}
+
+.btn button:hover{
+  cursor: pointer;
+}
+
+.questionAnswer {
+  margin-top: 5px;
+  padding: 20px;
+  text-align: left;
+  color: $textPrimaryColor;
+  @media (max-width: $max_size) {
+    font-size: 10px;
+    padding: 0 20px;
+  }
+}

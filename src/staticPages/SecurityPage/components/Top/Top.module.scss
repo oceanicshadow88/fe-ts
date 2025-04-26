@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+$small: 1000px;
+
+.topContainer * {
+  margin: 0;
+  padding: 0;
+}
+
+.topContainer {
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  .heading {
+    font-size: 50px;
+    padding-top: 50px;
+  }
+
+  .para {
+    font-size: 19.6px;
+    color: #494e6a;
+    margin: 21px 0px;
+  }
+
+  .blueRec {
+    position: relative;
+    bottom: 150px;
+    left: 180px;
+    .blue {
+      fill: rgb(119, 202, 229);
+      @media screen and (max-width: $small) {
+        display: none;
+      }
+    }
+  }
+
+  .yellowRec {
+    position: relative;
+    bottom: 80px;
+    right: 300px;
+    .yellow {
+      fill: #ffc63c;
+      @media screen and (max-width: $small) {
+        display: none;
+      }
+    }
+  }
+
+  .pinkCir {
+    position: relative;
+    bottom: -50px;
+    left: 300px;
+    .pink {
+      fill: #f8cae8;
+      @media screen and (max-width: $small) {
+        display: none;
+      }
+    }
+  }
+}

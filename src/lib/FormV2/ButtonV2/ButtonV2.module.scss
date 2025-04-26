@@ -1,0 +1,70 @@
+@import "../../../variables.scss";
+
+
+$transition :all .25s ease-in-out;
+
+.buttonV2{
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid $primaryColor;
+    color: $primaryColor;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    min-width: 125px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.82;
+    letter-spacing: 1.54px;
+    padding: 0px;
+    margin: 0px;
+    background-color: transparent;
+    transition: $transition;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.buttonV2:hover{
+    background-color: $primaryColor;
+    color:white;
+    cursor: pointer;
+}
+
+.buttonV2:disabled{
+    cursor: not-allowed;
+    color: rgb(154, 155, 168);
+    border-color: rgb(243, 243, 246);
+    background-color: rgb(255, 255, 255);
+}
+
+.fill{
+    background-color: $primaryColor;
+    color:white;
+    cursor: pointer;
+}
+
+.fill:hover{
+    background-color: darken($primaryColor, 20%)!important;
+}
+
+.danger{
+    color:red;
+    border: 1px solid red;
+    transition: $transition;
+}
+
+.danger:hover{
+    background-color: red;
+    color:white
+}
+
+.md{
+    height: 42px;
+}
+
+.xs{
+    height: 30px;
+}

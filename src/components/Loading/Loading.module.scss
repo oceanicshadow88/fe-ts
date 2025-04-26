@@ -1,0 +1,58 @@
+@import '../../variables.scss';
+/* Bouncing balls */
+.bounce {
+    width: 125px;
+    height: 125px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+  
+  .bounce div {
+    width: 17px;
+    height: 17px;
+    background: $primaryColor;
+    border-radius: 50%;
+    animation:bouncing 0.5s 
+      cubic-bezier(.19, .57, .3, .98) infinite alternate;
+  }
+  
+  .bounce div:nth-child(2) {
+   animation-delay: .1s;
+   opacity: .8;
+  }
+  
+  .bounce div:nth-child(3) {
+    animation-delay: .2s;
+    opacity: .6;
+  }
+  
+  .bounce div:nth-child(4) {
+    animation-delay: .3s;
+    opacity: .4;
+  }
+
+  @keyframes bouncing {
+    from{
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-100px);
+    }
+  }
+
+  .loadingContainer{
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    max-width: 1920px;
+    height: 90vh;
+  }
+
+  .loadingText{
+    width: 100%;
+    font-size: 20px;
+  }

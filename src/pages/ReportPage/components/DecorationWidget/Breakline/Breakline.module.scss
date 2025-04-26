@@ -1,0 +1,35 @@
+@import '../../../styles/variables.scss';
+
+.breakline {
+  width: $size-80 + $size-18;
+  height: 5px;
+  border-radius: 7px;
+  margin: $size-32 auto 0;
+
+  background: linear-gradient(269.97deg, $color-grey-3 0.03%, $color-grey-0 99.97%);
+}
+
+.yellow {
+  background: linear-gradient(269.97deg, $color-yellow-light 0.03%, $color-yellow-dark 99.97%);
+}
+
+.green {
+  background: linear-gradient(269.97deg, $color-green-light 0.03%, $color-green-dark 99.97%);
+}
+
+.blue {
+  background: linear-gradient(269.97deg, $color-blue-light 0.03%, $color-blue 99.97%);
+}
+
+.purple {
+  background: linear-gradient(269.97deg, $color-brand-light 0.03%, $color-brand 99.97%);
+}
+
+.pink {
+  background: linear-gradient(269.97deg, $color-pink 0.03%, $color-pink-dark 99.97%);
+}
+
+.start {
+  margin: unset;
+  margin-top: $size-32;
+}

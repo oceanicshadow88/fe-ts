@@ -1,0 +1,203 @@
+.leadDropdownMenu {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+  width: 45%;
+  label {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    color: #172b4d;
+  }
+  span {
+    font-size: 0.86em;
+    color: #6b778c;
+    font-weight: 700;
+    display: inline-block;
+  }
+  .leadDropdownContainer {
+    position: relative;
+    box-sizing: border-box;
+    margin-top: 6px;
+    .leadDropdownOpen {
+      background-color: #ffffff;
+      border-color: #4c9aff;
+      align-items: stretch;
+      border-radius: 3px;
+      border-style: solid;
+      border-width: 2px;
+      box-shadow: none;
+      cursor: default;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      min-height: 44px;
+      position: relative;
+      box-sizing: border-box;
+      padding: 0px;
+      width: 100%;
+      height: 44px;
+      max-width: 100%;
+      outline: 0px;
+      .leadInputField {
+        align-items: center;
+        display: flex;
+        flex: 1 1 0%;
+        flex-flow: row nowrap;
+        box-sizing: border-box;
+        padding: 6px 6px 6px 6px;
+        overflow: hidden;
+        max-height: 100%;
+        position: relative;
+        cursor: pointer;
+        margin-bottom: 10px;
+        .userAvatar {
+          width: 24px;
+          height: 24px;
+          display: inline-block;
+          position: relative;
+          outline: 0px;
+          margin: 2px;
+          cursor: pointer;
+        }
+        input {
+          display: block;
+          margin-left: 7px;
+          color: #091e42;
+          min-width: 0px;
+          max-width: 100%;
+          flex: 1 1 100%;
+          line-height: 1.6;
+          border: none;
+          cursor: pointer;
+          outline: none;
+        }
+        .optionToggle {
+          border: none;
+          background-color: rgb(255, 255, 255);
+          width: 30px;
+          height: 30px;
+          cursor: pointer;
+          i {
+            background-color: rgb(255, 255, 255);
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+      .leadMenu {
+        cursor: pointer;
+        background-color: rgb(255, 255, 255);
+        width: 100%;
+        height: 165px;
+        overflow-y: scroll;
+        z-index: 999;
+        ul {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          padding-left: 0;
+          border: rgb(202, 200, 200);
+          border-style: solid;
+          border-radius: 3px;
+          border-width: 1px;
+          li {
+            width: 100%;
+            button {
+              display: flex;
+              align-items: center;
+              height: 49px;
+              padding-left: 11px;
+              border: none;
+              background-color: rgb(255, 255, 255);
+              width: 100%;
+              cursor: pointer;
+              &:hover {
+                border-style: solid;
+                border-left-color: #4c9aff;
+                border-right: none;
+                border-top: none;
+                border-bottom: none;
+                background-color: rgb(244, 245, 247);
+              }
+              img {
+                width: 31px;
+                height: 31px;
+                border-radius: 50%;
+              }
+              span {
+                margin-left: 10px;
+                display: flex;
+                font-size: 16px;
+                font-weight: 400;
+                font-style: normal;
+                letter-spacing: normal;
+                text-transform: none;
+                flex: 1 1 100%;
+
+                color: rgb(23, 43, 77);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .leadInputClose {
+      background-color: white;
+      border-style: none;
+      min-height: 44px;
+      height: 44px;
+      outline: 0px;
+      align-items: center;
+      display: flex;
+      flex: 1 1 0%;
+      overflow: hidden auto;
+      max-height: 100%;
+      position: relative;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      &:hover {
+        background-color: rgb(235, 236, 240);
+        border-color: rgb(223, 225, 230);
+      }
+      img {
+        display: flex;
+        height: 24px;
+        width: 24px;
+        border-radius: 50%;
+      }
+      span {
+        margin-left: 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 16px;
+        color: rgb(23, 43, 77);
+        font-weight: 400;
+      }
+    }
+  }
+  p {
+    line-height: 16px;
+    letter-spacing: normal;
+    display: flex;
+    margin-top: 6px;
+    font-size: 12px;
+
+    font-weight: 500;
+    color: #6b778c;
+    padding: 0;
+    width: 90%;
+  }
+}
+
+@media (max-width: 400px) {
+  .leadDropdownMenu {
+    p {
+      font-size: 10px;
+      width: 100%;
+    }
+  }
+}

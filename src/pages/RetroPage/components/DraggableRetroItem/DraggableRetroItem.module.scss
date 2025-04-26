@@ -1,0 +1,103 @@
+@import '../../../../variables.scss';
+
+.card {
+  min-height: '50px';
+  box-sizing: border-box;
+  padding: 12px;
+  max-width: 270px;
+  border-radius: 15px !important;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  margin: 10px 0px;
+  box-shadow: var(
+    --ds-shadow-raised,
+    0 1px 1px rgba(23, 43, 77, 0.2),
+    0 0 1px rgba(23, 43, 77, 0.2)
+  );
+  transition: background-color 140ms ease-in-out 0s, color 140ms ease-in-out 0s;
+  background-color: var(--ds-surface-raised, #ffffff);
+  color: var(--ds-text, #172b4d);
+  filter: none;
+
+  span {
+    margin-bottom: 8px;
+    overflow-wrap: break-word;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 6px;
+
+    .tag {
+      padding: 5px 15px;
+      background-color: $primaryColor;
+      border-radius: 12px;
+      span {
+        color: #e4d6fd;
+        font-size: 12px;
+        overflow-wrap: break-word;
+        margin: 0;
+      }
+    }
+  }
+  &:hover {
+    background: #ebecf0;
+  }
+}
+
+.cardFooter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 28px;
+
+  .cardFooterLeft {
+    min-width: 0px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 4px;
+
+    img {
+      width: 16px;
+      height: 16px;
+      vertical-align: text-bottom;
+    }
+
+    span {
+      margin-top: 7px;
+      margin-left: 3px;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ds-text-subtle, #7a869a);
+    }
+  }
+
+  .cardFooterRight {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 200ms ease 0s, opacity 200ms ease 0s;
+    margin: 2px;
+
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.avatorIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}

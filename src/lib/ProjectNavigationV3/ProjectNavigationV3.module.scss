@@ -1,0 +1,45 @@
+@import '../../variables.scss';
+
+.menu {
+  list-style: none;
+  text-decoration: none;
+  display: flex;
+  border-bottom: 2px solid rgb(218, 221, 227);
+  margin: 20px;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+  .menuItem {
+    padding: 10px 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      border-bottom: 1px solid rgb(109, 111, 128);
+      cursor: pointer;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      background: transparent;
+      color: rgb(109, 111, 128);
+      border: none;
+      font-size: 14px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    svg {
+      font-size: 20px;
+      margin-right: 5px;
+    }
+  }
+
+  .active {
+    border-bottom: 2px solid $primaryColor !important;
+    button {
+      color: $primaryColor;
+    }
+  }
+}

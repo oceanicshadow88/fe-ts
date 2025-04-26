@@ -1,0 +1,121 @@
+@use '../../variables.scss' as *;
+
+$topOffset: 74px;
+$secondaryColor: #1c2a4c;
+// breakpoints
+$md: 770px;
+$lg: 920px;
+$xl: 1280px; 
+
+.container {
+  width: 100%;
+  max-width: $xl;
+  margin: $topOffset auto 0 auto;
+  padding-top: 1rem;
+  text-align: center;
+}
+
+.header {
+  font-size: 1.5rem;
+  color: $secondaryColor;
+}
+
+.roleTtitle {
+  color: $secondaryColor;
+}
+
+.line {
+  width: 5rem;
+  height: 0.125rem;
+  border: none;
+  background-color: $primaryColor;
+}
+
+.peopleGrid {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 1.5rem;
+}
+
+.personImage {
+  height: 5rem;
+  aspect-ratio: 1 / 1;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: 50% 20%;
+  object-position: 50% 20%;
+  border-radius: 50%;
+  border: 1px solid $primaryColor;
+  pointer-events: none;
+}
+
+.name {
+  margin: 0.5rem;
+  color: $secondaryColor;
+  text-transform: capitalize;
+}
+
+.description {
+  font-size: 0.8rem;
+  margin: 0;
+  display: flex;
+  gap: 0.2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.role {
+  margin: 0;
+  font-size: 0.8rem;
+  color: $primaryColor;
+  text-transform: capitalize;
+}
+
+.link {
+  color: $secondaryColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:visited {
+    color: $secondaryColor;
+  }
+}
+
+.icon {
+  font-size: 0.8rem;
+}
+
+@media screen and (min-width: $md) {
+  .personImage {
+    height: 8rem;
+  }
+  .peopleGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .description,
+  .role {
+    font-size: 1rem;
+  }
+
+  .icon {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (min-width: $lg) {
+  .peopleGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .description,
+  .role {
+    font-size: 1.2rem;
+  }
+
+  .icon {
+    font-size: 1.2rem;
+  }
+}

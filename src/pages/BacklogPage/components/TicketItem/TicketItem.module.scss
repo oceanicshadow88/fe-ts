@@ -1,0 +1,105 @@
+$bgColor: white;
+$borderColor: #ebecf0;
+$textColor: #616c82;
+$btnColorGray: rgb(100, 109, 129);
+$btnBgColorGray: rgb(224, 226, 231);
+$btnColorBlue: rgb(31, 70, 160);
+$btnBgColorBlue: rgb(224, 235, 253);
+$btnColorGreen: rgb(42, 100, 71);
+$btnBgColorGreen: rgb(232, 251, 240);
+$btHoverBg: rgb(245, 245, 247);
+
+@mixin ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: scroll;
+}
+
+.container {
+  background-color: $bgColor;
+  box-sizing: border-box;
+  border: 1px solid $borderColor;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  height: 40px;
+  font-size: 15px;
+  &:hover {
+    .editButton {
+      visibility: visible;
+    }
+    .optionBtn {
+      visibility: visible;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: white;
+    margin-bottom: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: 13px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  .toolBar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-right: 10px;
+    width: 268px;
+  }
+  .taskInfo {
+    display: flex;
+    width: calc(100% - 268px);
+    height: 100%;
+
+    .taskIdContainer {
+      width: 100%;
+      max-width: 70px;
+      display: flex;
+      align-items: center;
+      color: $textColor;
+    }
+    .taskInput {
+      width: 70%;
+      font-size: 15px;
+      outline-color: rgb(77, 144, 254);
+      outline-style: auto;
+      outline-width: 5px;
+      margin-left: 7px;
+      padding: 0 5px;
+    }
+    .taskTitle {
+      @include ellipsis;
+      display: flex;
+      align-items: center;
+      margin: 0px 10px;
+    }
+  }
+}
+
+.taskType {
+  flex-shrink: 0;
+  color: $textColor;
+  @include ellipsis;
+}
+
+.editButton {
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  gap: 10px;
+}

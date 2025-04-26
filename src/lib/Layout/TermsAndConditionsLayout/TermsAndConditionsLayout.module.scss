@@ -1,0 +1,136 @@
+@import '../../../variables.scss';
+
+$headingTextColor: white;
+$lightColor: $primaryColor;
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: $primaryColor;
+  width: 100%;
+  position: relative;
+  overflow: clip;
+  h1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: $headingTextColor;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 47px;
+    margin: 100px 0 60px;
+    &::after {
+      content: '';
+      border-bottom: 4px solid $lightColor;
+      width: 106px;
+      margin: 0;
+    }
+  }
+
+  @media (min-width: 375px) {
+    h1 {
+      font-size: 30px;
+    }
+  }
+
+  @media (min-width: 425px) {
+    h1 {
+      font-size: 33px;
+      margin: 129px 0 100px;
+      &::after {
+        content: '';
+        border-bottom: 4px solid $lightColor;
+        width: 106px;
+        margin: 5px 0 0 0;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 36px;
+      margin: 135px 0 105px;
+      &::after {
+        margin: 10px 0 0 0;
+      }
+    }
+  }
+  @media (min-width: 1024px) {
+    h1 {
+      font-size: 38px;
+    }
+  }
+  @media (min-width: 1440px) {
+    h1 {
+      font-size: 40px;
+      margin: 156px 0 117px;
+      &::after {
+        margin: 15px 0 0 0;
+      }
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 75px;
+    background: transparent;
+    min-height: 65vh;
+    .detailedInfo {
+      display: flex;
+      margin: auto;
+      z-index: 100;
+      background-color: #ffffff;
+      box-shadow: rgb(140 152 164 / 18%) 0px 10px 40px 10px;
+      border-radius: 8px;
+      padding: 64px 50px;
+      max-width: 1200px;
+      gap: 10%;
+      @media (max-width: 1024px) {
+        max-width: 880px;
+      }
+      @media (max-width: 768px) {
+        max-width: 625px;
+      }
+      @media (max-width: 600px) {
+        gap: 8%;
+      }
+      @media (max-width: 425px) {
+        max-width: 300px;
+      }
+      @media (max-width: 360px) {
+        max-width: 200px;
+      }
+    }
+  }
+}
+
+.bgImg {
+  position: absolute;
+  bottom: 100px;
+  right: 0;
+  z-index: 0;
+  transform: scaleX(-1);
+}
+
+.bgImg2 {
+  position: absolute;
+  top: 150px;
+  left: 0;
+  width: 350px;
+  z-index: 0;
+}
+
+.childrenContainer {
+  padding: 50px;
+  width: 65%;
+  @media (max-width: 1280px) {
+    padding: 0;
+  }
+  @media (max-width: 425px) {
+    width: 50%;
+  }
+}

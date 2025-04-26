@@ -1,0 +1,98 @@
+@import '../../../styles/variables.scss';
+
+.playerWrapper {
+  height: auto;
+  // width: 100%; MUST NOT Have
+  max-width: 960px;
+  display: flex;
+  justify-content: center;
+  // padding-inline: $size-18;
+  position: relative;
+
+  &WithBg::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 116%;
+    height: 116%;
+    z-index: -1;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background: url('https://clickup.com/images/collaboration-detection/bg__with-dotted.svg')
+      no-repeat top left/cover;
+  }
+
+  &WithDiamond {
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 60%;
+      width: 600px;
+      height: 600px;
+      z-index: 0;
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    &Yellow::after {
+      background: url('https://clickup.com/images/diamonds/yellow-diamond.svg') no-repeat top
+        left/contain;
+    }
+
+    &Blue::after {
+      background: url('https://clickup.com/images/diamonds/blue-diamond.svg') no-repeat top
+        left/contain;
+    }
+
+    &Purple::after {
+      background: url('https://clickup.com/images/diamonds/purple-diamond.svg') no-repeat top
+        left/contain;
+    }
+
+    &Pink::after {
+      background: url('https://clickup.com/images/diamonds/pink-diamond.svg') no-repeat top
+        left/contain;
+    }
+
+    &Green::after {
+      background: url('https://clickup.com/images/diamonds/green-diamond.svg') no-repeat top
+        left/contain;
+    }
+
+    &Default::after {
+      background: url('https://clickup.com/images/diamonds/purple-diamond.svg') no-repeat top
+        left/contain;
+    }
+
+    &PositionLeft::after {
+      left: 95%;
+    }
+
+    &PositionRight::after {
+      left: 8%;
+    }
+
+    &PositionDefault::after {
+      left: 40%;
+    }
+  }
+
+  .videoPlayer {
+    max-width: 100%;
+    width: 960px;
+    border-radius: 5px;
+    box-shadow: 0 1px 11px rgb(0 0 0 / 15%);
+    position: relative;
+    z-index: 1;
+    transition: 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}

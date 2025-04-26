@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  width: 336px;
+  margin: 0px 0px 24px;
+  align-items: center;
+  background-color: var(--ds-background-input, #fafbfc);
+  border-color: var(--ds-border, #dfe1e6);
+  color: var(--ds-text, #091e42);
+  cursor: text;
+  border-radius: 3px;
+  border-width: 2px;
+  box-sizing: border-box;
+  flex: 1 1 100%;
+  font-size: 14px;
+  justify-content: space-between;
+  transition: background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
+  overflow-wrap: break-word;
+  vertical-align: top;
+}
+
+#input {
+  margin-right: 8px;
+  padding: 4px 6px;
+  height: 2em;
+  background: url("../../../assets/search-line.svg") no-repeat right 55%;
+  background-size: 13px;
+}
+
+#input::placeholder {
+  font-weight: 500;
+  color: rgb(123, 131, 142);
+}

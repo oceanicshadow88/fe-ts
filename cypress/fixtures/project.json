@@ -1,0 +1,35 @@
+{
+  "id": "62e8ea9d983db25c73a8b826",
+  "name": "Evan",
+  "key": "",
+  "projectLeadId": {
+    "email": "ldwjser@gmail.com",
+    "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+    "createdAt": "2022-07-30T10:11:14.303Z",
+    "isAdmin": 1,
+    "projectsRoles": [],
+    "updatedAt": "2022-08-09T10:32:42.124Z",
+    "name": "Evan",
+    "abbreviation": "",
+    "jobTitle": "",
+    "location": "",
+    "userName": "",
+    "id": "62e503c2741c5a203c826bc4"
+  },
+  "ownerId": null,
+  "assigneeId": "1",
+  "boardId": "62e8ea9d983db25c73a8b820",
+  "iconUrl": "",
+  "star": false,
+  "isDelete": false,
+  "shortcut": [
+    {
+      "name": "1",
+      "shortcutLink": "https://www.migration.tas.gov.au/",
+      "id": "62fdfa98313b3859ea16982e"
+    }
+  ],
+  "createdAt": "2022-08-02T09:13:01.507Z",
+  "updatedAt": "2022-08-18T08:38:48.283Z",
+  "__v": 0
+}

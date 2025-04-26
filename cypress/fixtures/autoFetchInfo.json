@@ -1,0 +1,20 @@
+{
+  "user": {
+    "email": "coffeetsang20@gmail.com",
+    "isAdmin": 1,
+    "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+    "paymentHistoryId": [],
+    "subscriptionHistoryId": [],
+    "stripePaymentIntentId": null,
+    "invoiceHistory": [],
+    "productHistory": [],
+    "tenants": ["64d7075e2952bf46f4ea87de"],
+    "projectsRoles": [],
+    "createdAt": "2023-08-14T05:46:53.924Z",
+    "updatedAt": "2023-08-14T05:50:02.248Z",
+    "name": "techscrum",
+    "id": "64d9bfcd6e31d8b97a99a745"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDliZmNkNmUzMWQ4Yjk3YTk5YTc0NSIsImlhdCI6MTY5MTk5MjM4OCwiZXhwIjoxNjkyMTY1MTg4fQ.qndz9qRy7of3goIijnZDAn-dJ8XsYz4wPkkznw7yQdc",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDliZmNkNmUzMWQ4Yjk3YTk5YTc0NSIsInJlZnJlc2hUb2tlbiI6IlE2cmNYcTZEdksiLCJpYXQiOjE2OTE5OTIzODgsImV4cCI6MTY5MzI4ODM4OH0.NrT49kA2T47G2IsyjJf67mzKDRoiaJ8lkSRPiJKx4XI"
+}

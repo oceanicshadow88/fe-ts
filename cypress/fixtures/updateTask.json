@@ -1,0 +1,37 @@
+{
+  "title": "test change",
+  "tags": [],
+  "comments": [],
+  "status": {
+    "id": "63565445d377d106f9a8b609",
+    "name": "in progress",
+    "slug": "in-progress",
+    "order": 1
+  },
+  "projectId": "63565445d377d106f9a8b611",
+  "boardId": "63565445d377d106f9a8b610",
+  "sprintId": null,
+  "description": "",
+  "storyPoint": 0,
+  "dueAt": "2022-10-24T09:01:49.927Z",
+  "reporterId": {
+    "id": "632fc37a89d19ed1f57c7ab1",
+    "email": "joe.hz.au@gmail.com",
+    "avatarIcon": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+    "name": "Joe"
+  },
+  "typeId": {
+    "id": "631d94d08a05945727602cd1",
+    "slug": "story",
+    "name": "Story",
+    "createdAt": "2022-09-11T07:57:04.258Z",
+    "updatedAt": "2022-09-11T07:57:04.258Z",
+    "__v": 0
+  },
+  "attachmentUrls": [],
+  "createdAt": "2022-10-24T09:01:57.330Z",
+  "updatedAt": "2023-02-20T01:23:46.503Z",
+  "assignId": null,
+  "priority": "Medium",
+  "id": "63565485d377d106f9a8b643"
+}

@@ -1,0 +1,19 @@
+$children-min-width: 375px;
+$children-min-height: 500px;
+$nav-height: 56px;
+
+.container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background: #f6f8f9;
+
+}
+
+.childrenContainer {
+  width: 100%;
+  min-width: $children-min-width;
+  height: 100%;
+  min-height: $children-min-height;
+  padding-left: 72px;
+}

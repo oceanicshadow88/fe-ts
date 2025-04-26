@@ -1,0 +1,126 @@
+.popup-container {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  background-color: #fff;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 30px rgb(0 0 0 / 20%);
+  border-color: #fff;
+  z-index: 10;
+  width: 80%;
+  max-width: 800px;
+  margin: auto;
+  border-radius: 12px;
+
+  .err-msg-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row-reverse;
+    p {
+      border-radius: 10px;
+      padding: 10px 10px;
+      display: inline-block;
+      border: 1px #e03131 solid;
+      color: #e03131;
+    }
+  }
+
+  .roleName-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    p {
+      width: 100px;
+    }
+
+    input {
+      background-color: var(--ds-background-input, #fafbfc);
+      border-color: var(--ds-border, #dfe1e6);
+      color: var(--ds-text, #091e42);
+      cursor: text;
+      border-radius: 3px;
+      border-width: 2px;
+      border-style: solid;
+      box-sizing: border-box;
+      font-size: 14px;
+      max-width: 100%;
+      overflow: hidden;
+      transition: background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
+      overflow-wrap: break-word;
+      pointer-events: auto;
+      padding: 8px 6px;
+    }
+  }
+
+  .form-container {
+    width: 90%;
+    max-width: 750px;
+    margin: 50px auto;
+
+    .btnContainer {
+      display: flex;
+      gap: 20px;
+      justify-content: flex-start;
+      flex-direction: row-reverse;
+      .btn {
+        margin: 3px;
+        align-items: center;
+        border-style: none;
+        border-radius: 8px;
+        display: inline-flex;
+        cursor: pointer;
+        height: 44px;
+        padding: 0px auto;
+        width: 80px;
+        justify-content: center;
+        transition: all 0.3s;
+        box-sizing: border-box;
+      }
+
+      .add {
+        background: #0052cc;
+        color: #ffffff;
+      }
+
+      .add:hover {
+        background-color: #0042a3;
+      }
+
+      .cancel {
+        background-color: white;
+        color: gray;
+        border: 2px gray solid;
+      }
+
+      .cancel:hover {
+        background-color: #e03131;
+        color: white;
+        border-style: none;
+      }
+    }
+
+    .operation-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      white-space: nowrap;
+      word-break: keep-all; /* 不换行 */
+      border-top: 2px #dfe1e6 solid;
+
+      p {
+        display: inline-block;
+        width: 100px;
+        text-transform: capitalize;
+      }
+
+      .permission-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        box-sizing: border-box;
+      }
+    }
+  }
+}

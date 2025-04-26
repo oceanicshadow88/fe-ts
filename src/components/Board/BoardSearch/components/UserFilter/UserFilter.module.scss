@@ -1,0 +1,70 @@
+.BacklogFilterArea {
+  margin-left: 20px;
+  display: flex;
+  cursor: pointer;
+  .backlogUser {
+    z-index: 3;
+    .backlogUserIconButton {
+      background: none;
+      border: none;
+
+      .backlogUserIconContainer {
+        position: relative;
+        list-style: none;
+      }
+
+      .backlogRestUsers {
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        background-color: #dfe1e6;
+        color: #7a869a;
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        margin: 2px;
+      }
+
+      .backlogRestUsers:hover {
+        cursor: pointer;
+      }
+    }
+
+    .backlogRestUsersDropdownContainer {
+      position: absolute;
+      box-shadow: rgb(9 30 66 / 8%) 0px 0px 0px 1px, rgb(9 30 66 / 8%) 0px 2px 1px,
+        rgb(9 30 66 / 31%) 0px 0px 20px -6px;
+      max-width: 300px;
+      margin-top: 5px;
+
+      .backlogRestUsersSelectButton {
+        border: none;
+        background-color: white;
+        width: 100%;
+
+        .backlogRestUsersDropdownDetailContainer {
+          display: flex;
+          align-items: center;
+          padding: 5px;
+          .backlogCheckBoxIcon {
+            font-size: 20px;
+          }
+          .backlogRestUsersDropdownAvatar {
+            height: 25px;
+            border-radius: 100%;
+            margin-left: 10px;
+          }
+          .backlogRestUsersDropdownName {
+            margin-left: 10px;
+          }
+        }
+      }
+
+      .backlogRestUsersSelectButton:hover {
+        cursor: pointer;
+        background-color: #dfe1e6;
+      }
+    }
+  }
+}

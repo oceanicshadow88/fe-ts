@@ -1,0 +1,17 @@
+@import '../../../styles/variables.scss';
+@import '../Text.module.scss';
+
+.paragraph {
+  color: $color-grey-1;
+  font-size: $size-20;
+  line-height: $size-30;
+
+  @media screen and (max-width: 768px) {
+    font-size: $size-16;
+    line-height: $size-24;
+  }
+}
+
+.centerText {
+  text-align: center;
+}

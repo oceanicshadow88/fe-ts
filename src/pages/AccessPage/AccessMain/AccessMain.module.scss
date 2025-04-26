@@ -1,0 +1,153 @@
+:root {
+  --local-dynamic-table-width: 35%;
+  --local-dynamic-table-text-color: var(--ds-text-subtlest, #5e6c84);
+  --local-dynamic-table-hover-bg: var(--ds-background-input, #fafbfc);
+  --local-dynamic-table-highlighted-bg: var(--ds-background-brand, #deebff);
+  --local-dynamic-table-hover-highlighted-bg: var(--ds-background-brand-hovered, #b3d4ff);
+  --local-dynamic-table-row-focus-outline: var(--ds-border-focused, #4c9aff);
+}
+
+.container {
+  margin-bottom: 24px;
+  position: relative;
+  border-collapse: collapse;
+  display: flex;
+  flex-direction: column;
+}
+
+.container table:first-child {
+  margin-top: 0;
+  border-collapse: collapse;
+}
+
+.container table thead,
+.container tbody {
+  border-bottom: 2px solid var(--ds-border, var(--ds-border, #dfe1e6));
+}
+
+.container tbody:hover {
+  background-color: #fafbfc;
+}
+
+.container table thead tr th {
+  padding: 4px 8px;
+  border: none;
+  box-sizing: border-box;
+  font-size: 12px;
+  font-weight: 600;
+  position: relative;
+  text-align: left;
+  vertical-align: top;
+  color: var(--ds-text-subtlest, var(--local-dynamic-table-text-color));
+  width: var(--local-dynamic-table-width);
+}
+
+.container table thead tr th:first-of-type {
+  padding-left: 0px;
+}
+
+.container td {
+  width: var(--local-dynamic-table-width);
+  overflow: hidden;
+  border: none;
+  padding: 4px 8px;
+  text-align: left;
+}
+
+.container td:first-of-type {
+  padding-left: 0px;
+}
+
+.nameItem {
+  border-radius: 3px;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  display: flex;
+  padding: 4px;
+  text-align: left;
+  text-decoration: none;
+  width: 100%;
+  align-items: center;
+}
+
+.avatar {
+  background-image: url(https://secure.gravatar.com/avatar/6bae915…?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEL-3.png);
+  border-radius: 50%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 32px;
+  width: 32px;
+}
+
+.memberName {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  min-width: 0px;
+  max-width: 100%;
+  padding-left: 8px;
+}
+
+.buttonsLayout {
+  display: flex;
+  flex-direction: row;
+}
+
+.roleButton {
+  max-width: 63%;
+  border-width: 0px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: inline-flex;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  line-height: 2.28571em;
+  padding: 0px 10px;
+  color: var(--ds-text, #3e4e68) !important;
+  transition: opacity 0.3s ease 0s;
+  margin: 0px 2px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: var(--ds-background-neutral, rgba(9, 30, 66, 0.04));
+}
+
+.roleButton:hover {
+  background: #efefef;
+  text-decoration: inherit;
+}
+
+.removeButton {
+  border-width: 0px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: inline-flex;
+  font-size: inherit;
+  font-style: normal;
+  font-family: inherit;
+  font-weight: 500;
+  max-width: 100%;
+  white-space: nowrap;
+  background: none;
+  cursor: pointer;
+  line-height: inherit;
+  justify-content: center;
+  color: var(--ds-link, #0052cc) !important;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.removeButton:hover {
+  text-decoration: underline;
+  transition-duration: 0s, 0.15s;
+  color: var(--ds-link, #0065ff) !important;
+}
+
+.removeButton span {
+  transition: opacity 0.3s ease 0s;
+  font-weight: 600;
+}

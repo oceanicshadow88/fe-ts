@@ -1,0 +1,56 @@
+.head {
+  border-bottom-color: rgb(231,231,231);
+  font-family:  "Poppins",sans-serif;
+  font-size: 20px;
+  height: 217.695px;
+  display: table-header-group;
+}
+
+.planRow {
+  display: table-row;
+  height: 218.7px;
+  width: 1160px;
+  vertical-align: top;
+  .planHeader {
+    width: 360px;
+  }
+  th {
+    width: 200px;
+    
+    span {
+      display: block;
+      margin: 20px 0 20px;
+      color:rgba(145, 145, 161);
+      font-family: "Poppins",sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+    }
+
+    .action {
+      width: 145px; 
+      height: 58px; 
+    }
+  }
+
+}
+
+.action {
+  width: 218.51px;
+  height: 57.49px;
+  border-radius: 30px;
+  border: 1px solid rgb(221, 42, 59);
+  background-color: rgba(221, 42, 59, 0);
+  text-decoration-color: rgb(221, 42, 59);
+  text-decoration-style: solid;
+  font-family: "Poppins",sans-serif;
+  color: rgb(221, 42, 59);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.action:hover {
+  background-color: rgb(221, 42, 59);
+  color: white;
+}
+

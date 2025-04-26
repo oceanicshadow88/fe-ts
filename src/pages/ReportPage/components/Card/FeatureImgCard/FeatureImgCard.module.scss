@@ -1,0 +1,63 @@
+@import '../../../styles/variables.scss';
+.mainWrapper {
+  padding: $size-35 $size-45;
+  position: relative;
+  background: #fff;
+  box-shadow: 0 15px 45px rgb(16 30 54 / 15%);
+  border-radius: 4px;
+
+  align-self: stretch;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @media screen and (max-width: 768px) {
+    margin-bottom: $size-70; // this is in fact against my design principles, just for a quick fix
+  }
+
+  &::before {
+    content: '';
+    inset-block: 0;
+    left: 0;
+    width: 5px;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+    position: absolute;
+
+    background-color: $color-yellow-dark;
+  }
+
+  &Green::before {
+    background-color: $color-green;
+  }
+
+  &Pink::before {
+    background-color: $color-pink;
+  }
+
+  &Brand::before {
+    background-color: $color-brand;
+  }
+
+  &Blue::before {
+    background-color: $color-blue;
+  }
+
+  &Default::before {
+    background-color: $color-grey-2;
+  }
+
+  .cardImgWrapper {
+    width: 100%;
+    margin-bottom: $size-32;
+    margin-top: -$size-70;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: auto;
+      display: block;
+    }
+  }
+}

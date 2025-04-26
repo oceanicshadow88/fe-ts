@@ -1,0 +1,13 @@
+.labelBackground{
+    background-image: linear-gradient(-90deg,#e907ef,#6126e6);
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: skewY(4deg);
+    transform-origin: top left;
+    width: 100%;
+    z-index: -10;
+}

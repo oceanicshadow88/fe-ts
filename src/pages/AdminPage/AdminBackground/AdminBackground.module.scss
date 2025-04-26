@@ -1,0 +1,23 @@
+$maxSize: 1200px;
+$minSize:704px;
+
+.registerBackground {
+  background-image: url(./default_left.svg), url(./default_right.svg);
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, fixed;
+  background-size: 368px, 368px;
+  background-position: left bottom, right bottom;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: rgb(250, 251, 252);
+
+  @media(max-width: $maxSize){
+    background-size: calc(((100vw - 400px) / 2) - 32px), calc(((100vw - 400px) / 2) - 32px), cover;
+  }
+
+  @media(max-width: $minSize){
+    display:none;
+  }
+}

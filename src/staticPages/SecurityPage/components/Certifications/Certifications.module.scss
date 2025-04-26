@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+$small: 1000px;
+
+.certContainer * {
+  margin: 0;
+  padding: 0;
+}
+
+.certContainer {
+  background-color: white;
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+
+  @media screen and (max-width: $small) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .certDesc {
+    width: 30%;
+    margin: 30px;
+
+    @media screen and (max-width: $small) {
+      width: 80%;
+    }
+
+    .descText {
+      padding-top: 30px;
+    }
+
+    .descSpan {
+      padding-top: 30px;
+
+      .isoLink {
+        padding-right: 1.8em;
+        text-decoration: none;
+        color: #4461d7;
+      }
+    }
+
+    .learnMoreButton {
+      background-color: #4461d7;
+      color: white;
+      border: none;
+      padding: 1.1rem 1.4rem;
+      border-radius: 8px;
+      margin-top: 30px;
+      font-size: 15px;
+    }
+
+    .learnMoreButton:hover {
+      cursor: pointer;
+    }
+  }
+
+  .certImgs {
+    width: 40%;
+    margin: 30px;
+
+    @media screen and (max-width: $small) {
+      width: 80%;
+    }
+
+    .certImg {
+      padding: 35px;
+
+      @media screen and (max-width: $small) {
+        height: 100px;
+      }
+    }
+  }
+}

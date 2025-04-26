@@ -1,0 +1,168 @@
+$header-text-color: #c9d4ea;
+$dropdown-container-shadow: rgb(9 30 66 / 25%) 0px 4px 8px -2px, rgb(9 30 66 / 31%) 0px 0px 1px;
+@mixin titleStyle {
+  font-size: 32px;
+  background-color: rgb(255, 255, 255);
+  border: none;
+  font-weight: 700;
+  line-height: 37.5px;
+  &:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(9, 30, 66, 0.54);
+  box-sizing: border-box;
+  z-index: 100;
+  margin: auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 742px;
+  gap: 24px;
+  height: 90vh;
+  @media (max-width: 280px) {
+    height: 25%;
+  }
+  width: 65%;
+  min-width: 350px;
+  margin: auto;
+  margin-top: 3%;
+  padding: 32px 18px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 3px;
+  overflow-y: scroll;
+  box-shadow: rgb(9 30 66 / 8%) 0px 0px 0px 1px, rgb(9 30 66 / 8%) 0px 2px 1px,
+    rgb(9 30 66 / 31%) 0px 0px 20px -6px;
+  color: rgb(9, 30, 66);
+  .ticketHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 24px;
+    color: $header-text-color;
+    .ticketTypeSection {
+      display: flex;
+      align-items: center;
+    }
+    .actionMenu {
+      display: flex;
+      position: relative;
+      button {
+        border-width: 0px;
+        background-color: transparent;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        color: $header-text-color;
+        img {
+          width: 16px;
+          height: 16px;
+        }
+        &:hover {
+          background-color: rgb(9 30 66 / 10%);
+        }
+      }
+      .dropdownContainer {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        right: 40px;
+        z-index: 100;
+        border-radius: 3px;
+        box-shadow: $dropdown-container-shadow;
+        padding: 10px;
+      }
+    }
+  }
+}
+
+.container::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 3px;
+}
+
+.container::-webkit-scrollbar:hover {
+  width: 8px;
+  background-color: #f5f5f5;
+  border-radius: 3px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.ticketTitleContainer {
+  padding: 0 24px;
+  margin-bottom: -8px;
+  font-size: 14px;
+  input {
+    @include titleStyle;
+  }
+  button {
+    @include titleStyle;
+  }
+}
+
+.detailsContainer {
+  padding: 0 24px;
+}
+
+.ticketDetailsSession {
+  padding: 0 24px;
+  display: flex;
+  gap: 64px;
+}
+
+.ticketDetailsContent {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  grid-template-rows: repeat(7, minmax(40px, auto));
+  grid-auto-flow: column;
+  column-gap: min(64px, 100%);
+  color: rgb(9, 30, 66);
+  .ticketDetailTagItem {
+    display: flex;
+    height: 100%;
+    padding-top: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    gap: 18px;
+  }
+  .ticketDetailInfoItem {
+    display: flex;
+    height: 100%;
+    border-radius: 4px;
+    padding: 0 11px;
+    color: #091e42;
+
+    &:hover {
+      background-color: #ebecf0;
+    }
+  }
+  .ticketDetailInfoLabel {
+    color: rgb(9, 30, 66);
+    display: flex;
+    height: 100%;
+    border-radius: 4px;
+    justify-content: center;
+    padding-top: 12px;
+  }
+}

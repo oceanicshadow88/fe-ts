@@ -1,0 +1,30 @@
+@import '../../../variables.scss';
+
+.buttonGetStart {
+  text-transform: capitalize;
+  outline: 0;
+  cursor: pointer;
+  margin: 25px 0;
+  position: relative;
+  font: 800 14px/16px 'Roboto', sans-serif;
+  min-width: 138px;
+  max-width: fit-content;
+  width: 100%;
+  height: 50px;
+  background: #7b68ee;
+  border-radius: 4px;
+  box-shadow: 0 10px 25px rgb(123 104 238 / 50%);
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  padding: 2px 30px 0;
+  color: #fff;
+  border: 1px solid #7b68ee;
+  transition: 0.2s;
+  &:hover {
+    background: #5c4dbc;
+    border: 1px solid #5c4dbc;
+  }
+}

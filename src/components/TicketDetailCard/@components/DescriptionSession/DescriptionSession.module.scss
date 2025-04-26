@@ -1,0 +1,28 @@
+.detailsContainer {
+  padding: 0 24px;
+}
+.descriptionArea {
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+.description {
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 5px;
+  cursor: pointer;
+
+  font-size: 16px;
+  margin: 0 5px 0 -5px;
+  color: rgb(9, 30, 66);
+
+  &:hover {
+    background-color: #f1f2f4;
+  }
+}
+
+ol,
+ul {
+  list-style-position: inside;
+}

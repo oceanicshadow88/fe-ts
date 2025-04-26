@@ -1,0 +1,30 @@
+[
+  {
+    "id": "6358beaba662585de5245935",
+    "name": "to do",
+    "slug": "to-do",
+    "order": 0,
+    "board": "6358beaba662585de524593d"
+  },
+  {
+    "id": "6358beaba662585de5245936",
+    "name": "in progress",
+    "slug": "in-progress",
+    "order": 1,
+    "board": "6358beaba662585de524593d"
+  },
+  {
+    "id": "6358beaba662585de5245937",
+    "name": "review",
+    "slug": "review",
+    "order": 2,
+    "board": "6358beaba662585de524593d"
+  },
+  {
+    "id": "6358beaba662585de5245938",
+    "name": "done",
+    "slug": "done",
+    "order": 3,
+    "board": "6358beaba662585de524593d"
+  }
+]

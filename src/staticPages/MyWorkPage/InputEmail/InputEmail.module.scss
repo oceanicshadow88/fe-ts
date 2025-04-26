@@ -1,0 +1,34 @@
+@import '../base.scss';
+@import '../../../variables.scss';
+
+.inputEmail {
+  outline: 0;
+  font: 400 14px/16px 'Roboto', sans-serif;
+  color: #4a4a4a;
+  max-height: 50px;
+  padding: 20px 0px 18px 46px;
+  background: url(https://clickup.com/images/icons/v2/letter.svg) no-repeat 17px 18px/16px 16px,
+    #fff;
+  border-radius: 4px;
+  max-width: 360px;
+  width: 100%;
+  border: 0;
+  box-shadow: 0 10px 25px rgb(0 0 0 / 15%);
+  border-left: 5px solid #fd71af;
+  @include borderBox;
+  &::placeholder {
+    color: #b9bec7;
+  }
+  &:-ms-input-placeholder {
+    color: #b9bec7;
+  }
+  &::-ms-input-placeholder {
+    color: #b9bec7;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .inputEmail {
+    width: 80%;
+  }
+}

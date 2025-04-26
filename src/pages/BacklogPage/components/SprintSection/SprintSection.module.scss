@@ -1,0 +1,95 @@
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sprintContainer {
+  background-color: #e6e6e7;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.heading {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  align-items: center;
+  -moz-column-gap: 0.5rem;
+  column-gap: 0.5rem;
+  h1 {
+    font-size: 1rem;
+    font-weight: 700;
+    display: inline;
+    @include ellipsis;
+  }
+
+  .dateAndIssueCount {
+    display: flex;
+    .issueCount {
+      margin-left: 10px;
+      @include ellipsis();
+    }
+    .date {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      p {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.buttonRow {
+  justify-content: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  background-color: #f5f4f5;
+  color: #646d81;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ebecf0;
+  }
+}
+
+.formField {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  padding-left: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background-color: white;
+  border: 1px solid rgb(2, 87, 255);
+  .input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 15px;
+  }
+}

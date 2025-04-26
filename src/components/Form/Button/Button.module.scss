@@ -1,0 +1,33 @@
+$bgColor: #e0e2e8;
+$textColor: #626d83;
+$hoverBgColor: #d5d8dd;
+
+.buttonContainer {
+  height: 2rem;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: none;
+  border-radius: 0.2rem;
+  outline: none;
+  background-color: $bgColor;
+  color: $textColor;
+  cursor: pointer;
+
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .buttonText {
+    font-weight: 700;
+    white-space: nowrap;
+    margin-right: 5px;
+  }
+}
+
+.rowReversed {
+  flex-direction: row-reverse;
+}

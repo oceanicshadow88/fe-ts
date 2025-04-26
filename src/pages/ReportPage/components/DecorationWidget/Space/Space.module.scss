@@ -1,0 +1,28 @@
+@import '../../../styles/variables.scss';
+.space {
+  width: 100%;
+
+  &x1 {
+    height: $size-12;
+  }
+
+  &x2 {
+    height: $size-24;
+  }
+
+  &x3 {
+    height: $size-35;
+  }
+
+  &x4 {
+    height: $size-45;
+  }
+
+  &x5 {
+    height: $size-55;
+  }
+
+  &x6 {
+    height: $size-70;
+  }
+}

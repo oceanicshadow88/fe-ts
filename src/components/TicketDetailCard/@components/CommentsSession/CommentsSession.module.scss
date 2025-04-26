@@ -1,0 +1,72 @@
+$primary-color: #c9d4ea;
+$mention-color: #d4eaff;
+$primary-font-weight: 500;
+
+.commentItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.commentsUser {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+}
+
+.commentsUserInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeAgo {
+  color: $primary-color;
+  font-weight: $primary-font-weight;
+}
+
+.commentsContent {
+  span[data-type='mention'] {
+    padding: 4px 12px;
+    border-radius: 4px;
+    background-color: $mention-color;
+  }
+
+  ol,
+  ul {
+    list-style-position: inside;
+  }
+}
+
+.commentsButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.commentsButtons button {
+  background-color: transparent;
+  border: none;
+  color: $primary-color;
+  font-weight: $primary-font-weight;
+  cursor: pointer;
+
+  &:hover {
+    background-color: transparent;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+}
+
+.commentInputDisactive {
+  display: flex;
+  border: solid 1px rgb(201, 212, 234);
+  color: rgb(173, 179, 193);
+  border-radius: 4px;
+  background-color:#fff;
+  padding: 12px 20px ;
+  width: 100%;
+  height: 90px;
+}

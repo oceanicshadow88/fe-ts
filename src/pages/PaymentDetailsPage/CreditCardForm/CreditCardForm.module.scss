@@ -1,0 +1,73 @@
+@use '../../../variables.scss' as *;
+
+.creditCard__container {
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  gap: 1rem;
+  box-shadow: 0px 0px 1px 0px rgb(8 30 66 / 8%), 0px 2px 5px 1px rgb(8 30 66 / 8%);
+  .flexAlign {
+    display: flex;
+    align-items: center;
+    .creditCard__checkBox {
+      margin-right: 0.5rem;
+      font-size: 2em;
+    }
+  }
+  .creditCard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    .creditCard__grid__item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+      .creditCard__inputBox {
+        font-size: 14px;
+        color: gray;
+        padding: 8px 6px;
+        background-color: rgba(0, 0, 0, 0.02);
+        border-radius: 3px;
+        border: 2px solid #dee1e6;
+        outline: none;
+        min-width: 120px;
+        transition: 0.2s;
+        &:focus {
+          border: 2px solid $primaryColor;
+          background-color: white;
+        }
+      }
+      .creditCard__inputBox__wide {
+        position: relative;
+        min-width: 250px;
+        .dropDownIcon {
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+}
+
+.cardUpdateBtn {
+  background-color: $primaryColor;
+  color: white;
+  font-weight: bold;
+  padding: 0.5em 0.8em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: $primaryColor-hover;
+  }
+}
+
+.cardUpdateBtn__disabled {
+  cursor: not-allowed;
+}

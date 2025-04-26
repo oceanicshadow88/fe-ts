@@ -1,0 +1,60 @@
+@import '../../../styles/variables.scss';
+
+.flexContainer {
+  display: flex;
+  flex-wrap: wrap;
+  padding: $size-32;
+  max-width: 1220px;
+  margin: 0 auto;
+  margin-bottom: $size-32;
+  justify-content: center;
+  gap: $size-22 * 2;
+
+  @media (max-width: 768px) {
+    padding: 0 $size-32;
+    gap: $size-12;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 430px) {
+    padding: 0 $size-12;
+  }
+
+  .flex__row {
+    display: flex;
+    align-items: center;
+    .imgIcons {
+      width: $size-45;
+      aspect-ratio: 1;
+      margin-right: $size-16;
+    }
+
+    p {
+      font-size: $size-18;
+    }
+
+    a:link,
+    a:active,
+    a:visited {
+      font-size: $size-18;
+      text-decoration: none;
+      font-weight: bold;
+      margin-inline: 0.5ch;
+      cursor: pointer;
+      color: $color-black;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media screen and (max-width: 430px) {
+      p,
+      a:link,
+      a:active,
+      a:visited {
+        font-size: $size-14;
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+.jobListFilter {
+  position: relative;
+  margin-bottom: 20px;
+  max-width: 300px;
+  margin-left: 20px;
+  margin-top: 15px;
+  select {
+    background: #f7f7f7;
+    border: 1.5px solid #f0eeee;
+    border-radius: 12px;
+    appearance: none;
+    font-size: 18px;
+    width: 100%;
+    padding: 25px 45px 9.41px 22px;
+    outline: none;
+  }
+  span {
+    top: 4px;
+    padding: 0 2px;
+    position: absolute;
+    pointer-events: none;
+    left: 22px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.75px;
+    line-height: 100%;
+    color: #727491;
+  }
+
+  .jobListFilterArrow {
+    right: 15px;
+    top: 20px;
+    cursor: pointer;
+    position: absolute;
+    pointer-events: none;
+    font-size: 24px;
+  }
+}

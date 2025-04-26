@@ -1,0 +1,41 @@
+$light-gray: rgb(207, 207, 207);
+$medium-gray: rgb(181, 181, 181);
+$extra-dark-gray: rgb(86, 86, 86);
+
+.FAQdetails {
+  background-color: white;
+  .container {
+    width: 65%;
+    margin: auto;
+    .sectionContainer {
+      padding: 63px 0px;
+      border-top: 2px solid $light-gray;
+      .linkTitle {
+        font-size: 28px;
+      }
+      .infoContainer {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+        .singleInfoContainer {
+          width: 50%;
+          color: rgb(77, 141, 189);
+          font-size: 16px;
+          cursor: pointer;
+        }
+      }
+      .btn {
+        background-color: $light-gray;
+        padding: 7px 25px;
+        font-size: 15px;
+        border: none;
+        border-radius: 6px;
+        color: $extra-dark-gray;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background-color: $medium-gray;
+      }
+    }
+  }
+}

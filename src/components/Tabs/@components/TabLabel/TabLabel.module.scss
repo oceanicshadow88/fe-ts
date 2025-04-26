@@ -1,0 +1,19 @@
+$active-color: #3563E9;
+.tabItem {
+  font-weight: 500;
+  font-size: 16px;
+  color: #C9D4EA;
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+  transition: color 0.3s;
+
+  &:hover {
+    color: $active-color;
+  }
+
+  &.active {
+    color: $active-color;
+  }
+}

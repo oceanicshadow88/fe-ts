@@ -1,0 +1,97 @@
+@import '../../../../../variables.scss';
+.filterTab {
+  margin-left: 20px;
+  position: relative;
+  font-size: 13px;
+  button {
+    font-size: inherit;
+  }
+
+  .filterBtn {
+    display: flex;
+    align-items: center;
+    padding: 0.6154em 1em 0.6154em 0.6154em;
+    color: #42526e;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    transition: 0.3s;
+    .badge {
+      color: white;
+      background-color: $primaryColor;
+      margin-left: 8px;
+      height: 1.1em;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+    }
+    .filterBtnIcon {
+      margin-left: 8px;
+    }
+    &:hover {
+      cursor: pointer;
+      background-color: $primaryColor;
+      color: white;
+      .badge {
+        color: $primaryColor;
+        background-color: white;
+      }
+    }
+    &.active {
+      background-color: $primaryColor;
+      color: white;
+      .badge {
+        color: $primaryColor;
+        background-color: white;
+      }
+    }
+  }
+
+  .optionsBox {
+    background-color: white;
+    position: absolute;
+    top: calc(100% + 0.25em);
+    display: none;
+    flex-direction: column;
+    box-shadow: rgb(9 30 66 / 8%) 0px 0px 0px 1px, rgb(9 30 66 / 8%) 0px 2px 1px,
+      rgb(9 30 66 / 31%) 0px 0px 20px -6px;
+    width: fit-content;
+    height: 12em;
+    border-radius: 5px;
+    z-index: 3;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      padding-top: 0.5rem;
+      width: 2px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $primaryColor;
+      border-radius: 2.5px;
+    }
+    &.active {
+      display: flex;
+    }
+
+    .optionBtn {
+      background-color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      padding: 0.77em;
+      .optionCheckBox {
+        font-size: 1.54em;
+      }
+      .optionName {
+        margin-left: 5px;
+      }
+      &:hover {
+        cursor: pointer;
+        background-color: #e0e0e0;
+      }
+    }
+  }
+}

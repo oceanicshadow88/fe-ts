@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+$small: 1000px;
+
+.teamworkContainer * {
+  margin: 0;
+  padding: 0;
+}
+
+.teamworkContainer {
+  position: relative;
+  margin-top: 80px;
+  overflow: hidden;
+
+  .background {
+    position: absolute;
+    background-image: linear-gradient(-90deg, #6126e6, #854cff);
+    height: 300%;
+    width: 200%;
+    z-index: -1;
+    transform: rotate(5deg);
+    transform-origin: 0 0;
+    overflow: hidden;
+  }
+
+  .descButtonContainer {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding-top: 160px;
+    padding-bottom: 80px;
+
+    @media screen and (max-width: $small) {
+      flex-direction: column;
+    }
+    .desc {
+      width: 30%;
+      padding: 20px;
+      color: white;
+      text-align: left;
+
+      .subheading {
+        padding-top: 30px;
+      }
+    }
+
+    .linkButtonContainer {
+      width: 30%;
+      padding: 20px;
+      text-align: left;
+
+      .linkButton {
+        cursor: pointer;
+        color: white;
+        background-color: #1d1c35;
+        font-size: 20px;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .whiteBackground {
+        color: black;
+        background-color: white;
+        border: none;
+      }
+    }
+  }
+}

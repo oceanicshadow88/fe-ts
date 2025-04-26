@@ -1,0 +1,41 @@
+$max_size: 768px;
+$small_size: 1000px;
+
+.functionsLoginTabs {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  align-items: center;
+  @media (max-width: $max_size) {
+    display: none;
+    flex-direction: column;
+    margin-top: 14px;
+  }
+  a {
+    font-size: 16px;
+    line-height: 150%;
+    font-weight: 400;
+    display: inline-flex;
+    cursor: pointer;
+    color: #1d1c39;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
+    text-decoration: none;
+    align-self: center;
+
+    @media (max-width: $max_size) {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.058823529411764705);
+      padding: 15px 5px;
+      font-size: 15px;
+      align-self: normal;
+    }
+  }
+}
+
+.functionLoginTabsActive {
+  @media (max-width: $max_size) {
+    display: flex;
+    align-items: flex-start;
+  }
+}

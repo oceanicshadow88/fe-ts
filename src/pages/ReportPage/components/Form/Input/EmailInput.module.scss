@@ -1,0 +1,88 @@
+@import '../../../styles/variables.scss';
+.emailInput {
+  padding-inline: $size-18; // default inline padding
+  display: flex;
+  flex-direction: column;
+
+  max-width: $size-40 * 9;
+
+  .inputWrapper {
+    display: flex;
+    align-items: center;
+
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+
+    input {
+      all: unset;
+
+      flex: 1;
+
+      padding: $size-16 $size-22;
+      font-weight: 500;
+      font-size: $size-14;
+      line-height: $size-16;
+      color: $color-grey-0;
+      max-height: $size-55;
+
+      border: 1px solid rgba(185, 190, 199, 0.6); // grey-2
+      border-radius: inherit;
+      box-shadow: 0 19px 25px rgb(10 10 51 / 4%);
+      transition: 0.2s;
+
+      &::placeholder {
+        color: $color-grey-2;
+        font-weight: 500;
+        font-size: $size-16;
+        line-height: $size-18;
+      }
+    }
+
+    input.iconInput {
+      border: unset;
+      box-shadow: unset;
+    }
+
+    &:has(> .iconInput) {
+      padding-inline-start: $size-16;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset-block: 0;
+        left: 0;
+        width: 5px;
+        background-color: pink;
+      }
+    }
+  }
+}
+
+.fullWidth {
+  padding-inline: 0;
+}
+
+.inputAndBtnSameRow {
+  max-width: unset; // original max-width is 360
+  flex-direction: row;
+  align-items: center;
+
+  align-self: center; // works when in basic flex or other flexbox (row)
+
+  & > .inputWrapper {
+    flex: 1;
+    height: $size-50;
+    border-top-right-radius: unset;
+    border-bottom-right-radius: unset;
+  }
+
+  & > button {
+    min-width: $size-80;
+    padding-inline: $size-22;
+    margin-block-start: unset;
+    border-top-left-radius: unset;
+    border-bottom-left-radius: unset;
+  }
+}

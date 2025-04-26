@@ -1,0 +1,84 @@
+@import "../../../variables.scss";
+
+.dropDownList {
+    display: flex;
+    flex-wrap: wrap;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    margin: 5px 0 0 0;
+    border-radius: 5px;
+    max-height: 240px;
+    overflow-y: scroll;
+    position: absolute;
+    top:0;
+    width: 100%;
+    z-index: 100;
+    button {
+        width: 100%;
+        line-height: 20px;
+        background: transparent;
+        border:none;
+        text-align: left;
+        padding: 9px 14px;
+        font-weight: 300;
+        font-size: 14px;
+        color: rgb(165, 168, 177);
+        &:hover{
+            background: rgb(246, 248, 249);
+            font-weight: 900;
+            color:rgb(79, 83, 102);
+            border-left:3px solid $primaryColor;
+            border-right: 3px solid $primaryColor;
+        }
+    }
+}
+.dropDownList::-webkit-scrollbar{
+    width: 0px;
+    border-radius: 5px;
+}
+
+.dropDownList::-webkit-scrollbar-thumb{
+    background: rgb(219, 220, 225);
+    border-radius: 5px;
+}
+
+.defaultSearchInput{
+    display: inline-block;
+}
+
+.selectedItems{
+    display: inline-flex;
+    background-color: rgb(248, 248, 252);
+    border-radius: 14px;
+    margin: 2px;
+    min-width: 0px;
+    box-sizing: border-box;
+    height: 28px;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    max-width: 340px;
+    padding: 0px 4px;
+    line-height: 28px;
+}
+
+.selectedItemsList{
+    display: inline-flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.newLabelLine{
+    height: 2px;
+    background:$primaryColor;
+    width: 90%;
+    outline: 0px;
+}
+
+.deleteIcon:hover{
+    cursor: pointer;
+    fill: $primaryColor;
+    transition: all .25s ease-in-out;
+}

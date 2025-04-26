@@ -1,0 +1,145 @@
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 596px;
+  height: 304px;
+  padding-top: 80px;
+  padding-bottom: 130px;
+  margin: 40px auto 120px;
+  @media (max-width: 1130px) {
+    width: 100%;
+    height: auto;
+    padding-bottom: 0;
+  } 
+
+  h1 {
+    color: rgb(79, 83, 102);
+    font-family: Poppins, sans-serif;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 76px;
+    text-align: center;
+    height: 152px;
+    margin-bottom: 20px;
+    @media (max-width: 1130px) {
+      font-size: 36px;
+      letter-spacing: -1px;
+      padding: 0 30px;
+      line-height: 42px;
+    } 
+  }
+  .start {
+    color: rgb(221, 42, 59);
+    font-family: Poppins, sans-serif;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 600; 
+    line-height: 76px;
+    text-align: center;
+  }
+
+  h5 {
+    color: rgb(145, 145, 161);
+    font-size: 24px;
+    font-family: Poppins, sans-serif;
+    font-style: normal;
+    font-weight: 400; 
+    text-align: center; 
+    line-height: 31.2px;
+    height: 62.391px;
+    letter-spacing: -1px;
+    text-size-adjust: 100%;
+    margin: 0 0; 
+    @media (max-width: 1130px) {
+      font-size: 20px;
+      padding: 0 30px;
+    } 
+  }
+}
+
+.option {
+  display: flex;
+  justify-content: center;
+  margin-top: 45px;
+  width: 596px;
+  height: 38px;
+  @media (max-width: 1130px) {
+    width: 100%;
+    height: auto;
+    margin-top: 100px;
+  } 
+  
+  .month {
+    display: block;
+    font-family: Poppins, sans-serif;
+    font-weight: 600; 
+    margin-top: 10px;
+    &.true {
+      color: rgb(221, 42, 59);
+    }
+
+    &.false {
+      color: rgb(145, 145, 161);
+    }
+    line-height: 18.4px;
+    width: 140px;
+    height: 38px;
+    justify-content: center;
+    text-align: right;
+  }
+
+
+  .year {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 140px;
+    height: 28px;
+    &.true {
+      color: rgb(145, 145, 161);
+    }
+    &.false {
+      color: rgb(221, 42, 59);
+    }
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
+    line-height: 18.4px; 
+    text-size-adjust: 100%;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 4px;
+    .info {
+      font-weight: 550;
+      height: 18.398px;
+      text-size-adjust: 100%;
+      font-size: 14px;
+    }
+  }
+}
+
+.input {
+  display: none;
+}
+
+.switch {
+  width: 74px;
+  height: 38px;
+  position: relative;
+  display: inline-block;
+  margin: 0 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  background: #DD2A3B;
+}
+
+.trigger {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  border-radius: 25px;
+  background: white;
+  top: 2px;
+}
