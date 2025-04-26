@@ -81,6 +81,9 @@ export default function RetroPage() {
   const loading = projectDetails.isLoadingDetails;
 
   const onRetroItemCreate = async (data, columnId: string) => {
+    if (data.content === '') {
+      return;
+    }
     const item = await createRetroItem(selectedSprintId, {
       content: data.content,
       status: columnId
