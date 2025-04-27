@@ -69,6 +69,6 @@ TypeEdit.defaultProps = {
   value: {
     id: '',
     name: '',
-    icon: ''
+    icon: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10321?size=medium'
   }
 };

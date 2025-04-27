@@ -19,7 +19,6 @@ import AboutPage from './staticPages/AboutPage/AboutPage';
 import KanbanBoardPage from './pages/KanbanBoardPage/KanbanBoardPage';
 import './App.css';
 import { UserProvider } from './context/UserInfoProvider';
-import VerifyPage from './pages/VerifyPage/VerifyPage';
 import ProjectMembersPage from './pages/ProjectMembersPage/ProjectMembersPage';
 import RolePage from './pages/RolePage/RolePage';
 import UnauthorizePage from './pages/UnauthorizePage/UnauthorizePage';
@@ -113,9 +112,8 @@ function App() {
           >
             {isRootDomain && <Route path="register" element={<RegisterPageV2 />} />}
             <Route path="/faq" element={<FAQPage />} />
-            <Route path="/verify" element={<VerifyPage />} />
             {/* active new user TODO: fix */}
-            <Route path="/verify-v2" element={<VerifyPageV2 />} />
+            <Route path="/verify" element={<VerifyPageV2 />} />
             {/* confirm existing user */}
             {/*  <Route path="/user-confirm" element={<VerifyPageV2 />} />  */}
             <Route path="login" element={<LoginPageV2 isRootDomain={isRootDomain || false} />} />

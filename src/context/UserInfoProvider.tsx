@@ -5,6 +5,7 @@ import decode from 'jwt-decode';
 import { IUserInfo } from '../types';
 import { getUserInfo } from '../api/userProfile/userProfile';
 import { projectRolesToObject, setUserPermissionsLocalStorage } from '../utils/helpers';
+import { isOwner } from '../api/tenant/tenant';
 
 const UserContext = createContext<IUserInfo>({});
 const UserDispatchContext = createContext<Dispatch<SetStateAction<IUserInfo>>>(() => {});
@@ -29,10 +30,12 @@ function UserProvider({ children }: ILoginInfoProvider) {
     const fetchUserInfo = async (token: string, refreshToken: string) => {
       try {
         const result = await getUserInfo(token, refreshToken);
-        const { user, isOwner } = result.data;
+        const { user } = result.data;
+        const userId = user.id as string;
+        const isUserOwner = await isOwner(userId);
         const t = token ?? user.token;
         const projectRoles = JSON.stringify(projectRolesToObject(user.projectsRoles));
-        setUserInfo({ ...user, token: t, projectRoles, isOwner });
+        setUserInfo({ ...user, token: t, projectRoles, isCurrentUserOwner: isUserOwner.data });
         setUserPermissionsLocalStorage(user);
         localStorage.setItem('expiration_date', getExpirtationDate(t).toString());
       } catch (e) {

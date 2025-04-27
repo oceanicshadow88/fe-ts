@@ -30,6 +30,7 @@ export default function Nav() {
   const buttons = [
     {
       name: 'Dashboard(WIP)',
+      checkAccess: 'view:dashboard',
       url: `/projects/${projectId}/dashboard`,
       icon: <MdOutlineDashboard />,
       dataTestId: 'dashboard-btn',
@@ -37,24 +38,28 @@ export default function Nav() {
     },
     {
       name: 'Retro',
+      checkAccess: 'view:retro',
       url: `/projects/${projectId}/retro`,
       icon: <HiViewBoards />,
       dataTestId: 'board-btn'
     },
     {
       name: 'Board',
+      checkAccess: 'view:boards',
       url: `/projects/${projectId}/board`,
       icon: <HiViewBoards />,
       dataTestId: 'board-btn'
     },
     {
       name: 'Backlog',
+      checkAccess: 'view:backlog',
       url: `/projects/${projectId}/backlog`,
       icon: <IoMdList />,
       dataTestId: 'backlog-btn'
     },
     {
       name: 'Daily standup(WIP)',
+      checkAccess: 'view:standup',
       icon: <FaDailymotion />,
       action: () => {
         setShowDailyScrum(true);
@@ -78,14 +83,14 @@ export default function Nav() {
     },
     {
       name: 'Shortcut',
-      checkAccess: 'view:shortcut',
+      checkAccess: 'view:shortcuts',
       url: `/projects/${projectId}/shortcuts/`,
       icon: <VscNewFile />,
       dataTestId: 'shortcut-btn'
     },
     {
       name: 'Epic(WIP)',
-      checkAccess: 'view:epic',
+      checkAccess: 'view:epics',
       url: `/projects/${projectId}/epic`,
       icon: <VscNewFile />,
       dataTestId: 'epic-btn',

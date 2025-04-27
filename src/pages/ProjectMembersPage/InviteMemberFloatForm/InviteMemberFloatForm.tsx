@@ -22,18 +22,22 @@ export default function InviteMemberFloatForm({ roles, onInviteMember }: Props) 
           <p>Email</p>
           <input
             placeholder="e.g. www.example@gmail.com"
-            onChange={(e) => setEmail(e.target.value)}
             data-testid="email"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className={styles.content}>
           <DropdownV2
             label="Role"
             name="role"
+            data-testid="dropdown-role"
             onValueChanged={(e: any) => setRoleId(e.target.value)}
             value={roleId}
             options={roles.map((item) => {
-              return { value: item.id, label: item.name ?? '' };
+              return {
+                value: item.id,
+                label: item.name ?? ''
+              };
             })}
           />
         </div>
@@ -41,7 +45,14 @@ export default function InviteMemberFloatForm({ roles, onInviteMember }: Props) 
           <button type="button" onClick={() => closeModal('invite-member')}>
             Cancel
           </button>
-          <button type="button" onClick={() => onInviteMember({ email, roleId })}>
+          <button
+            type="button"
+            data-testid="add-button"
+            onClick={() => {
+              onInviteMember({ email, roleId });
+              closeModal('invite-member');
+            }}
+          >
             Add
           </button>
         </div>

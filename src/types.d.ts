@@ -296,8 +296,8 @@ export interface IOnChangeTicketAssignee {
 
 export interface IProjectRole {
   id: string;
-  projectId: string;
-  roleId: string;
+  project: string;
+  role: string;
 }
 
 export interface IUser {
@@ -318,12 +318,12 @@ export interface IUser {
 }
 
 export interface IUserInfo {
-  id?: string | null;
+  id?: string;
   email?: string;
   name?: string;
   avatarIcon?: string;
   token?: string;
-  isOwner?: boolean;
+  isCurrentUserOwner?: boolean;
   refreshToken?: string;
   abbreviation?: string;
   userName?: string;
@@ -344,7 +344,7 @@ export interface IRole {
   name?: string;
   slug?: string;
   allowDelete?: boolean;
-  permission: IPermissions[];
+  permissions: IPermissions[];
   isPublic: boolean;
 }
 

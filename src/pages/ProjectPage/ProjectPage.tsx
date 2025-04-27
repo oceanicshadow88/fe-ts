@@ -3,7 +3,7 @@
 import React, { useState, createRef, useEffect, useContext } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { HiDotsHorizontal } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { IoIosAdd } from 'react-icons/io';
@@ -19,6 +19,14 @@ import Modal from '../../lib/Modal/Modal';
 import DefaultModalHeader from '../../lib/Modal/ModalHeader/DefaultModalHeader/DefaultModalHeader';
 import DefaultModalBody from '../../lib/Modal/ModalBody/DefaultModalHeader/DefaultModalBody';
 import Avatar from '../../components/Avatar/Avatar';
+import { importProjects } from '../../api/importProject/importProject';
+import { UserContext } from '../../context/UserInfoProvider';
+
+enum Permission {
+  CreateProjects = 'add:projects',
+  ViewProjects = 'view:projects',
+  DeleteProjects = 'delete:projects'
+}
 
 export default function ProjectPage() {
   const fetchProjects = useContext(ProjectDispatchContext);
@@ -32,10 +40,54 @@ export default function ProjectPage() {
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [deleteProjectId, setDeleteProjectId] = useState<string>('');
+  const navigate = useNavigate();
+  const userInfo = useContext(UserContext);
+  const { isCurrentUserOwner } = userInfo;
+
+  const allowedType = ['text/csv'];
 
   useEffect(() => {
     fetchProjects();
   }, []);
+
+  useEffect(() => {
+    if (isCurrentUserOwner !== undefined) {
+      localStorage.setItem('isCurrentUserOwner', JSON.stringify(isCurrentUserOwner));
+    }
+  }, [isCurrentUserOwner]);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get('token');
+    if (!urlToken) {
+      return;
+    }
+    const storedToken = localStorage.getItem('access_token');
+    if (urlToken !== storedToken) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const handleFileUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0) {
+      return;
+    }
+    if (!allowedType.includes(files[0].type)) {
+      toast.error('File type is not supported, please upload a CSV file', { theme: 'colored' });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', files[0]);
+
+    try {
+      await importProjects(formData, files[0].size);
+      toast.success('Upload successful! Fresh to see imported project', { theme: 'colored' });
+    } catch (err) {
+      toast.error('Upload failed. Please try again.', { theme: 'colored' });
+    }
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const setProjectStar = (id: string) => {
@@ -171,13 +223,32 @@ export default function ProjectPage() {
       <div className={styles.header}>
         <div className={styles.title} data-testid="project-title">
           <h1>Projects</h1>
+
+          {checkAccess(Permission.CreateProjects) && (
+            <ButtonV2
+              customStyles={styles.createProjectBtn}
+              text="New project"
+              onClick={() => setShowCreateProjectModal(true)}
+              icon={<IoIosAdd className={styles.createCardIcon} />}
+              fill
+              dataTestId="board-create-card"
+            />
+          )}
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept=".csv, .json"
+            onChange={(e) => {
+              handleFileUpload(e.target.files);
+            }}
+            style={{ display: 'none' }}
+          />
           <ButtonV2
-            customStyles={styles.createProjectBtn}
-            text="New project"
-            onClick={() => setShowCreateProjectModal(true)}
+            customStyles={styles.importProjectBtn}
+            text="Import project"
+            onClick={() => fileInputRef.current?.click()}
             icon={<IoIosAdd className={styles.createCardIcon} />}
             fill
-            dataTestId="board-create-card"
           />
         </div>
       </div>
@@ -193,14 +264,14 @@ export default function ProjectPage() {
       >
         {showProjectDetails === projectId && (
           <div className={styles.viewDetail} ref={refShowMore[index]}>
-            {checkAccess('view:projects', projectId) && (
+            {checkAccess(Permission.ViewProjects, projectId) && (
               <Link to={`/settings/${projectId}`}>
                 <button type="button" data-testid="project-details">
                   View Detail
                 </button>
               </Link>
             )}
-            {checkAccess('delete:projects', projectId) && (
+            {checkAccess(Permission.DeleteProjects, projectId) && (
               <button
                 type="button"
                 data-testid="project-delete"
@@ -214,7 +285,8 @@ export default function ProjectPage() {
             )}
           </div>
         )}
-        {(checkAccess('view:projects', projectId) || checkAccess('delete:projects', projectId)) && (
+        {(checkAccess(Permission.ViewProjects, projectId) ||
+          checkAccess(Permission.DeleteProjects, projectId)) && (
           <HiDotsHorizontal
             onClick={() => {
               setShowProjectDetails(projectId);
