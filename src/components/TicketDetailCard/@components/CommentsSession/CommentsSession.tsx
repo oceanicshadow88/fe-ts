@@ -16,6 +16,7 @@ import checkAccess from '../../../../utils/helpers';
 import Avatar from '../../../Avatar/Avatar';
 import TimeAgo from '../../../TimeAgo/TimeAgo';
 import style from './CommentsSession.module.scss';
+import { Permission } from '../../../../utils/permission';
 
 interface ICommentsSessionProps {
   userId?: string;
@@ -32,9 +33,6 @@ interface IComment {
   ticketId: string;
   updatedAt: string;
   _v: number;
-}
-enum Permission {
-  EditTickets = 'edit:tickets'
 }
 
 function CommentsSession(Props: ICommentsSessionProps) {
@@ -146,13 +144,14 @@ function CommentsSession(Props: ICommentsSessionProps) {
 
   return (
     <>
-      {isEditing ? (
-        <TipTapEditor onSubmit={handleSubmit} onCancel={handleCancel} users={users} />
-      ) : (
-        <button className={style.commentInputDisactive} onClick={() => setIsEditing(true)}>
-          Input comments here...
-        </button>
-      )}
+      {checkAccess(Permission.AddComments, projectId) &&
+        (isEditing ? (
+          <TipTapEditor onSubmit={handleSubmit} onCancel={handleCancel} users={users} />
+        ) : (
+          <button className={style.commentInputDisactive} onClick={() => setIsEditing(true)}>
+            Input comments here...
+          </button>
+        ))}
       {checkAccess(Permission.EditTickets, projectId) && renderCommentsList()}
     </>
   );

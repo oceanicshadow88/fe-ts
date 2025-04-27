@@ -5,6 +5,8 @@ import Modal from '../../../../lib/Modal/Modal';
 import DefaultModalHeader from '../../../../lib/Modal/ModalHeader/DefaultModalHeader/DefaultModalHeader';
 import { IProjectDetails } from '../../../../context/ProjectDetailsProvider';
 import { createEpic, deleteEpic, updateEpic } from '../../../../api/epic/epic';
+import checkAccess from '../../../../utils/helpers';
+import { Permission } from '../../../../utils/permission';
 
 interface ICreateEditEpic {
   type: string;
@@ -79,135 +81,133 @@ export default function CreateEditEpic({
   };
 
   return (
-    <>
-      <Modal classesName={styles.createEditSprintModal}>
-        <DefaultModalHeader
-          title={`${type} Epic`}
-          onClickClose={() => {
-            onClickCloseModal();
-          }}
-        />
-        <div className={styles.createEditSprintContainer}>
-          <div className={styles.createEditSprintInputContainer}>
-            <div className={styles.inputContainer}>
-              <p className={styles.label}>Epic Name:</p>
-              <input
-                type="text"
-                name="name"
-                value={epicName}
-                className={styles.textInput}
-                onChange={(e) => {
-                  setEpicName(e.target.value);
-                }}
-              />
-            </div>
-            <div className={styles.inputContainer}>
-              <p className={styles.label}>Start date:</p>
-              <div className={styles.datePicker}>
-                <DatePicker
-                  appearance="subtle"
-                  dateFormat="MM-DD-YYYY"
-                  placeholder="e.g 11-13-2018"
-                  value={startDate}
-                  onChange={(date) => {
-                    setStartDate(date);
-                  }}
-                />
-              </div>
-            </div>
-            <div className={styles.inputContainer}>
-              <p className={styles.label}>End date:</p>
-              <div className={styles.datePicker}>
-                <DatePicker
-                  appearance="subtle"
-                  dateFormat="MM-DD-YYYY"
-                  placeholder="e.g 12-13-2018"
-                  minDate={startDate}
-                  value={endDate}
-                  onChange={(date) => {
-                    setEndDate(date);
-                  }}
-                />
-              </div>
-            </div>
-            <div>
-              <p className={styles.label}>Epic goal:</p>
-              <textarea
-                name="epic-goal"
-                id=""
-                cols={30}
-                rows={10}
-                value={epicGoal}
-                className={styles.textAreaInput}
-                onChange={(e) => {
-                  setEpicGoal(e.target.value);
-                }}
-              />
-            </div>
-            <div>
-              <p className={styles.label}>Epic description:</p>
-              <textarea
-                name="epic-description"
-                id=""
-                cols={30}
-                rows={10}
-                value={epicDescription}
-                className={styles.textAreaInput}
-                onChange={(e) => {
-                  setEpicDescription(e.target.value);
+    <Modal classesName={styles.createEditSprintModal}>
+      <DefaultModalHeader
+        title={`${type} Epic`}
+        onClickClose={() => {
+          onClickCloseModal();
+        }}
+      />
+      <div className={styles.createEditSprintContainer}>
+        <div className={styles.createEditSprintInputContainer}>
+          <div className={styles.inputContainer}>
+            <p className={styles.label}>Epic Name:</p>
+            <input
+              type="text"
+              name="name"
+              value={epicName}
+              className={styles.textInput}
+              onChange={(e) => {
+                setEpicName(e.target.value);
+              }}
+            />
+          </div>
+          <div className={styles.inputContainer}>
+            <p className={styles.label}>Start date:</p>
+            <div className={styles.datePicker}>
+              <DatePicker
+                appearance="subtle"
+                dateFormat="MM-DD-YYYY"
+                placeholder="e.g 11-13-2018"
+                value={startDate}
+                onChange={(date) => {
+                  setStartDate(date);
                 }}
               />
             </div>
           </div>
-          <div className={styles.btnContainer}>
-            <button
-              className={styles.cancelBtn}
-              onClick={() => {
-                onClickCloseModal();
-                setDisabled(true);
-              }}
-              disabled={disabled}
-            >
-              Cancel
-            </button>
-            {type === 'Edit' && (
-              <button
-                className={styles.deleteBtn}
-                onClick={() => {
-                  if (!currentEpic) {
-                    // eslint-disable-next-line no-console
-                    console.error('No Epic');
-                    return;
-                  }
-                  onClickDeleteEpic(currentEpic.id);
+          <div className={styles.inputContainer}>
+            <p className={styles.label}>End date:</p>
+            <div className={styles.datePicker}>
+              <DatePicker
+                appearance="subtle"
+                dateFormat="MM-DD-YYYY"
+                placeholder="e.g 12-13-2018"
+                minDate={startDate}
+                value={endDate}
+                onChange={(date) => {
+                  setEndDate(date);
                 }}
-              >
-                Delete
-              </button>
-            )}
-            <button
-              className={styles.submitBtn}
-              onClick={() => {
-                if (type === 'Create') {
-                  onClickCreateEpic();
-                  setDisabled(true);
-                } else {
-                  if (!currentEpic) {
-                    // eslint-disable-next-line no-console
-                    console.error('No Epic');
-                    return;
-                  }
-                  onClickUpdateEpic(currentEpic.id);
-                  setDisabled(true);
-                }
+              />
+            </div>
+          </div>
+          <div>
+            <p className={styles.label}>Epic goal:</p>
+            <textarea
+              name="epic-goal"
+              id=""
+              cols={30}
+              rows={10}
+              value={epicGoal}
+              className={styles.textAreaInput}
+              onChange={(e) => {
+                setEpicGoal(e.target.value);
               }}
-              disabled={disabled}
-            >
-              {type === 'Create' ? 'Create' : 'Update'}
-            </button>
+            />
+          </div>
+          <div>
+            <p className={styles.label}>Epic description:</p>
+            <textarea
+              name="epic-description"
+              id=""
+              cols={30}
+              rows={10}
+              value={epicDescription}
+              className={styles.textAreaInput}
+              onChange={(e) => {
+                setEpicDescription(e.target.value);
+              }}
+            />
           </div>
         </div>
-      </Modal>
-    </>
+        <div className={styles.btnContainer}>
+          <button
+            className={styles.cancelBtn}
+            onClick={() => {
+              onClickCloseModal();
+              setDisabled(true);
+            }}
+            disabled={disabled}
+          >
+            Cancel
+          </button>
+          {type === 'Edit' && checkAccess(Permission.DeleteEpics, projectId) && (
+            <button
+              className={styles.deleteBtn}
+              onClick={() => {
+                if (!currentEpic) {
+                  // eslint-disable-next-line no-console
+                  console.error('No Epic');
+                  return;
+                }
+                onClickDeleteEpic(currentEpic.id);
+              }}
+            >
+              Delete
+            </button>
+          )}
+          <button
+            className={styles.submitBtn}
+            onClick={() => {
+              if (type === 'Create') {
+                onClickCreateEpic();
+                setDisabled(true);
+              } else {
+                if (!currentEpic) {
+                  // eslint-disable-next-line no-console
+                  console.error('No Epic');
+                  return;
+                }
+                onClickUpdateEpic(currentEpic.id);
+                setDisabled(true);
+              }
+            }}
+            disabled={disabled}
+          >
+            {type === 'Create' ? 'Create' : 'Update'}
+          </button>
+        </div>
+      </div>
+    </Modal>
   );
 }

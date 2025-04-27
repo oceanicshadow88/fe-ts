@@ -6,6 +6,7 @@ import TicketTypeSelect from '../../Form/TicketTypeSelect/TicketTypeSelect';
 import useOutsideAlerter from '../../../hooks/OutsideAlerter';
 import { ProjectDetailsContext } from '../../../context/ProjectDetailsProvider';
 import checkAccess from '../../../utils/helpers';
+import { Permission } from '../../../utils/permission';
 
 export interface ICreateIssue {
   name: string;
@@ -15,10 +16,6 @@ export interface ICreateIssue {
 interface IProps {
   onIssueCreate: (data: ICreateIssue) => void;
   showDropDownOnTop?: boolean;
-}
-
-enum Permission {
-  CreateTickets = 'add:tickets'
 }
 
 export default function CreateIssue({ onIssueCreate, showDropDownOnTop = false }: IProps) {

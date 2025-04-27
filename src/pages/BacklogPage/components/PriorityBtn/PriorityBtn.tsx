@@ -8,13 +8,15 @@ interface IPriorityBtn {
   getBacklogDataApi: () => void;
   ticketId: string;
   showDropDownOnTop?: boolean;
+  isDisabled;
 }
 
 export default function PriorityBtn({
   priority,
   ticketId,
   getBacklogDataApi,
-  showDropDownOnTop
+  showDropDownOnTop,
+  isDisabled
 }: IPriorityBtn) {
   const allPriorities = [
     {
@@ -53,6 +55,7 @@ export default function PriorityBtn({
           visible ? [styles.priorityBtn, styles.priorityBtnOutline].join(' ') : styles.priorityBtn
         }
         onClick={() => {
+          if (isDisabled) return;
           setVisible(!visible);
         }}
         data-testid={`priority-btn-${ticketId}`}

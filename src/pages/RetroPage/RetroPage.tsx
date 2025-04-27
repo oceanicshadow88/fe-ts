@@ -192,6 +192,7 @@ export default function RetroPage() {
                         item={item}
                         index={index}
                         onRemoveItem={onRemoveItem}
+                        projectId={projectId}
                       />
                     ))}
                   </DroppableColumn>

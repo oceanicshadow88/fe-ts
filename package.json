@@ -57,6 +57,7 @@
     "lint": "eslint src/ --cache",
     "lint-fix": "eslint src --quiet --fix",
     "deploy": "aws s3 sync build s3://techscrumapp.com",
+    "deploy-dev": "aws s3 sync build s3://dev.techscrumapp.com ",
     "cdn": "aws cloudfront create-invalidation --distribution-id E28E7CS1KHPD0K --paths /*",
     "cypress": "cypress open",
     "cy:run": "cypress run --record --key 753466cf-dd60-4b2c-b61d-a2f81454d140",

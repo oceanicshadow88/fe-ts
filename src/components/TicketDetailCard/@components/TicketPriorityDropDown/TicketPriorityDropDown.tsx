@@ -6,9 +6,10 @@ import Button from '../../../Form/Button/Button';
 interface IPriorityBtn {
   priority: string;
   onChange: (value: string) => void;
+  isDisabled: boolean;
 }
 
-export default function PriorityBtn({ priority, onChange }: IPriorityBtn) {
+export default function PriorityBtn({ priority, onChange, isDisabled }: IPriorityBtn) {
   const allPriorities = [
     {
       priority: 'Highest',
@@ -36,7 +37,10 @@ export default function PriorityBtn({ priority, onChange }: IPriorityBtn) {
     <div className={styles.priorityBtnContainer} ref={myRef}>
       <Button
         icon={<img src={currentPriorityBtn?.imgUrl} alt="" />}
-        onClick={() => setVisible(!visible)}
+        onClick={() => {
+          if (isDisabled) return;
+          setVisible(!visible);
+        }}
         overrideStyle={styles.priorityBtn}
         dataTestId="priority"
       >

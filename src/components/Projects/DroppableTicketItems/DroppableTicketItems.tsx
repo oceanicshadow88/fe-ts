@@ -4,16 +4,13 @@ import { ProjectDetailsContext } from '../../../context/ProjectDetailsProvider';
 import TicketItem from '../../../pages/BacklogPage/components/TicketItem/TicketItem';
 import { ITicketBasic } from '../../../types';
 import checkAccess from '../../../utils/helpers';
+import { Permission } from '../../../utils/permission';
 
 interface IProps {
   onTicketChanged: () => void;
   data: ITicketBasic[];
   isBacklog?: boolean;
   droppableId: string;
-}
-
-const enum Permission {
-  viewTickets = 'view:tickets'
 }
 
 export default function DroppableTicketItems({
@@ -70,6 +67,7 @@ export default function DroppableTicketItems({
                               (calculateShowDropDownTop() && index > data?.length) ?? 0 - 6
                             }
                             onTicketChanged={onTicketChanged}
+                            isReadOnly={!checkAccess(Permission.EditTickets, projectId)}
                           />
                         )}
                       </div>

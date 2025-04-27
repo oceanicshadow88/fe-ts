@@ -12,6 +12,8 @@ import { IProjectDetails } from '../../../../context/ProjectDetailsProvider';
 import { IMinEvent, ISprint } from '../../../../types';
 import DropdownV2 from '../../../../lib/FormV2/DropdownV2/DropdownV2';
 import InputV2 from '../../../../lib/FormV2/InputV2/InputV2';
+import checkAccess from '../../../../utils/helpers';
+import { Permission } from '../../../../utils/permission';
 
 interface ICreateEditSprint {
   type: string;
@@ -266,7 +268,7 @@ export default function CreateEditSprint({
               >
                 Cancel
               </button>
-              {type === 'Edit' && (
+              {type === 'Edit' && checkAccess(Permission.DeleteSprints, projectId) && (
                 <button
                   className={styles.deleteBtn}
                   onClick={() => {
