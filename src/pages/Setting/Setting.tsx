@@ -158,6 +158,7 @@ export default function Setting() {
                 name="name"
                 loading={!data}
                 dataTestId="projectName"
+                required
               />
               <InputV2
                 label="Project Key"
@@ -168,6 +169,7 @@ export default function Setting() {
                 name="key"
                 loading={!data}
                 dataTestId="projectKey"
+                required
               />
             </div>
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
@@ -186,6 +188,7 @@ export default function Setting() {
                     value: item.id
                   };
                 })}
+                required
               />
               <InputV2
                 label="Website Url"
