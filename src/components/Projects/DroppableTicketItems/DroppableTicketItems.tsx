@@ -3,12 +3,17 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { ProjectDetailsContext } from '../../../context/ProjectDetailsProvider';
 import TicketItem from '../../../pages/BacklogPage/components/TicketItem/TicketItem';
 import { ITicketBasic } from '../../../types';
+import checkAccess from '../../../utils/helpers';
 
 interface IProps {
   onTicketChanged: () => void;
   data: ITicketBasic[];
   isBacklog?: boolean;
   droppableId: string;
+}
+
+const enum Permission {
+  viewTickets = 'view:tickets'
 }
 
 export default function DroppableTicketItems({
@@ -18,6 +23,7 @@ export default function DroppableTicketItems({
   droppableId
 }: IProps) {
   const projectDetails = useContext(ProjectDetailsContext);
+  const projectId = projectDetails.details.id;
 
   const calculateShowDropDownTop = () => {
     if (!isBacklog) {
@@ -57,13 +63,15 @@ export default function DroppableTicketItems({
                         {...provided2.draggableProps}
                         aria-hidden="true"
                       >
-                        <TicketItem
-                          ticket={ticket}
-                          showDropDownOnTop={
-                            (calculateShowDropDownTop() && index > data?.length) ?? 0 - 6
-                          }
-                          onTicketChanged={onTicketChanged}
-                        />
+                        {checkAccess(Permission.viewTickets, projectId) && (
+                          <TicketItem
+                            ticket={ticket}
+                            showDropDownOnTop={
+                              (calculateShowDropDownTop() && index > data?.length) ?? 0 - 6
+                            }
+                            onTicketChanged={onTicketChanged}
+                          />
+                        )}
                       </div>
                     );
                   }}

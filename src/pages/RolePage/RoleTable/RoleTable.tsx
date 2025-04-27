@@ -104,7 +104,7 @@ function RoleTable(props: IRoleTable) {
                 return (
                   <th key={el} className={styles.permissions}>
                     <div className={styles['default-status']}>
-                      {indicatorsGenerator(el, role.permission)}
+                      {indicatorsGenerator(el, role.permissions)}
                     </div>
                   </th>
                 );

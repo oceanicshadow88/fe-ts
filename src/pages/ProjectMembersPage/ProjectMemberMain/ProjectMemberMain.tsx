@@ -2,10 +2,10 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './ProjectMemberMain.module.scss';
 import { IUserInfo, IRole } from '../../../types';
-import { getOwner } from '../../../utils/helpers';
 import Avatar from '../../../components/Avatar/Avatar';
 
 interface Props {
+  owner: IUserInfo | null;
   members: IUserInfo[];
   roles: IRole[];
   onChangeProjectRole: (e: React.ChangeEvent<HTMLSelectElement>, userId: string) => void;
@@ -13,13 +13,13 @@ interface Props {
 }
 
 export default function ProjectMemberMain({
+  owner,
   members,
   roles,
   onChangeProjectRole,
   onClickRemove
 }: Props) {
   const { projectId = '' } = useParams();
-  const owner = getOwner(projectId);
   return (
     <div className={styles.projectMemberMainContainer}>
       <table aria-label="Projects details">
@@ -74,8 +74,8 @@ export default function ProjectMemberMain({
                     <select
                       value={
                         member?.projectsRoles?.find(
-                          (projectRole) => projectRole.projectId === projectId
-                        )?.roleId ?? ''
+                          (projectRole) => projectRole.project === projectId
+                        )?.role ?? ''
                       }
                       onChange={(e) => {
                         onChangeProjectRole(e, member.id ?? '');

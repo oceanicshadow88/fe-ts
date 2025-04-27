@@ -8,30 +8,24 @@ let userProjectRoles: any = {};
 let projectData: any = {};
 
 export const enum Permission {
-  EditTickets = 'edit:tickets'
+  ViewDashboard = 'view:dashboard',
+  ViewRetro = 'view:retro',
+  ViewBacklog = 'view:backlog',
+  ViewSettings = 'view:settings',
+  ViewEpic = 'view:epics',
+  ViewStandup = 'view:standup'
 }
 
-export default function checkAccess(accessLevel: string, projectId: string): boolean {
+const checkAccess = (accessLevel: string, projectId?: string) => {
   try {
+    const userId = localStorage.getItem('user_id');
     const data = localStorage.getItem('user_project_roles');
     const rolesData = localStorage.getItem('roles');
-    const isAdmin = localStorage.getItem('is_admin');
     const projects = localStorage.getItem('projects');
-    const userId = localStorage.getItem('user_id');
+    const isSuperUser = localStorage.getItem('is_superUser');
+    const isOwner = localStorage.getItem('isCurrentUserOwner');
 
-    if (projects) {
-      const parsedProjects = JSON.parse(projects);
-      const projectOwnerId = parsedProjects[projectId]?.owner?.id;
-      if (projectOwnerId === userId) {
-        return true;
-      }
-    }
-
-    if (!isAdmin) {
-      return false;
-    }
-
-    if (isAdmin?.toString() === '1' || isAdmin === 'true') {
+    if (isSuperUser === 'true' || isOwner === 'true') {
       return true;
     }
 
@@ -42,15 +36,34 @@ export default function checkAccess(accessLevel: string, projectId: string): boo
     userProjectRoles = JSON.parse(data);
     roleData = JSON.parse(rolesData);
 
-    const userRoleId: string = userProjectRoles[projectId]?.roleId;
+    if (!projectId) {
+      return false;
+    }
+
+    const userRoleId: string = userProjectRoles[projectId]?.role;
+
+    if (
+      accessLevel === Permission.ViewDashboard ||
+      accessLevel === Permission.ViewRetro ||
+      accessLevel === Permission.ViewBacklog ||
+      accessLevel === Permission.ViewStandup ||
+      accessLevel === Permission.ViewEpic
+    ) {
+      return true;
+    }
+    if (projects) {
+      const parsedProjects = JSON.parse(projects);
+      const projectOwnerId = parsedProjects[projectId]?.owner?.id;
+      if (projectOwnerId === userId) {
+        return true;
+      }
+    }
     if (!userRoleId || !roleData[userRoleId]) {
       return false;
     }
 
     const role = roleData[userRoleId];
-
-    const hasPermission = role.permission.some((item: IPermission) => item.slug === accessLevel);
-
+    const hasPermission = role.permissions.some((item: IPermission) => item.slug === accessLevel);
     if (hasPermission) {
       return true;
     }
@@ -59,12 +72,12 @@ export default function checkAccess(accessLevel: string, projectId: string): boo
   } catch (error) {
     return false;
   }
-}
+};
 
 export const projectRolesToObject = (projectsRoles: any) => {
   const obj: any = {};
   const keys = projectsRoles.map((item: any) => {
-    return item.projectId;
+    return item.project;
   });
 
   for (let i = 0; i < keys.length; i += 1) {
@@ -90,9 +103,7 @@ export const getOwner = (projectId: string) => {
   if (!projects) {
     return {};
   }
-  if (Object.keys(projectData).length === 0) {
-    projectData = JSON.parse(projects);
-  }
+  projectData = JSON.parse(projects);
   return projectData[projectId]?.owner;
 };
 
@@ -129,13 +140,13 @@ export const getRoles = async () => {
 
 export interface IUserPermission {
   id: string;
-  isAdmin: number;
+  isSuperUser: number;
   projectsRoles: IProjectRole[];
 }
 
 export const setUserPermissionsLocalStorage = async (user: IUserPermission) => {
   try {
-    localStorage.setItem('is_admin', user.isAdmin ? 'true' : 'false');
+    localStorage.setItem('is_superUser', user.isSuperUser ? 'true' : 'false');
     localStorage.setItem(
       'user_project_roles',
       JSON.stringify(projectRolesToObject(user.projectsRoles))
@@ -218,3 +229,5 @@ export const emailValidation = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
   return emailRegex.test(email);
 };
+
+export default checkAccess;
