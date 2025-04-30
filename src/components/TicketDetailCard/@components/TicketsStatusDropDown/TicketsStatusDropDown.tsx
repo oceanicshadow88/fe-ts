@@ -12,16 +12,25 @@ export interface ISelectProps {
   value?: string;
   options: IOption[];
   onChange: (value: string) => void;
+  isDisabled: boolean;
 }
 
-export default function TicketStatusDropDown({ value, options, onChange }: ISelectProps) {
+export default function TicketStatusDropDown({
+  value,
+  options,
+  onChange,
+  isDisabled
+}: ISelectProps) {
   const { visible, setVisible, myRef } = useOutsideAlerter(false);
 
   return (
     <div ref={myRef} className={styles.ticketStatusDropDown}>
       <TicketStatusBtn
         status={options.find((item) => item.id === value)?.name ?? 'BACKLOG'}
-        onClick={() => setVisible(!visible)}
+        onClick={() => {
+          if (isDisabled) return;
+          setVisible(!visible);
+        }}
       />
       {visible && (
         <ul className={styles.ticketStatusDropDownList}>

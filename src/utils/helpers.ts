@@ -7,15 +7,6 @@ let roleData: any = {};
 let userProjectRoles: any = {};
 let projectData: any = {};
 
-export const enum Permission {
-  ViewDashboard = 'view:dashboard',
-  ViewRetro = 'view:retro',
-  ViewBacklog = 'view:backlog',
-  ViewSettings = 'view:settings',
-  ViewEpic = 'view:epics',
-  ViewStandup = 'view:standup'
-}
-
 const checkAccess = (accessLevel: string, projectId?: string) => {
   try {
     const userId = localStorage.getItem('user_id');
@@ -42,15 +33,6 @@ const checkAccess = (accessLevel: string, projectId?: string) => {
 
     const userRoleId: string = userProjectRoles[projectId]?.role;
 
-    if (
-      accessLevel === Permission.ViewDashboard ||
-      accessLevel === Permission.ViewRetro ||
-      accessLevel === Permission.ViewBacklog ||
-      accessLevel === Permission.ViewStandup ||
-      accessLevel === Permission.ViewEpic
-    ) {
-      return true;
-    }
     if (projects) {
       const parsedProjects = JSON.parse(projects);
       const projectOwnerId = parsedProjects[projectId]?.owner?.id;

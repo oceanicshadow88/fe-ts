@@ -9,6 +9,7 @@ export interface ISelectProps {
   ticketTypes: ITypes[];
   showButtonText?: boolean;
   onChange: (fieldName: string, value: any) => void;
+  isDisabled: boolean;
 }
 
 interface IOption {
@@ -21,6 +22,7 @@ export default function TicketTypeDropDown({
   value,
   ticketTypes,
   onChange,
+  isDisabled,
   showButtonText = false
 }: ISelectProps) {
   const { visible, setVisible, myRef } = useOutsideAlerter(false);
@@ -35,7 +37,10 @@ export default function TicketTypeDropDown({
       {showButtonText ? (
         <Button
           icon={<img src={value?.icon} alt={value?.name} />}
-          onClick={() => setVisible(!visible)}
+          onClick={() => {
+            if (isDisabled) return;
+            setVisible(!visible);
+          }}
           overrideStyle={styles.ticketTypeBtn}
         >
           {value?.name}
@@ -43,7 +48,10 @@ export default function TicketTypeDropDown({
       ) : (
         <Button
           icon={<img src={value?.icon} alt={value?.name} />}
-          onClick={() => setVisible(!visible)}
+          onClick={() => {
+            if (isDisabled) return;
+            setVisible(!visible);
+          }}
           overrideStyle={styles.ticketTypeBtn}
         />
       )}

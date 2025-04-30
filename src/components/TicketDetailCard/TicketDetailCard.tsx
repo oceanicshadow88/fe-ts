@@ -12,7 +12,6 @@ import { showTicket } from '../../api/ticket/ticket';
 import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import { ModalContext } from '../../context/ModalProvider';
 import { UserContext } from '../../context/UserInfoProvider';
-import SVGPaths from '../../assets/ticketDetailCard/ticketDetailCardSvgPath';
 import TicketTypeDropDown from './@components/TicketTypeDropDown/TicketTypeDropDown';
 import { Tabs, TabLabel, TabPanel } from '../Tabs/Tabs';
 import ActivitiesSession from './@components/ActivitiesSession/ActivitiesSession';
@@ -25,19 +24,24 @@ import TicketStatusDropDown, {
 } from './@components/TicketsStatusDropDown/TicketsStatusDropDown';
 import UsersDropDown from './@components/UsersDropDown/UsersDropDown';
 import LabelDropDownV2 from './@components/LabelsDropdown/LabelsDropDownV2';
+import checkAccess from '../../utils/helpers';
+import { Permission } from '../../utils/permission';
+import SVGPaths from '../../assets/ticketDetailCard/ticketDetailCardSvgPath';
 
 interface ITicketDetailCardProps {
   ticketId: string;
   onDeletedTicket: (id: string) => void;
   onSavedTicket: (data: any) => void;
   projectId: string;
+  isReadOnly: boolean;
 }
 
 function TicketDetailCard({
   ticketId,
   onDeletedTicket,
   onSavedTicket,
-  projectId
+  projectId,
+  isReadOnly
 }: ITicketDetailCardProps) {
   const [ticketInfo, setTicketInfo] = useState<ITicketDetails | null>(null);
   const { visible, setVisible, myRef } = useOutsideAlerter(false);
@@ -67,7 +71,7 @@ function TicketDetailCard({
     setEditTitle(false);
   };
 
-  const hanleTitleInputBlur = () => {
+  const handleTitleInputBlur = () => {
     onSavedTicket(ticketInfo);
     setEditTitle(false);
   };
@@ -99,6 +103,7 @@ function TicketDetailCard({
             value={ticketInfo?.type}
             ticketTypes={ticketTypes}
             onChange={onDefaultChange}
+            isDisabled={isReadOnly}
           />
           <span>{`${ticketInfo?.id}`}</span>
         </div>
@@ -107,7 +112,7 @@ function TicketDetailCard({
             <button onClick={() => setVisible(!visible)} type="button">
               <img src={SVGPaths.kebabMenuIcon} alt="" />
             </button>
-            {visible && (
+            {visible && checkAccess(Permission.DeleteTickets, projectId) && (
               <div className={styles.dropdownContainer}>
                 <button
                   onClick={() => {
@@ -161,6 +166,7 @@ function TicketDetailCard({
             onChange={(fieldName: string, value: any) => {
               onDefaultChange(fieldName, value);
             }}
+            isDisabled={isReadOnly}
           />
         </div>
 
@@ -171,6 +177,7 @@ function TicketDetailCard({
             onChange={(value: string) => {
               onDefaultChange('status', value);
             }}
+            isDisabled={isReadOnly}
           />
         </div>
 
@@ -179,6 +186,7 @@ function TicketDetailCard({
           dueDateOnchange={(updatedTicketInfo: ITicketDetails) => {
             onDefaultChange('dueAt', updatedTicketInfo.dueAt);
           }}
+          isDisabled={isReadOnly}
         />
 
         <div className={styles.ticketDetailInfoItem}>
@@ -187,6 +195,7 @@ function TicketDetailCard({
             onChange={(value: string) => {
               onDefaultChange('priority', value);
             }}
+            isDisabled={isReadOnly}
           />
         </div>
 
@@ -220,6 +229,7 @@ function TicketDetailCard({
             onDefaultChange('labels', value);
           }}
           dataTestId="labels"
+          isDisabled={isReadOnly}
         />
       </div>
     );
@@ -235,7 +245,7 @@ function TicketDetailCard({
               type="text"
               value={ticketInfo.title}
               onKeyDown={handleKeyPress}
-              onBlur={hanleTitleInputBlur}
+              onBlur={handleTitleInputBlur}
               onChange={(e) => {
                 onDefaultChange('title', e.target.value, false);
               }}
@@ -243,6 +253,7 @@ function TicketDetailCard({
           ) : (
             <button
               onClick={() => {
+                if (isReadOnly) return;
                 setEditTitle(true);
               }}
             >
@@ -257,6 +268,7 @@ function TicketDetailCard({
           attachmentUrls={ticketInfo.attachmentUrls}
           onSubmitForm={onDefaultSubmit}
           users={users}
+          isDisabled={isReadOnly}
         />
         <Tabs>
           <TabLabel index={0}>Comment</TabLabel>

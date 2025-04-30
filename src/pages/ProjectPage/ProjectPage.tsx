@@ -21,12 +21,7 @@ import DefaultModalBody from '../../lib/Modal/ModalBody/DefaultModalHeader/Defau
 import Avatar from '../../components/Avatar/Avatar';
 import { importProjects } from '../../api/importProject/importProject';
 import { UserContext } from '../../context/UserInfoProvider';
-
-enum Permission {
-  CreateProjects = 'add:projects',
-  ViewProjects = 'view:projects',
-  DeleteProjects = 'delete:projects'
-}
+import { Permission } from '../../utils/permission';
 
 export default function ProjectPage() {
   const fetchProjects = useContext(ProjectDispatchContext);
