@@ -5,11 +5,11 @@ import style from './ActivitiesSession.module.scss';
 import TimeAgo from '../../../TimeAgo/TimeAgo';
 import Avatar from '../../../Avatar/Avatar';
 import { getActivity } from '../../../../api/activity/activity';
-import { IActivityData } from '../../../../types';
+import { IActivityData, ITicketDetails } from '../../../../types';
 
 interface IActivitiesSessionProps {
   ticketId: string;
-  ticketInfo: IActivityData | null;
+  ticketInfo: ITicketDetails | null;
 }
 
 export default function ActivitiesSession({ ticketId, ticketInfo }: IActivitiesSessionProps) {
