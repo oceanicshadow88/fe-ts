@@ -30,7 +30,7 @@ interface IComment {
   createdAt: string;
   id: string;
   sender: IUserInfo;
-  ticketId: string;
+  ticket: string;
   updatedAt: string;
   _v: number;
 }
@@ -54,7 +54,8 @@ function CommentsSession(Props: ICommentsSessionProps) {
     const stringifiedContent = JSON.stringify(content);
 
     const saveActions = {
-      create: () => createComment({ ticketId, sender: userId, content: stringifiedContent }),
+      create: () =>
+        createComment({ ticket: ticketId, sender: userId, content: stringifiedContent }),
       update: () => updateComment(commentId as string, stringifiedContent)
     };
 

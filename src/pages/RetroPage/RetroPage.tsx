@@ -161,7 +161,7 @@ export default function RetroPage() {
                   dataTestId="board"
                   onValueChanged={onDefaultChange}
                   onValueBlur={() => {}}
-                  value={selectedBoard.id}
+                  value={selectedBoard?.id || ''}
                   name="board"
                   options={boardsOptions}
                 />
