@@ -1,42 +1,39 @@
-import IBoard, { IStatusBacklog } from '../../src/types';
+import { IStatusBacklog, IBoard } from '../../src/types';
+import BaseBuilder from './BaseBuilder';
 import StatusBuilder from './StatusBuilder';
 
-export class BoardBuilder {
+export default class BoardBuilder extends BaseBuilder {
   private readonly data: IBoard;
 
   constructor() {
-    // Initialize with default values
+    super();
     this.data = {
-      id: '67e10b25da089abc827c84d0',
+      id: this.generateId(),
       title: 'Deault Board Name',
       statuses: [
         new StatusBuilder()
-          .withId('67e10b25da089abc827c84d0')
           .withName('To Do')
           .withSlug('to-do')
           .withOrder(0)
           .build(),
         new StatusBuilder()
-          .withId('67e10b25da089abc827c84d1')
           .withName('In Progress')
           .withSlug('in-progress')
           .withOrder(1)
           .build(),
         new StatusBuilder()
-          .withId('67e10b25da089abc827c84d2')
           .withName('In Review')
           .withSlug('in-review')
           .withOrder(2)
           .build(),
         new StatusBuilder()
-          .withId('67e10b25da089abc827c84d3')
           .withName('Done')
           .withSlug('done')
           .withOrder(3)
           .build(),
       ],
       isPublic: false,
-      tenant: '67e10b25da089abc827c84d0',
+      tenant: this.generateId(),
       createdAt: new Date(),
       updatedAt: new Date(),
     };

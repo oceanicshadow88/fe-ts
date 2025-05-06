@@ -1,16 +1,18 @@
 import { IStatusBacklog } from "../../src/types";
+import BaseBuilder from "./BaseBuilder";
 
-export class StatusBuilder {
+export default class StatusBuilder extends BaseBuilder {
     private readonly data: IStatusBacklog;
 
     constructor() {
+        super();
         this.data = {
-            id: '',
+            id: this.generateId(),
             slug: 'default-status',
             name: 'Default Status',
             order: 0,
             board: 'default-board',
-            tenant: 'default-tenant',
+            tenant: this.generateId(),
             isDefault: false,
             updatedAt: new Date(),
         };

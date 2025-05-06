@@ -1,41 +1,35 @@
-import { IStatusBacklog } from '../../src/types';
-import IBoard from '../../src/types';
-import { StatusBuilder } from './StatusBuilder';
-import { BoardBuilder } from './BoardBuilder';
+import { IStatusBacklog, IBoard } from '../../src/types';
+import BaseBuilder from './BaseBuilder';
+import StatusBuilder from './StatusBuilder';
+import BoardBuilder from './BoardBuilder';
 
-export class ProjectDetailsBuilder {
+export class ProjectDetailsBuilder extends BaseBuilder {
   private readonly data: any;
-  private readonly statuses: IStatusBacklog[];
+  private readonly tenant: string;
 
   constructor() {
     // Initialize with default values
+    super();
 
-    this.statuses = [
-      new StatusBuilder()
-      .withId('680ad5c93304169fba2fdaef')
-      .withName('To Do')
-      .withSlug('to-do')
-      .withTenant('680ad3aa3304169fba2fd8fe')
-      .build(),
-    new StatusBuilder()
-      .withId('680ad5c93304169fba2fdaf0')
-      .withName('In Progress')
-      .withSlug('in-progress')
-      .withTenant('680ad3aa3304169fba2fd8fe')
-      .build(),
-    new StatusBuilder()
-      .withId('680ad5c93304169fba2fdaf1')
-      .withName('In Review')
-      .withSlug('review')
-      .withTenant('680ad3aa3304169fba2fd8fe')
-      .build(),
-    new StatusBuilder()
-      .withId('680ad5c93304169fba2fdaf2')
-      .withName('Done')
-      .withSlug('done')
-      .withTenant('680ad3aa3304169fba2fd8fe')
-      .build()
-  ]
+    this.tenant = this.generateId();
+
+    this.data.statuses = ['To Do', 'In Progress', 'In Review', 'Done'].map((name, index) => {
+      const slug = name.toLowerCase().replace(/\s+/g, '-');
+      return new StatusBuilder()
+        .withName(name)
+        .withSlug(slug)
+        .withTenant(this.tenant)
+        .withOrder(index)
+        .build();
+    });
+
+    this.data.boards = ['Default Board 1', 'Default Board 2'].map((title) => {
+      return new BoardBuilder()
+        .withTitle(title)
+        .withTenant(this.tenant)
+        .addStatuses(...this.data.statuses)
+        .build();
+    });
 
     this.data = {
       labels: [],
@@ -103,21 +97,6 @@ export class ProjectDetailsBuilder {
           updatedAt: '2025-04-25T07:44:32.237Z',
           __v: 0
         }
-      ],
-      statues: this.statuses,
-      boards: [
-        new BoardBuilder()
-          .withId('680ad5c98b96b6e88509d9b8')
-          .withTitle('Default Board 1')
-          .withTenant('680ad3aa3304169fba2fd8fe')
-          .addStatuses(...this.statuses)
-          .build(),
-        new BoardBuilder()
-          .withId('680adc088bd91cf9c9fdcb1f')
-          .withTitle('Default Board 2')
-          .withTenant('680ad3aa3304169fba2fd8fe')
-          .addStatuses(...this.statuses)
-          .build(),
       ],
       epics: [],
       details: {

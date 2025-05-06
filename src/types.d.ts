@@ -256,7 +256,7 @@ export interface ITicketBacklog {
 export interface IBacklogData {
   cards?: ITicketBacklog[];
 }
-export default interface IBoard {
+export interface IBoard {
   id: string;
   title: string;
   statuses: IStatusEntity[];

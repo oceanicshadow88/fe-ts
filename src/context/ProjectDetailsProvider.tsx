@@ -6,7 +6,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import IBoard, { IProject, ISprint, IStatusBacklog, IUserInfo } from '../types';
+import { IProject, ISprint, IStatusBacklog, IUserInfo, IBoard } from '../types';
 import { getOwner } from '../utils/helpers';
 import { getProjectDetails } from '../api/projects/projects';
 
