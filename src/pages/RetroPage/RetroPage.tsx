@@ -161,7 +161,7 @@ export default function RetroPage() {
                   dataTestId="board"
                   onValueChanged={onDefaultChange}
                   onValueBlur={() => {}}
-                  value={selectedBoard.id}
+                  value={selectedBoard?.id || ''}
                   name="board"
                   options={boardsOptions}
                 />
@@ -192,6 +192,7 @@ export default function RetroPage() {
                         item={item}
                         index={index}
                         onRemoveItem={onRemoveItem}
+                        projectId={projectId}
                       />
                     ))}
                   </DroppableColumn>

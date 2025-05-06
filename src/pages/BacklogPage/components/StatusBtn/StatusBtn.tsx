@@ -12,17 +12,20 @@ interface IToolBar {
   statusOptions: IStatusBacklog[];
   getBacklogDataApi: () => void;
   showDropDownOnTop?: boolean;
+  isDisabled: boolean;
 }
 export default function StatusBtn({
   statusId,
   ticketId,
   statusOptions,
   showDropDownOnTop,
-  getBacklogDataApi
+  getBacklogDataApi,
+  isDisabled
 }: IToolBar) {
   const { visible, setVisible, myRef } = useOutsideAlerter(false);
 
   const dropDownClick = () => {
+    if (isDisabled) return;
     setVisible(!visible);
   };
 

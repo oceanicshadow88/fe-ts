@@ -4,39 +4,46 @@ import styles from './ProjectMemberPage.module.scss';
 import ProjectMemberTitle from './ProjectMemberTitle/ProjectMemberTitle';
 import ProjectMemberMain from './ProjectMemberMain/ProjectMemberMain';
 import { IUserInfo, IRole } from '../../types';
-import Loading from '../../components/Loading/Loading';
 import { getMembers, updateMemberRole, removeMember, inviteMember } from '../../api/member/member';
 import { getRoles } from '../../api/role/role';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
+import { getOwner } from '../../utils/helpers';
 
 export default function ProjectMembersPage() {
   const { projectId = '' } = useParams();
   const [members, setMembers] = useState<IUserInfo[]>([]);
   const [roles, setRoles] = useState<IRole[]>([]);
-  const [loadingStatus, setLoadingStatus] = useState(false);
+  const [owner, setOwner] = useState<IUserInfo | null>(null);
+
+  useEffect(() => {
+    const fetchOwner = async () => {
+      try {
+        const ownerInfo = await getOwner(projectId);
+        setOwner(ownerInfo);
+      } catch (e) {
+        // how we handle this error?
+      }
+    };
+    fetchOwner();
+  }, [projectId]);
 
   const fetchMembers = useCallback(async () => {
     try {
-      setLoadingStatus(true);
       const res = await getMembers(projectId);
       setMembers(res.data);
     } catch (e) {
       setMembers([]);
-    } finally {
-      setLoadingStatus(false);
     }
   }, [projectId]);
 
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        setLoadingStatus(true);
         const res = await getRoles(projectId);
         setRoles(res);
       } catch (e) {
+        // why we not setRoles([])????
         setMembers([]);
-      } finally {
-        setLoadingStatus(false);
       }
     };
     fetchRoles();
@@ -70,16 +77,13 @@ export default function ProjectMembersPage() {
     <ProjectHOC title="Access">
       <div className={styles.projectMemberMain}>
         <ProjectMemberTitle projectId={projectId} roles={roles} onInviteMember={onInviteMember} />
-        {loadingStatus ? (
-          <Loading />
-        ) : (
-          <ProjectMemberMain
-            members={members}
-            roles={roles}
-            onChangeProjectRole={onChangeProjectRole}
-            onClickRemove={onClickRemove}
-          />
-        )}
+        <ProjectMemberMain
+          owner={owner}
+          members={members}
+          roles={roles}
+          onChangeProjectRole={onChangeProjectRole}
+          onClickRemove={onClickRemove}
+        />
       </div>
     </ProjectHOC>
   );

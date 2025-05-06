@@ -20,8 +20,8 @@ import { ModalContext } from '../../context/ModalProvider';
 import { ITicketBasic, ITicketInput } from '../../types';
 import { createNewTicket, updateTicketSprint } from '../../api/ticket/ticket';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
-import ButtonV2 from '../../lib/FormV2/ButtonV2/ButtonV2';
-import { importTask } from '../../api/projects/projects';
+import checkAccess from '../../utils/helpers';
+import { Permission } from '../../utils/permission';
 
 export default function BacklogPage() {
   const { projectId = '' } = useParams();
@@ -158,16 +158,10 @@ export default function BacklogPage() {
     );
   }
 
-  const onClickImport = () => {
-    importTask(projectId);
-    fetchBacklogData();
-  };
-
   return (
     <ProjectHOC title="Backlog">
       <div className={styles.scrollContainer}>
         <BoardSearch onChangeFilter={onChangeFilter} />
-        <ButtonV2 text="Import" onClick={onClickImport} dataTestId="import" />
         <DragDropContext
           onDragEnd={(result) => {
             onDragEventHandler(result);
@@ -205,7 +199,9 @@ export default function BacklogPage() {
               );
             })}
           <div className={styles.toolbar}>
-            <Button onClick={showCreateModal}>Create sprint</Button>
+            {checkAccess(Permission.CreateSprints, projectId) && (
+              <Button onClick={showCreateModal}>Create sprint</Button>
+            )}
           </div>
           <BacklogSection totalIssue={ticketsBySprintId?.backlog?.length ?? 0}>
             <DroppableTicketItems

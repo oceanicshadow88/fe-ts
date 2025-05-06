@@ -12,6 +12,7 @@ interface ITicketStatusDropDown {
   projectId: string;
   onTicketLabelsChange: (ticketLabels: ILabelData[]) => void;
   dataTestId: string;
+  isDisabled: boolean;
 }
 
 export default function TicketStatusDropDown({
@@ -19,7 +20,8 @@ export default function TicketStatusDropDown({
   ticketId,
   projectId,
   onTicketLabelsChange,
-  dataTestId
+  dataTestId,
+  isDisabled
 }: ITicketStatusDropDown) {
   const { visible, setVisible, myRef } = useOutsideAlerter(false);
 
@@ -167,6 +169,7 @@ export default function TicketStatusDropDown({
       ) : (
         <button
           onClick={() => {
+            if (isDisabled) return;
             const isVisible = !visible;
             if (isVisible) clearInput();
             setVisible(isVisible);

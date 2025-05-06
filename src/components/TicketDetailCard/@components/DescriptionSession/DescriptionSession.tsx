@@ -11,50 +11,54 @@ import TipTapEditor from '../../../TipTapEditor/TipTapEditor';
 import { IUserInfo } from '../../../../types';
 
 interface IDescriptionSessionProps {
-  description: string | undefined;
+  description?: string;
   attachmentUrls: string[];
   users: IUserInfo[];
-  onSubmitForm: (data: any) => void;
+  onSubmitForm: (data: { attachmentUrls: string[]; description: string }) => void;
+  isDisabled: boolean;
 }
 
 export default function DescriptionSession({
   description,
   attachmentUrls,
   users,
-  onSubmitForm
+  onSubmitForm,
+  isDisabled
 }: IDescriptionSessionProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const parseJsonToHtml = (content: string) => {
+
+  const safeParseJsonContent = (content: string): JSONContent | null => {
     try {
-      const jsonContent: JSONContent = JSON.parse(content);
-      const html = generateHTML(jsonContent, [StarterKit, ImageResize, Mention]);
-      return html;
-    } catch (error) {
+      return JSON.parse(content) as JSONContent;
+    } catch {
       return null;
     }
   };
 
-  const renderContent = (content: string) => {
-    if (content === '') {
-      return 'Input description here...';
-    }
-    const html = parseJsonToHtml(content);
-    if (!html) return parse('<p>Invalid content</p>');
-    const fixedHtml = html.replace(/<p>/g, '<span>').replace(/<\/p>/g, '</span>');
-    return parse(fixedHtml);
+  const generateHtmlFromJson = (json: JSONContent | null): string | null => {
+    if (!json) return null;
+    return generateHTML(json, [StarterKit, ImageResize, Mention]);
   };
 
-  const getAttachmentUrls = (content: JSONContent) => {
-    const contentArray = content.content;
-    if (!contentArray) return [];
+  const renderContent = (raw: string | undefined) => {
+    if (!raw) {
+      return <em className={style.placeholder}>Input description here...</em>;
+    }
 
-    return contentArray
-      .filter((item: any) => item.type === 'image')
-      .map((item: any) => item.attrs?.src || '');
+    const parsedJson = safeParseJsonContent(raw);
+    const html = generateHtmlFromJson(parsedJson);
+
+    return html ? parse(html) : <span className={style.invalid}>Invalid content</span>;
+  };
+
+  const extractAttachmentUrls = (content: JSONContent): string[] => {
+    return (
+      content.content?.filter((item) => item.type === 'image').map((item) => item.attrs?.src) || []
+    );
   };
 
   const handleSubmit = (content: JSONContent) => {
-    const urls = getAttachmentUrls(content);
+    const urls = extractAttachmentUrls(content);
     const stringifiedContent = JSON.stringify(content);
     onSubmitForm({ attachmentUrls: urls, description: stringifiedContent });
     setIsEditing(false);
@@ -68,12 +72,20 @@ export default function DescriptionSession({
           <TipTapEditor
             onSubmit={handleSubmit}
             users={users}
-            initialContent={description ? JSON.parse(description) : undefined}
+            initialContent={
+              description ? safeParseJsonContent(description) || undefined : undefined
+            }
             onCancel={() => setIsEditing(false)}
           />
         ) : (
-          <button onClick={() => setIsEditing(true)} className={style.description}>
-            {renderContent(description ?? '')}
+          <button
+            onClick={() => {
+              if (isDisabled) return;
+              setIsEditing(true);
+            }}
+            className={style.description}
+          >
+            <div className={style.tipTapPreview}>{renderContent(description)}</div>
           </button>
         )}
       </div>

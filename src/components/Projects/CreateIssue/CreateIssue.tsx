@@ -5,6 +5,8 @@ import styles from './CreateIssue.module.scss';
 import TicketTypeSelect from '../../Form/TicketTypeSelect/TicketTypeSelect';
 import useOutsideAlerter from '../../../hooks/OutsideAlerter';
 import { ProjectDetailsContext } from '../../../context/ProjectDetailsProvider';
+import checkAccess from '../../../utils/helpers';
+import { Permission } from '../../../utils/permission';
 
 export interface ICreateIssue {
   name: string;
@@ -21,6 +23,7 @@ export default function CreateIssue({ onIssueCreate, showDropDownOnTop = false }
   const [currentTypeOption, setCurrentTypeOption] = useState('story');
   const createIssueRef = useRef<HTMLInputElement | null>(null);
   const projectDetails = useContext(ProjectDetailsContext);
+  const projectId = projectDetails.details.id;
 
   const onKeyDownCreateIssue = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== 'Enter' || !createIssueRef?.current?.value) {
@@ -36,27 +39,33 @@ export default function CreateIssue({ onIssueCreate, showDropDownOnTop = false }
     setVisible(false);
   };
 
-  return visible ? (
-    <form>
-      <div className={styles.formField} ref={myRef}>
-        <TicketTypeSelect
-          showDropDownOnTop={showDropDownOnTop}
-          setCurrentTypeOption={setCurrentTypeOption}
-        />
-        <input
-          className={styles.input}
-          type="text"
-          name="newBacklog"
-          id="newBacklog"
-          data-testid="create-issue-input"
-          ref={createIssueRef}
-          onKeyDown={onKeyDownCreateIssue}
-        />
-      </div>
-    </form>
-  ) : (
-    <Button icon={<GoPlus />} overrideStyle={styles.buttonRow} onClick={() => setVisible(true)}>
-      <p data-testid="create-issue">Create ticket</p>
-    </Button>
-  );
+  if (visible) {
+    return (
+      <form>
+        <div className={styles.formField} ref={myRef}>
+          <TicketTypeSelect
+            showDropDownOnTop={showDropDownOnTop}
+            setCurrentTypeOption={setCurrentTypeOption}
+          />
+          <input
+            className={styles.input}
+            type="text"
+            name="newBacklog"
+            id="newBacklog"
+            data-testid="create-issue-input"
+            ref={createIssueRef}
+            onKeyDown={onKeyDownCreateIssue}
+          />
+        </div>
+      </form>
+    );
+  }
+  if (checkAccess(Permission.CreateTickets, projectId)) {
+    return (
+      <Button icon={<GoPlus />} overrideStyle={styles.buttonRow} onClick={() => setVisible(true)}>
+        <p data-testid="create-issue">Create ticket</p>
+      </Button>
+    );
+  }
+  return null;
 }

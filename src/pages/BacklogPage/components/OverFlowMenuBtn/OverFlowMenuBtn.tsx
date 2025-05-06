@@ -1,8 +1,11 @@
 /* eslint-disable react/no-unused-prop-types */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import styles from './OverFlowMenuBtn.module.scss';
 import useOutsideAlerter from '../../../../hooks/OutsideAlerter';
+import checkAccess from '../../../../utils/helpers';
+import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvider';
+import { Permission } from '../../../../utils/permission';
 
 interface IOverFlowMenuBtn {
   ticketId: string;
@@ -10,6 +13,7 @@ interface IOverFlowMenuBtn {
   className: string;
   items;
 }
+
 export default function OverFlowMenuBtn({
   ticketId,
   showDropDownOnTop,
@@ -22,6 +26,8 @@ export default function OverFlowMenuBtn({
     setClickOptionBtnShowStyle(false);
   };
   const { visible, setVisible, myRef } = useOutsideAlerter(false, action);
+  const projectDetails = useContext(ProjectDetailsContext);
+  const projectId = projectDetails.details.id;
 
   return (
     <div className={`${styles.optionBtnContainer} ${className}`} ref={myRef}>
@@ -52,17 +58,19 @@ export default function OverFlowMenuBtn({
           <p>Actions</p>
           {items
             .filter((item) => item.show)
-            .map((item) => (
-              <li key={item.name}>
-                <button
-                  className={styles.dropDownBtn}
-                  onClick={item.onClick}
-                  data-testid={'delete-ticket-'.concat(item.name)}
-                >
-                  {item.name}
-                </button>
-              </li>
-            ))}
+            .map((item) =>
+              item.name === 'Delete' && !checkAccess(Permission.DeleteTickets, projectId) ? null : (
+                <li key={item.name}>
+                  <button
+                    className={styles.dropDownBtn}
+                    onClick={item.onClick}
+                    data-testid={'delete-ticket-'.concat(item.name)}
+                  >
+                    {item.name}
+                  </button>
+                </li>
+              )
+            )}
         </ul>
       </div>
     </div>

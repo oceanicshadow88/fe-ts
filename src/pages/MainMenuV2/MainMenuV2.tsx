@@ -61,9 +61,9 @@ export default function MainMenuV2() {
   const [customerId, setCustomerId] = useState('');
   const setUserInfo = useContext(UserDispatchContext);
   const userInfo = useContext(UserContext);
-  const { isOwner } = userInfo;
+  const { isCurrentUserOwner } = userInfo;
 
-  const btnsArray = isOwner ? btnsForDomainOwner : btnsForOthers;
+  const btnsArray = isCurrentUserOwner ? btnsForDomainOwner : btnsForOthers;
 
   const logout = () => {
     localStorage.clear();
@@ -73,7 +73,7 @@ export default function MainMenuV2() {
 
   useEffect(() => {
     getCustomerId().then((data) => {
-      setCustomerId(data?.data);
+      setCustomerId(data.data);
     });
   }, []);
 
@@ -105,7 +105,7 @@ export default function MainMenuV2() {
             <MdList />
             Preferences (WIP)
           </div>
-          {isOwner && (
+          {isCurrentUserOwner && (
             <button
               onClick={() => handleManageSubscriptionClick(customerId)}
               className={styles.item}

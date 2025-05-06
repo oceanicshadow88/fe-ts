@@ -7,6 +7,8 @@ import styles from './DraggableBoardCard.module.scss';
 import { ModalContext } from '../../../../context/ModalProvider';
 import { ITicketBoard, ITicketDetails } from '../../../../types';
 import Avatar from '../../../../components/Avatar/Avatar';
+import { Permission } from '../../../../utils/permission';
+import checkAccess from '../../../../utils/helpers';
 
 interface IDraggableBoardCard {
   item: ITicketBoard;
@@ -51,6 +53,7 @@ export default function DraggableBoardCard(props: IDraggableBoardCard) {
                   ticketId={item.id}
                   onDeletedTicket={handleDeletedTicket}
                   onSavedTicket={handleSavedTicket}
+                  isReadOnly={!checkAccess(Permission.EditTickets, projectId)}
                 />
               );
             }}

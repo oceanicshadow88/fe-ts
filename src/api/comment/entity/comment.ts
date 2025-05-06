@@ -1,5 +1,5 @@
 export interface CreateComment {
-  ticketId: string;
+  ticket: string;
   sender: string;
   content: string;
 }

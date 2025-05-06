@@ -129,7 +129,7 @@ function PermissionSelector(props: IProps) {
                 <div className={styles['permission-container']}>
                   {isNewRole
                     ? defaultFormat(el, permissions)
-                    : operationFilter(el, permissions, role?.permission ?? [])}
+                    : operationFilter(el, permissions, role?.permissions ?? [])}
                 </div>
               </div>
             );
