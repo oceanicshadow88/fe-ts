@@ -5,7 +5,7 @@ export default class StatusBuilder {
 
     constructor() {
         this.data = {
-            id: 'default-status-id',
+            id: '',
             slug: 'default-status',
             name: 'Default Status',
             order: 0,
