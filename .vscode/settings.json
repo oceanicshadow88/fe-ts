@@ -1,0 +1,26 @@
+{
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "eslint.alwaysShowStatus": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "eslint.format.enable": true,
+  "files.eol": "\r\n",
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true,
+  "gitlens.currentLine.dateFormat": "",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.language.brackets": [],
+  "editor.codeActionsOnSave": ["source.addMissingImports"]
+}
