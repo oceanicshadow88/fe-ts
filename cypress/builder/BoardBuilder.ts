@@ -35,6 +35,10 @@ export class BoardBuilder {
           .withOrder(3)
           .build(),
       ],
+      isPublic: false,
+      tenant: '67e10b25da089abc827c84d0',
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
   }
 
@@ -48,11 +52,30 @@ export class BoardBuilder {
     return this;
   }
 
-  addStatus(status: IStatusBacklog): this {
-    this.data.statuses.push(status);
+  addStatuses(...statuses: IStatusBacklog[]): this {
+    this.data.statuses.push(...statuses);
     return this;
   }
 
+  withIsPublic(isPublic: boolean): this {
+    this.data.isPublic = isPublic;
+    return this;
+  }
+
+  withTenant(tenant: string): this {
+    this.data.tenant = tenant;
+    return this;
+  }
+
+  withCreatedAt(createdAt: Date): this {
+    this.data.createdAt = createdAt;
+    return this;
+  }
+
+  withUpdatedAt(updatedAt: Date): this {
+    this.data.updatedAt = updatedAt;
+    return this;
+  }
   // Method to build the final project object
   build() {
     return {

@@ -1,6 +1,6 @@
 import { IStatusBacklog } from "../../src/types";
 
-export default class StatusBuilder {
+export class StatusBuilder {
     private readonly data: IStatusBacklog;
 
     constructor() {
@@ -9,6 +9,10 @@ export default class StatusBuilder {
             slug: 'default-status',
             name: 'Default Status',
             order: 0,
+            board: 'default-board',
+            tenant: 'default-tenant',
+            isDefault: false,
+            updatedAt: new Date(),
         };
     }
     
@@ -34,6 +38,21 @@ export default class StatusBuilder {
 
     withBoard(board: string): this {
         this.data.board = board;
+        return this;
+    }
+
+    withTenant(tenant: string): this {
+        this.data.tenant = tenant;
+        return this;
+    }
+
+    withIsDefault(isDefault: boolean): this {
+        this.data.isDefault = isDefault;
+        return this;
+    }
+
+    withUpdatedAt(updatedAt: Date): this {
+        this.data.updatedAt = updatedAt;
         return this;
     }
 

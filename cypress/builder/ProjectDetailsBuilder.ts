@@ -1,8 +1,42 @@
+import { IStatusBacklog } from '../../src/types';
+import IBoard from '../../src/types';
+import { StatusBuilder } from './StatusBuilder';
+import { BoardBuilder } from './BoardBuilder';
+
 export class ProjectDetailsBuilder {
-  private data: any;
+  private readonly data: any;
+  private readonly statuses: IStatusBacklog[];
 
   constructor() {
     // Initialize with default values
+
+    this.statuses = [
+      new StatusBuilder()
+      .withId('680ad5c93304169fba2fdaef')
+      .withName('To Do')
+      .withSlug('to-do')
+      .withTenant('680ad3aa3304169fba2fd8fe')
+      .build(),
+    new StatusBuilder()
+      .withId('680ad5c93304169fba2fdaf0')
+      .withName('In Progress')
+      .withSlug('in-progress')
+      .withTenant('680ad3aa3304169fba2fd8fe')
+      .build(),
+    new StatusBuilder()
+      .withId('680ad5c93304169fba2fdaf1')
+      .withName('In Review')
+      .withSlug('review')
+      .withTenant('680ad3aa3304169fba2fd8fe')
+      .build(),
+    new StatusBuilder()
+      .withId('680ad5c93304169fba2fdaf2')
+      .withName('Done')
+      .withSlug('done')
+      .withTenant('680ad3aa3304169fba2fd8fe')
+      .build()
+  ]
+
     this.data = {
       labels: [],
       users: [],
@@ -70,129 +104,20 @@ export class ProjectDetailsBuilder {
           __v: 0
         }
       ],
-      statues: [
-        {
-          id: '680ad5c93304169fba2fdaef',
-          slug: 'to-do',
-          tenant: '680ad3aa3304169fba2fd8fe',
-          isDefault: false,
-          name: 'to do'
-        },
-        {
-          id: '680ad5c93304169fba2fdaf0',
-          slug: 'in-progress',
-          tenant: '680ad3aa3304169fba2fd8fe',
-          isDefault: false,
-          name: 'in progress'
-        },
-        {
-          id: '680ad5c93304169fba2fdaf1',
-          slug: 'review',
-          tenant: '680ad3aa3304169fba2fd8fe',
-          isDefault: false,
-          name: 'review'
-        },
-        {
-          id: '680ad5c93304169fba2fdaf2',
-          slug: 'done',
-          tenant: '680ad3aa3304169fba2fd8fe',
-          isDefault: false,
-          name: 'done'
-        }
-      ],
+      statues: this.statuses,
       boards: [
-        {
-          isPublic: false,
-          id: '680ad5c98b96b6e88509d9b8',
-          title: 'asd',
-          tenant: '680ad3aa3304169fba2fd8fe',
-          statuses: [
-            {
-              id: '680ad5c93304169fba2fdaef',
-              slug: 'to-do',
-              tenant: '680ad3aa3304169fba2fd8fe',
-              createdAt: '2025-04-25T00:22:33.633Z',
-              isDefault: false,
-              name: 'to do',
-              updatedAt: '2025-04-25T00:49:12.137Z'
-            },
-            {
-              id: '680ad5c93304169fba2fdaf0',
-              slug: 'in-progress',
-              tenant: '680ad3aa3304169fba2fd8fe',
-              createdAt: '2025-04-25T00:22:33.633Z',
-              isDefault: false,
-              name: 'in progress',
-              updatedAt: '2025-04-25T00:49:12.137Z'
-            },
-            {
-              id: '680ad5c93304169fba2fdaf1',
-              slug: 'review',
-              tenant: '680ad3aa3304169fba2fd8fe',
-              createdAt: '2025-04-25T00:22:33.633Z',
-              isDefault: false,
-              name: 'review',
-              updatedAt: '2025-04-25T00:49:12.137Z'
-            },
-            {
-              id: '680ad5c93304169fba2fdaf2',
-              slug: 'done',
-              tenant: '680ad3aa3304169fba2fd8fe',
-              createdAt: '2025-04-25T00:22:33.633Z',
-              isDefault: false,
-              name: 'done',
-              updatedAt: '2025-04-25T00:49:12.137Z'
-            }
-          ],
-          createdAt: '2025-04-25T00:22:33.766Z',
-          updatedAt: '2025-04-25T00:22:33.766Z'
-        },
-        {
-          id: '680adc088bd91cf9c9fdcb1f',
-          title: 'Default',
-          tenant: '680ad3aa3304169fba2fd8fe',
-          statuses: [
-            {
-              id: '680ad5c93304169fba2fdaef',
-              slug: 'to-do',
-              tenant: '680ad3aa3304169fba2fd8fe',
-              createdAt: '2025-04-25T00:22:33.633Z',
-              isDefault: false,
-              name: 'to do',
-              updatedAt: '2025-04-25T00:49:12.137Z'
-            },
-            {
-              id: '680ad5c93304169fba2fdaf0',
-              slug: 'in-progress',
-              tenant: '680ad3aa3304169fba2fd8fe',
-              createdAt: '2025-04-25T00:22:33.633Z',
-              isDefault: false,
-              name: 'in progress',
-              updatedAt: '2025-04-25T00:49:12.137Z'
-            },
-            {
-              id: '680ad5c93304169fba2fdaf1',
-              slug: 'review',
-              tenant: '680ad3aa3304169fba2fd8fe',
-              createdAt: '2025-04-25T00:22:33.633Z',
-              isDefault: false,
-              name: 'review',
-              updatedAt: '2025-04-25T00:49:12.137Z'
-            },
-            {
-              id: '680ad5c93304169fba2fdaf2',
-              slug: 'done',
-              tenant: '680ad3aa3304169fba2fd8fe',
-              createdAt: '2025-04-25T00:22:33.633Z',
-              isDefault: false,
-              name: 'done',
-              updatedAt: '2025-04-25T00:49:12.137Z'
-            }
-          ],
-          isPublic: false,
-          createdAt: '2025-04-25T00:49:12.165Z',
-          updatedAt: '2025-04-25T00:49:12.165Z'
-        }
+        new BoardBuilder()
+          .withId('680ad5c98b96b6e88509d9b8')
+          .withTitle('Default Board 1')
+          .withTenant('680ad3aa3304169fba2fd8fe')
+          .addStatuses(...this.statuses)
+          .build(),
+        new BoardBuilder()
+          .withId('680adc088bd91cf9c9fdcb1f')
+          .withTitle('Default Board 2')
+          .withTenant('680ad3aa3304169fba2fd8fe')
+          .addStatuses(...this.statuses)
+          .build(),
       ],
       epics: [],
       details: {
@@ -247,6 +172,16 @@ export class ProjectDetailsBuilder {
     };
   }
 
+  addStatus(status: IStatusBacklog): this {
+    this.data.statuses.push(status);
+    return this;
+  }
+
+  addBoard(board: IBoard): this {
+    this.data.boards.push(board);
+    return this;
+  }
+  
   // Method to build the final project object
   build() {
     return this.data;
