@@ -288,17 +288,15 @@ export default function ProjectPage() {
                 Delete Project
               </button>
             )}
-            {checkAccess(Permission.DeleteProjects, projectId) && (
-              <button
-                type="button"
-                data-testid="project-delete"
-                onClick={() => {
-                  handleExportProject(projectId);
-                }}
-              >
-                export Project
-              </button>
-            )}
+            <button
+              type="button"
+              data-testid="project-delete"
+              onClick={() => {
+                handleExportProject(projectId);
+              }}
+            >
+              export Project
+            </button>
           </div>
         )}
         {(checkAccess(Permission.ViewProjects, projectId) ||
