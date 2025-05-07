@@ -223,17 +223,15 @@ export interface IColumnsFromBackend {
 
 export interface IStatus {
   id: string;
-  slug: string;
   name: string;
-}
-
-export interface IStatusBacklog {
-  id: string;
   slug: string;
-  name: string;
-  order: number;
+  tenant: string;
+  isDefault: boolean;
+  createdAt: string;
+  updatedAt: string;
   board?: string;
 }
+
 export interface ITicketBacklog {
   assign?: IUserInfo | null;
   attachmentUrls?: [];
@@ -246,7 +244,7 @@ export interface ITicketBacklog {
   projectId?: string;
   reporter?: IUserInfo | null;
   sprint?: ISprint | null;
-  status?: IStatusBacklog;
+  status?: IStatus;
   storyPoint?: number;
   tags?: [];
   title?: string;
@@ -259,7 +257,11 @@ export interface IBacklogData {
 export interface IBoard {
   id: string;
   title: string;
-  statuses: IStatusEntity[];
+  tenant: string;
+  statuses: IStatus[];
+  isPublic: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IOnChangeTicketStatus {

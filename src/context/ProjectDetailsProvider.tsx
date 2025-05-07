@@ -6,7 +6,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { IProject, ISprint, IStatusBacklog, IUserInfo, IBoard } from '../types';
+import { IBoard, IProject, ISprint, IStatus, IUserInfo } from '../types';
 import { getOwner } from '../utils/helpers';
 import { getProjectDetails } from '../api/projects/projects';
 
@@ -16,7 +16,7 @@ export interface IProjectDetails {
   sprints: ISprint[];
   epics: any;
   users: IUserInfo[];
-  statuses: IStatusBacklog[];
+  statuses: IStatus[];
   boards: IBoard[];
   details: IProject;
   retroBoards: any;
