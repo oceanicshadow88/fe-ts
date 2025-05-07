@@ -6,9 +6,10 @@ import style from './DueDatePicker.module.scss';
 interface Props {
   ticketInfo: ITicketDetails;
   dueDateOnchange: (ticketInfo: ITicketDetails) => void;
+  isDisabled: boolean;
 }
 
-export default function DueDatePicker({ ticketInfo, dueDateOnchange }: Props) {
+export default function DueDatePicker({ ticketInfo, dueDateOnchange, isDisabled }: Props) {
   const dateWithDay = (date: Date | null) => {
     if (date != null) {
       const fullDate = date.toString().split('T')[0];
@@ -30,6 +31,7 @@ export default function DueDatePicker({ ticketInfo, dueDateOnchange }: Props) {
           dueDateOnchange(updatedTicketInfo);
         }}
         testId="dueDatePicker"
+        isDisabled={isDisabled}
       />
     </div>
   );

@@ -5,6 +5,7 @@ import styles from './OverFlowMenuBtn.module.scss';
 import useOutsideAlerter from '../../../../hooks/OutsideAlerter';
 import checkAccess from '../../../../utils/helpers';
 import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvider';
+import { Permission } from '../../../../utils/permission';
 
 interface IOverFlowMenuBtn {
   ticketId: string;
@@ -13,9 +14,6 @@ interface IOverFlowMenuBtn {
   items;
 }
 
-const enum Permission {
-  DeleteTickets = 'delete:tickets'
-}
 export default function OverFlowMenuBtn({
   ticketId,
   showDropDownOnTop,

@@ -11,6 +11,9 @@ import DefaultModalHeader from '../../../../lib/Modal/ModalHeader/DefaultModalHe
 import { IProjectDetails } from '../../../../context/ProjectDetailsProvider';
 import { IMinEvent, ISprint } from '../../../../types';
 import DropdownV2 from '../../../../lib/FormV2/DropdownV2/DropdownV2';
+import InputV2 from '../../../../lib/FormV2/InputV2/InputV2';
+import checkAccess from '../../../../utils/helpers';
+import { Permission } from '../../../../utils/permission';
 
 interface ICreateEditSprint {
   type: string;
@@ -138,7 +141,7 @@ export default function CreateEditSprint({
       {ReactDOM.createPortal(
         <Modal classesName={styles.createEditSprintModal}>
           <DefaultModalHeader
-            title={`${type} Sprint`}
+            title={`${type} Sprint (Missing Validation)`}
             onClickClose={() => {
               onClickCloseModal();
             }}
@@ -146,15 +149,17 @@ export default function CreateEditSprint({
           <div className={styles.createEditSprintContainer}>
             <div className={styles.createEditSprintInputContainer}>
               <div className={styles.inputContainer}>
-                <p className={styles.label}>Sprint Name:</p>
-                <input
+                <InputV2
                   type="text"
                   name="name"
                   value={sprintName}
-                  className={styles.textInput}
-                  onChange={(e) => {
+                  // className={styles.textInput}
+                  onValueChanged={(e) => {
                     setSprintName(e.target.value);
                   }}
+                  label="Sprint Name"
+                  dataTestId="sprint-name"
+                  required
                 />
               </div>
               <DropdownV2
@@ -165,6 +170,7 @@ export default function CreateEditSprint({
                 options={projectDetails.boards.map((item) => {
                   return { value: item.id, label: item.title };
                 })}
+                required
               />
               <DropdownV2
                 label="Retro Board"
@@ -174,6 +180,7 @@ export default function CreateEditSprint({
                 options={projectDetails.retroBoards.map((item) => {
                   return { value: item.id, label: item.title };
                 })}
+                required
               />
               <div className={[styles.duration, styles.inputContainer].join(' ')} ref={myRef}>
                 <p className={styles.label}>Duration:</p>
@@ -261,7 +268,7 @@ export default function CreateEditSprint({
               >
                 Cancel
               </button>
-              {type === 'Edit' && (
+              {type === 'Edit' && checkAccess(Permission.DeleteSprints, projectId) && (
                 <button
                   className={styles.deleteBtn}
                   onClick={() => {

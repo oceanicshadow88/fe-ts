@@ -15,13 +15,15 @@ interface IDescriptionSessionProps {
   attachmentUrls: string[];
   users: IUserInfo[];
   onSubmitForm: (data: { attachmentUrls: string[]; description: string }) => void;
+  isDisabled: boolean;
 }
 
 export default function DescriptionSession({
   description,
   attachmentUrls,
   users,
-  onSubmitForm
+  onSubmitForm,
+  isDisabled
 }: IDescriptionSessionProps) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -76,7 +78,13 @@ export default function DescriptionSession({
             onCancel={() => setIsEditing(false)}
           />
         ) : (
-          <button onClick={() => setIsEditing(true)} className={style.description}>
+          <button
+            onClick={() => {
+              if (isDisabled) return;
+              setIsEditing(true);
+            }}
+            className={style.description}
+          >
             <div className={style.tipTapPreview}>{renderContent(description)}</div>
           </button>
         )}

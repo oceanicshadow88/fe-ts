@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import styles from './TypeEdit.module.scss';
+import styles from './TicketTypeEdit.module.scss';
 import useOutsideAlerter from '../../../../hooks/OutsideAlerter';
 import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvider';
 import { ITypes } from '../../../../types';
@@ -9,9 +9,16 @@ type SelectProps = {
   value?: ITypes;
   onChange: (value: ITypes | undefined) => void;
   updateTicketType: (newTypeId: string) => Promise<void>;
+  isDisabled: boolean;
 };
 
-export default function TypeEdit({ ticketId, value, onChange, updateTicketType }: SelectProps) {
+export default function TicketTypeEdit({
+  ticketId,
+  value,
+  onChange,
+  updateTicketType,
+  isDisabled
+}: SelectProps) {
   const projectDetails = useContext(ProjectDetailsContext);
   const { visible, setVisible, myRef } = useOutsideAlerter(false);
 
@@ -30,7 +37,10 @@ export default function TypeEdit({ ticketId, value, onChange, updateTicketType }
       className={styles.container}
       role="button"
       tabIndex={0}
-      onClick={() => setVisible((prev) => !prev)}
+      onClick={() => {
+        if (isDisabled) return;
+        setVisible((prev) => !prev);
+      }}
       onKeyDown={(e) => e.key === 'Enter' && setVisible((prev) => !prev)}
       data-testid={`types-btn-${ticketId}`}
       ref={myRef}
@@ -65,7 +75,7 @@ export default function TypeEdit({ ticketId, value, onChange, updateTicketType }
   );
 }
 
-TypeEdit.defaultProps = {
+TicketTypeEdit.defaultProps = {
   value: {
     id: '',
     name: '',
