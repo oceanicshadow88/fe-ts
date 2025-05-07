@@ -1,8 +1,8 @@
-import { IStatusBacklog } from "../../src/types";
+import { IStatus } from "../../src/types";
 import BaseBuilder from "./BaseBuilder";
 
 export default class StatusBuilder extends BaseBuilder {
-    private readonly data: IStatusBacklog;
+    private readonly data: IStatus;
 
     constructor() {
         super();
@@ -10,11 +10,11 @@ export default class StatusBuilder extends BaseBuilder {
             id: this.generateId(),
             slug: 'default-status',
             name: 'Default Status',
-            order: 0,
             board: 'default-board',
             tenant: this.generateId(),
             isDefault: false,
-            updatedAt: new Date(),
+            updatedAt: new Date().toString(),
+            createdAt: new Date().toString(),
         };
     }
     
@@ -33,11 +33,6 @@ export default class StatusBuilder extends BaseBuilder {
         return this;
     }
 
-    withOrder(order: number): this {
-        this.data.order = order;
-        return this;
-    }
-
     withBoard(board: string): this {
         this.data.board = board;
         return this;
@@ -53,12 +48,17 @@ export default class StatusBuilder extends BaseBuilder {
         return this;
     }
 
-    withUpdatedAt(updatedAt: Date): this {
+    withUpdatedAt(updatedAt: string): this {
         this.data.updatedAt = updatedAt;
         return this;
     }
 
-    build(): IStatusBacklog {
+    withCreatedAt(createdAt: string): this {
+        this.data.createdAt = createdAt;
+        return this;
+    }
+
+    build(): IStatus {
         return {
             ...this.data,
         };

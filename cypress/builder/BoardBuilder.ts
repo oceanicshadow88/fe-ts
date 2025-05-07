@@ -1,4 +1,4 @@
-import { IStatusBacklog, IBoard } from '../../src/types';
+import { IStatus, IBoard } from '../../src/types';
 import BaseBuilder from './BaseBuilder';
 import StatusBuilder from './StatusBuilder';
 
@@ -10,32 +10,17 @@ export default class BoardBuilder extends BaseBuilder {
     this.data = {
       id: this.generateId(),
       title: 'Deault Board Name',
-      statuses: [
+      statuses: ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => 
         new StatusBuilder()
-          .withName('To Do')
-          .withSlug('to-do')
-          .withOrder(0)
-          .build(),
-        new StatusBuilder()
-          .withName('In Progress')
-          .withSlug('in-progress')
-          .withOrder(1)
-          .build(),
-        new StatusBuilder()
-          .withName('In Review')
-          .withSlug('in-review')
-          .withOrder(2)
-          .build(),
-        new StatusBuilder()
-          .withName('Done')
-          .withSlug('done')
-          .withOrder(3)
-          .build(),
-      ],
+          .withName(name)
+          .withSlug(name.toLowerCase().replace(/\s+/g, '-'))
+          .withIsDefault(false)
+          .build()
+      ),
       isPublic: false,
       tenant: this.generateId(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: new Date().toString(),
+      updatedAt: new Date().toString(),
     };
   }
 
@@ -49,7 +34,7 @@ export default class BoardBuilder extends BaseBuilder {
     return this;
   }
 
-  addStatuses(...statuses: IStatusBacklog[]): this {
+  addStatuses(...statuses: IStatus[]): this {
     this.data.statuses.push(...statuses);
     return this;
   }
@@ -64,12 +49,12 @@ export default class BoardBuilder extends BaseBuilder {
     return this;
   }
 
-  withCreatedAt(createdAt: Date): this {
+  withCreatedAt(createdAt: string): this {
     this.data.createdAt = createdAt;
     return this;
   }
 
-  withUpdatedAt(updatedAt: Date): this {
+  withUpdatedAt(updatedAt: string): this {
     this.data.updatedAt = updatedAt;
     return this;
   }

@@ -1,4 +1,4 @@
-import { IStatusBacklog, IBoard } from '../../src/types';
+import { IStatus, IBoard } from '../../src/types';
 import BaseBuilder from './BaseBuilder';
 import StatusBuilder from './StatusBuilder';
 import BoardBuilder from './BoardBuilder';
@@ -13,13 +13,12 @@ export class ProjectDetailsBuilder extends BaseBuilder {
 
     this.tenant = this.generateId();
 
-    this.data.statuses = ['To Do', 'In Progress', 'In Review', 'Done'].map((name, index) => {
+    this.data.statuses = ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => {
       const slug = name.toLowerCase().replace(/\s+/g, '-');
       return new StatusBuilder()
         .withName(name)
         .withSlug(slug)
         .withTenant(this.tenant)
-        .withOrder(index)
         .build();
     });
 
@@ -151,7 +150,7 @@ export class ProjectDetailsBuilder extends BaseBuilder {
     };
   }
 
-  addStatus(status: IStatusBacklog): this {
+  addStatus(status: IStatus): this {
     this.data.statuses.push(status);
     return this;
   }
