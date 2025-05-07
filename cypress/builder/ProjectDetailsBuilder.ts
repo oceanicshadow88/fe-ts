@@ -15,11 +15,7 @@ export class ProjectDetailsBuilder extends BaseBuilder {
 
     this.data.statuses = ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => {
       const slug = name.toLowerCase().replace(/\s+/g, '-');
-      return new StatusBuilder()
-        .withName(name)
-        .withSlug(slug)
-        .withTenant(this.tenant)
-        .build();
+      return new StatusBuilder().withName(name).withSlug(slug).withTenant(this.tenant).build();
     });
 
     this.data.boards = ['Default Board 1', 'Default Board 2'].map((title) => {
@@ -159,7 +155,7 @@ export class ProjectDetailsBuilder extends BaseBuilder {
     this.data.boards.push(board);
     return this;
   }
-  
+
   // Method to build the final project object
   build() {
     return this.data;
