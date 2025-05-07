@@ -4,7 +4,7 @@ import StatusBuilder from './StatusBuilder';
 import BoardBuilder from './BoardBuilder';
 
 export class ProjectDetailsBuilder extends BaseBuilder {
-  private readonly data: any;
+  private readonly data: any = {};
   private readonly tenant: string;
 
   constructor() {
