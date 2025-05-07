@@ -1,7 +1,9 @@
-import { IStatus, IBoard } from '../../src/types';
+import { IStatus, IBoard, ISprint, ITypes } from '../../src/types';
 import BaseBuilder from './BaseBuilder';
 import StatusBuilder from './StatusBuilder';
 import BoardBuilder from './BoardBuilder';
+import SprintBuilder from './SprintBuilder';
+import TypesBuilder from './TypeBuilder';
 
 export class ProjectDetailsBuilder extends BaseBuilder {
   private readonly data: any = {};
@@ -25,6 +27,25 @@ export class ProjectDetailsBuilder extends BaseBuilder {
         .addStatuses(...this.data.statuses)
         .build();
     });
+
+    this.data.ticketTypes = ['Story', 'Task', 'Bug', 'Tech Debt'].map((name, index) => {
+      const slug = name.toLowerCase().replace(/\s+/g, '');
+      return new TypesBuilder()
+        .withName(name)
+        .withIcon(`https://some.icon.com/${slug}.png`)
+        .withId(this.generateId())
+        .build();
+    });
+
+    this.data.sprints = ['Sprint 1', 'Sprint 2'].map((name) =>
+      new SprintBuilder()
+        .withName(name)
+        .withCurrentSprint(true)
+        .withProjectId(this.data.details?.id || this.generateId())
+        .withBoard(this.data.boards[0].id)
+        .withRetroBoard(this.data.retroBoards?.[0]?.id || this.generateId())
+        .build()
+    );
 
     this.data = {
       labels: [],
@@ -153,6 +174,16 @@ export class ProjectDetailsBuilder extends BaseBuilder {
 
   addBoard(board: IBoard): this {
     this.data.boards.push(board);
+    return this;
+  }
+
+  addSprint(sprint: ISprint): this {
+    this.data.sprints.push(sprint);
+    return this;
+  }
+
+  addTicketType(type: ITypes): this {
+    this.data.ticketTypes.push(type);
     return this;
   }
 
