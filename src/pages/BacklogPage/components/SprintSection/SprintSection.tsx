@@ -11,6 +11,8 @@ import { updateSprint } from '../../../../api/sprint/sprint';
 import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvider';
 import { ISprint } from '../../../../types';
 import { ModalContext } from '../../../../context/ModalProvider';
+import checkAccess from '../../../../utils/helpers';
+import { Permission } from '../../../../utils/permission';
 
 interface ISprintSection {
   sprint: ISprint;
@@ -65,43 +67,45 @@ export default function SprintSection({ totalIssue, sprint, children }: ISprintS
             <div className={styles.issueCount}> ({totalIssue} tickets)</div>
           </div>
         </div>
-        <div className={styles.toolbar}>
-          {sprint.currentSprint ? (
-            <Button
+        {checkAccess(Permission.EditSprints, projectId) && (
+          <div className={styles.toolbar}>
+            {sprint.currentSprint ? (
+              <Button
+                onClick={() => {
+                  onClickCompleteSprint(sprint.id);
+                }}
+              >
+                Complete Sprint
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  onClickStartSprint(sprint.id);
+                }}
+              >
+                Start Sprint
+              </Button>
+            )}
+            <IconButton
+              icon={<BiDotsHorizontal />}
+              tooltip="Actions"
               onClick={() => {
-                onClickCompleteSprint(sprint.id);
+                showModal(
+                  'create-sprint',
+                  <CreateEditSprint
+                    type="Edit"
+                    projectDetails={projectDetails}
+                    onClickCloseModal={() => {
+                      closeModal('create-sprint');
+                    }}
+                    currentSprint={sprint}
+                    projectId={projectId}
+                  />
+                );
               }}
-            >
-              Complete Sprint
-            </Button>
-          ) : (
-            <Button
-              onClick={() => {
-                onClickStartSprint(sprint.id);
-              }}
-            >
-              Start Sprint
-            </Button>
-          )}
-          <IconButton
-            icon={<BiDotsHorizontal />}
-            tooltip="Actions"
-            onClick={() => {
-              showModal(
-                'create-sprint',
-                <CreateEditSprint
-                  type="Edit"
-                  projectDetails={projectDetails}
-                  onClickCloseModal={() => {
-                    closeModal('create-sprint');
-                  }}
-                  currentSprint={sprint}
-                  projectId={projectId}
-                />
-              );
-            }}
-          />
-        </div>
+            />
+          </div>
+        )}
       </div>
       {children}
     </section>

@@ -5,11 +5,11 @@ import style from './ActivitiesSession.module.scss';
 import TimeAgo from '../../../TimeAgo/TimeAgo';
 import Avatar from '../../../Avatar/Avatar';
 import { getActivity } from '../../../../api/activity/activity';
-import { IActivityData } from '../../../../types';
+import { IActivityData, ITicketDetails } from '../../../../types';
 
 interface IActivitiesSessionProps {
   ticketId: string;
-  ticketInfo: IActivityData | null;
+  ticketInfo: ITicketDetails | null;
 }
 
 export default function ActivitiesSession({ ticketId, ticketInfo }: IActivitiesSessionProps) {
@@ -101,16 +101,18 @@ export default function ActivitiesSession({ ticketId, ticketInfo }: IActivitiesS
       }
       case 'Description': {
         renderPreValues =
-          prevValues.length > 0 && prevValues[0] ? extractPlainText(JSON.parse(prevValues[0])) : [];
+          prevValues.length > 0 && prevValues[0]
+            ? [extractPlainText(JSON.parse(prevValues[0]))]
+            : [];
         renderAfterValues =
           afterValues.length > 0 && afterValues[0]
-            ? extractPlainText(JSON.parse(afterValues[0]))
+            ? [extractPlainText(JSON.parse(afterValues[0]))]
             : [];
         break;
       }
       case 'Due At': {
-        renderPreValues = prevValues.length > 0 ? extractTime(prevValues) : [];
-        renderAfterValues = afterValues.length > 0 ? extractTime(afterValues) : [];
+        renderPreValues = prevValues.length > 0 ? [extractTime(prevValues[0])] : [];
+        renderAfterValues = afterValues.length > 0 ? [extractTime(afterValues[0])] : [];
         break;
       }
       case 'Labels':
@@ -145,8 +147,8 @@ export default function ActivitiesSession({ ticketId, ticketInfo }: IActivitiesS
           <div key={activity.id} className={style.container}>
             <div key={activity.id} className={style.headContainer}>
               <div className={style.userContainer}>
-                <Avatar user={activity.userId} />
-                <p>{activity.userId.name}</p>
+                <Avatar user={activity.user} />
+                <p>{activity.user.name}</p>
               </div>
               <div className={style.operationContainer}>
                 <p className={style.operation}>{activity.operation}</p>

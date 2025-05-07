@@ -5,16 +5,18 @@ import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { GoTrash } from 'react-icons/go';
 import styles from './DraggableRetroItem.module.scss';
-import { deleteRetroItem } from '../../../../api/retro/retro';
+import checkAccess from '../../../../utils/helpers';
+import { Permission } from '../../../../utils/permission';
 
 interface IDraggableBoardCard {
   item: any;
   index: number;
+  projectId: string;
   onRemoveItem: (id: string) => void;
 }
 
 export default function DraggableRetroItem(props: IDraggableBoardCard) {
-  const { item, index, onRemoveItem } = props;
+  const { item, index, onRemoveItem, projectId } = props;
 
   return (
     <Draggable draggableId={item.id ?? ''} index={index}>
@@ -29,10 +31,12 @@ export default function DraggableRetroItem(props: IDraggableBoardCard) {
             data-testid={`ticket-${item.id}`}
           >
             <p>{item.content}</p>
-            <GoTrash
-              onClick={() => onRemoveItem(item.id)}
-              style={{ minWidth: '30px', fontSize: '20px' }}
-            />
+            {checkAccess(Permission.DeleteRetro, projectId) && (
+              <GoTrash
+                onClick={() => onRemoveItem(item.id)}
+                style={{ minWidth: '30px', fontSize: '20px' }}
+              />
+            )}
           </div>
         );
       }}

@@ -12,13 +12,15 @@ interface IAssigneeBtn {
   userList: IUserInfo[];
   showDropDownOnTop?: boolean;
   getBacklogDataApi: () => void;
+  isDisabled: boolean;
 }
 export default function AssigneeBtn({
   assignee,
   userList,
   ticketId,
   showDropDownOnTop,
-  getBacklogDataApi
+  getBacklogDataApi,
+  isDisabled
 }: IAssigneeBtn) {
   const [query, setQuery] = useState('');
   const { visible, setVisible, myRef } = useOutsideAlerter(false);
@@ -48,6 +50,9 @@ export default function AssigneeBtn({
         icon={<Avatar user={assignee} />}
         tooltip={name}
         onClick={() => {
+          if (isDisabled) {
+            return;
+          }
           setVisible(!visible);
         }}
       />

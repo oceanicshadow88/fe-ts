@@ -44,6 +44,10 @@ export default function TicketEpicFilter(props: ITicketEpicFilter) {
     ? `${styles.taskEpicFilterBtn} ${styles.taskEpicFilterBtnPressed}`
     : `${styles.taskEpicFilterBtn} ${styles.taskEpicFilterBtnUnPressed}`;
 
+  if (projectDetails.epics.length === 0) {
+    return <></>;
+  }
+
   return (
     <div className={styles.taskEpicFilterContainer} ref={myRef}>
       <div className={styles.taskEpicFilterBtnContainer}>

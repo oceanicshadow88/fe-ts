@@ -363,7 +363,21 @@ export interface ICommentItemData {
 }
 
 export interface IActivityData {
-  [x: string]: any;
+  id: string;
+  operation: string;
+  field?: string;
+  prevValues: string[];
+  afterValues: string[];
+  user: {
+    id: string;
+    name?: string;
+    email: string;
+    avatarIcon?: string;
+  };
+  ticket: string;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 export interface IActivityItemData {
   [x: string]: any;

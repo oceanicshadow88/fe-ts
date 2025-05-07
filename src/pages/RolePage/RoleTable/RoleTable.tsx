@@ -16,7 +16,7 @@ interface IRoleTable {
 
 const defaultTemplete = [
   {
-    slug: 'create',
+    slug: 'add',
     isActive: false
   },
   {

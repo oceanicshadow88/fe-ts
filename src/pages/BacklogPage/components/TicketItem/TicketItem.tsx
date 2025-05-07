@@ -10,7 +10,7 @@ import OverFlowMenuBtn from '../OverFlowMenuBtn/OverFlowMenuBtn';
 import PriorityBtn from '../PriorityBtn/PriorityBtn';
 import AssigneeBtn from '../AssigneeBtn/AssigneeBtn';
 import useOutsideAlerter from '../../../../hooks/OutsideAlerter';
-import TypeEdit from './TypeEdit';
+import TicketTypeEdit from './TicketTypeEdit';
 import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvider';
 import StatusBtn from '../StatusBtn/StatusBtn';
 import { ITicketBasic, ITicketDetails } from '../../../../types';
@@ -22,13 +22,21 @@ import {
 } from '../../../../api/ticket/ticket';
 import TicketDetailCard from '../../../../components/TicketDetailCard/TicketDetailCard';
 import { ModalContext } from '../../../../context/ModalProvider';
+import checkAccess from '../../../../utils/helpers';
+import { Permission } from '../../../../utils/permission';
 
 interface ITicketInput {
   ticket: ITicketBasic;
   showDropDownOnTop?: boolean;
   onTicketChanged: () => void;
+  isReadOnly: boolean;
 }
-export default function TicketItem({ ticket, showDropDownOnTop, onTicketChanged }: ITicketInput) {
+export default function TicketItem({
+  ticket,
+  showDropDownOnTop,
+  onTicketChanged,
+  isReadOnly
+}: ITicketInput) {
   const [title, setTitle] = useState(ticket.title);
   const [value, setValue] = useState(ticket.type);
   const projectDetails = useContext(ProjectDetailsContext);
@@ -122,16 +130,18 @@ export default function TicketItem({ ticket, showDropDownOnTop, onTicketChanged 
             ticketId={ticket.id}
             onDeletedTicket={removeTicket}
             onSavedTicket={onSavedTicket}
+            isReadOnly={isReadOnly}
           />
         );
       }}
     >
       <div className={styles.taskInfo}>
-        <TypeEdit
+        <TicketTypeEdit
           ticketId={ticket.id}
           value={value}
           onChange={(option) => setValue(option)}
           updateTicketType={updateTicketType}
+          isDisabled={isReadOnly}
         />
         {visible ? (
           <input
@@ -157,14 +167,16 @@ export default function TicketItem({ ticket, showDropDownOnTop, onTicketChanged 
               tooltip="Copy Link"
               onClick={onClickCopyLink}
             />
-            <IconButton
-              icon={<FaPen size={12} />}
-              ticketId={ticket.id}
-              tooltip="Edit"
-              onClick={() => {
-                setVisible(true);
-              }}
-            />
+            {!isReadOnly && (
+              <IconButton
+                icon={<FaPen size={12} />}
+                ticketId={ticket.id}
+                tooltip="Edit"
+                onClick={() => {
+                  setVisible(true);
+                }}
+              />
+            )}
           </div>
         )}
       </div>
@@ -174,6 +186,7 @@ export default function TicketItem({ ticket, showDropDownOnTop, onTicketChanged 
           ticketId={ticket.id}
           priority={ticket.priority}
           getBacklogDataApi={onTicketChanged}
+          isDisabled={isReadOnly}
         />
         <StatusBtn
           statusId={ticket?.status}
@@ -181,6 +194,7 @@ export default function TicketItem({ ticket, showDropDownOnTop, onTicketChanged 
           statusOptions={projectDetails.statuses}
           showDropDownOnTop={showDropDownOnTop}
           getBacklogDataApi={onTicketChanged}
+          isDisabled={isReadOnly}
         />
         <AssigneeBtn
           ticketId={ticket.id}
@@ -188,6 +202,7 @@ export default function TicketItem({ ticket, showDropDownOnTop, onTicketChanged 
           userList={projectDetails.users}
           showDropDownOnTop={showDropDownOnTop}
           getBacklogDataApi={onTicketChanged}
+          isDisabled={isReadOnly}
         />
         <OverFlowMenuBtn
           ticketId={ticket.id}
@@ -204,14 +219,18 @@ export default function TicketItem({ ticket, showDropDownOnTop, onTicketChanged 
               onClick: onClickAddToBacklog,
               show: Boolean(ticket.sprint?.id)
             },
-            ...projectDetails.sprints.map((item) => {
-              return {
-                name: `Add to ${item.name}`,
-                onClick: () => onClickAddToSprint(item.id),
-                show: !ticket.sprint?.id
-              };
-            }),
-            { name: 'Delete', onClick: onClickDelete, show: true }
+            {
+              name: 'Delete',
+              onClick: onClickDelete,
+              show: checkAccess(Permission.DeleteTickets, projectId)
+            },
+            ...(!isReadOnly
+              ? projectDetails.sprints.map((item) => ({
+                  name: `Add to ${item.name}`,
+                  onClick: () => onClickAddToSprint(item.id),
+                  show: !ticket.sprint?.id
+                }))
+              : [])
           ]}
         />
       </div>

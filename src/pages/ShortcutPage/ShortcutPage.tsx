@@ -16,6 +16,7 @@ import InputV2 from '../../lib/FormV2/InputV2/InputV2';
 import Modal from '../../lib/Modal/Modal';
 import DefaultModalHeader from '../../lib/Modal/ModalHeader/DefaultModalHeader/DefaultModalHeader';
 import ShortcutModal from '../../components/Modals/ShortcutModal/ShortcutModal';
+import { Permission } from '../../utils/permission';
 
 export default function ShortcutPage() {
   const { projectId = '' } = useParams();
@@ -102,7 +103,7 @@ export default function ShortcutPage() {
                 <AiOutlineLink className={styles.icon} />
                 <span className={styles.shortcutContent}>{shortcutData.name}</span>
                 <div className={styles.buttonsContainer}>
-                  {checkAccess('edit:shortcut', projectId) && (
+                  {checkAccess(Permission.EditShortcut, projectId) && (
                     <ButtonV2
                       onClick={(e) => {
                         e.preventDefault();
@@ -114,7 +115,7 @@ export default function ShortcutPage() {
                       dataTestId={`edit-shortcut-${shortcutData.id}`}
                     />
                   )}
-                  {checkAccess('delete:shortcut', projectId) && (
+                  {checkAccess(Permission.DeleteShortcut, projectId) && (
                     <ButtonV2
                       onClick={(e) => {
                         e.preventDefault();
@@ -156,16 +157,18 @@ export default function ShortcutPage() {
           dataTestId="search"
         />
         <div>
-          <ButtonV2
-            text="ADD LINK"
-            onClick={() => {
-              setOpenModal(true);
-              setSelectedData(null);
-            }}
-            icon={<IoIosAdd className={styles.createCardIcon} />}
-            fill
-            dataTestId="add-link"
-          />
+          {checkAccess(Permission.CreateShortcuts, projectId) && (
+            <ButtonV2
+              text="ADD LINK"
+              onClick={() => {
+                setOpenModal(true);
+                setSelectedData(null);
+              }}
+              icon={<IoIosAdd className={styles.createCardIcon} />}
+              fill
+              dataTestId="add-link"
+            />
+          )}
         </div>
       </div>
     );
