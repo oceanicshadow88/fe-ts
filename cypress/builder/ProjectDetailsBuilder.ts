@@ -19,7 +19,7 @@ export class ProjectDetailsBuilder extends BaseBuilder {
       const slug = name.toLowerCase().replace(/\s+/g, '-');
       return new StatusBuilder().withName(name).withSlug(slug).withTenant(this.tenant).build();
     });
-    
+
     const boards = ['Default Board 1', 'Default Board 2'].map((title) => {
       return new BoardBuilder()
         .withTitle(title)
@@ -28,7 +28,7 @@ export class ProjectDetailsBuilder extends BaseBuilder {
         .build();
     });
 
-    this.data.ticketTypes = ['Story', 'Task', 'Bug', 'Tech Debt'].map((name, index) => {
+    const ticketTypes = ['Story', 'Task', 'Bug', 'Tech Debt'].map((name, index) => {
       const slug = name.toLowerCase().replace(/\s+/g, '');
       return new TypesBuilder()
         .withName(name)
@@ -37,7 +37,7 @@ export class ProjectDetailsBuilder extends BaseBuilder {
         .build();
     });
 
-    this.data.sprints = ['Sprint 1', 'Sprint 2'].map((name) =>
+    const sprints = ['Sprint 1', 'Sprint 2'].map((name) =>
       new SprintBuilder()
         .withName(name)
         .withCurrentSprint(true)
@@ -50,70 +50,8 @@ export class ProjectDetailsBuilder extends BaseBuilder {
     this.data = {
       labels: [],
       users: [],
-      ticketTypes: [
-        {
-          slug: 'story',
-          name: 'Story',
-          icon: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium',
-          createdAt: '2025-04-25T00:22:33.672Z',
-          updatedAt: '2025-04-25T00:22:33.672Z',
-          id: '680ad5c98b96b6e88509d9a2'
-        },
-        {
-          slug: 'task',
-          name: 'Task',
-          icon: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium',
-          createdAt: '2025-04-25T00:22:33.730Z',
-          updatedAt: '2025-04-25T00:22:33.730Z',
-          id: '680ad5c98b96b6e88509d9ad'
-        },
-        {
-          slug: 'bug',
-          name: 'Bug',
-          icon: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium',
-          createdAt: '2025-04-25T00:22:33.757Z',
-          updatedAt: '2025-04-25T00:22:33.757Z',
-          id: '680ad5c98b96b6e88509d9b5'
-        },
-        {
-          slug: 'techDebt',
-          name: 'Tech Debt',
-          icon: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10308?size=medium',
-          createdAt: '2025-04-25T00:22:33.788Z',
-          updatedAt: '2025-04-25T00:22:33.788Z',
-          id: '680ad5c98b96b6e88509d9bf'
-        }
-      ],
-      sprints: [
-        {
-          id: '680b3c2671dff4ef779f88b2',
-          name: 'asdasd',
-          startDate: null,
-          endDate: null,
-          currentSprint: true,
-          isComplete: false,
-          project: '680b028b34e556689a2fe8bd',
-          board: '680adc088bd91cf9c9fdcb1f',
-          retroBoard: '680ad5c98b96b6e88509d9d9',
-          createdAt: '2025-04-25T07:39:18.289Z',
-          updatedAt: '2025-04-25T07:39:29.762Z',
-          __v: 0
-        },
-        {
-          id: '680b3d5671dff4ef779f895a',
-          name: 'aaa',
-          startDate: null,
-          endDate: null,
-          currentSprint: true,
-          isComplete: false,
-          project: '680b028b34e556689a2fe8bd',
-          board: '680adc088bd91cf9c9fdcb1f',
-          retroBoard: '680ad5c98b96b6e88509d9d9',
-          createdAt: '2025-04-25T07:44:22.139Z',
-          updatedAt: '2025-04-25T07:44:32.237Z',
-          __v: 0
-        }
-      ],
+      ticketTypes: ticketTypes,
+      sprints: sprints,
       epics: [],
       details: {
         id: '680b028b34e556689a2fe8bd',
