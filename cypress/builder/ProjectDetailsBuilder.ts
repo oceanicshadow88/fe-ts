@@ -13,7 +13,7 @@ export class ProjectDetailsBuilder extends BaseBuilder {
 
     this.tenant = this.generateId();
 
-    this.data.statuses = ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => {
+    const statuses = ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => {
       const slug = name.toLowerCase().replace(/\s+/g, '-');
       return new StatusBuilder()
         .withName(name)
@@ -21,12 +21,12 @@ export class ProjectDetailsBuilder extends BaseBuilder {
         .withTenant(this.tenant)
         .build();
     });
-
-    this.data.boards = ['Default Board 1', 'Default Board 2'].map((title) => {
+    
+    const boards = ['Default Board 1', 'Default Board 2'].map((title) => {
       return new BoardBuilder()
         .withTitle(title)
         .withTenant(this.tenant)
-        .addStatuses(...this.data.statuses)
+        .addStatuses(...statuses)
         .build();
     });
 
@@ -112,6 +112,8 @@ export class ProjectDetailsBuilder extends BaseBuilder {
         updatedAt: '2025-04-25T03:33:31.094Z',
         __v: 0
       },
+      statues: statuses,
+      boards: boards,
       retroBoards: [
         {
           id: '680ad5c98b96b6e88509d9d9',
@@ -151,7 +153,7 @@ export class ProjectDetailsBuilder extends BaseBuilder {
   }
 
   addStatus(status: IStatus): this {
-    this.data.statuses.push(status);
+    this.data.statues.push(status);
     return this;
   }
 
