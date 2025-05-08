@@ -8,7 +8,7 @@ export default class BoardBuilder extends BaseBuilder {
   constructor() {
     super();
     this.data = {
-      id: this.generateId(),
+      id: this.id,
       title: 'Deault Board Name',
       statuses: ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => 
         new StatusBuilder()
@@ -19,8 +19,8 @@ export default class BoardBuilder extends BaseBuilder {
       ),
       isPublic: false,
       tenant: this.generateId(),
-      createdAt: new Date().toString(),
-      updatedAt: new Date().toString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
   }
 

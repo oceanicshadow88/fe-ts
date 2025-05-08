@@ -3,7 +3,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { TicketBuilder } from '../builder/TicketBuilder';
 import '../../src/utils/arrayUtils';
-import { defaultMockProject } from '../support/component';
+import { defaultMockProject, defaultMockUser } from '../support/component';
 import { ProjectDetailsBuilder } from '../builder/ProjectDetailsBuilder';
 import BacklogPage from '../../src/pages/BacklogPage/BacklogPage';
 import { ProjectDetailsProvider } from '../../src/context/ProjectDetailsProvider';
@@ -32,16 +32,16 @@ describe('BacklogPage.cy.ts', () => {
 
     cy.setupTestEnvironment(
       <Route
-        path="/projects/:projectId/backlogs"
+        path="/projects/:projectId/backlog"
         element={
           <ProjectDetailsProvider>
             <BacklogPage />
           </ProjectDetailsProvider>
         }
       />,
-      url
+      `/projects/${defaultMockProject.id}/backlog`
     );
-    
+
     cy.wait('@getBacklog');
     cy.wait('@getProjectDetails');
   });

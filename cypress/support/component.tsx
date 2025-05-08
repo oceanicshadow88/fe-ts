@@ -69,6 +69,11 @@ Cypress.Commands.add('mockGlobalRequest', () => {
   }).as('getIsCurrentUserOwner');
 
   cy.intercept('POST', '**/api/v2/auto-fetch-userInfo', { user: defaultMockUser }).as('userMe');
+
+  cy.intercept('GET', `**/api/v2/tenants/owner?userId=${defaultMockUser.id}`, {
+    statusCode: 200,
+    body: true
+  }).as('getTenantOwner');
 });
 
 Cypress.Commands.add('setupTestEnvironment', (routeElement, routerName) => {

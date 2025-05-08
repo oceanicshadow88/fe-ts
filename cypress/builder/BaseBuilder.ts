@@ -1,6 +1,9 @@
 export default class BaseBuilder {
+    protected id: string;
+
     constructor() {
         // Initialize with default values if needed
+        this.id = this.generateId();
     }
 
     protected generateId(): string {

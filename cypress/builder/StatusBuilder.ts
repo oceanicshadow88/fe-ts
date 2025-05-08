@@ -7,14 +7,14 @@ export default class StatusBuilder extends BaseBuilder {
     constructor() {
         super();
         this.data = {
-            id: this.generateId(),
+            id: this.id,
             slug: 'default-status',
             name: 'Default Status',
             board: 'default-board',
             tenant: this.generateId(),
             isDefault: false,
-            updatedAt: new Date().toString(),
-            createdAt: new Date().toString(),
+            updatedAt: new Date().toISOString(),
+            createdAt: new Date().toISOString(),
         };
     }
     
