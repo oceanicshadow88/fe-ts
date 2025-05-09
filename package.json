@@ -51,6 +51,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "cypress:component": "cypress run --component",
     "setup-vscode-plugin": "node .vscode/setup.js",
     "eject": "react-scripts eject",
     "format": "prettier --write src/**/*.tsx",
