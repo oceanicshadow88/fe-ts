@@ -118,8 +118,6 @@ Cypress.Commands.add('setupTestEnvironment', (routeElement, routerName) => {
     return true;
   });
 
-  cy.wait('@getProjects');
-
   cy.mount(
     <ProjectProvider>
       <MemoryRouter initialEntries={[routerName]}>
