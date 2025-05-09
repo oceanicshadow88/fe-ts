@@ -285,12 +285,12 @@ export default function ProjectPage() {
             )}
             <button
               type="button"
-              data-testid="project-delete"
+              data-testid="project-export"
               onClick={() => {
                 handleExportProject(projectId);
               }}
             >
-              export Project
+              Export Project
             </button>
           </div>
         )}

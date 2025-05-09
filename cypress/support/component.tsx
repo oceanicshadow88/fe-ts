@@ -127,6 +127,8 @@ Cypress.Commands.add('setupTestEnvironment', (routeElement, routerName) => {
       </MemoryRouter>
     </ProjectProvider>
   );
+
+  cy.wait('@getProjects');
 });
 
 // Example use:
