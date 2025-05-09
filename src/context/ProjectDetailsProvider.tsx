@@ -82,7 +82,8 @@ interface IProjectDetailsProvider {
 }
 
 function ProjectDetailsProvider({ children }: IProjectDetailsProvider) {
-  const [details, setDetails] = useState<any>({labels: [],
+  const [details, setDetails] = useState<any>({
+    labels: [],
     ticketTypes: [],
     sprints: [],
     epics: [],
