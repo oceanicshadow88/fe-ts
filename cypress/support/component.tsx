@@ -43,7 +43,14 @@ declare global {
   }
 }
 export const defaultMockUser = new UserBuilder().build();
-export const defaultMockProject = new ProjectBuilder().withName('TT').build();
+export const defaultMockProject = new ProjectBuilder()
+  .withName('TT')
+  .withOwner({
+    id: defaultMockUser.id,
+    name: defaultMockUser.name,
+    email: defaultMockUser.email
+  })
+  .build();
 const mockProjects = [defaultMockProject];
 Cypress.Commands.add('mount', mount);
 

@@ -7,22 +7,14 @@ import { defaultMockProject, defaultMockUser } from '../support/component';
 import { ProjectDetailsBuilder } from '../builder/ProjectDetailsBuilder';
 import BacklogPage from '../../src/pages/BacklogPage/BacklogPage';
 import { ProjectDetailsProvider } from '../../src/context/ProjectDetailsProvider';
+import SprintBuilder from '../builder/SprintBuilder';
 
 describe('BacklogPage.cy.ts', () => {
+  const sprint = new SprintBuilder().withName('Sprint 1').build();
+  const projectDetailsData = new ProjectDetailsBuilder().addSprint(sprint).build();
+
   beforeEach(() => {
-    const backlogData: any[] = [];
-    for (let i = 0; i < 10; i++) {
-      backlogData.push(new TicketBuilder().build());
-    }
-
-    const projectDetailsData = new ProjectDetailsBuilder().build();
     cy.mockGlobalRequest();
-
-    const url = `/projects/${defaultMockProject.id}/backlogs`;
-    cy.intercept('GET', `**${url}`, {
-      statusCode: 200,
-      body: backlogData
-    }).as('getBacklog');
 
     const projectDetailsUrl = `/projects/${defaultMockProject.id}/details`;
     cy.intercept('GET', `**${projectDetailsUrl}`, {
@@ -42,11 +34,11 @@ describe('BacklogPage.cy.ts', () => {
       `/projects/${defaultMockProject.id}/backlog`
     );
 
-    cy.wait('@getBacklog');
+
     cy.wait('@getProjectDetails');
   });
 
-  it.only('Test filter search', () => {});
+  it('Test filter search', () => {});
 
   it('Test can open ticket', () => {});
 
@@ -54,7 +46,29 @@ describe('BacklogPage.cy.ts', () => {
 
   it('Test filter epic', () => {});
 
-  it('Test filter user', () => {});
+  
+  it.only('Test filter user', () => {
+    const tickets = [
+      new TicketBuilder().withAssign(defaultMockUser).build(),
+      new TicketBuilder().withAssign(defaultMockUser).withSprint(sprint.id).build(),
+      new TicketBuilder().build()
+    ];
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
+      statusCode: 200,
+      body: tickets
+    }).as('getBacklog');
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs?users=${defaultMockUser.id}`, {
+      statusCode: 200,
+      body: [tickets[0]]
+    }).as('getBacklogByUserId');
+
+    cy.wait('@getBacklog');
+    cy.get(`[data-testid="user-filter-${defaultMockUser.id}"]`).click();
+    cy.wait('@getBacklogByUserId');
+    
+  });
 
   it('Test select sprint', () => {});
 });

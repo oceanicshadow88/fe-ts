@@ -93,21 +93,11 @@ export class ProjectDetailsBuilder extends BaseBuilder {
       }
     ];
 
-    const sprints = ['Sprint 1', 'Sprint 2'].map((name) =>
-      new SprintBuilder()
-        .withName(name)
-        .withCurrentSprint(true)
-        .withProjectId(details.id)
-        .withBoard(boards[0].id)
-        .withRetroBoard(retroBoards[0].id)
-        .build()
-    );
-
     this.data = {
       labels: [],
       users: [],
       ticketTypes: ticketTypes,
-      sprints: sprints,
+      sprints: [],
       epics: [],
       details: details,
       statues: statuses,

@@ -20,6 +20,11 @@ export class ProjectBuilder extends BaseBuilder {
       },
       updateAt: new Date(),
       roles: [],
+      owner: {
+        id: 'default-owner-id',
+        name: 'Default Owner',
+        email: 'lead@example.com'
+      },
       defaultRetroBoard: 'default-retro-board',
       shortcut: [
         {
@@ -79,6 +84,11 @@ export class ProjectBuilder extends BaseBuilder {
 
   withShortcut(shortcut: any): this {
     this.data.shortcut = shortcut;
+    return this;
+  }
+
+  withOwner(owner: IUserInfo): this {
+    this.data.owner = owner;
     return this;
   }
 
