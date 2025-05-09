@@ -46,28 +46,42 @@ describe('BacklogPage.cy.ts', () => {
 
   it('Test filter epic', () => {});
 
-  
-  it.only('Test filter user', () => {
-    const tickets = [
+  it('Test filter user', () => {
+    const ticketsDefault = [
+      new TicketBuilder().build(),
+    ];
+
+    const ticketsAssined = [
       new TicketBuilder().withAssign(defaultMockUser).build(),
       new TicketBuilder().withAssign(defaultMockUser).withSprint(sprint.id).build(),
-      new TicketBuilder().build()
     ];
 
     cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
       statusCode: 200,
-      body: tickets
+      body: [
+        ...ticketsDefault,
+        ...ticketsAssined
+      ]
     }).as('getBacklog');
 
     cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs?users=${defaultMockUser.id}`, {
       statusCode: 200,
-      body: [tickets[0]]
+      body: [
+        ...ticketsAssined
+      ]
     }).as('getBacklogByUserId');
 
     cy.wait('@getBacklog');
     cy.get(`[data-testid="user-filter-${defaultMockUser.id}"]`).click();
     cy.wait('@getBacklogByUserId');
-    
+
+    for (const ticket of ticketsAssined) {
+      cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).should('exist');
+    }
+
+    for (const ticket of ticketsDefault) {
+      cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).should('not.exist');
+    }
   });
 
   it('Test select sprint', () => {});
