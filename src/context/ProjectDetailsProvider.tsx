@@ -82,7 +82,32 @@ interface IProjectDetailsProvider {
 }
 
 function ProjectDetailsProvider({ children }: IProjectDetailsProvider) {
-  const [details, setDetails] = useState<any>({ users: [], statuses: [], ticketTypes: [] });
+  const [details, setDetails] = useState<any>({
+    labels: [],
+    ticketTypes: [],
+    sprints: [],
+    epics: [],
+    users: [],
+    statuses: [],
+    boards: [],
+    retroBoards: [],
+    details: {
+      id: '',
+      name: '',
+      iconUrl: '',
+      updateAt: new Date(),
+      roles: [],
+      defaultRetroBoard: '',
+      shortcut: []
+    },
+    isLoadingDetails: true,
+    onRemoveSprint: () => {},
+    onUpsertSprint: () => {},
+    onUpdateSprint: () => {},
+    onUpsertEpic: () => {},
+    onUpdateEpic: () => {},
+    onRemoveEpic: () => {}
+  });
   const [isLoadingDetails, setIsLoadingDetails] = useState(true);
   const { projectId = null } = useParams();
 
