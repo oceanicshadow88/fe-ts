@@ -11,7 +11,7 @@ export default class SprintBuilder extends BaseBuilder {
     const defaultBoard = new BoardBuilder().build();
 
     this.data = {
-      id: this.generateId(),
+      id: this.id,
       name: 'Default Sprint',
       startDate: now,
       endDate: null,

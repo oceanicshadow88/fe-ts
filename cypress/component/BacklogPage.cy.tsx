@@ -46,7 +46,7 @@ describe('BacklogPage.cy.ts', () => {
     cy.wait('@getProjectDetails');
   });
 
-  it('Test filter search', () => {});
+  it.only('Test filter search', () => {});
 
   it('Test can open ticket', () => {});
 

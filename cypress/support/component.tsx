@@ -108,7 +108,11 @@ Cypress.Commands.add('setupTestEnvironment', (routeElement, routerName) => {
           permission: [{ slug: 'edit:shortcut' }, { slug: 'delete:shortcut' }]
         }
       })
-    );
+    )
+    .withArgs('is_superUser')
+    .returns('true')
+    .withArgs('isCurrentUserOwner')
+    .returns('true');
 
   // Override the imported checkAccess function to use our stubs
   // eslint-disable-next-line no-unused-vars

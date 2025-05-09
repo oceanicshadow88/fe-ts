@@ -28,22 +28,78 @@ export class ProjectDetailsBuilder extends BaseBuilder {
         .build();
     });
 
-    const ticketTypes = ['Story', 'Task', 'Bug', 'Tech Debt'].map((name, index) => {
-      const slug = name.toLowerCase().replace(/\s+/g, '');
+    const typeIconMap: Record<string, string> = {
+      'Story': 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium',
+      'Task': 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium',
+      'Bug': 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium',
+      'Tech Debt': 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10308?size=medium',
+    };
+
+    const ticketTypes = Object.entries(typeIconMap).map(([name, icon]) => {
       return new TypesBuilder()
         .withName(name)
-        .withIcon(`https://some.icon.com/${slug}.png`)
-        .withId(this.generateId())
+        .withIcon(icon)
         .build();
-    });
+    });;
+  
+    const details = {
+      id: this.generateId(),
+      name: 'TECHSCRUM',
+      key: 'TEC',
+      projectLead: '680ad3aacf31ea12c677cfa4',
+      roles: [],
+      owner: '680ad3aacf31ea12c677cfa4',
+      isDelete: false,
+      tenant: '680ad3aa3304169fba2fd8fe',
+      shortcut: [],
+      createdAt: '2025-04-25T03:33:31.094Z',
+      updatedAt: '2025-04-25T03:33:31.094Z',
+      __v: 0
+    }
+
+    const retroBoards = [
+      {
+        id: '680ad5c98b96b6e88509d9d9',
+        title: 'Default',
+        statuses: [
+          {
+            id: '680ad5c93304169fba2fdb22',
+            slug: 'to-do',
+            createdAt: '2025-04-25T00:22:33.882Z',
+            description: 'Went well',
+            isPublic: true,
+            updatedAt: '2025-04-25T00:22:33.882Z'
+          },
+          {
+            id: '680ad5c93304169fba2fdb23',
+            slug: 'in-progress',
+            createdAt: '2025-04-25T00:22:33.882Z',
+            description: 'To Improve',
+            isPublic: true,
+            updatedAt: '2025-04-25T00:22:33.882Z'
+          },
+          {
+            id: '680ad5c93304169fba2fdb24',
+            slug: 'review',
+            createdAt: '2025-04-25T00:22:33.882Z',
+            description: 'Discuss/Ideas',
+            isPublic: true,
+            updatedAt: '2025-04-25T00:22:33.882Z'
+          }
+        ],
+        isPublic: true,
+        createdAt: '2025-04-25T00:22:33.908Z',
+        updatedAt: '2025-04-25T00:22:33.908Z'
+      }
+    ];
 
     const sprints = ['Sprint 1', 'Sprint 2'].map((name) =>
       new SprintBuilder()
         .withName(name)
         .withCurrentSprint(true)
-        .withProjectId(this.data.details?.id || this.generateId())
-        .withBoard(this.data.boards[0].id)
-        .withRetroBoard(this.data.retroBoards?.[0]?.id || this.generateId())
+        .withProjectId(details.id)
+        .withBoard(boards[0].id)
+        .withRetroBoard(retroBoards[0].id)
         .build()
     );
 
@@ -53,57 +109,10 @@ export class ProjectDetailsBuilder extends BaseBuilder {
       ticketTypes: ticketTypes,
       sprints: sprints,
       epics: [],
-      details: {
-        id: '680b028b34e556689a2fe8bd',
-        name: 'TECHSCRUM',
-        key: 'TEC',
-        projectLead: '680ad3aacf31ea12c677cfa4',
-        roles: [],
-        owner: '680ad3aacf31ea12c677cfa4',
-        isDelete: false,
-        tenant: '680ad3aa3304169fba2fd8fe',
-        shortcut: [],
-        createdAt: '2025-04-25T03:33:31.094Z',
-        updatedAt: '2025-04-25T03:33:31.094Z',
-        __v: 0
-      },
+      details: details,
       statues: statuses,
       boards: boards,
-      retroBoards: [
-        {
-          id: '680ad5c98b96b6e88509d9d9',
-          title: 'Default',
-          statuses: [
-            {
-              id: '680ad5c93304169fba2fdb22',
-              slug: 'to-do',
-              createdAt: '2025-04-25T00:22:33.882Z',
-              description: 'Went well',
-              isPublic: true,
-              updatedAt: '2025-04-25T00:22:33.882Z'
-            },
-            {
-              id: '680ad5c93304169fba2fdb23',
-              slug: 'in-progress',
-              createdAt: '2025-04-25T00:22:33.882Z',
-              description: 'To Improve',
-              isPublic: true,
-              updatedAt: '2025-04-25T00:22:33.882Z'
-            },
-            {
-              id: '680ad5c93304169fba2fdb24',
-              slug: 'review',
-              createdAt: '2025-04-25T00:22:33.882Z',
-              description: 'Discuss/Ideas',
-              isPublic: true,
-              updatedAt: '2025-04-25T00:22:33.882Z'
-            }
-          ],
-          isPublic: true,
-          createdAt: '2025-04-25T00:22:33.908Z',
-          updatedAt: '2025-04-25T00:22:33.908Z'
-        }
-      ]
+      retroBoards: retroBoards,
     };
   }
 

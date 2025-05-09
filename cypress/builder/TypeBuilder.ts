@@ -6,13 +6,13 @@ export default class TypesBuilder extends BaseBuilder {
 
   constructor() {
     super();
-    const now = new Date();
+    const now = new Date().toISOString();
     this.data = {
-      id: this.generateId(),
+      id: this.id,
       name: 'Default Type',
       icon: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10321?size=medium',
-      createdAt: now.toISOString(),
-      updatedAt: now.toISOString()
+      createdAt: now,
+      updatedAt: now,
     };
   }
 
