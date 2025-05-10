@@ -61,6 +61,7 @@
     "cdn": "aws cloudfront create-invalidation --distribution-id E28E7CS1KHPD0K --paths /*",
     "cypress": "cypress open",
     "cy:run": "cypress run --record --key 753466cf-dd60-4b2c-b61d-a2f81454d140",
+    "cypress:component": "cypress run --component --record",
     "test": "start-server-and-test start http-get://localhost:3030 cy:run",
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006",

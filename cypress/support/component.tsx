@@ -75,6 +75,12 @@ Cypress.Commands.add('mockGlobalRequest', () => {
     body: {}
   }).as('getIsCurrentUserOwner');
 
+  // eslint-disable-next-line no-secrets/no-secrets
+  cy.intercept('GET', `**/api/v2/tenants/owner?userId=67da9e58d29a0b82bb478c38`, {
+    statusCode: 200,
+    body: true
+  }).as('getOwner');
+
   cy.intercept('POST', '**/api/v2/auto-fetch-userInfo', { user: defaultMockUser }).as('userMe');
 
   cy.intercept('GET', `**/api/v2/tenants/owner?userId=${defaultMockUser.id}`, {
@@ -86,7 +92,7 @@ Cypress.Commands.add('mockGlobalRequest', () => {
 Cypress.Commands.add('setupTestEnvironment', (routeElement, routerName) => {
   const today = new Date();
   cy.stub(localStorage, 'getItem')
-    .withArgs('is_admin')
+    .withArgs('isCurrentUserOwner')
     .returns('true')
     .withArgs('user_id')
     .returns(defaultMockUser.id)
