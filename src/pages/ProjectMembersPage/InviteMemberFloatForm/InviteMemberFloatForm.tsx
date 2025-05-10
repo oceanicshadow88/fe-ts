@@ -30,7 +30,7 @@ export default function InviteMemberFloatForm({ roles, onInviteMember }: Props) 
           <DropdownV2
             label="Role"
             name="role"
-            data-testid="dropdown-role"
+            dataTestId="dropdown-role"
             onValueChanged={(e: any) => setRoleId(e.target.value)}
             value={roleId}
             options={roles.map((item) => {

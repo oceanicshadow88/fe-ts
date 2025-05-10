@@ -59,9 +59,9 @@ describe('TicketDetailCard.cy.ts', () => {
     cy.wait('@getComments');
   });
 
-  it('Add Ticket', () => {});
+  // it('Add Ticket', () => {});
 
-  it('Delete Delete', () => {});
+  // it('Delete Delete', () => {});
 
   it('Edit Priority', () => {
     cy.get(`[data-testid="priority"]`).contains('Medium');

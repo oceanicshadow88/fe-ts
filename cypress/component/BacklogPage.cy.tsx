@@ -41,15 +41,15 @@ describe('BacklogPage.cy.ts', () => {
     cy.wait('@getBacklog');
   });
 
-  it('Test filter search', () => {});
+  // it('Test filter search', () => {});
 
-  it('Test can open ticket', () => {});
+  // it('Test can open ticket', () => {});
 
-  it('Test filter select type', () => {});
+  // it('Test filter select type', () => {});
 
-  it('Test filter epic', () => {});
+  // it('Test filter epic', () => {});
 
-  it('Test filter user', () => {});
+  // it('Test filter user', () => {});
 
-  it('Test select sprint', () => {});
+  // it('Test select sprint', () => {});
 });
