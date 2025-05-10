@@ -1,10 +1,5 @@
-# This config uses the `.circleci/extended/orb-test.yml` as its base, and then publishes the app to S3.
-# The workflow contained here demonstrates a practical application of `post-steps`
-# and using workspace persistence
 version: 2.1
 
-# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
-# See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
   node: circleci/node@4.1
   aws-s3: circleci/aws-s3@2.0
@@ -13,6 +8,7 @@ orbs:
   aws-cloudfront: topmonks/aws-cloudfront@1.0.0
   jq: circleci/jq@2.2.0
   sonarcloud: sonarsource/sonarcloud@2.0.0
+
 executors:
   with-chrome:
     resource_class: large
@@ -32,6 +28,7 @@ jobs:
               echo "Commit message indicates to skip CI. Exiting."
               circleci-agent step halt
             fi
+
   build_production:
     docker:
       - image: cimg/node:20.5.1-browsers
@@ -41,7 +38,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run: yarn install
       - save_cache:
@@ -50,7 +46,6 @@ jobs:
             - ~/.npm
             - ~/.cache
           key: v1-dependencies-{{ checksum "package.json" }}
-
       - run: yarn build
       - aws-s3/copy:
           from: build/
@@ -59,6 +54,7 @@ jobs:
       - aws-cloudfront/invalidate:
           distribution_id: E28E7CS1KHPD0K
           paths: /*
+
   build_staging:
     docker:
       - image: cimg/node:20.5.1-browsers
@@ -68,7 +64,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run: yarn install
       - save_cache:
@@ -77,7 +72,6 @@ jobs:
             - ~/.npm
             - ~/.cache
           key: v1-dependencies-{{ checksum "package.json" }}
-
       - run: yarn build
       - aws-s3/copy:
           from: build/
@@ -86,6 +80,7 @@ jobs:
       - aws-cloudfront/invalidate:
           distribution_id: E28E7CS1KHPD0K
           paths: /*
+
   build_dev:
     docker:
       - image: cimg/node:20.5.1-browsers
@@ -95,7 +90,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run: yarn install
       - save_cache:
@@ -104,7 +98,6 @@ jobs:
             - ~/.npm
             - ~/.cache
           key: v1-dependencies-{{ checksum "package.json" }}
-
       - run: yarn build
       - aws-s3/copy:
           from: build/
@@ -113,6 +106,7 @@ jobs:
       - aws-cloudfront/invalidate:
           distribution_id: E28E7CS1KHPD0K
           paths: /*
+
   dscan:
     docker:
       - image: cimg/node:20.5.1-browsers
@@ -122,7 +116,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run: yarn install
       - save_cache:
@@ -131,7 +124,7 @@ jobs:
             - ~/.npm
             - ~/.cache
           key: v1-dependencies-{{ checksum "package.json" }}
-      # - snyk/scan
+
   dast:
     docker:
       - image: cimg/node:20.5.1-browsers
@@ -141,7 +134,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run: yarn install
       - save_cache:
@@ -150,7 +142,7 @@ jobs:
             - ~/.npm
             - ~/.cache
           key: v1-dependencies-{{ checksum "package.json" }}
-      # - snyk/scan
+
   sast:
     docker:
       - image: cimg/node:20.5.1-browsers
@@ -160,7 +152,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run: yarn install
       - sonarcloud/scan
@@ -172,6 +163,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - jq/install
       - run: yarn lint
+
   semantic_release:
     docker:
       - image: cimg/node:20.5.1-browsers
@@ -181,7 +173,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run: yarn install
       - save_cache:
@@ -193,8 +184,27 @@ jobs:
       - run:
           name: Run Semantic Release
           command: npx semantic-release
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+
+  cypress_component_test:
+    executor: with-chrome
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+            - ~/.npm
+            - ~/.cache
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Run Cypress Component Tests
+          command: yarn cypress:component
+
 workflows:
   simple_workflow:
     jobs:
@@ -220,12 +230,16 @@ workflows:
           browser: chrome
           start: yarn start
           record: true
+      - cypress_component_test:
+          requires:
+            - cypress/install
       - semantic_release:
           requires:
             - sast
             - dast
             - dscan
             - cypress/run
+            - cypress_component_test
           filters:
             branches:
               only:
@@ -250,6 +264,7 @@ workflows:
             - sast
             - dast
             - cypress/run
+            - cypress_component_test
           filters:
             branches:
               only:
