@@ -233,20 +233,7 @@ workflows:
       - cypress_component_test:
           requires:
             - cypress/install
-      - semantic_release:
-          requires:
-            - sast
-            - dast
-            - dscan
-            - cypress/run
-            - cypress_component_test
-          filters:
-            branches:
-              only:
-                - main
       - build_production:
-          requires:
-            - semantic_release
           filters:
             branches:
               only:
