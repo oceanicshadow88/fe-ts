@@ -22,7 +22,7 @@ interface IBoardSearchProps {
   onChangeFilter: (filterData: IFilterData) => void;
 }
 
-function BoardSearch(props: IBoardSearchProps) {
+function TicketTitleSearch(props: IBoardSearchProps) {
   const { onChangeFilter } = props;
   const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
   const [selectedLabels, setSelectedLabels] = useState<ILabelData[]>([]);
@@ -75,4 +75,4 @@ function BoardSearch(props: IBoardSearchProps) {
   );
 }
 
-export default React.memo(BoardSearch);
+export default React.memo(TicketTitleSearch);
