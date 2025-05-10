@@ -243,14 +243,14 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
       - build_production:
           requires:
             - semantic_release
           filters:
             branches:
               only:
-                - master
+                - main
       - build_staging:
           requires:
             - sast
