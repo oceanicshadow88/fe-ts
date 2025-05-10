@@ -234,6 +234,12 @@ workflows:
           requires:
             - cypress/install
       - build_production:
+          requires:
+            - sast
+            - dast
+            - dscan
+            - cypress/run
+            - cypress_component_test
           filters:
             branches:
               only:
