@@ -416,7 +416,7 @@ export interface IChangePassword {
 
 export interface IMinEvent {
   target: {
-    value: string;
+    value: string | null;
     name: string;
   };
 }

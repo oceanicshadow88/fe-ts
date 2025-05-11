@@ -102,7 +102,7 @@ export default function BoardPage() {
   };
 
   const onChangeSprint = (e: IMinEvent) => {
-    setSelectedSprint(getSprintById(e.target.value));
+    setSelectedSprint(getSprintById(e.target.value as string));
   };
 
   if (loading) {

@@ -113,7 +113,7 @@ export default function RetroPage() {
   };
 
   const onDefaultChange = (e: IMinEvent) => {
-    setSelectedSprintId(e.target.value);
+    setSelectedSprintId(e.target.value as string);
   };
 
   if (loading) {

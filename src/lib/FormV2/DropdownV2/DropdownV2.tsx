@@ -20,6 +20,8 @@ interface IDropdownV2 {
   loading?: boolean;
   dataTestId?: string;
   hasBorder?: boolean;
+  addNullOptions?: boolean;
+  color?: string;
 }
 
 export default function DropdownV2(props: IDropdownV2) {
@@ -35,7 +37,9 @@ export default function DropdownV2(props: IDropdownV2) {
     onValueBlur = null,
     loading = false,
     dataTestId,
-    hasBorder = true
+    hasBorder = true,
+    addNullOptions = false,
+    color
   } = props;
   const defaultPlaceHolder = placeHolder ?? 'None';
   const [error, setError] = useState<null | string>(null);
@@ -44,7 +48,7 @@ export default function DropdownV2(props: IDropdownV2) {
 
   const finalValue = options?.filter((item) => item.value === value)[0]?.label;
 
-  const onChangeSelect = (val: string) => {
+  const onChangeSelect = (val: string | null) => {
     const e = { target: { value: val, name } };
     const errorMessage = getErrorMessage(e, props);
     setError(errorMessage);
@@ -73,6 +77,11 @@ export default function DropdownV2(props: IDropdownV2) {
     return (
       <div className="relative">
         <div className={defaultStyles.dropDownList}>
+          {addNullOptions && (
+            <button onClick={() => onChangeSelect(null)} data-testid="leader-name-null">
+              None
+            </button>
+          )}
           {options.length > 0 &&
             options
               .filter((item) => item.value !== value)
@@ -94,6 +103,7 @@ export default function DropdownV2(props: IDropdownV2) {
   const borderCss = hasBorder ? styles.inputContainer : styles.inputContainerNoBorder;
   const hasContainer = hasBorder ? defaultStyles.dropDownListContainer : '';
   const placeHolderCss = hasBorder ? defaultStyles.placeHolder : defaultStyles.placeHolderNoBorder;
+  const textStyle = !finalValue ? placeHolderCss : defaultStyles.val;
   return (
     <div
       className={[
@@ -129,7 +139,7 @@ export default function DropdownV2(props: IDropdownV2) {
           className={[styles.input, !value ? styles.lightGrey : ''].join(' ')}
           onBlur={onBlurValue}
         >
-          <p className={!finalValue ? placeHolderCss : defaultStyles.val}>
+          <p className={[textStyle].join(' ')} style={color ? { color } : undefined}>
             {!finalValue ? defaultPlaceHolder : finalValue}
           </p>
         </button>
