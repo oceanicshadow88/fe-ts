@@ -103,6 +103,7 @@ export interface ITicketDetails {
   attachmentUrls?: any;
   createdAt?: Date;
   updatedAt?: Date;
+  epic: string;
 }
 /** ******************************************************* */
 export interface ISprint {

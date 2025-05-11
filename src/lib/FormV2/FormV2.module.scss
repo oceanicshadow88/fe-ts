@@ -102,6 +102,15 @@ $transition: all 0.25s ease-in-out;
   color: $textColor;
 }
 
+.inputContainerNoBorder {
+  @extend .inputContainer;
+  border: none;
+
+  &:hover {
+    background-color: #ebecf0;
+  }
+}
+
 .dropDown {
   position: absolute;
   right: 5px;
