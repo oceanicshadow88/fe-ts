@@ -128,8 +128,6 @@ describe('BacklogPage.cy.ts', () => {
       }
     }).as('getTicketDetail');
 
-    cy.wait('@getBacklog');
-
     cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).dblclick();
 
     cy.wait('@getTicketDetail');
@@ -140,8 +138,8 @@ describe('BacklogPage.cy.ts', () => {
   it('Test open non-existent ticket returns error', () => {
     const ticket = new TicketBuilder().withId('fake-id').build();
 
-    interceptGetBacklog({ body: [ticket] });
-    cy.wait('@getBacklog');
+    const getBacklogRequestName = interceptGetBacklog({ body: [ticket] });
+    cy.wait(`@${getBacklogRequestName}`);
 
     cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
       statusCode: 404,
@@ -150,6 +148,7 @@ describe('BacklogPage.cy.ts', () => {
 
     cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).dblclick();
     cy.wait('@getTicketDetailError');
+    cy.get('[data-testid="ticket-detail-title"]').should('not.exist');
   });
 
   it('Test filter select type', () => {
