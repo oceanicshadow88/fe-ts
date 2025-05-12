@@ -9,10 +9,11 @@ interface ITaskTypeFilter {
   selectedTypes: ITypes[];
   setSelectedTypes: Dispatch<SetStateAction<ITypes[]>>;
   changeSelectedTypes: (isExists: boolean, selectedItems: ITypes[], item: ITypes) => ITypes[];
+  dataTestId?: string;
 }
 
 export default function TicketTypeFilter(props: ITaskTypeFilter) {
-  const { selectedTypes, setSelectedTypes, changeSelectedTypes } = props;
+  const { selectedTypes, setSelectedTypes, changeSelectedTypes, dataTestId } = props;
   const projectDetails = useContext(ProjectDetailsContext);
   const myRef = useRef<HTMLDivElement>(null);
 
@@ -38,7 +39,7 @@ export default function TicketTypeFilter(props: ITaskTypeFilter) {
     : `${styles.taskTypeFilterBtn} ${styles.taskTypeFilterBtnUnpressed}`;
 
   return (
-    <div className={styles.taskTypeFilterContainer} ref={myRef}>
+    <div className={styles.taskTypeFilterContainer} ref={myRef} data-testid={dataTestId}>
       <div className={styles.taskTypeFilterBtnContainer}>
         <button className={buttonClassName} onClick={handleBtnOnClick}>
           Type

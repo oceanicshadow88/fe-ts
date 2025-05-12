@@ -4,6 +4,7 @@ import StatusBuilder from './StatusBuilder';
 import BoardBuilder from './BoardBuilder';
 import SprintBuilder from './SprintBuilder';
 import TypesBuilder from './TypeBuilder';
+import EpicBuilder from './EpicBuilder';
 
 export class ProjectDetailsBuilder extends BaseBuilder {
   private readonly data: any = {};
@@ -123,6 +124,11 @@ export class ProjectDetailsBuilder extends BaseBuilder {
 
   addTicketType(type: ITypes): this {
     this.data.ticketTypes.push(type);
+    return this;
+  }
+
+  addEpic(epic: any): this {
+    this.data.epics.push(epic);
     return this;
   }
 

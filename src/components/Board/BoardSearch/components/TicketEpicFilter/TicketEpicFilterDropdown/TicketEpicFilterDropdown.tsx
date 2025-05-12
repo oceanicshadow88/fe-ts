@@ -7,10 +7,11 @@ interface ITicketEpicFilterDropdown {
   selectedEpics: any[];
   setSelectedEpics: Dispatch<SetStateAction<any[]>>;
   changeSelectedEpics: (isExists: boolean, selectedItems: any[], item: any) => any[];
+  dataTestId?: string;
 }
 
 export default function TicketEpicFilterDropdown(props: ITicketEpicFilterDropdown) {
-  const { epic, selectedEpics, setSelectedEpics, changeSelectedEpics } = props;
+  const { epic, selectedEpics, setSelectedEpics, changeSelectedEpics, dataTestId } = props;
   const checkEpicExists = () => {
     let isExist = false;
     selectedEpics.forEach((selectedEpic) => {
@@ -30,7 +31,7 @@ export default function TicketEpicFilterDropdown(props: ITicketEpicFilterDropdow
   };
 
   return (
-    <button className={styles.taskEpicFilterDropdownBtn} onClick={handleBtnClick}>
+    <button className={styles.taskEpicFilterDropdownBtn} onClick={handleBtnClick} data-testid={dataTestId}>
       {selected ? (
         <BiCheckboxChecked className={styles.taskEpicFilterDropdownCheck} />
       ) : (

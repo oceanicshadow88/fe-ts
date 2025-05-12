@@ -10,10 +10,15 @@ import { ProjectDetailsBuilder } from '../builder/ProjectDetailsBuilder';
 import BacklogPage from '../../src/pages/BacklogPage/BacklogPage';
 import { ProjectDetailsProvider } from '../../src/context/ProjectDetailsProvider';
 import SprintBuilder from '../builder/SprintBuilder';
+import EpicBuilder from '../builder/EpicBuilder';
 
 describe('BacklogPage.cy.ts', () => {
-  const sprint = new SprintBuilder().withName('Sprint 1').build();
-  const projectDetailsData = new ProjectDetailsBuilder().addSprint(sprint).build();
+  const sprint = new SprintBuilder().withName('Test Sprint').build();
+  const epic = new EpicBuilder().withTitle('Test Epic').build();
+  const projectDetailsData = new ProjectDetailsBuilder()
+    .addSprint(sprint)
+    .addEpic(epic)
+    .build();
 
   beforeEach(() => {
     cy.mockGlobalRequest();
@@ -39,7 +44,7 @@ describe('BacklogPage.cy.ts', () => {
     cy.wait('@getProjectDetails');
   });
 
-  it.only('Test filter search successful', () => {
+  it('Test filter search successful', () => {
     const ticketDefault = new TicketBuilder().withTitle('Fix login bug').build();
     const ticketMatched = new TicketBuilder().withTitle('Test filter search successful').build();
 
@@ -95,7 +100,45 @@ describe('BacklogPage.cy.ts', () => {
 
   // it('Test filter select type', () => {});
 
-  // it('Test filter epic', () => {});
+  it.only('Test filter epic', () => {
+    const ticketsDefault = [
+      new TicketBuilder().build(),
+      new TicketBuilder().withSprint(sprint.id).build(),
+    ];
+    
+    const ticketsEpic = [
+      new TicketBuilder().withEpic(epic.id).build(),
+      new TicketBuilder().withEpic(epic.id).withSprint(sprint.id).build()
+    ];
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
+      statusCode: 200,
+      body: [...ticketsDefault, ...ticketsEpic]
+    }).as('getBacklog');
+
+    cy.intercept(
+      'GET',
+      `**/api/v2/projects/${defaultMockProject.id}/backlogs?ticketEpics=${epic.id}`,
+      {
+        statusCode: 200,
+        body: [...ticketsEpic]
+      }
+    ).as('getBacklogByEpic');
+
+    cy.wait('@getBacklog');
+
+    cy.get('[data-testid="epic-filter"]').click();
+    cy.get(`[data-testid="epic-filter-item-${epic.id}"]`).click();
+    cy.wait('@getBacklogByEpic');
+
+    for (const ticket of ticketsEpic) {
+      cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).should('exist');
+    }
+
+    for (const ticket of ticketsDefault) {
+      cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).should('not.exist');
+    }
+  });
 
   it('Test filter user', () => {
     const ticketsDefault = [new TicketBuilder().build()];
