@@ -15,20 +15,17 @@ import EpicBuilder from '../builder/EpicBuilder';
 describe('BacklogPage.cy.ts', () => {
   const sprint = new SprintBuilder().withName('Test Sprint').build();
   const epic = new EpicBuilder().withTitle('Test Epic').build();
-  const projectDetailsData = new ProjectDetailsBuilder()
-    .addSprint(sprint)
-    .addEpic(epic)
-    .build();
+  const projectDetailsData = new ProjectDetailsBuilder().addSprint(sprint).addEpic(epic).build();
 
   const interceptGetBacklog = ({ body }) => {
-    const requestName = 'getBacklog'
+    const requestName = 'getBacklog';
     cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
       statusCode: 200,
       body: body
     }).as(requestName);
 
     return requestName;
-  }
+  };
 
   beforeEach(() => {
     cy.mockGlobalRequest();
@@ -104,16 +101,17 @@ describe('BacklogPage.cy.ts', () => {
     cy.get(`[data-testid="ticket-hover-${ticketDefault.id}"]`).should('not.exist');
   });
 
-  it.only('Test can open ticket detail modal', () => {
+  it('Test can open ticket detail modal', () => {
     const ticket = new TicketBuilder()
       .withTitle('Test Ticket Open')
       .withId('680efaf72d0cf941d3f6e703')
       .build();
 
-    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
-      statusCode: 200,
+    const getBacklogRequestName = interceptGetBacklog({
       body: [ticket]
-    }).as('getBacklog');
+    });
+
+    cy.wait(`@${getBacklogRequestName}`);
 
     cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
       statusCode: 200,
@@ -150,7 +148,6 @@ describe('BacklogPage.cy.ts', () => {
 
     const ticketType = projectDetailsData.ticketTypes[0];
 
-  
     const ticketsTask = [
       new TicketBuilder().withType(ticketType).build(),
       new TicketBuilder().withType(ticketType).withSprint(sprint.id).build()
@@ -187,9 +184,9 @@ describe('BacklogPage.cy.ts', () => {
   it('Test filter epic', () => {
     const ticketsDefault = [
       new TicketBuilder().build(),
-      new TicketBuilder().withSprint(sprint.id).build(),
+      new TicketBuilder().withSprint(sprint.id).build()
     ];
-    
+
     const ticketsEpic = [
       new TicketBuilder().withEpic(epic.id).build(),
       new TicketBuilder().withEpic(epic.id).withSprint(sprint.id).build()
