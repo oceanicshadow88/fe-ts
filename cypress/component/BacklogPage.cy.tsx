@@ -56,18 +56,17 @@ describe('BacklogPage.cy.ts', () => {
     const ticketDefault = new TicketBuilder().withTitle('Fix login bug').build();
     const ticketMatched = new TicketBuilder().withTitle('Test filter search successful').build();
 
-    interceptGetBacklog({
-      body: [ticketDefault, ticketMatched]
-    });
-
-    setupBacklogTestEnvironment();
-
     const keyword = 'successful';
 
     cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs?title=${keyword}`, {
       statusCode: 200,
       body: [ticketMatched]
     }).as('getSearchBacklogTickets');
+    interceptGetBacklog({
+      body: [ticketDefault, ticketMatched]
+    });
+
+    setupBacklogTestEnvironment();
 
     cy.wait(`@getBacklog`);
 
@@ -82,17 +81,16 @@ describe('BacklogPage.cy.ts', () => {
   it('Test filter search returns empty', () => {
     const ticket = new TicketBuilder().withTitle('Some ticket').build();
     const keyword = 'not-matching';
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs?title=${keyword}`, {
+      statusCode: 200,
+      body: []
+    }).as('getSearchTicketsEmpty');
 
     interceptGetBacklog({
       body: [ticket]
     });
 
     setupBacklogTestEnvironment();
-
-    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs?title=${keyword}`, {
-      statusCode: 200,
-      body: []
-    }).as('getSearchTicketsEmpty');
 
     cy.wait(`@getBacklog`);
 
@@ -109,13 +107,6 @@ describe('BacklogPage.cy.ts', () => {
       .withTitle('Test Ticket Open')
       .withId('680efaf72d0cf941d3f6e703')
       .build();
-
-    interceptGetBacklog({
-      body: [ticket]
-    });
-    setupBacklogTestEnvironment();
-
-    cy.wait(`@getBacklog`);
 
     cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
       statusCode: 200,
@@ -135,6 +126,14 @@ describe('BacklogPage.cy.ts', () => {
       }
     }).as('getTicketDetail');
 
+    interceptGetBacklog({
+      body: [ticket]
+    });
+
+    setupBacklogTestEnvironment();
+
+    cy.wait(`@getBacklog`);
+
     cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).dblclick();
 
     cy.wait('@getTicketDetail');
@@ -145,15 +144,16 @@ describe('BacklogPage.cy.ts', () => {
   it('Test open non-existent ticket returns error', () => {
     const ticket = new TicketBuilder().withId('fake-id').build();
 
-    interceptGetBacklog({ body: [ticket] });
-
-    setupBacklogTestEnvironment();
-    cy.wait(`@getBacklog`);
-
     cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
       statusCode: 404,
       body: { message: 'Not found' }
     }).as('getTicketDetailError');
+
+    interceptGetBacklog({ body: [ticket] });
+
+    setupBacklogTestEnvironment();
+
+    cy.wait(`@getBacklog`);
 
     cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).dblclick();
     cy.wait('@getTicketDetailError');
