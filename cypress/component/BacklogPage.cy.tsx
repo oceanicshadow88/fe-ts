@@ -110,11 +110,11 @@ describe('BacklogPage.cy.ts', () => {
       .withId('680efaf72d0cf941d3f6e703')
       .build();
 
-    const getBacklogRequestName = interceptGetBacklog({
+    interceptGetBacklog({
       body: [ticket]
     });
 
-    cy.wait(`@${getBacklogRequestName}`);
+    cy.wait(`@getBacklog`);
 
     cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
       statusCode: 200,
@@ -144,8 +144,8 @@ describe('BacklogPage.cy.ts', () => {
   it('Test open non-existent ticket returns error', () => {
     const ticket = new TicketBuilder().withId('fake-id').build();
 
-    const getBacklogRequestName = interceptGetBacklog({ body: [ticket] });
-    cy.wait(`@${getBacklogRequestName}`);
+    interceptGetBacklog({ body: [ticket] });
+    cy.wait(`@getBacklog`);
 
     cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
       statusCode: 404,
