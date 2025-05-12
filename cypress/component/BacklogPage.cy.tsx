@@ -19,15 +19,12 @@ describe('BacklogPage.cy.ts', () => {
     .addSprint(sprint)
     .addEpic(epic)
     .build();
-
+  
   const interceptGetBacklog = ({ body }) => {
-    const requestName = 'getBacklog'
     cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
       statusCode: 200,
       body: body
-    }).as(requestName);
-
-    return requestName;
+    }).as('getBacklog');
   }
 
   beforeEach(() => {
@@ -38,7 +35,11 @@ describe('BacklogPage.cy.ts', () => {
       statusCode: 200,
       body: projectDetailsData
     }).as('getProjectDetails');
+  });
 
+  // Needs to be call after getBacklog intercept has been defined
+  // to avoid race condition of the request
+  const setupBacklogTestEnvironment = () => {
     cy.setupTestEnvironment(
       <Route
         path="/projects/:projectId/backlog"
@@ -50,17 +51,19 @@ describe('BacklogPage.cy.ts', () => {
       />,
       `/projects/${defaultMockProject.id}/backlog`
     );
-
+    
     cy.wait('@getProjectDetails');
-  });
+  }
 
   it('Test filter search successful', () => {
     const ticketDefault = new TicketBuilder().withTitle('Fix login bug').build();
     const ticketMatched = new TicketBuilder().withTitle('Test filter search successful').build();
 
-    const getBacklogRequestName = interceptGetBacklog({
+    interceptGetBacklog({
       body: [ticketDefault, ticketMatched]
     });
+
+    setupBacklogTestEnvironment();
 
     const keyword = 'successful';
 
@@ -69,7 +72,7 @@ describe('BacklogPage.cy.ts', () => {
       body: [ticketMatched]
     }).as('getSearchBacklogTickets');
 
-    cy.wait(`@${getBacklogRequestName}`);
+    cy.wait(`@getBacklog`);
 
     cy.get('[data-testid="ticket-search"]').clear().type(keyword);
 
@@ -85,16 +88,18 @@ describe('BacklogPage.cy.ts', () => {
     const ticketDefault = new TicketBuilder().withTitle('Fix login bug').build();
     const ticketMatched = new TicketBuilder().withTitle('Test filter search successful').build();
 
-    const getBacklogRequestName = interceptGetBacklog({
+    interceptGetBacklog({
       body: [ticketDefault, ticketMatched]
     });
+
+    setupBacklogTestEnvironment();
 
     cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs?title=${keyword}`, {
       statusCode: 200,
       body: [ticketMatched]
     }).as('getSearchBacklogTickets');
 
-    cy.wait(`@${getBacklogRequestName}`);
+    cy.wait(`@getBacklog`);
 
     cy.get('[data-testid="ticket-search"]').clear().type(keyword);
 
@@ -114,15 +119,16 @@ describe('BacklogPage.cy.ts', () => {
 
     const ticketType = projectDetailsData.ticketTypes[0];
 
-  
     const ticketsTask = [
       new TicketBuilder().withType(ticketType).build(),
       new TicketBuilder().withType(ticketType).withSprint(sprint.id).build()
     ];
 
-    const getBacklogRequestName = interceptGetBacklog({
+    interceptGetBacklog({
       body: [...ticketsDefault, ...ticketsTask]
     });
+
+    setupBacklogTestEnvironment();
 
     cy.intercept(
       'GET',
@@ -133,7 +139,7 @@ describe('BacklogPage.cy.ts', () => {
       }
     ).as('getBacklogByType');
 
-    cy.wait(`@${getBacklogRequestName}`);
+    cy.wait(`@getBacklog`);
 
     cy.get('[data-testid="type-filter"]').click();
     cy.get(`[data-testid="ticket-type-item-${ticketType.id}"]`).click();
@@ -159,9 +165,11 @@ describe('BacklogPage.cy.ts', () => {
       new TicketBuilder().withEpic(epic.id).withSprint(sprint.id).build()
     ];
 
-    const getBacklogRequestName = interceptGetBacklog({
+    interceptGetBacklog({
       body: [...ticketsDefault, ...ticketsEpic]
     });
+
+    setupBacklogTestEnvironment();
 
     cy.intercept(
       'GET',
@@ -172,7 +180,7 @@ describe('BacklogPage.cy.ts', () => {
       }
     ).as('getBacklogByEpic');
 
-    cy.wait(`@${getBacklogRequestName}`);
+    cy.wait(`@getBacklog`);
 
     cy.get('[data-testid="epic-filter"]').click();
     cy.get(`[data-testid="epic-filter-item-${epic.id}"]`).click();
@@ -195,9 +203,11 @@ describe('BacklogPage.cy.ts', () => {
       new TicketBuilder().withAssign(defaultMockUser).withSprint(sprint.id).build()
     ];
 
-    const getBacklogRequestName = interceptGetBacklog({
+    interceptGetBacklog({
       body: [...ticketsDefault, ...ticketsAssined]
     });
+
+    setupBacklogTestEnvironment();
 
     cy.intercept(
       'GET',
@@ -208,7 +218,7 @@ describe('BacklogPage.cy.ts', () => {
       }
     ).as('getBacklogByUserId');
 
-    cy.wait(`@${getBacklogRequestName}`);
+    cy.wait(`@getBacklog`);
     cy.get(`[data-testid="user-filter-${defaultMockUser.id}"]`).click();
     cy.wait('@getBacklogByUserId');
 
@@ -227,11 +237,13 @@ describe('BacklogPage.cy.ts', () => {
       new TicketBuilder().withSprint(sprint.id).build()
     ];
 
-    const getBacklogRequestName = interceptGetBacklog({
+    interceptGetBacklog({
       body: [...ticketsDefault]
     });
 
-    cy.wait(`@${getBacklogRequestName}`);
+    setupBacklogTestEnvironment();
+
+    cy.wait(`@getBacklog`);
 
     cy.get(`[data-testid="sprint-${sprint.id}"]`).contains(sprint.name);
 
