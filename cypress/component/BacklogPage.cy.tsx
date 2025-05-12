@@ -1,4 +1,6 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable import/extensions */
+/* eslint-disable jest/expect-expect */
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { TicketBuilder } from '../builder/TicketBuilder';
@@ -37,7 +39,57 @@ describe('BacklogPage.cy.ts', () => {
     cy.wait('@getProjectDetails');
   });
 
-  // it('Test filter search', () => {});
+  it.only('Test filter search successful', () => {
+    const ticketDefault = new TicketBuilder().withTitle('Fix login bug').build();
+    const ticketMatched = new TicketBuilder().withTitle('Test filter search successful').build();
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
+      statusCode: 200,
+      body: [ticketDefault, ticketMatched]
+    }).as('getBacklog');
+
+    const keyword = 'successful';
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs?title=${keyword}`, {
+      statusCode: 200,
+      body: [ticketMatched]
+    }).as('getSearchBacklogTickets');
+
+    cy.wait('@getBacklog');
+
+    cy.get('[data-testid="ticket-search"]').clear().type(keyword);
+
+    cy.wait('@getSearchBacklogTickets');
+
+    cy.get(`[data-testid="ticket-hover-${ticketMatched.id}"]`).should('exist');
+    cy.get(`[data-testid="ticket-hover-${ticketDefault.id}"]`).should('not.exist');
+  });
+
+  it('Test filter search failed', () => {
+    const keyword = 'failed';
+
+    const ticketDefault = new TicketBuilder().withTitle('Fix login bug').build();
+    const ticketMatched = new TicketBuilder().withTitle('Test filter search successful').build();
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
+      statusCode: 200,
+      body: [ticketDefault, ticketMatched]
+    }).as('getBacklog');
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs?title=${keyword}`, {
+      statusCode: 200,
+      body: [ticketMatched]
+    }).as('getSearchBacklogTickets');
+
+    cy.wait('@getBacklog');
+
+    cy.get('[data-testid="ticket-search"]').clear().type(keyword);
+
+    cy.wait('@getSearchBacklogTickets');
+
+    cy.get(`[data-testid="ticket-hover-${ticketMatched.id}"]`).should('exist');
+    cy.get(`[data-testid="ticket-hover-${ticketDefault.id}"]`).should('not.exist');
+  });
 
   // it('Test can open ticket', () => {});
 
@@ -45,7 +97,7 @@ describe('BacklogPage.cy.ts', () => {
 
   // it('Test filter epic', () => {});
 
-  it.only('Test filter user', () => {
+  it('Test filter user', () => {
     const ticketsDefault = [new TicketBuilder().build()];
 
     const ticketsAssined = [
