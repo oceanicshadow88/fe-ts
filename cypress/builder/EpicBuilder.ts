@@ -10,6 +10,8 @@ export class EpicBuilder extends BaseBuilder {
             title: 'Default Epic',
             project: this.generateId(),
             tenant: this.generateId(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
         }
     }
 

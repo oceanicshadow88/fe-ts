@@ -11,6 +11,8 @@ import BacklogPage from '../../src/pages/BacklogPage/BacklogPage';
 import { ProjectDetailsProvider } from '../../src/context/ProjectDetailsProvider';
 import SprintBuilder from '../builder/SprintBuilder';
 import EpicBuilder from '../builder/EpicBuilder';
+import { ITypes } from '../../src/types';
+import { Type } from 'react-toastify/dist/utils';
 
 describe('BacklogPage.cy.ts', () => {
   const sprint = new SprintBuilder().withName('Test Sprint').build();
@@ -98,9 +100,50 @@ describe('BacklogPage.cy.ts', () => {
 
   // it('Test can open ticket', () => {});
 
-  // it('Test filter select type', () => {});
+  it.only('Test filter select type', () => {
+    const ticketsDefault = [
+      new TicketBuilder().build(),
+      new TicketBuilder().withSprint(sprint.id).build()
+    ];
 
-  it.only('Test filter epic', () => {
+    const ticketType = projectDetailsData.ticketTypes[0];
+
+  
+    const ticketsTask = [
+      new TicketBuilder().withType(ticketType).build(),
+      new TicketBuilder().withType(ticketType).withSprint(sprint.id).build()
+    ];
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
+      statusCode: 200,
+      body: [...ticketsDefault, ...ticketsTask]
+    }).as('getBacklog');
+
+    cy.intercept(
+      'GET',
+      `**/api/v2/projects/${defaultMockProject.id}/backlogs?ticketTypes=${ticketType.id}`,
+      {
+        statusCode: 200,
+        body: [...ticketsTask]
+      }
+    ).as('getBacklogByType');
+
+    cy.wait('@getBacklog');
+
+    cy.get('[data-testid="type-filter"]').click();
+    cy.get(`[data-testid="ticket-type-item-${ticketType.id}"]`).click();
+    cy.wait('@getBacklogByType');
+
+    for (const ticket of ticketsTask) {
+      cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).should('exist');
+    }
+
+    for (const ticket of ticketsDefault) {
+      cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).should('not.exist');
+    }
+  });
+
+  it('Test filter epic', () => {
     const ticketsDefault = [
       new TicketBuilder().build(),
       new TicketBuilder().withSprint(sprint.id).build(),
@@ -175,5 +218,23 @@ describe('BacklogPage.cy.ts', () => {
     }
   });
 
-  // it('Test select sprint', () => {});
+  it('Test show sprint', () => {
+    const ticketsDefault = [
+      new TicketBuilder().build(),
+      new TicketBuilder().withSprint(sprint.id).build()
+    ];
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
+      statusCode: 200,
+      body: [...ticketsDefault]
+    }).as('getBacklog');
+
+    cy.wait('@getBacklog');
+
+    cy.get(`[data-testid="sprint-${sprint.id}"]`).contains(sprint.name);
+
+    for (const ticket of ticketsDefault) {
+      cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).should('exist');
+    }
+  });
 });

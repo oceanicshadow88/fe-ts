@@ -55,6 +55,7 @@ export default function TicketTypeFilter(props: ITaskTypeFilter) {
               selectedTypes={selectedTypes}
               changeSelectedTypes={changeSelectedTypes}
               setSelectedTypes={setSelectedTypes}
+              dataTestId={`ticket-type-item-${type.id}`}
             />
           ))}
         </div>

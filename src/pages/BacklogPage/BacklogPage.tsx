@@ -179,6 +179,7 @@ export default function BacklogPage() {
                   key={sprint.id}
                   sprint={sprint}
                   totalIssue={ticketsBySprintId[sprint.id]?.length ?? 0}
+                  dataTestId={`sprint-${sprint.id}`}
                 >
                   <DroppableTicketItems
                     onTicketChanged={fetchBacklogData}
