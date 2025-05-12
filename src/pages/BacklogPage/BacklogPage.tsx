@@ -179,7 +179,6 @@ export default function BacklogPage() {
                   key={sprint.id}
                   sprint={sprint}
                   totalIssue={ticketsBySprintId[sprint.id]?.length ?? 0}
-                  dataTestId={`sprint-${sprint.id}`}
                 >
                   <DroppableTicketItems
                     onTicketChanged={fetchBacklogData}
@@ -228,6 +227,13 @@ export default function BacklogPage() {
             />
           </BacklogSection>
         </DragDropContext>
+        {Object.values(ticketsBySprintId).flat().length === 0 && (
+          <div className={styles.emptyWrapper}>
+            <div data-testid="empty-ticket-result" className="empty-state">
+              There is nothing that matches this filter.
+            </div>
+          </div>
+        )}
       </div>
     </ProjectHOC>
   );

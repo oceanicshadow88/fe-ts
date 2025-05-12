@@ -51,7 +51,7 @@ describe('BacklogPage.cy.ts', () => {
     cy.wait('@getProjectDetails');
   });
 
-  it('Test filter search successful', () => {
+  it('Test ticket title filter shows correct results', () => {
     const ticketDefault = new TicketBuilder().withTitle('Fix login bug').build();
     const ticketMatched = new TicketBuilder().withTitle('Test filter search successful').build();
 
@@ -76,29 +76,26 @@ describe('BacklogPage.cy.ts', () => {
     cy.get(`[data-testid="ticket-hover-${ticketDefault.id}"]`).should('not.exist');
   });
 
-  it('Test filter search failed', () => {
-    const keyword = 'failed';
-
-    const ticketDefault = new TicketBuilder().withTitle('Fix login bug').build();
-    const ticketMatched = new TicketBuilder().withTitle('Test filter search successful').build();
+  it('Test filter search returns empty', () => {
+    const ticket = new TicketBuilder().withTitle('Some ticket').build();
+    const keyword = 'not-matching';
 
     const getBacklogRequestName = interceptGetBacklog({
-      body: [ticketDefault, ticketMatched]
+      body: [ticket]
     });
 
     cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs?title=${keyword}`, {
       statusCode: 200,
-      body: [ticketMatched]
-    }).as('getSearchBacklogTickets');
+      body: []
+    }).as('getSearchTicketsEmpty');
 
     cy.wait(`@${getBacklogRequestName}`);
-
     cy.get('[data-testid="ticket-search"]').clear().type(keyword);
+    cy.wait('@getSearchTicketsEmpty');
 
-    cy.wait('@getSearchBacklogTickets');
-
-    cy.get(`[data-testid="ticket-hover-${ticketMatched.id}"]`).should('exist');
-    cy.get(`[data-testid="ticket-hover-${ticketDefault.id}"]`).should('not.exist');
+    cy.get('[data-testid="empty-ticket-result"]')
+      .should('exist')
+      .and('contain.text', 'There is nothing that matches this filter');
   });
 
   it('Test can open ticket detail modal', () => {
@@ -138,6 +135,21 @@ describe('BacklogPage.cy.ts', () => {
     cy.wait('@getTicketDetail');
 
     cy.get('[data-testid="ticket-detail-title"]').should('exist').and('contain.text', ticket.title);
+  });
+
+  it('Test open non-existent ticket returns error', () => {
+    const ticket = new TicketBuilder().withId('fake-id').build();
+
+    interceptGetBacklog({ body: [ticket] });
+    cy.wait('@getBacklog');
+
+    cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
+      statusCode: 404,
+      body: { message: 'Not found' }
+    }).as('getTicketDetailError');
+
+    cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).dblclick();
+    cy.wait('@getTicketDetailError');
   });
 
   it('Test filter select type', () => {
