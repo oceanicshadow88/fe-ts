@@ -113,6 +113,7 @@ describe('BacklogPage.cy.ts', () => {
     interceptGetBacklog({
       body: [ticket]
     });
+    setupBacklogTestEnvironment();
 
     cy.wait(`@getBacklog`);
 
@@ -145,6 +146,8 @@ describe('BacklogPage.cy.ts', () => {
     const ticket = new TicketBuilder().withId('fake-id').build();
 
     interceptGetBacklog({ body: [ticket] });
+
+    setupBacklogTestEnvironment();
     cy.wait(`@getBacklog`);
 
     cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
