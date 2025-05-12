@@ -11,6 +11,7 @@ import BacklogPage from '../../src/pages/BacklogPage/BacklogPage';
 import { ProjectDetailsProvider } from '../../src/context/ProjectDetailsProvider';
 import SprintBuilder from '../builder/SprintBuilder';
 import EpicBuilder from '../builder/EpicBuilder';
+import ModalProvider from '../../src/context/ModalProvider';
 
 describe('BacklogPage.cy.ts', () => {
   const sprint = new SprintBuilder().withName('Test Sprint').build();
@@ -45,7 +46,9 @@ describe('BacklogPage.cy.ts', () => {
         path="/projects/:projectId/backlog"
         element={
           <ProjectDetailsProvider>
-            <BacklogPage />
+            <ModalProvider>
+              <BacklogPage />
+            </ModalProvider>
           </ProjectDetailsProvider>
         }
       />,
@@ -251,4 +254,24 @@ describe('BacklogPage.cy.ts', () => {
       cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).should('exist');
     }
   });
+
+  it('Can change ticket priority', () => {
+  });
+
+  it('Can change ticket title', () => {
+  });
+
+  it('Can change ticket assign', () => {
+  });
+
+  it('Can add to sprint', () => {
+  });
+
+  it('Can copy link', () => {
+  });
+
+  it('Can change type', () => {
+  });
+
+
 });
