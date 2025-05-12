@@ -11,8 +11,6 @@ import BacklogPage from '../../src/pages/BacklogPage/BacklogPage';
 import { ProjectDetailsProvider } from '../../src/context/ProjectDetailsProvider';
 import SprintBuilder from '../builder/SprintBuilder';
 import EpicBuilder from '../builder/EpicBuilder';
-import { ITypes } from '../../src/types';
-import { Type } from 'react-toastify/dist/utils';
 
 describe('BacklogPage.cy.ts', () => {
   const sprint = new SprintBuilder().withName('Test Sprint').build();
@@ -21,6 +19,16 @@ describe('BacklogPage.cy.ts', () => {
     .addSprint(sprint)
     .addEpic(epic)
     .build();
+
+  const interceptGetBacklog = ({ body }) => {
+    const requestName = 'getBacklog'
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
+      statusCode: 200,
+      body: body
+    }).as(requestName);
+
+    return requestName;
+  }
 
   beforeEach(() => {
     cy.mockGlobalRequest();
@@ -50,10 +58,9 @@ describe('BacklogPage.cy.ts', () => {
     const ticketDefault = new TicketBuilder().withTitle('Fix login bug').build();
     const ticketMatched = new TicketBuilder().withTitle('Test filter search successful').build();
 
-    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
-      statusCode: 200,
+    const getBacklogRequestName = interceptGetBacklog({
       body: [ticketDefault, ticketMatched]
-    }).as('getBacklog');
+    });
 
     const keyword = 'successful';
 
@@ -62,7 +69,7 @@ describe('BacklogPage.cy.ts', () => {
       body: [ticketMatched]
     }).as('getSearchBacklogTickets');
 
-    cy.wait('@getBacklog');
+    cy.wait(`@${getBacklogRequestName}`);
 
     cy.get('[data-testid="ticket-search"]').clear().type(keyword);
 
@@ -78,17 +85,16 @@ describe('BacklogPage.cy.ts', () => {
     const ticketDefault = new TicketBuilder().withTitle('Fix login bug').build();
     const ticketMatched = new TicketBuilder().withTitle('Test filter search successful').build();
 
-    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
-      statusCode: 200,
+    const getBacklogRequestName = interceptGetBacklog({
       body: [ticketDefault, ticketMatched]
-    }).as('getBacklog');
+    });
 
     cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs?title=${keyword}`, {
       statusCode: 200,
       body: [ticketMatched]
     }).as('getSearchBacklogTickets');
 
-    cy.wait('@getBacklog');
+    cy.wait(`@${getBacklogRequestName}`);
 
     cy.get('[data-testid="ticket-search"]').clear().type(keyword);
 
@@ -100,7 +106,7 @@ describe('BacklogPage.cy.ts', () => {
 
   // it('Test can open ticket', () => {});
 
-  it.only('Test filter select type', () => {
+  it('Test filter select type', () => {
     const ticketsDefault = [
       new TicketBuilder().build(),
       new TicketBuilder().withSprint(sprint.id).build()
@@ -114,10 +120,9 @@ describe('BacklogPage.cy.ts', () => {
       new TicketBuilder().withType(ticketType).withSprint(sprint.id).build()
     ];
 
-    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
-      statusCode: 200,
+    const getBacklogRequestName = interceptGetBacklog({
       body: [...ticketsDefault, ...ticketsTask]
-    }).as('getBacklog');
+    });
 
     cy.intercept(
       'GET',
@@ -128,7 +133,7 @@ describe('BacklogPage.cy.ts', () => {
       }
     ).as('getBacklogByType');
 
-    cy.wait('@getBacklog');
+    cy.wait(`@${getBacklogRequestName}`);
 
     cy.get('[data-testid="type-filter"]').click();
     cy.get(`[data-testid="ticket-type-item-${ticketType.id}"]`).click();
@@ -154,10 +159,9 @@ describe('BacklogPage.cy.ts', () => {
       new TicketBuilder().withEpic(epic.id).withSprint(sprint.id).build()
     ];
 
-    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
-      statusCode: 200,
+    const getBacklogRequestName = interceptGetBacklog({
       body: [...ticketsDefault, ...ticketsEpic]
-    }).as('getBacklog');
+    });
 
     cy.intercept(
       'GET',
@@ -168,7 +172,7 @@ describe('BacklogPage.cy.ts', () => {
       }
     ).as('getBacklogByEpic');
 
-    cy.wait('@getBacklog');
+    cy.wait(`@${getBacklogRequestName}`);
 
     cy.get('[data-testid="epic-filter"]').click();
     cy.get(`[data-testid="epic-filter-item-${epic.id}"]`).click();
@@ -191,10 +195,9 @@ describe('BacklogPage.cy.ts', () => {
       new TicketBuilder().withAssign(defaultMockUser).withSprint(sprint.id).build()
     ];
 
-    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
-      statusCode: 200,
+    const getBacklogRequestName = interceptGetBacklog({
       body: [...ticketsDefault, ...ticketsAssined]
-    }).as('getBacklog');
+    });
 
     cy.intercept(
       'GET',
@@ -205,7 +208,7 @@ describe('BacklogPage.cy.ts', () => {
       }
     ).as('getBacklogByUserId');
 
-    cy.wait('@getBacklog');
+    cy.wait(`@${getBacklogRequestName}`);
     cy.get(`[data-testid="user-filter-${defaultMockUser.id}"]`).click();
     cy.wait('@getBacklogByUserId');
 
@@ -224,12 +227,11 @@ describe('BacklogPage.cy.ts', () => {
       new TicketBuilder().withSprint(sprint.id).build()
     ];
 
-    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
-      statusCode: 200,
+    const getBacklogRequestName = interceptGetBacklog({
       body: [...ticketsDefault]
-    }).as('getBacklog');
+    });
 
-    cy.wait('@getBacklog');
+    cy.wait(`@${getBacklogRequestName}`);
 
     cy.get(`[data-testid="sprint-${sprint.id}"]`).contains(sprint.name);
 
