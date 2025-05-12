@@ -31,7 +31,11 @@ export default function TicketEpicFilterDropdown(props: ITicketEpicFilterDropdow
   };
 
   return (
-    <button className={styles.taskEpicFilterDropdownBtn} onClick={handleBtnClick} data-testid={dataTestId}>
+    <button
+      className={styles.taskEpicFilterDropdownBtn}
+      onClick={handleBtnClick}
+      data-testid={dataTestId}
+    >
       {selected ? (
         <BiCheckboxChecked className={styles.taskEpicFilterDropdownCheck} />
       ) : (
