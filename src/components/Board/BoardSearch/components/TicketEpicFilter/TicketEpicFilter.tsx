@@ -13,10 +13,11 @@ interface ITicketEpicFilter {
     selectedItems: IEpicData[],
     item: IEpicData
   ) => IEpicData[];
+  dataTestId?: string;
 }
 
 export default function TicketEpicFilter(props: ITicketEpicFilter) {
-  const { selectedEpics, setSelectedEpics, changeSelectedEpics } = props;
+  const { selectedEpics, setSelectedEpics, changeSelectedEpics, dataTestId } = props;
 
   const projectDetails = useContext(ProjectDetailsContext);
   const myRef = useRef<HTMLDivElement>(null);
@@ -49,7 +50,7 @@ export default function TicketEpicFilter(props: ITicketEpicFilter) {
   }
 
   return (
-    <div className={styles.taskEpicFilterContainer} ref={myRef}>
+    <div className={styles.taskEpicFilterContainer} ref={myRef} data-testid={dataTestId}>
       <div className={styles.taskEpicFilterBtnContainer}>
         <button className={buttonClassName} onClick={handleBtnOnClick}>
           Epic
@@ -65,6 +66,7 @@ export default function TicketEpicFilter(props: ITicketEpicFilter) {
               selectedEpics={selectedEpics}
               setSelectedEpics={setSelectedEpics}
               changeSelectedEpics={changeSelectedEpics}
+              dataTestId={`epic-filter-item-${epic.id}`}
             />
           ))}
         </div>

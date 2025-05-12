@@ -64,11 +64,13 @@ function TicketTitleSearch(props: IBoardSearchProps) {
         selectedTypes={selectedTypes}
         setSelectedTypes={setSelectedTypes}
         changeSelectedTypes={changeSelectedItems}
+        dataTestId="type-filter"
       />
       <TicketEpicFilter
         selectedEpics={selectedEpics}
         setSelectedEpics={setSelectedEpics}
         changeSelectedEpics={changeSelectedItems}
+        dataTestId="epic-filter"
       />
       <TicketLabelFilter selectedLabels={selectedLabels} setSelectedLabels={setSelectedLabels} />
     </div>
