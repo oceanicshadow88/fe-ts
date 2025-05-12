@@ -252,6 +252,7 @@ function TicketDetailCard({
             />
           ) : (
             <button
+              data-testid="ticket-detail-title"
               onClick={() => {
                 if (isReadOnly) return;
                 setEditTitle(true);

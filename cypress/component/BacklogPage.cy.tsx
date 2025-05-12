@@ -91,7 +91,43 @@ describe('BacklogPage.cy.ts', () => {
     cy.get(`[data-testid="ticket-hover-${ticketDefault.id}"]`).should('not.exist');
   });
 
-  // it('Test can open ticket', () => {});
+  it.only('Test can open ticket detail modal', () => {
+    const ticket = new TicketBuilder()
+      .withTitle('Test Ticket Open')
+      .withId('680efaf72d0cf941d3f6e703')
+      .build();
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
+      statusCode: 200,
+      body: [ticket]
+    }).as('getBacklog');
+
+    cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
+      statusCode: 200,
+      body: {
+        data: {
+          ...ticket,
+          project: { id: defaultMockProject.id },
+          labels: [],
+          description: '',
+          attachmentUrls: [],
+          type: null,
+          status: null,
+          priority: null,
+          reporter: null,
+          assign: null
+        }
+      }
+    }).as('getTicketDetail');
+
+    cy.wait('@getBacklog');
+
+    cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).dblclick();
+
+    cy.wait('@getTicketDetail');
+
+    cy.get('[data-testid="ticket-detail-title"]').should('exist').and('contain.text', ticket.title);
+  });
 
   // it('Test filter select type', () => {});
 
