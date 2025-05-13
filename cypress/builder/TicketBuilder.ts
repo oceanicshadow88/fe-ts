@@ -1,4 +1,12 @@
-import { IAssign, ILabelData, IProject, ISprint, IStatus, ITicketBasic, ITypes } from '../../src/types';
+import {
+  IAssign,
+  ILabelData,
+  IProject,
+  ISprint,
+  IStatus,
+  ITicketBasic,
+  ITypes
+} from '../../src/types';
 import BaseBuilder from './BaseBuilder';
 import { ProjectBuilder } from './ProjectBuilder';
 
@@ -16,7 +24,7 @@ export class TicketBuilder extends BaseBuilder {
       priority: 'Medium',
       project: project,
       epic: this.generateId(),
-      isActive: true,
+      isActive: true
     };
   }
 
@@ -45,13 +53,17 @@ export class TicketBuilder extends BaseBuilder {
     return this;
   }
 
-  withPriority(priority: "Medium" | "Highest" | "High" | "Low" | "Lowest"): this {
+  withPriority(priority: 'Medium' | 'Highest' | 'High' | 'Low' | 'Lowest'): this {
     this.data.priority = priority;
     return this;
   }
 
-  withProject(project: IProject): this {
-    this.data.project = project;
+  withProject(project: IProject | string): this {
+    if (typeof project === 'string') {
+      this.data.project = new ProjectBuilder().withId(project).build();
+    } else {
+      this.data.project = project;
+    }
     return this;
   }
 
@@ -59,7 +71,7 @@ export class TicketBuilder extends BaseBuilder {
     this.data.board = board;
     return this;
   }
-  
+
   withSprint(sprintId: string): this {
     this.data.sprint = sprintId;
     return this;

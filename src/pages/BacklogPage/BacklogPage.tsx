@@ -206,7 +206,10 @@ export default function BacklogPage() {
               <Button onClick={showCreateModal}>Create sprint</Button>
             )}
           </div>
-          <BacklogSection totalIssue={ticketsBySprintId?.backlog?.length ?? 0}>
+          <BacklogSection
+            data-testid="backlog-section"
+            totalIssue={ticketsBySprintId?.backlog?.length ?? 0}
+          >
             <DroppableTicketItems
               onTicketChanged={fetchBacklogData}
               data={ticketsBySprintId.backlog}

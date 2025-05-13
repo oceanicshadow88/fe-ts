@@ -163,6 +163,32 @@ describe('BacklogPage.cy.ts', () => {
     cy.get('[data-testid="ticket-detail-title"]').should('not.exist');
   });
 
+  it('Test delete a ticket in Backlog', () => {
+    const ticketTitle = 'Delete me';
+    const createdTicket = new TicketBuilder()
+      .withTitle(ticketTitle)
+      .withProject(defaultMockProject.id)
+      .build();
+
+    interceptGetBacklog({ body: [createdTicket] });
+
+    setupBacklogTestEnvironment();
+    cy.wait('@getBacklog');
+    cy.get(`[data-testid="hover-show-option-btn-${createdTicket.id}"]`).click();
+    cy.intercept('DELETE', `**/api/v2/tickets/${createdTicket.id}`, {
+      statusCode: 204
+    }).as('deleteTicket');
+
+    interceptGetBacklog({ body: [] });
+
+    cy.get(`[data-testid="delete-ticket-Delete"]`).click({ force: true });
+
+    cy.wait('@deleteTicket');
+    cy.wait('@getBacklog');
+
+    cy.get(`[data-testid="ticket-hover-${createdTicket.id}"]`).should('not.exist');
+  });
+
   it('Test filter select type', () => {
     const ticketsDefault = [
       new TicketBuilder().build(),
