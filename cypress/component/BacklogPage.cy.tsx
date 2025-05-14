@@ -279,6 +279,76 @@ describe('BacklogPage.cy.ts', () => {
       .should('exist');
   });
 
+  it('allows dragging ticket from one sprint to another sprint', () => {
+    const sprintA = new SprintBuilder().withName('Sprint A').build();
+    const sprintB = new SprintBuilder().withName('Sprint B').build();
+
+    const ticket = new TicketBuilder()
+      .withTitle('Move me between sprints')
+      .withSprint(sprintA.id)
+      .build();
+
+    const localProjectDetailsData = new ProjectDetailsBuilder()
+      .addSprint(sprintA)
+      .addSprint(sprintB)
+      .build();
+
+    let isAfterMove = false;
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/details`, {
+      statusCode: 200,
+      body: localProjectDetailsData
+    }).as('getProjectDetails');
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, (req) => {
+      req.reply({
+        statusCode: 200,
+        body: isAfterMove
+          ? [{ ...ticket, sprint: sprintB.id }]
+          : [{ ...ticket, sprint: sprintA.id }]
+      });
+    }).as('getBacklog');
+
+    cy.intercept('PUT', `**/api/v2/tickets/${ticket.id}`, (req) => {
+      isAfterMove = true;
+      req.reply({
+        statusCode: 200,
+        body: {
+          ...req.body,
+          id: ticket.id
+        }
+      });
+    }).as('updateTicketSprint');
+
+    cy.setupTestEnvironment(
+      <Route
+        path="/projects/:projectId/backlog"
+        element={
+          <ProjectDetailsProvider>
+            <ModalProvider>
+              <BacklogPage />
+            </ModalProvider>
+          </ProjectDetailsProvider>
+        }
+      />,
+      `/projects/${defaultMockProject.id}/backlog`
+    );
+    cy.wait('@getProjectDetails');
+    cy.wait('@getBacklog');
+
+    cy.simulateDndForRBD(
+      `[data-rbd-draggable-id="${ticket.id}"]`,
+      `[data-rbd-droppable-id="${sprintB.id}"]`
+    );
+
+    cy.wait('@updateTicketSprint');
+    cy.wait('@getBacklog');
+
+    cy.get(`[data-rbd-droppable-id="${sprintB.id}"]`)
+      .find(`[data-testid="ticket-hover-${ticket.id}"]`)
+      .should('exist');
+  });
+
   it('Test filter select type', () => {
     const ticketsDefault = [
       new TicketBuilder().build(),
