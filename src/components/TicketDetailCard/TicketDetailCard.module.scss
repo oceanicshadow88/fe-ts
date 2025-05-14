@@ -132,16 +132,10 @@ $dropdown-container-shadow: rgb(9 30 66 / 25%) 0px 4px 8px -2px, rgb(9 30 66 / 3
 }
 
 .ticketDetailsContent {
-  display: grid;
-  grid-template-columns: 1fr max-content;
-  grid-template-rows: repeat(7, minmax(40px, auto));
-  grid-auto-flow: column;
-  column-gap: min(64px, 100%);
-  color: rgb(9, 30, 66);
   .ticketDetailTagItem {
     display: flex;
+    min-width: 150px;
     height: 100%;
-    padding-top: 12px;
     font-size: 16px;
     font-weight: 500;
     gap: 18px;

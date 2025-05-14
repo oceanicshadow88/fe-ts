@@ -7,7 +7,7 @@ import { getBoardDetails, getSprintTickets } from '../../api/board/board';
 import { createNewTicket, updateTicketStatus } from '../../api/ticket/ticket';
 import BoardSearch, { IFilterData } from '../../components/Board/BoardSearch/BoardSearch';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
-import IBoard, { IMinEvent, ITicketBoard } from '../../types';
+import { IBoard, IMinEvent, ITicketBoard } from '../../types';
 import DroppableColumn from './components/DroppableColumn/DroppableColumn';
 import DraggableBoardCard from './components/DraggableBoardCard/DraggableBoardCard';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
@@ -102,7 +102,7 @@ export default function BoardPage() {
   };
 
   const onChangeSprint = (e: IMinEvent) => {
-    setSelectedSprint(getSprintById(e.target.value));
+    setSelectedSprint(getSprintById(e.target.value as string));
   };
 
   if (loading) {

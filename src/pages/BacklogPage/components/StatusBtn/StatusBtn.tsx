@@ -3,13 +3,13 @@ import { FaChevronDown } from 'react-icons/fa';
 import styles from './StatusBtn.module.scss';
 import Button from '../../../../components/Form/Button/Button';
 import useOutsideAlerter from '../../../../hooks/OutsideAlerter';
-import { IStatusBacklog } from '../../../../types';
+import { IStatus } from '../../../../types';
 import { updateTicketStatus } from '../../../../api/ticket/ticket';
 
 interface IToolBar {
   statusId?: any;
   ticketId: string;
-  statusOptions: IStatusBacklog[];
+  statusOptions: IStatus[];
   getBacklogDataApi: () => void;
   showDropDownOnTop?: boolean;
   isDisabled: boolean;

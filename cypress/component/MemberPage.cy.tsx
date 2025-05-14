@@ -55,7 +55,10 @@ describe('MemberPage.cy.ts', () => {
 
   it('Add Member', () => {
     cy.get('[data-testid="invite-members"]').click();
-    cy.get('[data-testid="email"]');
+    cy.get('[data-testid="email"]').type('techscrumapp@.com');
+
+    cy.get('[data-testid="dropdown-role"]').click();
+    // cy.get('[data-testid="leader-name-Developer"]').click();
   });
 
   it('Delete Member', () => {});

@@ -7,7 +7,7 @@ import { defaultMockProject } from '../support/component';
 describe('ShortcutPage.cy.ts', () => {
   const projectId = defaultMockProject.id;
 
-  beforeEach(function () {
+  beforeEach(() => {
     cy.mockGlobalRequest();
 
     cy.setupTestEnvironment(

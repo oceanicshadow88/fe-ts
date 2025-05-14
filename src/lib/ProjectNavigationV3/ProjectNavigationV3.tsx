@@ -94,7 +94,7 @@ export default function Nav() {
       url: `/projects/${projectId}/epic`,
       icon: <VscNewFile />,
       dataTestId: 'epic-btn',
-      isDisable: true
+      isDisable: false
     }
   ];
 

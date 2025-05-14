@@ -91,6 +91,7 @@ $transition: all 0.25s ease-in-out;
   text-align: left;
   line-height: 20px;
   padding: 0;
+  min-width: 120px;
 }
 
 .inputContainer:focus-visible {
@@ -100,6 +101,15 @@ $transition: all 0.25s ease-in-out;
 .inputContainer:hover label {
   font-weight: bold;
   color: $textColor;
+}
+
+.inputContainerNoBorder {
+  @extend .inputContainer;
+  border: none;
+
+  &:hover {
+    background-color: #ebecf0;
+  }
 }
 
 .dropDown {

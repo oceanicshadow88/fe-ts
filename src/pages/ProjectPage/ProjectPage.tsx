@@ -20,6 +20,7 @@ import DefaultModalHeader from '../../lib/Modal/ModalHeader/DefaultModalHeader/D
 import DefaultModalBody from '../../lib/Modal/ModalBody/DefaultModalHeader/DefaultModalBody';
 import Avatar from '../../components/Avatar/Avatar';
 import { importProjects } from '../../api/importProject/importProject';
+import { exportProject } from '../../api/exportProject/exportProject';
 import { UserContext } from '../../context/UserInfoProvider';
 import { Permission } from '../../utils/permission';
 
@@ -82,6 +83,10 @@ export default function ProjectPage() {
     } catch (err) {
       toast.error('Upload failed. Please try again.', { theme: 'colored' });
     }
+  };
+
+  const handleExportProject = async (projectId: string) => {
+    await exportProject(projectId);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -278,6 +283,15 @@ export default function ProjectPage() {
                 Delete Project
               </button>
             )}
+            <button
+              type="button"
+              data-testid="project-export"
+              onClick={() => {
+                handleExportProject(projectId);
+              }}
+            >
+              Export Project
+            </button>
           </div>
         )}
         {(checkAccess(Permission.ViewProjects, projectId) ||
