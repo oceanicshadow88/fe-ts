@@ -24,6 +24,7 @@ import TicketDetailCard from '../../../../components/TicketDetailCard/TicketDeta
 import { ModalContext } from '../../../../context/ModalProvider';
 import checkAccess from '../../../../utils/helpers';
 import { Permission } from '../../../../utils/permission';
+import DropdownV2 from '../../../../lib/FormV2/DropdownV2/DropdownV2';
 
 interface ITicketInput {
   ticket: ITicketBasic;
@@ -39,6 +40,7 @@ export default function TicketItem({
 }: ITicketInput) {
   const [title, setTitle] = useState(ticket.title);
   const [value, setValue] = useState(ticket.type);
+  const [epicId, setEpicId] = useState<string | null>(ticket.epic);
   const projectDetails = useContext(ProjectDetailsContext);
   const { showModal } = useContext(ModalContext);
   const { projectId = '' } = useParams();
@@ -104,6 +106,11 @@ export default function TicketItem({
 
     await updateTicket(data.id, updateData);
     onTicketChanged();
+  };
+
+  const onChangeEpic = async (ticketId: string, updatedEpicId: string | null) => {
+    await updateTicket(ticketId, { epic: updatedEpicId });
+    setEpicId(updatedEpicId);
   };
 
   useEffect(() => {
@@ -187,6 +194,24 @@ export default function TicketItem({
           priority={ticket.priority}
           getBacklogDataApi={onTicketChanged}
           isDisabled={isReadOnly}
+        />
+        <DropdownV2
+          options={projectDetails.epics.map((item) => {
+            return {
+              label: item.title,
+              value: item.id
+            };
+          })}
+          label="Epic"
+          name="epic"
+          onValueChanged={(e) => {
+            onChangeEpic(ticket.id, e.target.value);
+          }}
+          value={epicId}
+          hasBorder={false}
+          placeHolder="None"
+          addNullOptions
+          color={projectDetails.epics.find((item) => item.id === epicId)?.color}
         />
         <StatusBtn
           statusId={ticket?.status}

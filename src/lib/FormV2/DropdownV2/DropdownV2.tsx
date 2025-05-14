@@ -19,6 +19,9 @@ interface IDropdownV2 {
   type?: 'button' | 'submit' | 'reset';
   loading?: boolean;
   dataTestId?: string;
+  hasBorder?: boolean;
+  addNullOptions?: boolean;
+  color?: string;
 }
 
 export default function DropdownV2(props: IDropdownV2) {
@@ -33,7 +36,10 @@ export default function DropdownV2(props: IDropdownV2) {
     onValueChanged,
     onValueBlur = null,
     loading = false,
-    dataTestId
+    dataTestId,
+    hasBorder = true,
+    addNullOptions = false,
+    color
   } = props;
   const defaultPlaceHolder = placeHolder ?? 'None';
   const [error, setError] = useState<null | string>(null);
@@ -42,7 +48,7 @@ export default function DropdownV2(props: IDropdownV2) {
 
   const finalValue = options?.filter((item) => item.value === value)[0]?.label;
 
-  const onChangeSelect = (val: string) => {
+  const onChangeSelect = (val: string | null) => {
     const e = { target: { value: val, name } };
     const errorMessage = getErrorMessage(e, props);
     setError(errorMessage);
@@ -65,36 +71,45 @@ export default function DropdownV2(props: IDropdownV2) {
   }
 
   const renderDropdown = () => {
+    if (!showMenu) {
+      return <></>;
+    }
     return (
-      showMenu && (
-        <div className="relative">
-          <div className={defaultStyles.dropDownList}>
-            {options.length > 0 &&
-              options
-                .filter((item) => item.value !== value)
-                .map((item) => {
-                  return (
-                    <button
-                      key={item.value}
-                      onClick={() => onChangeSelect(item.value)}
-                      data-testid={`leader-name-${item.label}`}
-                    >
-                      {item.label}
-                    </button>
-                  );
-                })}
-          </div>
+      <div className="relative">
+        <div className={defaultStyles.dropDownList}>
+          {addNullOptions && (
+            <button onClick={() => onChangeSelect(null)} data-testid="leader-name-null">
+              None
+            </button>
+          )}
+          {options.length > 0 &&
+            options
+              .filter((item) => item.value !== value)
+              .map((item) => {
+                return (
+                  <button
+                    key={item.value}
+                    onClick={() => onChangeSelect(item.value)}
+                    data-testid={`leader-name-${item.label}`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
         </div>
-      )
+      </div>
     );
   };
-
+  const borderCss = hasBorder ? styles.inputContainer : styles.inputContainerNoBorder;
+  const hasContainer = hasBorder ? defaultStyles.dropDownListContainer : '';
+  const placeHolderCss = hasBorder ? defaultStyles.placeHolder : defaultStyles.placeHolderNoBorder;
+  const textStyle = !finalValue ? placeHolderCss : defaultStyles.val;
   return (
     <div
       className={[
         'relative',
-        styles.inputContainer,
-        defaultStyles.dropDownListContainer,
+        borderCss,
+        hasContainer,
         isActive ? styles.borderActive : '',
         error ? styles.borderRed : ''
       ].join(' ')}
@@ -106,27 +121,29 @@ export default function DropdownV2(props: IDropdownV2) {
           setIsActive(true);
         }}
       >
-        <label
-          className={[
-            styles.label,
-            error ? styles.errorRed : '',
-            isActive ? styles.active : ''
-          ].join(' ')}
-          htmlFor={name}
-        >
-          {label}
-          {required ? <span className={styles.errorRed}>*</span> : ''}
-        </label>
+        {hasBorder && (
+          <label
+            className={[
+              styles.label,
+              error ? styles.errorRed : '',
+              isActive ? styles.active : ''
+            ].join(' ')}
+            htmlFor={name}
+          >
+            {label}
+            {required ? <span className={styles.errorRed}>*</span> : ''}
+          </label>
+        )}
         <button
           type={type}
           className={[styles.input, !value ? styles.lightGrey : ''].join(' ')}
           onBlur={onBlurValue}
         >
-          <p className={!finalValue ? defaultStyles.placeHolder : defaultStyles.val}>
+          <p className={[textStyle].join(' ')} style={color ? { color } : undefined}>
             {!finalValue ? defaultPlaceHolder : finalValue}
           </p>
         </button>
-        <RiArrowDropDownLine className={defaultStyles.dropDown} />
+        {hasBorder && <RiArrowDropDownLine className={defaultStyles.dropDown} />}
         {error && <p className={styles.errorMessage}>{error}</p>}
       </div>
       {renderDropdown()}
