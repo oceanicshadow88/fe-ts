@@ -39,6 +39,7 @@ declare global {
       mount: typeof mount;
       setupTestEnvironment(routeElement: React.ReactElement, routerName: string): Chainable<any>;
       mockGlobalRequest(): Chainable<any>;
+      simulateDndForRBD(fromSelector: string, toSelector: string): Chainable<void>;
     }
   }
 }

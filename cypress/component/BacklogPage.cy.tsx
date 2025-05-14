@@ -53,6 +53,16 @@ describe('BacklogPage.cy.ts', () => {
     );
 
     cy.wait('@getProjectDetails');
+
+    cy.document().then((doc) => {
+      const style = doc.createElement('style');
+      style.innerHTML = `
+    [data-rbd-droppable-id] {
+      min-height: 200px !important;
+    }
+  `;
+      doc.head.appendChild(style);
+    });
   };
 
   it('Test ticket title filter shows correct results', () => {
@@ -187,6 +197,42 @@ describe('BacklogPage.cy.ts', () => {
     cy.wait('@getBacklog');
 
     cy.get(`[data-testid="ticket-hover-${createdTicket.id}"]`).should('not.exist');
+  });
+
+  it('allows dragging ticket from backlog to sprint', () => {
+    const ticket = new TicketBuilder().withTitle('Move me').build();
+
+    let isAfterMove = false;
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, (req) => {
+      req.reply({
+        statusCode: 200,
+        body: isAfterMove ? [{ ...ticket, sprint: sprint.id }] : [ticket]
+      });
+    }).as('getBacklog');
+
+    cy.intercept('PUT', `**/api/v2/tickets/${ticket.id}`, (req) => {
+      isAfterMove = true;
+      req.reply({
+        statusCode: 200,
+        body: {
+          ...req.body,
+          id: ticket.id
+        }
+      });
+    }).as('updateTicketSprint');
+
+    setupBacklogTestEnvironment();
+    cy.wait('@getBacklog');
+
+    cy.simulateDndForRBD(
+      `[data-rbd-draggable-id="${ticket.id}"]`,
+      `[data-rbd-droppable-id="${sprint.id}"]`
+    );
+
+    cy.wait('@updateTicketSprint');
+    cy.wait('@getBacklog');
+    cy.get(`[data-testid="ticket-hover-${ticket.id}"]`, { timeout: 2000 }).should('exist');
   });
 
   it('Test filter select type', () => {
