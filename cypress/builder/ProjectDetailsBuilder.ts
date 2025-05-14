@@ -30,19 +30,21 @@ export class ProjectDetailsBuilder extends BaseBuilder {
     });
 
     const typeIconMap: Record<string, string> = {
-      'Story': 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium',
-      'Task': 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium',
-      'Bug': 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium',
-      'Tech Debt': 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10308?size=medium',
+      Story:
+        'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium',
+      Task: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium',
+      Bug: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium',
+      'Tech Debt':
+        'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10308?size=medium'
     };
 
     const ticketTypes = Object.entries(typeIconMap).map(([name, icon]) => {
-      return new TypesBuilder()
-        .withName(name)
-        .withIcon(icon)
-        .build();
-    });;
-  
+      return {
+        ...new TypesBuilder().withName(name).withIcon(icon).build(),
+        slug: name.toLowerCase()
+      };
+    });
+
     const details = {
       id: this.generateId(),
       name: 'TECHSCRUM',
@@ -56,7 +58,7 @@ export class ProjectDetailsBuilder extends BaseBuilder {
       createdAt: '2025-04-25T03:33:31.094Z',
       updatedAt: '2025-04-25T03:33:31.094Z',
       __v: 0
-    }
+    };
 
     const retroBoards = [
       {
@@ -103,7 +105,7 @@ export class ProjectDetailsBuilder extends BaseBuilder {
       details: details,
       statues: statuses,
       boards: boards,
-      retroBoards: retroBoards,
+      retroBoards: retroBoards
     };
   }
 

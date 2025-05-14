@@ -199,6 +199,37 @@ describe('BacklogPage.cy.ts', () => {
     cy.get(`[data-testid="ticket-hover-${createdTicket.id}"]`).should('not.exist');
   });
 
+  it('can create a new ticket', () => {
+    const newTicketTitle = 'This is a new ticket';
+    const createdTicket = new TicketBuilder()
+      .withTitle(newTicketTitle)
+      .withId('created-123')
+      .build();
+
+    interceptGetBacklog({ body: [] });
+
+    cy.intercept('POST', '**/api/v2/tickets', {
+      statusCode: 201,
+      body: createdTicket
+    }).as('createTicket');
+
+    interceptGetBacklog({ body: [createdTicket] });
+
+    setupBacklogTestEnvironment();
+    cy.wait('@getBacklog');
+
+    cy.contains('Create Ticket').click();
+    cy.get('[data-testid="create-issue-input"]', { timeout: 5000 }).should('be.visible');
+
+    cy.get('[data-testid="create-issue-input"]').type(`${newTicketTitle}{enter}`);
+    cy.wait('@createTicket');
+
+    cy.get(`[data-testid="ticket-hover-${createdTicket.id}"]`).should(
+      'contain.text',
+      newTicketTitle
+    );
+  });
+
   it('allows dragging ticket from backlog to sprint', () => {
     const ticket = new TicketBuilder().withTitle('Move me to sprint').build();
 
