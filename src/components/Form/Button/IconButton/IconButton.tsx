@@ -19,7 +19,9 @@ export default function IconButton({
     <button
       className={[styles.iconButton, overrideStyle].join(' ')}
       onClick={onClick}
-      data-testid={'icon-btn-'.concat(ticketId as string)}
+      data-testid={`icon-btn-${tooltip.toLowerCase().replace(/\s+/g, '-')}-`.concat(
+        ticketId as string
+      )}
     >
       {icon}
       <span className={styles.tooltip}>{tooltip}</span>

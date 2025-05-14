@@ -7,7 +7,7 @@ import { AiOutlineSetting, AiOutlineUnorderedList } from 'react-icons/ai';
 import { BsBriefcase } from 'react-icons/bs';
 import styles from './Setting.module.scss';
 import { deleteProject, showProject, updateProject } from '../../api/projects/projects';
-import { IOnChangeProjectLead, IProjectData, IProjectEditor } from '../../types';
+import { IMinEvent, IProjectData, IProjectEditor } from '../../types';
 import { UserContext } from '../../context/UserInfoProvider';
 import SettingCard from '../../components/SettingCard/SettingCard';
 import ChangeIcon from '../../components/Projects/ProjectEditor/ChangeIcon/ChangeIcon';
@@ -123,7 +123,7 @@ export default function Setting() {
     update({ iconUrl: updateData.iconUrl });
   };
 
-  const onChange = (e: IOnChangeProjectLead) => {
+  const onChange = (e: IMinEvent) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 

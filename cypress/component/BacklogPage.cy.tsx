@@ -489,4 +489,214 @@ describe('BacklogPage.cy.ts', () => {
       cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).should('exist');
     }
   });
+
+  it('Can change ticket priority', () => {
+    const ticketsDefault = new TicketBuilder().build();
+    const priority = 'Highest';
+
+    cy.intercept('PUT', `**/api/v2/tickets/${ticketsDefault.id}`, {
+      statusCode: 200,
+      body: {
+        ...ticketsDefault,
+        priority: priority
+      }
+    }).as('updateTicketPriority');
+
+    interceptGetBacklog({
+      body: [ticketsDefault]
+    });
+
+    setupBacklogTestEnvironment();
+
+    cy.wait(`@getBacklog`);
+    cy.get(`[data-testid="priority-btn-${ticketsDefault.id}"]`).click();
+    cy.get(`[data-testid="priority-dropdown-btn-${ticketsDefault.id}-${priority}"]`).click();
+
+    interceptGetBacklog({
+      body: [
+        {
+          ...ticketsDefault,
+          priority: priority
+        }
+      ]
+    });
+
+    cy.wait('@updateTicketPriority');
+    cy.wait('@getBacklog');
+
+    cy.get(`[data-testid="priority-dropdown-btn-${ticketsDefault.id}-${priority}"]`).contains(
+      priority
+    );
+  });
+
+  it('Can change ticket title', () => {
+    const ticketsDefault = new TicketBuilder().build();
+
+    const newTitle = 'New Title';
+
+    cy.intercept('PUT', `**/api/v2/tickets/${ticketsDefault.id}`, {
+      statusCode: 200,
+      body: {
+        ...ticketsDefault,
+        title: newTitle
+      }
+    }).as('updateTicketTitle');
+
+    interceptGetBacklog({
+      body: [ticketsDefault]
+    });
+
+    setupBacklogTestEnvironment();
+
+    cy.wait(`@getBacklog`);
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
+      statusCode: 200,
+      body: [
+        {
+          ...ticketsDefault,
+          title: newTitle
+        }
+      ]
+    }).as('getUpdatedBacklog');
+
+    // Force click because the element is not visible,
+    // and the visibility cannot be checked as it is triggered by css hover
+    cy.get(`[data-testid="icon-btn-edit-${ticketsDefault.id}"]`).click({ force: true });
+    cy.get(`[data-testid="ticket-title-input-${ticketsDefault.id}"]`)
+      .clear()
+      .type(newTitle)
+      .type('{enter}');
+
+    cy.wait('@updateTicketTitle');
+    cy.wait('@getUpdatedBacklog');
+
+    cy.get(`[data-testid="ticket-hover-${ticketsDefault.id}"]`).contains(newTitle);
+  });
+
+  it('Can change ticket assign', () => {
+    const ticketsDefault = new TicketBuilder().build();
+
+    cy.intercept('PUT', `**/api/v2/tickets/${ticketsDefault.id}`, {
+      statusCode: 200,
+      body: {
+        ...ticketsDefault,
+        assign: defaultMockUser
+      }
+    }).as('updateTicketAssign');
+
+    interceptGetBacklog({
+      body: [ticketsDefault]
+    });
+
+    setupBacklogTestEnvironment();
+
+    cy.wait(`@getBacklog`);
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
+      statusCode: 200,
+      body: [
+        {
+          ...ticketsDefault,
+          assign: defaultMockUser
+        }
+      ]
+    }).as('getUpdatedBacklog');
+
+    cy.get(`[data-testid="assignee-btn-${ticketsDefault.id}"]`).click();
+    cy.get(`[data-testid="assignee-btn-${ticketsDefault.id}-${defaultMockUser.id}"]`).click();
+
+    cy.wait('@updateTicketAssign');
+    cy.wait('@getUpdatedBacklog');
+
+    cy.get(`[data-testid="assignee-btn-${ticketsDefault.id}"]`).contains(defaultMockUser.name);
+  });
+
+  it('Can add to sprint', () => {
+    const sprint = new SprintBuilder().withName('New Test Sprint').build();
+
+    cy.intercept('POST', `**/api/v2/sprints`, {
+      statusCode: 200,
+      body: {
+        ...sprint
+      }
+    }).as('createSprint');
+
+    interceptGetBacklog({
+      body: []
+    });
+
+    setupBacklogTestEnvironment();
+
+    cy.wait(`@getBacklog`);
+
+    cy.get(`[data-testid="backlog-create-sprint-btn"]`).click();
+    cy.get(`[data-testid="sprint-name"]`).type(sprint.name);
+    cy.get(`[data-testid="sprint-submit-btn"]`).click();
+
+    cy.wait('@createSprint');
+
+    cy.get(`[data-testid="sprint-${sprint.id}"]`).should('exist').contains(sprint.name);
+  });
+
+  it('Can copy link', () => {
+    const ticketsDefault = new TicketBuilder().build();
+
+    interceptGetBacklog({
+      body: [ticketsDefault]
+    });
+
+    cy.window().then((win) => {
+      cy.stub(win.navigator.clipboard, 'writeText').as('copyText');
+    });
+
+    setupBacklogTestEnvironment();
+
+    cy.wait(`@getBacklog`);
+
+    cy.get(`[data-testid="icon-btn-copy-link-${ticketsDefault.id}"]`).click({ force: true });
+    cy.get('@copyText').should(
+      'have.been.calledWith',
+      `${window.location.origin}/tickets/${ticketsDefault.id}`
+    );
+  });
+
+  it('Can change status', () => {
+    const ticketsDefault = new TicketBuilder().build();
+    const status = projectDetailsData.statues[0];
+
+    cy.intercept('PUT', `**/api/v2/tickets/${ticketsDefault.id}`, {
+      statusCode: 200,
+      body: {
+        ...ticketsDefault,
+        status: status.id
+      }
+    }).as('updateTicketType');
+
+    interceptGetBacklog({
+      body: [ticketsDefault]
+    });
+
+    setupBacklogTestEnvironment();
+
+    cy.wait(`@getBacklog`);
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
+      statusCode: 200,
+      body: [
+        {
+          ...ticketsDefault,
+          status: status.id
+        }
+      ]
+    }).as('getUpdatedBacklog');
+
+    cy.get(`[data-testid="status-container-${ticketsDefault.id}"]`).click();
+    cy.get(`[data-testid="status-drop-item-${ticketsDefault.id}-${status.id}"]`).click();
+
+    cy.wait('@updateTicketType');
+    cy.wait('@getUpdatedBacklog');
+
+    cy.get(`[data-testid="status-drop-btn-${ticketsDefault.id}"]`);
+  });
 });
