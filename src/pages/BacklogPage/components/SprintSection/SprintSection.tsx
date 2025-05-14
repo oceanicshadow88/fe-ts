@@ -81,6 +81,7 @@ export default function SprintSection({
           <div className={styles.toolbar}>
             {sprint.currentSprint ? (
               <Button
+                dataTestId={`complete-sprint-btn-${sprint.id}`}
                 onClick={() => {
                   onClickCompleteSprint(sprint.id);
                 }}
@@ -89,6 +90,7 @@ export default function SprintSection({
               </Button>
             ) : (
               <Button
+                dataTestId={`start-sprint-btn-${sprint.id}`}
                 onClick={() => {
                   onClickStartSprint(sprint.id);
                 }}

@@ -380,6 +380,98 @@ describe('BacklogPage.cy.ts', () => {
       .should('exist');
   });
 
+  it('Can start a sprint', () => {
+    const sprint = new SprintBuilder().withName('To Start Sprint').build();
+
+    const initialProjectDetails = new ProjectDetailsBuilder()
+      .addSprint({ ...sprint, currentSprint: false })
+      .build();
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/details`, {
+      statusCode: 200,
+      body: initialProjectDetails
+    }).as('getProjectDetails');
+
+    interceptGetBacklog({ body: [] });
+
+    cy.setupTestEnvironment(
+      <Route
+        path="/projects/:projectId/backlog"
+        element={
+          <ProjectDetailsProvider>
+            <ModalProvider>
+              <BacklogPage />
+            </ModalProvider>
+          </ProjectDetailsProvider>
+        }
+      />,
+      `/projects/${defaultMockProject.id}/backlog`
+    );
+
+    cy.wait('@getProjectDetails');
+    cy.wait('@getBacklog');
+
+    cy.intercept('PUT', `**/api/v2/sprints/${sprint.id}`, {
+      statusCode: 200,
+      body: { ...sprint, currentSprint: true }
+    }).as('startSprint');
+
+    cy.get(`[data-testid="start-sprint-btn-${sprint.id}"]`).click();
+
+    cy.wait('@startSprint');
+
+    cy.get(`[data-testid="complete-sprint-btn-${sprint.id}"]`).should('exist');
+  });
+
+  it('Can complete a sprint', () => {
+    const sprint = new SprintBuilder()
+      .withName('To Complete Sprint')
+      .withCurrentSprint(true)
+      .build();
+
+    const initialProjectDetails = new ProjectDetailsBuilder()
+      .addSprint({ ...sprint, currentSprint: true })
+      .build();
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/details`, {
+      statusCode: 200,
+      body: initialProjectDetails
+    }).as('getProjectDetails');
+
+    interceptGetBacklog({ body: [] });
+
+    cy.setupTestEnvironment(
+      <Route
+        path="/projects/:projectId/backlog"
+        element={
+          <ProjectDetailsProvider>
+            <ModalProvider>
+              <BacklogPage />
+            </ModalProvider>
+          </ProjectDetailsProvider>
+        }
+      />,
+      `/projects/${defaultMockProject.id}/backlog`
+    );
+
+    cy.wait('@getProjectDetails');
+    cy.wait('@getBacklog');
+
+    cy.intercept('PUT', `**/api/v2/sprints/${sprint.id}`, {
+      statusCode: 200,
+      body: {
+        ...sprint,
+        currentSprint: false,
+        isComplete: true
+      }
+    }).as('completeSprint');
+
+    cy.get(`[data-testid="complete-sprint-btn-${sprint.id}"]`).click();
+    cy.wait('@completeSprint');
+
+    cy.get(`[data-testid="complete-sprint-btn-${sprint.id}"]`).should('not.exist');
+  });
+
   it('Test filter select type', () => {
     const ticketsDefault = [
       new TicketBuilder().build(),
