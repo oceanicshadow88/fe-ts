@@ -29,6 +29,7 @@ import * as helper from '../../src/utils/helpers';
 import { UserProvider } from '../../src/context/UserInfoProvider';
 import { UserBuilder } from '../builder/UserBuilder';
 import { ProjectBuilder } from '../builder/ProjectBuilder';
+import { doc } from 'prettier';
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
 // Alternatively, can be defined in cypress/support/component.d.ts

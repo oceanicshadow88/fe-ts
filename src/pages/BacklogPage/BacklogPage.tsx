@@ -203,7 +203,9 @@ export default function BacklogPage() {
             })}
           <div className={styles.toolbar}>
             {checkAccess(Permission.CreateSprints, projectId) && (
-              <Button onClick={showCreateModal}>Create sprint</Button>
+              <Button onClick={showCreateModal} dataTestId="backlog-create-sprint-btn">
+                Create sprint
+              </Button>
             )}
           </div>
           <BacklogSection totalIssue={ticketsBySprintId?.backlog?.length ?? 0}>
