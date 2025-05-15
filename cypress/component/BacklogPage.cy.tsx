@@ -136,8 +136,6 @@ describe('BacklogPage.cy.ts', () => {
       body: []
     }).as('getTicketLabels');
 
-    console.log('project id', defaultMockProject.id);
-
     interceptGetBacklog({
       body: [ticket]
     });
