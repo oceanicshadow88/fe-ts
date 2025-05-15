@@ -115,7 +115,7 @@ describe('BacklogPage.cy.ts', () => {
       .and('contain.text', 'There is nothing that matches this filter');
   });
 
-  it.only('Test can open ticket detail modal', () => {
+  it('Test can open ticket detail modal', () => {
     const ticket = new TicketBuilder()
       .withTitle('Test Ticket Open')
       .withProject(defaultMockProject)
