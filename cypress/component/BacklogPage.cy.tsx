@@ -152,25 +152,6 @@ describe('BacklogPage.cy.ts', () => {
     cy.get('[data-testid="ticket-detail-title"]').should('exist').and('contain.text', ticket.title);
   });
 
-  it.skip('Test open non-existent ticket returns error', () => {
-    const ticket = new TicketBuilder().withId('fake-id').build();
-
-    cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
-      statusCode: 404,
-      body: { message: 'Not found' }
-    }).as('getTicketDetailError');
-
-    interceptGetBacklog({ body: [ticket] });
-
-    setupBacklogTestEnvironment();
-
-    cy.wait(`@getBacklog`);
-
-    cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).dblclick();
-    cy.wait('@getTicketDetailError');
-    cy.get('[data-testid="ticket-detail-title"]').should('not.exist');
-  });
-
   it('Test delete a ticket in Backlog', () => {
     const ticketTitle = 'Delete me';
     const createdTicket = new TicketBuilder()
