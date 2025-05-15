@@ -124,7 +124,6 @@ describe('BacklogPage.cy.ts', () => {
     cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
       statusCode: 200,
       body: ticket
-      
     }).as('getTicketDetail');
 
     cy.intercept('GET', `**/api/v2/comments/${ticket.id}`, {
