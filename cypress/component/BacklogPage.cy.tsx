@@ -115,29 +115,29 @@ describe('BacklogPage.cy.ts', () => {
       .and('contain.text', 'There is nothing that matches this filter');
   });
 
-  it.skip('Test can open ticket detail modal', () => {
+  it.only('Test can open ticket detail modal', () => {
     const ticket = new TicketBuilder()
       .withTitle('Test Ticket Open')
-      .withId('680efaf72d0cf941d3f6e703')
+      .withProject(defaultMockProject)
       .build();
 
     cy.intercept('GET', `**/api/v2/tickets/${ticket.id}`, {
       statusCode: 200,
-      body: {
-        data: {
-          ...ticket,
-          project: { id: defaultMockProject.id },
-          labels: [],
-          description: '',
-          attachmentUrls: [],
-          type: null,
-          status: null,
-          priority: null,
-          reporter: null,
-          assign: null
-        }
-      }
+      body: ticket
+      
     }).as('getTicketDetail');
+
+    cy.intercept('GET', `**/api/v2/comments/${ticket.id}`, {
+      statusCode: 200,
+      body: []
+    }).as('getTicketComments');
+
+    cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/labels`, {
+      statusCode: 200,
+      body: []
+    }).as('getTicketLabels');
+
+    console.log('project id', defaultMockProject.id);
 
     interceptGetBacklog({
       body: [ticket]
@@ -150,7 +150,8 @@ describe('BacklogPage.cy.ts', () => {
     cy.get(`[data-testid="ticket-hover-${ticket.id}"]`).dblclick();
 
     cy.wait('@getTicketDetail');
-
+    cy.wait('@getTicketComments');
+    
     cy.get('[data-testid="ticket-detail-title"]').should('exist').and('contain.text', ticket.title);
   });
 
@@ -199,7 +200,7 @@ describe('BacklogPage.cy.ts', () => {
     cy.get(`[data-testid="ticket-hover-${createdTicket.id}"]`).should('not.exist');
   });
 
-  it('can create a new ticket', () => {
+  it('Can create a new ticket', () => {
     const newTicketTitle = 'This is a new ticket';
     const createdTicket = new TicketBuilder()
       .withTitle(newTicketTitle)
@@ -230,7 +231,7 @@ describe('BacklogPage.cy.ts', () => {
     );
   });
 
-  it('allows dragging ticket from backlog to sprint', () => {
+  it('Allows dragging ticket from backlog to sprint', () => {
     const ticket = new TicketBuilder().withTitle('Move me to sprint').build();
 
     let isAfterMove = false;
@@ -268,7 +269,7 @@ describe('BacklogPage.cy.ts', () => {
       .should('exist');
   });
 
-  it('allows dragging ticket from sprint to backlog', () => {
+  it('Allows dragging ticket from sprint to backlog', () => {
     const ticket = new TicketBuilder()
       .withTitle('Move me to backlog')
       .withSprint(sprint.id)
@@ -310,7 +311,7 @@ describe('BacklogPage.cy.ts', () => {
       .should('exist');
   });
 
-  it('allows dragging ticket from one sprint to another sprint', () => {
+  it('Allows dragging ticket from one sprint to another sprint', () => {
     const sprintA = new SprintBuilder().withName('Sprint A').build();
     const sprintB = new SprintBuilder().withName('Sprint B').build();
 
@@ -735,7 +736,7 @@ describe('BacklogPage.cy.ts', () => {
     cy.get(`[data-testid="assignee-btn-${ticketsDefault.id}"]`).contains(defaultMockUser.name);
   });
 
-  it('Can add to sprint', () => {
+  it('Can create sprint', () => {
     const sprint = new SprintBuilder().withName('New Test Sprint').build();
 
     cy.intercept('POST', `**/api/v2/sprints`, {
