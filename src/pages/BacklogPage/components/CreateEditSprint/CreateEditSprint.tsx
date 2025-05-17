@@ -303,6 +303,7 @@ export default function CreateEditSprint({
                   }
                 }}
                 disabled={disabled}
+                data-testid="sprint-submit-btn"
               >
                 {type === 'Create' ? 'Create' : 'Update'}
               </button>

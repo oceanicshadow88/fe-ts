@@ -12,10 +12,11 @@ interface IBacklogFilter {
     item: IUserInfo
   ) => IUserInfo[];
   setSelectedUsers: Dispatch<SetStateAction<IUserInfo[]>>;
+  dataTestId?: string;
 }
 
 export default function BacklogUserFilter(props: IBacklogFilter) {
-  const { user, selectedUsers, changeSelectedUsers, setSelectedUsers } = props;
+  const { user, selectedUsers, changeSelectedUsers, setSelectedUsers, dataTestId } = props;
   const [pressed, setPressed] = useState(false);
 
   const handleUserFilterSelect = () => {
@@ -30,7 +31,7 @@ export default function BacklogUserFilter(props: IBacklogFilter) {
   };
 
   return (
-    <div className={styles.backlogUser} key={user.id}>
+    <div className={styles.backlogUser} key={user.id} data-testid={dataTestId}>
       <button className={styles.backlogUserIconButton} onClick={handleUserFilterSelect}>
         <div className={styles.backlogUserIconContainer} data-tooltip={user.name}>
           <Avatar user={user} selected={pressed} size={30} />

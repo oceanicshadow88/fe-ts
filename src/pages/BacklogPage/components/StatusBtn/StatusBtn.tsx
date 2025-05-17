@@ -36,12 +36,17 @@ export default function StatusBtn({
   };
 
   return (
-    <div className={styles.statusBtnContainer} ref={myRef}>
+    <div
+      className={styles.statusBtnContainer}
+      ref={myRef}
+      data-testid={`status-container-${ticketId}`}
+    >
       <Button
         icon={<FaChevronDown />}
         iconPosition="end"
         overrideStyle={[styles.statusBtn, styles.dropDownBtnPurple].join(' ')}
         onClick={dropDownClick}
+        dataTestId={`status-drop-btn-${ticketId}`}
       >
         {statusOptions.find((item) => item.id === statusId)?.name?.toUpperCase() ?? 'BACKLOG'}
       </Button>
@@ -67,6 +72,7 @@ export default function StatusBtn({
                     onClick={() => {
                       btnClick(data.id);
                     }}
+                    dataTestId={`status-drop-item-${ticketId}-${data.id}`}
                   >
                     <span className={styles.dropDownBtnPurple}>{data.name.toUpperCase()}</span>
                   </Button>

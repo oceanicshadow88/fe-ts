@@ -38,7 +38,7 @@ describe('ProjectPage.cy.ts', () => {
   });
 
   it('Delete Project', () => {
-    cy.intercept('DELETE', `**/api/v2/projects/default-project-id`, {
+    cy.intercept('DELETE', `**/api/v2/projects/${defaultMockProject.id}`, {
       statusCode: 200,
       body: {}
     }).as('deleteProject');
@@ -47,16 +47,16 @@ describe('ProjectPage.cy.ts', () => {
       body: []
     }).as('getProjectsAfter');
 
-    cy.get('[data-testid="project-expand-btn-default-project-id"]').click();
+    cy.get(`[data-testid="project-expand-btn-${defaultMockProject.id}"]`).click();
     cy.get('[data-testid="project-delete"]').click();
     cy.get('[data-testid="confirm-delete"]').click();
     cy.wait('@deleteProject');
     cy.wait('@getProjectsAfter');
-    cy.get('[data-testid="project-expand-btn-default-project-id"]').should('not.exist');
+    cy.get(`[data-testid="project-expand-btn-${defaultMockProject.id}"]`).should('not.exist');
   });
 
   it('Edit Project', () => {
-    cy.intercept('DELETE', `**/api/v2/projects/default-project-id`, {
+    cy.intercept('DELETE', `**/api/v2/projects/${defaultMockProject.id}`, {
       statusCode: 200,
       body: {}
     }).as('deleteProject');
@@ -65,10 +65,10 @@ describe('ProjectPage.cy.ts', () => {
       body: []
     }).as('getProjectsAfter');
 
-    cy.get('[data-testid="project-expand-btn-default-project-id"]').click();
+    cy.get(`[data-testid="project-expand-btn-${defaultMockProject.id}"]`).click();
     cy.get('[data-testid="project-details"]')
       .parent()
       .should('have.attr', 'href')
-      .and('include', '/settings/default-project-id');
+      .and('include', `/settings/${defaultMockProject.id}`);
   });
 });

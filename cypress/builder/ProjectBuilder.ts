@@ -1,12 +1,14 @@
 import { IProject, IUserInfo, IRole } from '../../src/types'; // Adjust the import path as needed
+import BaseBuilder from './BaseBuilder';
 
-export class ProjectBuilder {
-  private data: IProject;
+export class ProjectBuilder extends BaseBuilder {
+  private readonly data: IProject;
 
   constructor() {
     // Initialize with default values
+    super();
     this.data = {
-      id: 'default-project-id',
+      id: this.id,
       name: 'Default Project',
       iconUrl: 'https://example.com/default-icon.png',
       type: 'scrum',
@@ -18,6 +20,11 @@ export class ProjectBuilder {
       },
       updateAt: new Date(),
       roles: [],
+      owner: {
+        id: 'default-owner-id',
+        name: 'Default Owner',
+        email: 'lead@example.com'
+      },
       defaultRetroBoard: 'default-retro-board',
       shortcut: [
         {
@@ -30,58 +37,63 @@ export class ProjectBuilder {
   }
 
   // Builder methods for each property
-  withId(id: string): ProjectBuilder {
+  withId(id: string): this {
     this.data.id = id;
     return this;
   }
 
-  withName(name: string): ProjectBuilder {
+  withName(name: string): this {
     this.data.name = name;
     return this;
   }
 
-  withIconUrl(iconUrl: string): ProjectBuilder {
+  withIconUrl(iconUrl: string): this {
     this.data.iconUrl = iconUrl;
     return this;
   }
 
-  withType(type: string): ProjectBuilder {
+  withType(type: string): this {
     this.data.type = type;
     return this;
   }
 
-  withBoard(board: string): ProjectBuilder {
+  withBoard(board: string): this {
     this.data.board = board;
     return this;
   }
 
-  withProjectLead(projectLead: IUserInfo): ProjectBuilder {
+  withProjectLead(projectLead: IUserInfo): this {
     this.data.projectLead = projectLead;
     return this;
   }
 
-  withUpdateAt(updateAt: Date): ProjectBuilder {
+  withUpdateAt(updateAt: Date): this {
     this.data.updateAt = updateAt;
     return this;
   }
 
-  withRoles(roles: IRole[]): ProjectBuilder {
+  withRoles(roles: IRole[]): this {
     this.data.roles = roles;
     return this;
   }
 
-  withDefaultRetroBoard(defaultRetroBoard: string): ProjectBuilder {
+  withDefaultRetroBoard(defaultRetroBoard: string): this {
     this.data.defaultRetroBoard = defaultRetroBoard;
     return this;
   }
 
-  withShortcut(shortcut: any): ProjectBuilder {
+  withShortcut(shortcut: any): this {
     this.data.shortcut = shortcut;
     return this;
   }
 
+  withOwner(owner: IUserInfo): this {
+    this.data.owner = owner;
+    return this;
+  }
+
   // Add a role to the existing roles array
-  addRole(role: IRole): ProjectBuilder {
+  addRole(role: IRole): this {
     this.data.roles.push(role);
     return this;
   }

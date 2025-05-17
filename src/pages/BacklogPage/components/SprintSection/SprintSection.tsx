@@ -18,8 +18,15 @@ interface ISprintSection {
   sprint: ISprint;
   totalIssue: number;
   children?: React.ReactNode | string;
+  dataTestId?: string;
 }
-export default function SprintSection({ totalIssue, sprint, children }: ISprintSection) {
+
+export default function SprintSection({
+  totalIssue,
+  sprint,
+  dataTestId,
+  children
+}: ISprintSection) {
   const { projectId = '' } = useParams();
   const projectDetails = useContext(ProjectDetailsContext);
   const { showModal, closeModal } = useContext(ModalContext);
@@ -54,7 +61,10 @@ export default function SprintSection({ totalIssue, sprint, children }: ISprintS
   };
 
   return (
-    <section className={[styles.container, styles.sprintContainer].join(' ')}>
+    <section
+      className={[styles.container, styles.sprintContainer].join(' ')}
+      data-testid={dataTestId}
+    >
       <div className={styles.header}>
         <div className={styles.heading}>
           <h1>{sprint.name}</h1>
@@ -71,6 +81,7 @@ export default function SprintSection({ totalIssue, sprint, children }: ISprintS
           <div className={styles.toolbar}>
             {sprint.currentSprint ? (
               <Button
+                dataTestId={`complete-sprint-btn-${sprint.id}`}
                 onClick={() => {
                   onClickCompleteSprint(sprint.id);
                 }}
@@ -79,6 +90,7 @@ export default function SprintSection({ totalIssue, sprint, children }: ISprintS
               </Button>
             ) : (
               <Button
+                dataTestId={`start-sprint-btn-${sprint.id}`}
                 onClick={() => {
                   onClickStartSprint(sprint.id);
                 }}

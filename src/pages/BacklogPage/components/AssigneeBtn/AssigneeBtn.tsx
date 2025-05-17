@@ -44,7 +44,7 @@ export default function AssigneeBtn({
   }
 
   return (
-    <div className={styles.assigneeContainer} ref={myRef}>
+    <div className={styles.assigneeContainer} ref={myRef} data-testid={`assignee-btn-${ticketId}`}>
       <IconButton
         overrideStyle={styles.assignee}
         icon={<Avatar user={assignee} />}
@@ -94,6 +94,7 @@ export default function AssigneeBtn({
                         setVisible(false);
                       }}
                       className={styles.gap10}
+                      data-testid={`assignee-btn-${ticketId}-${user.id}`}
                     >
                       <Avatar user={user} />
                       {user.name}

@@ -33,7 +33,7 @@ export default function SearchForBoard(props: ISearchForBoard) {
         ref={myRef}
         placeholder="Search ticket title"
         onChange={searchHandler}
-        data-testid="board-search"
+        data-testid="ticket-search"
       />
       <span>
         <img

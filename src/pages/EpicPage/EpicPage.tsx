@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getBacklogTickets } from '../../api/backlog/backlog';
 import { createNewTicket, updateTicketEpic } from '../../api/ticket/ticket';
-import BoardSearch, { IFilterData } from '../../components/Board/BoardSearch/BoardSearch';
+import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import Button from '../../components/Form/Button/Button';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
 import ProjectSectionHOC from '../../components/HOC/ProjectSectionHOC/ProjectSectionHOC';
@@ -77,7 +77,7 @@ function EpicPage() {
   return (
     <ProjectHOC title="Epic">
       <div className={styles.scrollContainer}>
-        <BoardSearch onChangeFilter={onChangeFilter} />
+        <TicketSearch onChangeFilter={onChangeFilter} />
         <div className={styles.toolbar}>
           <Button onClick={showCreateModal}>Create epic</Button>
         </div>

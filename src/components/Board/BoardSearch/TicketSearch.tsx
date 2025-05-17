@@ -22,7 +22,7 @@ interface IBoardSearchProps {
   onChangeFilter: (filterData: IFilterData) => void;
 }
 
-function BoardSearch(props: IBoardSearchProps) {
+function TicketSearch(props: IBoardSearchProps) {
   const { onChangeFilter } = props;
   const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
   const [selectedLabels, setSelectedLabels] = useState<ILabelData[]>([]);
@@ -64,15 +64,17 @@ function BoardSearch(props: IBoardSearchProps) {
         selectedTypes={selectedTypes}
         setSelectedTypes={setSelectedTypes}
         changeSelectedTypes={changeSelectedItems}
+        dataTestId="type-filter"
       />
       <TicketEpicFilter
         selectedEpics={selectedEpics}
         setSelectedEpics={setSelectedEpics}
         changeSelectedEpics={changeSelectedItems}
+        dataTestId="epic-filter"
       />
       <TicketLabelFilter selectedLabels={selectedLabels} setSelectedLabels={setSelectedLabels} />
     </div>
   );
 }
 
-export default React.memo(BoardSearch);
+export default React.memo(TicketSearch);

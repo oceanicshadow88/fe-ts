@@ -62,8 +62,13 @@ export default function CreateIssue({ onIssueCreate, showDropDownOnTop = false }
   }
   if (checkAccess(Permission.CreateTickets, projectId)) {
     return (
-      <Button icon={<GoPlus />} overrideStyle={styles.buttonRow} onClick={() => setVisible(true)}>
-        <p data-testid="create-issue">Create ticket</p>
+      <Button
+        data-testid="create-issue-title"
+        icon={<GoPlus />}
+        overrideStyle={styles.buttonRow}
+        onClick={() => setVisible(true)}
+      >
+        <p>Create Ticket</p>
       </Button>
     );
   }

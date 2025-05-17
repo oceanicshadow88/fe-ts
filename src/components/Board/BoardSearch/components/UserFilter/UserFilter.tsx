@@ -38,6 +38,7 @@ export default function UserFilter(props: IUserFilter) {
           setSelectedUsers={setSelectedUsers}
           key={user.id}
           user={user}
+          dataTestId={`user-filter-${user.id}`}
         />
       ))}
       {updatedUserOptions?.length > 4 && (
