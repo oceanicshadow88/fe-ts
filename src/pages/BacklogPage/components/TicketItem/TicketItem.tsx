@@ -150,6 +150,7 @@ export default function TicketItem({
           updateTicketType={updateTicketType}
           isDisabled={isReadOnly}
         />
+        <p>{`${projectDetails.details.key}-${ticket.ticketNumber}`}</p>
         {visible ? (
           <input
             type="text"

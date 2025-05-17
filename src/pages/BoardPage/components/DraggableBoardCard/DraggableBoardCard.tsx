@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import { MdContentCopy } from 'react-icons/md';
+import { toast } from 'react-toastify';
 import { removeTicket, updateTicket } from '../../../../api/ticket/ticket';
 import TicketDetailCard from '../../../../components/TicketDetailCard/TicketDetailCard';
 import styles from './DraggableBoardCard.module.scss';
@@ -9,6 +11,8 @@ import { ITicketBoard, ITicketDetails } from '../../../../types';
 import Avatar from '../../../../components/Avatar/Avatar';
 import { Permission } from '../../../../utils/permission';
 import checkAccess from '../../../../utils/helpers';
+import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvider';
+import IconButton from '../../../../components/Form/Button/IconButton/IconButton';
 
 interface IDraggableBoardCard {
   item: ITicketBoard;
@@ -20,6 +24,7 @@ interface IDraggableBoardCard {
 export default function DraggableBoardCard(props: IDraggableBoardCard) {
   const { item, index, projectId, onTicketUpdated } = props;
   const { showModal } = useContext(ModalContext);
+  const projectDetails = useContext(ProjectDetailsContext);
 
   const handleDeletedTicket = async (id: string) => {
     await removeTicket(id);
@@ -35,6 +40,15 @@ export default function DraggableBoardCard(props: IDraggableBoardCard) {
     await updateTicket(data.id, updateData);
     onTicketUpdated();
   };
+
+  const onClickCopyLink = () => {
+    navigator.clipboard.writeText(`${window.location.origin}/tickets/${item.id}`);
+    toast.success('Copied', {
+      theme: 'colored',
+      className: 'primaryColorBackground'
+    });
+  };
+
   return (
     <Draggable draggableId={item.id ?? ''} index={index}>
       {(provided2) => {
@@ -80,9 +94,13 @@ export default function DraggableBoardCard(props: IDraggableBoardCard) {
             </p>
             <div className={styles.cardFooter}>
               <div className={styles.cardFooterLeft}>
-                <span>
-                  Due Date: {item.dueAt?.toString().split('T')[0].split('-').reverse().join('/')}
-                </span>
+                <IconButton
+                  icon={<MdContentCopy size={12} />}
+                  ticketId={item.id}
+                  tooltip="Copy Link"
+                  onClick={onClickCopyLink}
+                />
+                <span>{`${projectDetails.details.key}-${item.ticketNumber}`}</span>
               </div>
               <div className={styles.cardFooterRight}>
                 <Avatar user={item.assign} />
