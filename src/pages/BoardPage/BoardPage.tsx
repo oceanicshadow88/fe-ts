@@ -5,9 +5,9 @@ import styles from './BoardPage.module.scss';
 import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import { getBoardDetails, getSprintTickets } from '../../api/board/board';
 import { createNewTicket, updateTicketStatus } from '../../api/ticket/ticket';
-import TicketTitleSearch, {
+import TicketSearch, {
   IFilterData
-} from '../../components/Board/BoardSearch/TicketTitleSearch';
+} from '../../components/Board/BoardSearch/TicketSearch';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
 import { IBoard, IMinEvent, ITicketBoard } from '../../types';
 import DroppableColumn from './components/DroppableColumn/DroppableColumn';
@@ -147,7 +147,7 @@ export default function BoardPage() {
                 }}
               />
             </div>
-            <TicketTitleSearch onChangeFilter={onChangeFilter} />
+            <TicketSearch onChangeFilter={onChangeFilter} />
             <div className={styles.boardMainContainer}>
               <DragDropContext onDragEnd={dragEventHandler}>
                 {boardDetails.statuses.map((column) => (
