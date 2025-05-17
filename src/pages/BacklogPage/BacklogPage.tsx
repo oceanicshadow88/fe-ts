@@ -15,9 +15,7 @@ import Button from '../../components/Form/Button/Button';
 import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import CreateIssue, { ICreateIssue } from '../../components/Projects/CreateIssue/CreateIssue';
 import DroppableTicketItems from '../../components/Projects/DroppableTicketItems/DroppableTicketItems';
-import TicketSearch, {
-  IFilterData
-} from '../../components/Board/BoardSearch/TicketSearch';
+import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import { ModalContext } from '../../context/ModalProvider';
 import { ITicketBasic, ITicketInput } from '../../types';
 import { createNewTicket, updateTicketSprint } from '../../api/ticket/ticket';
