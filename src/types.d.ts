@@ -113,7 +113,7 @@ export interface ISprint {
   id: string;
   name: string;
   startDate?: Date;
-  endDate?: Date;
+  endDate?: Date | null;
   description?: string;
   currentSprint: boolean;
   isComplete: boolean;

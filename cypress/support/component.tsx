@@ -29,6 +29,7 @@ import * as helper from '../../src/utils/helpers';
 import { UserProvider } from '../../src/context/UserInfoProvider';
 import { UserBuilder } from '../builder/UserBuilder';
 import { ProjectBuilder } from '../builder/ProjectBuilder';
+import { doc } from 'prettier';
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
 // Alternatively, can be defined in cypress/support/component.d.ts
@@ -39,11 +40,19 @@ declare global {
       mount: typeof mount;
       setupTestEnvironment(routeElement: React.ReactElement, routerName: string): Chainable<any>;
       mockGlobalRequest(): Chainable<any>;
+      simulateDndForReactBeautifulDnd(fromSelector: string, toSelector: string): Chainable<void>;
     }
   }
 }
 export const defaultMockUser = new UserBuilder().build();
-export const defaultMockProject = new ProjectBuilder().withName('TT').build();
+export const defaultMockProject = new ProjectBuilder()
+  .withName('TT')
+  .withOwner({
+    id: defaultMockUser.id,
+    name: defaultMockUser.name,
+    email: defaultMockUser.email
+  })
+  .build();
 const mockProjects = [defaultMockProject];
 Cypress.Commands.add('mount', mount);
 
@@ -75,6 +84,11 @@ Cypress.Commands.add('mockGlobalRequest', () => {
   }).as('getOwner');
 
   cy.intercept('POST', '**/api/v2/auto-fetch-userInfo', { user: defaultMockUser }).as('userMe');
+
+  cy.intercept('GET', `**/api/v2/tenants/owner?userId=${defaultMockUser.id}`, {
+    statusCode: 200,
+    body: true
+  }).as('getTenantOwner');
 });
 
 Cypress.Commands.add('setupTestEnvironment', (routeElement, routerName) => {
@@ -109,7 +123,11 @@ Cypress.Commands.add('setupTestEnvironment', (routeElement, routerName) => {
           permission: [{ slug: 'edit:shortcut' }, { slug: 'delete:shortcut' }]
         }
       })
-    );
+    )
+    .withArgs('is_superUser')
+    .returns('true')
+    .withArgs('isCurrentUserOwner')
+    .returns('true');
 
   // Override the imported checkAccess function to use our stubs
   // eslint-disable-next-line no-unused-vars
