@@ -42,11 +42,13 @@ describe('BacklogPage.cy.ts', () => {
           .build();
       });
 
-const typeIconMap: Record<string, string> = {
-      Story:
+  const typeIconMap: Record<string, string> = {
+      'Story':
         'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium',
-      Task: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium',
-      Bug: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium',
+      'Task': 
+        'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium',
+      'Bug': 
+        'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium',
       'Tech Debt':
         'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10308?size=medium'
     };
@@ -343,7 +345,7 @@ const typeIconMap: Record<string, string> = {
       .withSprint(sprintA.id)
       .build();
 
-    const localProjectDetailsData = new ProjectDetailsBuilder()
+    const localProjectDetailsData = new ProjectDetailsBuilder(statuses, boards, ticketTypes, defaultMockUser.id)
       .addSprint(sprintA)
       .addSprint(sprintB)
       .build();
@@ -407,7 +409,7 @@ const typeIconMap: Record<string, string> = {
   it('Can start a sprint', () => {
     const sprint = new SprintBuilder().withName('To Start Sprint').build();
 
-    const initialProjectDetails = new ProjectDetailsBuilder()
+    const initialProjectDetails = new ProjectDetailsBuilder(statuses, boards, ticketTypes, defaultMockUser.id)
       .addSprint({ ...sprint, currentSprint: false })
       .build();
 
@@ -453,7 +455,7 @@ const typeIconMap: Record<string, string> = {
       .withCurrentSprint(true)
       .build();
 
-    const initialProjectDetails = new ProjectDetailsBuilder()
+    const initialProjectDetails = new ProjectDetailsBuilder(statuses, boards, ticketTypes, defaultMockUser.id)
       .addSprint({ ...sprint, currentSprint: true })
       .build();
 
