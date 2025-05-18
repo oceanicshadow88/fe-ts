@@ -1,22 +1,15 @@
 import { IStatus, IBoard } from '../../src/types';
 import BaseBuilder from './BaseBuilder';
-import StatusBuilder from './StatusBuilder';
 
 export default class BoardBuilder extends BaseBuilder {
   private readonly data: IBoard;
 
-  constructor() {
+  constructor(statuses: IStatus[]) {
     super();
     this.data = {
       id: this.id,
       title: 'Default Board Name',
-      statuses: ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => 
-        new StatusBuilder()
-          .withName(name)
-          .withSlug(name.toLowerCase().replace(/\s+/g, '-'))
-          .withIsDefault(false)
-          .build()
-      ),
+      statuses: statuses,
       isPublic: false,
       tenant: this.generateId(),
       createdAt: new Date().toISOString(),

@@ -1,5 +1,4 @@
 import BaseBuilder from './BaseBuilder';
-import BoardBuilder from './BoardBuilder';
 import { ISprint } from '../../src/types';
 
 export default class SprintBuilder extends BaseBuilder {
@@ -8,8 +7,7 @@ export default class SprintBuilder extends BaseBuilder {
   constructor() {
     super();
     const now = new Date();
-    const defaultBoard = new BoardBuilder().build();
-
+  
     this.data = {
       id: this.id,
       name: 'Default Sprint',
@@ -19,7 +17,7 @@ export default class SprintBuilder extends BaseBuilder {
       currentSprint: false,
       isComplete: false,
       projectId: this.generateId(),
-      board: defaultBoard.id,
+      board: this.generateId(),
       retroBoard: this.generateId(),
       sprintGoal: '',
       createdAt: now,

@@ -11,12 +11,57 @@ import BacklogPage from '../../src/pages/BacklogPage/BacklogPage';
 import { ProjectDetailsProvider } from '../../src/context/ProjectDetailsProvider';
 import SprintBuilder from '../builder/SprintBuilder';
 import EpicBuilder from '../builder/EpicBuilder';
+import StatusBuilder from '../builder/StatusBuilder';
+import BoardBuilder from '../builder/BoardBuilder';
+import TypesBuilder from '../builder/TypeBuilder';
 import ModalProvider from '../../src/context/ModalProvider';
+import { ProjectBuilder } from '../builder/ProjectBuilder';
 
 describe('BacklogPage.cy.ts', () => {
   const sprint = new SprintBuilder().withName('Test Sprint').build();
   const epic = new EpicBuilder().withTitle('Test Epic').build();
-  const projectDetailsData = new ProjectDetailsBuilder().addSprint(sprint).addEpic(epic).build();
+  const project = new ProjectBuilder().build();
+  const statuses = ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => {
+      const slug = name.toLowerCase().replace(/\s+/g, '-');
+      return new StatusBuilder().withName(name).withSlug(slug).withTenant(defaultMockUser.id).build();
+    });
+
+  const boards = ['Default Board 1', 'Default Board 2'].map((title) => {
+        const statuses = ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => 
+          new StatusBuilder()
+            .withName(name)
+            .withSlug(name.toLowerCase().replace(/\s+/g, '-'))
+            .withIsDefault(false)
+            .build()
+        )
+  
+        return new BoardBuilder(statuses)
+          .withTitle(title)
+          .withTenant(defaultMockUser.id)
+          .addStatuses(...statuses)
+          .build();
+      });
+
+const typeIconMap: Record<string, string> = {
+      Story:
+        'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium',
+      Task: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium',
+      Bug: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium',
+      'Tech Debt':
+        'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10308?size=medium'
+    };
+
+  const ticketTypes = Object.entries(typeIconMap).map(([name, icon]) => {
+      return {
+        ...new TypesBuilder().withName(name).withIcon(icon).build(),
+        slug: name.toLowerCase()
+      };
+  });
+
+  const projectDetailsData = new ProjectDetailsBuilder(statuses, boards, ticketTypes, defaultMockUser.id)
+  .addSprint(sprint)
+  .addEpic(epic)
+  .build();
 
   const interceptGetBacklog = ({ body }) => {
     cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs`, {
@@ -66,8 +111,8 @@ describe('BacklogPage.cy.ts', () => {
   };
 
   it('Test ticket title filter shows correct results', () => {
-    const ticketDefault = new TicketBuilder().withTitle('Fix login bug').build();
-    const ticketMatched = new TicketBuilder().withTitle('Test filter search successful').build();
+    const ticketDefault = new TicketBuilder(project).withTitle('Fix login bug').build();
+    const ticketMatched = new TicketBuilder(project).withTitle('Test filter search successful').build();
 
     const keyword = 'successful';
 
@@ -92,7 +137,7 @@ describe('BacklogPage.cy.ts', () => {
   });
 
   it('Test filter search returns empty', () => {
-    const ticket = new TicketBuilder().withTitle('Some ticket').build();
+    const ticket = new TicketBuilder(project).withTitle('Some ticket').build();
     const keyword = 'not-matching';
     cy.intercept('GET', `**/api/v2/projects/${defaultMockProject.id}/backlogs?title=${keyword}`, {
       statusCode: 200,
@@ -116,7 +161,7 @@ describe('BacklogPage.cy.ts', () => {
   });
 
   it('Test can open ticket detail modal', () => {
-    const ticket = new TicketBuilder()
+    const ticket = new TicketBuilder(project)
       .withTitle('Test Ticket Open')
       .withProject(defaultMockProject)
       .build();
@@ -154,9 +199,9 @@ describe('BacklogPage.cy.ts', () => {
 
   it('Test delete a ticket in Backlog', () => {
     const ticketTitle = 'Delete me';
-    const createdTicket = new TicketBuilder()
+    const createdTicket = new TicketBuilder(project)
       .withTitle(ticketTitle)
-      .withProject(defaultMockProject.id)
+      .withProject(defaultMockProject)
       .build();
 
     interceptGetBacklog({ body: [createdTicket] });
@@ -180,7 +225,7 @@ describe('BacklogPage.cy.ts', () => {
 
   it('Can create a new ticket', () => {
     const newTicketTitle = 'This is a new ticket';
-    const createdTicket = new TicketBuilder()
+    const createdTicket = new TicketBuilder(project)
       .withTitle(newTicketTitle)
       .withId('created-123')
       .build();
@@ -210,7 +255,7 @@ describe('BacklogPage.cy.ts', () => {
   });
 
   it('Allows dragging ticket from backlog to sprint', () => {
-    const ticket = new TicketBuilder().withTitle('Move me to sprint').build();
+    const ticket = new TicketBuilder(project).withTitle('Move me to sprint').build();
 
     let isAfterMove = false;
 
@@ -248,7 +293,7 @@ describe('BacklogPage.cy.ts', () => {
   });
 
   it('Allows dragging ticket from sprint to backlog', () => {
-    const ticket = new TicketBuilder()
+    const ticket = new TicketBuilder(project)
       .withTitle('Move me to backlog')
       .withSprint(sprint.id)
       .build();
@@ -293,7 +338,7 @@ describe('BacklogPage.cy.ts', () => {
     const sprintA = new SprintBuilder().withName('Sprint A').build();
     const sprintB = new SprintBuilder().withName('Sprint B').build();
 
-    const ticket = new TicketBuilder()
+    const ticket = new TicketBuilder(project)
       .withTitle('Move me between sprints')
       .withSprint(sprintA.id)
       .build();
@@ -453,15 +498,15 @@ describe('BacklogPage.cy.ts', () => {
 
   it('Test filter select type', () => {
     const ticketsDefault = [
-      new TicketBuilder().build(),
-      new TicketBuilder().withSprint(sprint.id).build()
+      new TicketBuilder(project).build(),
+      new TicketBuilder(project).withSprint(sprint.id).build()
     ];
 
     const ticketType = projectDetailsData.ticketTypes[0];
 
     const ticketsTask = [
-      new TicketBuilder().withType(ticketType).build(),
-      new TicketBuilder().withType(ticketType).withSprint(sprint.id).build()
+      new TicketBuilder(project).withType(ticketType).build(),
+      new TicketBuilder(project).withType(ticketType).withSprint(sprint.id).build()
     ];
 
     interceptGetBacklog({
@@ -496,13 +541,13 @@ describe('BacklogPage.cy.ts', () => {
 
   it('Test filter epic', () => {
     const ticketsDefault = [
-      new TicketBuilder().build(),
-      new TicketBuilder().withSprint(sprint.id).build()
+      new TicketBuilder(project).build(),
+      new TicketBuilder(project).withSprint(sprint.id).build()
     ];
 
     const ticketsEpic = [
-      new TicketBuilder().withEpic(epic.id).build(),
-      new TicketBuilder().withEpic(epic.id).withSprint(sprint.id).build()
+      new TicketBuilder(project).withEpic(epic.id).build(),
+      new TicketBuilder(project).withEpic(epic.id).withSprint(sprint.id).build()
     ];
 
     interceptGetBacklog({
@@ -536,11 +581,11 @@ describe('BacklogPage.cy.ts', () => {
   });
 
   it('Test filter user', () => {
-    const ticketsDefault = [new TicketBuilder().build()];
+    const ticketsDefault = [new TicketBuilder(project).build()];
 
     const ticketsAssined = [
-      new TicketBuilder().withAssign(defaultMockUser).build(),
-      new TicketBuilder().withAssign(defaultMockUser).withSprint(sprint.id).build()
+      new TicketBuilder(project).withAssign(defaultMockUser).build(),
+      new TicketBuilder(project).withAssign(defaultMockUser).withSprint(sprint.id).build()
     ];
 
     interceptGetBacklog({
@@ -573,8 +618,8 @@ describe('BacklogPage.cy.ts', () => {
 
   it('Test show sprint', () => {
     const ticketsDefault = [
-      new TicketBuilder().build(),
-      new TicketBuilder().withSprint(sprint.id).build()
+      new TicketBuilder(project).build(),
+      new TicketBuilder(project).withSprint(sprint.id).build()
     ];
 
     interceptGetBacklog({
@@ -593,7 +638,7 @@ describe('BacklogPage.cy.ts', () => {
   });
 
   it('Can change ticket priority', () => {
-    const ticketsDefault = new TicketBuilder().build();
+    const ticketsDefault = new TicketBuilder(project).build();
     const priority = 'Highest';
 
     cy.intercept('PUT', `**/api/v2/tickets/${ticketsDefault.id}`, {
@@ -632,7 +677,7 @@ describe('BacklogPage.cy.ts', () => {
   });
 
   it('Can change ticket title', () => {
-    const ticketsDefault = new TicketBuilder().build();
+    const ticketsDefault = new TicketBuilder(project).build();
 
     const newTitle = 'New Title';
 
@@ -677,7 +722,7 @@ describe('BacklogPage.cy.ts', () => {
   });
 
   it('Can change ticket assign', () => {
-    const ticketsDefault = new TicketBuilder().build();
+    const ticketsDefault = new TicketBuilder(project).build();
 
     cy.intercept('PUT', `**/api/v2/tickets/${ticketsDefault.id}`, {
       statusCode: 200,
@@ -742,7 +787,7 @@ describe('BacklogPage.cy.ts', () => {
   });
 
   it('Can copy link', () => {
-    const ticketsDefault = new TicketBuilder().build();
+    const ticketsDefault = new TicketBuilder(project).build();
 
     interceptGetBacklog({
       body: [ticketsDefault]
@@ -764,7 +809,7 @@ describe('BacklogPage.cy.ts', () => {
   });
 
   it('Can change status', () => {
-    const ticketsDefault = new TicketBuilder().build();
+    const ticketsDefault = new TicketBuilder(project).build();
     const status = projectDetailsData.statuses[0];
 
     cy.intercept('PUT', `**/api/v2/tickets/${ticketsDefault.id}`, {

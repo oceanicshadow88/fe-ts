@@ -9,7 +9,7 @@ import TicketDetailCard from '../../src/components/TicketDetailCard/TicketDetail
 import { TicketBuilder } from '../builder/TicketBuilder';
 
 describe('TicketDetailCard.cy.ts', () => {
-  const ticketData = new TicketBuilder().build();
+  const ticketData = new TicketBuilder(defaultMockProject).build();
   beforeEach(() => {
     const projectDetailsData = new ProjectDetailsBuilder().build();
 

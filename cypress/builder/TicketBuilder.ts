@@ -2,22 +2,19 @@ import {
   IAssign,
   ILabelData,
   IProject,
-  ISprint,
   IStatus,
   ITicketBasic,
   ITypes
 } from '../../src/types';
 import BaseBuilder from './BaseBuilder';
-import { ProjectBuilder } from './ProjectBuilder';
 
 export class TicketBuilder extends BaseBuilder {
   private readonly data: ITicketBasic;
 
-  constructor() {
+  constructor(project: IProject) {
     super();
     // Initialize with default values
-    const project = new ProjectBuilder().build();
-
+  
     this.data = {
       id: this.id,
       title: 'Default Ticket',
@@ -58,12 +55,8 @@ export class TicketBuilder extends BaseBuilder {
     return this;
   }
 
-  withProject(project: IProject | string): this {
-    if (typeof project === 'string') {
-      this.data.project = new ProjectBuilder().withId(project).build();
-    } else {
-      this.data.project = project;
-    }
+  withProject(project: IProject): this {
+    this.data.project = project;
     return this;
   }
 

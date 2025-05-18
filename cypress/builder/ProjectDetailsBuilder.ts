@@ -1,58 +1,24 @@
 import { IStatus, IBoard, ISprint, ITypes } from '../../src/types';
 import BaseBuilder from './BaseBuilder';
-import StatusBuilder from './StatusBuilder';
-import BoardBuilder from './BoardBuilder';
 //TODO: import SprintBuilder from './SprintBuilder';
-import TypesBuilder from './TypeBuilder';
 //TODO: import EpicBuilder from './EpicBuilder';
 
 export class ProjectDetailsBuilder extends BaseBuilder {
   private readonly data: any = {};
-  private readonly tenant: string;
 
-  constructor() {
+  constructor(statuses: IStatus[], boards: IBoard[], ticketTypes: ITypes[], tenant: string) {
     // Initialize with default values
     super();
 
-    this.tenant = this.generateId();
-    const statuses = ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => {
-      const slug = name.toLowerCase().replace(/\s+/g, '-');
-      return new StatusBuilder().withName(name).withSlug(slug).withTenant(this.tenant).build();
-    });
-
-    const boards = ['Default Board 1', 'Default Board 2'].map((title) => {
-      return new BoardBuilder()
-        .withTitle(title)
-        .withTenant(this.tenant)
-        .addStatuses(...statuses)
-        .build();
-    });
-
-    const typeIconMap: Record<string, string> = {
-      Story:
-        'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium',
-      Task: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium',
-      Bug: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium',
-      'Tech Debt':
-        'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10308?size=medium'
-    };
-
-    const ticketTypes = Object.entries(typeIconMap).map(([name, icon]) => {
-      return {
-        ...new TypesBuilder().withName(name).withIcon(icon).build(),
-        slug: name.toLowerCase()
-      };
-    });
-
     const details = {
-      id: this.generateId(),
+      id: this.id,
       name: 'TECHSCRUM',
       key: 'TEC',
       projectLead: '680ad3aacf31ea12c677cfa4',
       roles: [],
       owner: '680ad3aacf31ea12c677cfa4',
       isDelete: false,
-      tenant: '680ad3aa3304169fba2fd8fe',
+      tenant: tenant,
       shortcut: [],
       createdAt: '2025-04-25T03:33:31.094Z',
       updatedAt: '2025-04-25T03:33:31.094Z',
