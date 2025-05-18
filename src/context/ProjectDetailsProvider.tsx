@@ -41,6 +41,7 @@ const ProjectDetailsContext = createContext<IProjectDetails>({
   details: {
     id: '',
     name: '',
+    key: '',
     iconUrl: '',
     updateAt: new Date(),
     roles: [],

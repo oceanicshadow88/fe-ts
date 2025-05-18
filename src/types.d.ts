@@ -7,6 +7,7 @@ export interface IShortcut {
 export interface IProject {
   id: string;
   name: string;
+  key: string;
   iconUrl: string;
   type?: string;
   board?: string;
@@ -38,6 +39,7 @@ export interface ITicketBasic {
   createdAt?: Date;
   updatedAt?: Date;
   epic: string;
+  ticketNumber: string;
 }
 /** **********Combine this with ITicketBasic*************** */
 export interface ITicketBoard {
@@ -60,6 +62,7 @@ export interface ITicketBoard {
   attachmentUrls?: any;
   createdAt?: Date;
   updatedAt?: Date;
+  ticketNumber: string;
 }
 
 export interface ITicketInput {
