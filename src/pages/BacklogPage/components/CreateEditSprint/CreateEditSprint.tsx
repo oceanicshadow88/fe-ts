@@ -201,6 +201,9 @@ export default function CreateEditSprint({
                           <button
                             onClick={() => {
                               setDuration(item);
+                              const newDate = new Date();
+                              setStartDate(dateWithDay(newDate.toISOString()));
+                              setEndDate(dateAfter(newDate.toISOString(), '1 week') ?? '');
                               setVisible(false);
                             }}
                           >

@@ -41,6 +41,7 @@ const ProjectDetailsContext = createContext<IProjectDetails>({
   details: {
     id: '',
     name: '',
+    key: '',
     iconUrl: '',
     updateAt: new Date(),
     roles: [],
@@ -124,7 +125,7 @@ function ProjectDetailsProvider({ children }: IProjectDetailsProvider) {
         sprints: res.data.sprints,
         epics: res.data.epics,
         statuses: [
-          ...res.data.statues,
+          ...res.data.statuses,
           {
             id: null,
             slug: null,
