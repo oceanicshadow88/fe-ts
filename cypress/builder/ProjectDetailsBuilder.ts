@@ -2,9 +2,9 @@ import { IStatus, IBoard, ISprint, ITypes } from '../../src/types';
 import BaseBuilder from './BaseBuilder';
 import StatusBuilder from './StatusBuilder';
 import BoardBuilder from './BoardBuilder';
-import SprintBuilder from './SprintBuilder';
+//TODO: import SprintBuilder from './SprintBuilder';
 import TypesBuilder from './TypeBuilder';
-import EpicBuilder from './EpicBuilder';
+//TODO: import EpicBuilder from './EpicBuilder';
 
 export class ProjectDetailsBuilder extends BaseBuilder {
   private readonly data: any = {};
@@ -15,7 +15,6 @@ export class ProjectDetailsBuilder extends BaseBuilder {
     super();
 
     this.tenant = this.generateId();
-
     const statuses = ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => {
       const slug = name.toLowerCase().replace(/\s+/g, '-');
       return new StatusBuilder().withName(name).withSlug(slug).withTenant(this.tenant).build();

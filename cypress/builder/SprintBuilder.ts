@@ -63,7 +63,7 @@ export default class SprintBuilder extends BaseBuilder {
   }
 
   withProjectId(projectId: string): this {
-    (this.data as any).projectId = projectId;
+    this.data.projectId = projectId;
     return this;
   }
 

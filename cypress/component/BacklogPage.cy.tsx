@@ -148,7 +148,7 @@ describe('BacklogPage.cy.ts', () => {
 
     cy.wait('@getTicketDetail');
     cy.wait('@getTicketComments');
-    
+
     cy.get('[data-testid="ticket-detail-title"]').should('exist').and('contain.text', ticket.title);
   });
 
@@ -235,7 +235,7 @@ describe('BacklogPage.cy.ts', () => {
     setupBacklogTestEnvironment();
     cy.wait('@getBacklog');
 
-    cy.simulateDndForRBD(
+    cy.simulateDndForReactBeautifulDnd(
       `[data-rbd-draggable-id="${ticket.id}"]`,
       `[data-rbd-droppable-id="${sprint.id}"]`
     );
@@ -276,7 +276,7 @@ describe('BacklogPage.cy.ts', () => {
     setupBacklogTestEnvironment();
     cy.wait('@getBacklog');
 
-    cy.simulateDndForRBD(
+    cy.simulateDndForReactBeautifulDnd(
       `[data-rbd-draggable-id="${ticket.id}"]`,
       `[data-rbd-droppable-id="backlog"]`
     );
@@ -346,7 +346,7 @@ describe('BacklogPage.cy.ts', () => {
     cy.wait('@getProjectDetails');
     cy.wait('@getBacklog');
 
-    cy.simulateDndForRBD(
+    cy.simulateDndForReactBeautifulDnd(
       `[data-rbd-draggable-id="${ticket.id}"]`,
       `[data-rbd-droppable-id="${sprintB.id}"]`
     );
