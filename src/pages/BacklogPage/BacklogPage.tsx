@@ -15,9 +15,7 @@ import Button from '../../components/Form/Button/Button';
 import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import CreateIssue, { ICreateIssue } from '../../components/Projects/CreateIssue/CreateIssue';
 import DroppableTicketItems from '../../components/Projects/DroppableTicketItems/DroppableTicketItems';
-import TicketTitleSearch, {
-  IFilterData
-} from '../../components/Board/BoardSearch/TicketTitleSearch';
+import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import { ModalContext } from '../../context/ModalProvider';
 import { ITicketBasic, ITicketInput } from '../../types';
 import { createNewTicket, updateTicketSprint } from '../../api/ticket/ticket';
@@ -163,7 +161,7 @@ export default function BacklogPage() {
   return (
     <ProjectHOC title="Backlog">
       <div className={styles.scrollContainer}>
-        <TicketTitleSearch onChangeFilter={onChangeFilter} />
+        <TicketSearch onChangeFilter={onChangeFilter} />
         <DragDropContext
           onDragEnd={(result) => {
             onDragEventHandler(result);
