@@ -70,7 +70,7 @@ export class ProjectDetailsBuilder {
           __v: 0
         }
       ],
-      statues: [
+      statuses: [
         {
           id: '680ad5c93304169fba2fdaef',
           slug: 'to-do',
