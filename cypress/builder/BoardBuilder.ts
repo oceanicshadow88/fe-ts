@@ -9,7 +9,7 @@ export default class BoardBuilder extends BaseBuilder {
     super();
     this.data = {
       id: this.id,
-      title: 'Deault Board Name',
+      title: 'Default Board Name',
       statuses: ['To Do', 'In Progress', 'In Review', 'Done'].map((name) => 
         new StatusBuilder()
           .withName(name)
