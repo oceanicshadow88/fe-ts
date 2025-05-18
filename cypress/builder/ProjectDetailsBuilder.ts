@@ -102,14 +102,14 @@ export class ProjectDetailsBuilder extends BaseBuilder {
       sprints: [],
       epics: [],
       details: details,
-      statues: statuses,
+      statuses: statuses,
       boards: boards,
       retroBoards: retroBoards
     };
   }
 
   addStatus(status: IStatus): this {
-    this.data.statues.push(status);
+    this.data.statuses.push(status);
     return this;
   }
 

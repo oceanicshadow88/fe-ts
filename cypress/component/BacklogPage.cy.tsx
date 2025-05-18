@@ -765,7 +765,7 @@ describe('BacklogPage.cy.ts', () => {
 
   it('Can change status', () => {
     const ticketsDefault = new TicketBuilder().build();
-    const status = projectDetailsData.statues[0];
+    const status = projectDetailsData.statuses[0];
 
     cy.intercept('PUT', `**/api/v2/tickets/${ticketsDefault.id}`, {
       statusCode: 200,
