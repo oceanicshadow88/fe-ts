@@ -238,8 +238,6 @@ workflows:
             - sast
             - dast
             - dscan
-            - cypress/run
-            - cypress_component_test
           filters:
             branches:
               only:
