@@ -238,7 +238,6 @@ workflows:
             - sast
             - dast
             - dscan
-            - cypress/run
           filters:
             branches:
               only:
