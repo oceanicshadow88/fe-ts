@@ -1,6 +1,4 @@
-import { type } from 'os';
-import { IProject, IUser } from '../../src/types'; // Adjust the import path as needed
-import { ProjectBuilder } from './ProjectBuilder';
+import { IUser } from '../../src/types'; // Adjust the import path as needed
 
 export class UserBuilder {
   private data: IUser;

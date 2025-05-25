@@ -15,7 +15,7 @@ import Button from '../../components/Form/Button/Button';
 import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import CreateIssue, { ICreateIssue } from '../../components/Projects/CreateIssue/CreateIssue';
 import DroppableTicketItems from '../../components/Projects/DroppableTicketItems/DroppableTicketItems';
-import BoardSearch, { IFilterData } from '../../components/Board/BoardSearch/BoardSearch';
+import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import { ModalContext } from '../../context/ModalProvider';
 import { ITicketBasic, ITicketInput } from '../../types';
 import { createNewTicket, updateTicketSprint } from '../../api/ticket/ticket';
@@ -161,7 +161,7 @@ export default function BacklogPage() {
   return (
     <ProjectHOC title="Backlog">
       <div className={styles.scrollContainer}>
-        <BoardSearch onChangeFilter={onChangeFilter} />
+        <TicketSearch onChangeFilter={onChangeFilter} />
         <DragDropContext
           onDragEnd={(result) => {
             onDragEventHandler(result);
@@ -177,6 +177,7 @@ export default function BacklogPage() {
                   key={sprint.id}
                   sprint={sprint}
                   totalIssue={ticketsBySprintId[sprint.id]?.length ?? 0}
+                  dataTestId={`sprint-${sprint.id}`}
                 >
                   <DroppableTicketItems
                     onTicketChanged={fetchBacklogData}
@@ -200,10 +201,15 @@ export default function BacklogPage() {
             })}
           <div className={styles.toolbar}>
             {checkAccess(Permission.CreateSprints, projectId) && (
-              <Button onClick={showCreateModal}>Create sprint</Button>
+              <Button onClick={showCreateModal} dataTestId="backlog-create-sprint-btn">
+                Create sprint
+              </Button>
             )}
           </div>
-          <BacklogSection totalIssue={ticketsBySprintId?.backlog?.length ?? 0}>
+          <BacklogSection
+            data-testid="backlog-section"
+            totalIssue={ticketsBySprintId?.backlog?.length ?? 0}
+          >
             <DroppableTicketItems
               onTicketChanged={fetchBacklogData}
               data={ticketsBySprintId.backlog}
@@ -225,6 +231,13 @@ export default function BacklogPage() {
             />
           </BacklogSection>
         </DragDropContext>
+        {Object.values(ticketsBySprintId).flat().length === 0 && (
+          <div className={styles.emptyWrapper}>
+            <div data-testid="empty-ticket-result" className="empty-state">
+              There is nothing that matches this filter.
+            </div>
+          </div>
+        )}
       </div>
     </ProjectHOC>
   );

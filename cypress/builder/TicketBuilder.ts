@@ -1,40 +1,128 @@
-export class TicketBuilder {
-  private data: any;
+import {
+  IAssign,
+  ILabelData,
+  IProject,
+  IStatus,
+  ITicketBasic,
+  ITypes
+} from '../../src/types';
+import BaseBuilder from './BaseBuilder';
 
-  constructor() {
+export class TicketBuilder extends BaseBuilder {
+  private readonly data: ITicketBasic;
+
+  constructor(project: IProject) {
+    super();
     // Initialize with default values
+  
     this.data = {
-      title: 'TEC-792-import project from JIRA',
-      labels: [],
-      comments: [],
+      id: this.id,
+      title: 'Default Ticket',
       priority: 'Medium',
-      project: {
-        id: '680b028b34e556689a2fe8bd',
-        name: 'TECHSCRUM',
-        key: 'TEC',
-        projectLead: '680ad3aacf31ea12c677cfa4',
-        roles: [],
-        owner: '680ad3aacf31ea12c677cfa4',
-        isDelete: false,
-        tenant: '680ad3aa3304169fba2fd8fe',
-        shortcut: [],
-        createdAt: '2025-04-25T03:33:31.094Z',
-        updatedAt: '2025-04-25T03:33:31.094Z',
-        __v: 0
-      },
-      epic: null,
-      sprint: null,
-      description:
-        '{"type":"doc","content":[{"type":"heading","attrs":{"level":2},"content":[{"type":"text","text":"INCLUDE/PASS TEST"}]},{"type":"paragraph","content":[{"type":"text","text":"Yes"}]},{"type":"heading","attrs":{"level":2},"content":[{"type":"text","text":"URL/PAGE"}]},{"type":"heading","attrs":{"level":2},"content":[{"type":"text","text":"LIMITATION"}]},{"type":"paragraph","content":[{"type":"text","text":"n/a"}]},{"type":"heading","attrs":{"level":2},"content":[{"type":"text","text":"EFFECT/RELATED FUNCTIONS"}]},{"type":"paragraph","content":[{"type":"text","text":"n/a"}]},{"type":"heading","attrs":{"level":2},"content":[{"type":"text","text":"TECHNICAL DETAILS"}]},{"type":"heading","attrs":{"level":2},"content":[{"type":"text","text":"DESCRIPTION"}]},{"type":"paragraph","content":[{"type":"text","text":"*As a …*"}]},{"type":"paragraph","content":[{"type":"text","text":"I want to …"}]},{"type":"paragraph","content":[{"type":"text","text":"So that …"}]},{"type":"paragraph","content":[{"type":"text","text":"*Acceptance Criteria:*"}]},{"type":"paragraph","content":[{"type":"text","text":"AC1:"}]},{"type":"paragraph","content":[{"type":"text","text":"GIVEN …"}]},{"type":"paragraph","content":[{"type":"text","text":"WHEN …"}]},{"type":"paragraph","content":[{"type":"text","text":"THEN …"}]},{"type":"paragraph","content":[{"type":"text","text":"AND …"}]}]}',
-      storyPoint: 0,
-      dueAt: null,
-      assign: null,
-      isActive: true,
-      attachmentUrls: [],
-      createdAt: '2025-04-25T03:33:31.321Z',
-      updatedAt: '2025-04-25T03:33:31.321Z',
-      id: '680b028b34e556689a2fe8c1'
+      project: project,
+      epic: this.generateId(),
+      isActive: true
     };
+  }
+
+  withId(id: string): this {
+    this.data.id = id;
+    return this;
+  }
+
+  withTitle(title: string): this {
+    this.data.title = title;
+    return this;
+  }
+
+  withLabels(labels: ILabelData[]): this {
+    this.data.tags = labels;
+    return this;
+  }
+
+  withComments(comments: string[]): this {
+    this.data.comments = comments;
+    return this;
+  }
+
+  withStatus(status: IStatus): this {
+    this.data.status = status;
+    return this;
+  }
+
+  withPriority(priority: 'Medium' | 'Highest' | 'High' | 'Low' | 'Lowest'): this {
+    this.data.priority = priority;
+    return this;
+  }
+
+  withProject(project: IProject): this {
+    this.data.project = project;
+    return this;
+  }
+
+  withBoard(board: string): this {
+    this.data.board = board;
+    return this;
+  }
+
+  withSprint(sprintId: string): this {
+    this.data.sprint = sprintId;
+    return this;
+  }
+
+  withDescription(description: string): this {
+    this.data.description = description;
+    return this;
+  }
+
+  withStoryPoint(storyPoint: string): this {
+    this.data.storyPoint = storyPoint;
+    return this;
+  }
+
+  withDueAt(dueAt: Date): this {
+    this.data.dueAt = dueAt;
+    return this;
+  }
+
+  withReporter(reporter: string): this {
+    this.data.reporter = reporter;
+    return this;
+  }
+
+  withAssign(assign: IAssign): this {
+    this.data.assign = assign;
+    return this;
+  }
+
+  withType(type: ITypes): this {
+    this.data.type = type;
+    return this;
+  }
+
+  withIsActive(isActive: boolean): this {
+    this.data.isActive = isActive;
+    return this;
+  }
+
+  withAttachmentUrls(attachmentUrls: string[]): this {
+    this.data.attachmentUrls = attachmentUrls;
+    return this;
+  }
+
+  withCreatedAt(createdAt: Date): this {
+    this.data.createdAt = createdAt;
+    return this;
+  }
+
+  withUpdatedAt(updatedAt: Date): this {
+    this.data.updatedAt = updatedAt;
+    return this;
+  }
+
+  withEpic(epic: string): this {
+    this.data.epic = epic;
+    return this;
   }
 
   // Method to build the final project object

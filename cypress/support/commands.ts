@@ -48,3 +48,29 @@ Cypress.Commands.add('login', (email: string, password: string) => {
 //     }
 //   }
 // }
+
+Cypress.Commands.add(
+  'simulateDndForReactBeautifulDnd',
+  (fromSelector, toSelector, handleSelector = '') => {
+    const dragTarget = handleSelector ? `${fromSelector} ${handleSelector}` : fromSelector;
+
+    cy.get(dragTarget)
+      .trigger('mousedown', { button: 0, force: true })
+      .wait(100)
+      .trigger('mousemove', { clientX: 50, clientY: 10, force: true });
+
+    cy.window().then((win) => {
+      win.dispatchEvent(
+        new MouseEvent('mousemove', {
+          clientX: 100,
+          clientY: 20,
+          bubbles: true
+        })
+      );
+    });
+
+    cy.get(toSelector)
+      .trigger('mousemove', { clientX: 100, clientY: 10, force: true })
+      .trigger('mouseup', { force: true });
+  }
+);

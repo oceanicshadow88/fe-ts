@@ -8,10 +8,11 @@ interface ITicketTypeFilterDropdown {
   selectedTypes: ITypes[];
   changeSelectedTypes: (isExists: boolean, selectedItems: ITypes[], item: ITypes) => ITypes[];
   setSelectedTypes: Dispatch<SetStateAction<ITypes[]>>;
+  dataTestId?: string;
 }
 
 export default function TicketTypeFilterDropdown(props: ITicketTypeFilterDropdown) {
-  const { type, selectedTypes, changeSelectedTypes, setSelectedTypes } = props;
+  const { type, selectedTypes, changeSelectedTypes, setSelectedTypes, dataTestId } = props;
   const checkTypeExists = () => {
     let isExists = false;
     selectedTypes.forEach((selectedType) => {
@@ -30,7 +31,11 @@ export default function TicketTypeFilterDropdown(props: ITicketTypeFilterDropdow
   };
 
   return (
-    <button className={styles.taskTypeFilterDropdownBtn} onClick={handleBtnClick}>
+    <button
+      className={styles.taskTypeFilterDropdownBtn}
+      onClick={handleBtnClick}
+      data-testid={dataTestId}
+    >
       {selected ? (
         <BiCheckboxChecked className={styles.taskTypeFilterDropdownCheck} />
       ) : (
