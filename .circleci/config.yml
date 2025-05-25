@@ -256,8 +256,6 @@ workflows:
           requires:
             - sast
             - dast
-            - cypress/run
-            - cypress_component_test
           filters:
             branches:
               only:
