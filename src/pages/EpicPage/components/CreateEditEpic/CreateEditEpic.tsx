@@ -210,6 +210,7 @@ export default function CreateEditEpic({
               }
             }}
             disabled={disabled}
+            data-testid={`epic-${type.toLowerCase()}-btn`}
           >
             {type === 'Create' ? 'Create' : 'Update'}
           </button>
