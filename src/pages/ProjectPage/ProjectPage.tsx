@@ -78,7 +78,7 @@ export default function ProjectPage() {
     formData.append('file', files[0]);
 
     try {
-      await importProjects(formData, files[0].size);
+      await importProjects(formData);
       toast.success('Upload successful! Fresh to see imported project', { theme: 'colored' });
     } catch (err) {
       toast.error('Upload failed. Please try again.', { theme: 'colored' });
