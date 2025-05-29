@@ -78,7 +78,7 @@ describe('Epic.cy.ts', () => {
 
   // Needs to be call after getBacklog intercept has been defined
     // to avoid race condition of the request
-    const setupBacklogTestEnvironment = () => {
+    const setupEpicTestEnvironment = () => {
       cy.setupTestEnvironment(
         <Route
           path="/projects/:projectId/epic"
@@ -114,7 +114,7 @@ describe('Epic.cy.ts', () => {
         body: []
       });
   
-      setupBacklogTestEnvironment();
+      setupEpicTestEnvironment();
   
       cy.wait(`@getBacklog`);
   
@@ -146,7 +146,7 @@ describe('Epic.cy.ts', () => {
         body: []
       });
   
-      setupBacklogTestEnvironment();
+      setupEpicTestEnvironment();
   
       cy.wait(`@getBacklog`);
   
