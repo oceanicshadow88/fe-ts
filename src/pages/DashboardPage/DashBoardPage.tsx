@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { v4 as uuidv4 } from 'uuid';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -14,7 +14,12 @@ import useFetchDashboardData from './hooks/useFetchDashboardData';
 import ChartCard, { ChartType } from './components/ChartCard/ChartCard';
 import { convertProgressData } from './utils';
 import PDFfile from './components/PDFfile/PDFfile';
-import { getDailyReport, getPDFReportContent } from '../../api/dashboard';
+import {
+  // getDailyReport,
+  getPDFReportContent,
+  getStatusSummaryBySprint
+} from '../../api/dashboard/dashboard';
+import { getCurrentSprint } from '../../api/sprint/sprint';
 
 interface IValueCard {
   title: string;
@@ -39,25 +44,55 @@ function DashBoardPage() {
   const [isShowPDF, setIsShowPDF] = useState<boolean>(false);
   const [chartBase64String, setChartBase64String] = useState<string>('');
   const [dailyReport, setDailyReport] = useState<any>([]);
+  const [pieChartData, setPieChartData] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
-    const loadDailyReport = async () => {
+    // const loadDailyReport = async () => {
+    //   if (!projectId) return;
+    //   const result = await getDailyReport(
+    //     projectId,
+    //     format(subDays(new Date(), 1), 'yyyy-MM-dd'),
+    //     '6678cd0bc8dde03b2169871a'
+    //   );
+    //   setDailyReport(result);
+    // };
+    // loadDailyReport();
+    const loadStatusSummary = async () => {
       if (!projectId) return;
-      const result = await getDailyReport(
-        projectId,
-        format(subDays(new Date(), 1), 'yyyy-MM-dd'),
-        '6678cd0bc8dde03b2169871a'
-      );
-      setDailyReport(result);
+      try {
+        const sprintList = await getCurrentSprint(projectId);
+        // eslint-disable-next-line no-console
+        console.log('✅ current sprint:', sprintList);
+
+        const sprint = Array.isArray(sprintList) ? sprintList[0] : sprintList;
+        // eslint-disable-next-line no-underscore-dangle
+        const sprintId = sprint?.id || sprint?._id;
+
+        if (!sprintId) {
+          // eslint-disable-next-line no-console
+          console.warn('⛔ Sprint ID not found.');
+          return;
+        }
+
+        const result = await getStatusSummaryBySprint(projectId, sprintId);
+        // eslint-disable-next-line no-console
+        console.log('✅ status summary result:', result);
+
+        setPieChartData(result);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('❌ getStatusSummaryBySprint failed:', err);
+        toast.error('Failed to load sprint status summary', { theme: 'colored' });
+      }
     };
-    loadDailyReport();
+
+    loadStatusSummary();
   }, [projectId]);
 
   const valueCardList: IValueCard[] = useMemo(() => {
     if (!data) return [];
 
     const { ticketCount, dailyScrumCount } = data;
-
     const { total: totalDailyScrum, isCanFinish } = dailyScrumCount;
     const { total: totalTicket, toDo, inProgress, done, review } = ticketCount;
 
@@ -185,29 +220,33 @@ function DashBoardPage() {
               </PDFViewer>
             ) : null} */}
             <div className={styles.dashboardGridLayout}>
-              {valueCardList.map(({ title, value }, index) => {
-                return (
-                  <ValueCard
-                    key={uuidv4()}
-                    style={{ gridArea: `value-card-${index + 1}` }}
-                    title={title}
-                    value={value}
-                  />
-                );
-              })}
+              {valueCardList.map(({ title, value }, index) => (
+                <ValueCard
+                  key={uuidv4()}
+                  style={{ gridArea: `value-card-${index + 1}` }}
+                  title={title}
+                  value={value}
+                />
+              ))}
 
+              <ChartCard
+                type={ChartType.PIE_CHART}
+                data={pieChartData}
+                style={{ gridArea: 'chart-card-1' }}
+                setChartBase64String={() => {}}
+              />
               <ChartCard
                 data={lineChartData?.data}
                 dataKeyList={lineChartData?.dataKeyList}
                 type={ChartType.LINE_CHART}
-                style={{ gridArea: `chart-card-1` }}
+                style={{ gridArea: `chart-card-2` }}
                 setChartBase64String={setChartBase64String}
                 isShowPDF={isShowPDF}
               />
               <ChartCard
                 data={barChartData?.data}
                 type={ChartType.BAR_CHART}
-                style={{ gridArea: `chart-card-2` }}
+                style={{ gridArea: `chart-card-3` }}
                 setChartBase64String={setChartBase64String}
               />
             </div>

@@ -1,4 +1,5 @@
-import { alphaApiV2, kScrum } from '../../config/api';
+import { alphaApiV2 } from '../../config/api';
+// import {kScrum } from '../../config/api';
 import { IDashboard, IDashBoardDailyScrum } from '../../types';
 
 interface IPDFReportContent {
@@ -30,6 +31,18 @@ export const getPDFReportContent = (projectId: string): Promise<IPDFReportConten
   return alphaApiV2.get(`/${projectId}/dashboards/reports`);
 };
 
-export const getDailyReport = (projectId: string, date: string, tenantId: string) => {
-  return kScrum.get(`projects/${projectId}/daily-report?reportDate=${date}&tenantId=${tenantId}`);
+// export const getDailyReport = (projectId: string, date: string, tenantId: string) => {
+//   return kScrum.get(`projects/${projectId}/daily-report?reportDate=${date}&tenantId=${tenantId}`);
+// };
+
+export const getStatusSummaryBySprint = (
+  projectId: string,
+  sprintId: string
+): Promise<{ name: string; value: number }[]> => {
+  return alphaApiV2.get(`/tickets/project/${projectId}/statusSummary/${sprintId}`).then((res) => {
+    return res.data.map((item: { name: string; total: number }) => ({
+      name: item.name.toUpperCase(),
+      value: item.total
+    }));
+  });
 };

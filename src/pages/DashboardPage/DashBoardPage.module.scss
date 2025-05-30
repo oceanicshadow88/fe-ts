@@ -74,7 +74,8 @@
         'value-card-1 value-card-2 value-card-3 value-card-4'
         'chart-card-1 chart-card-1 chart-card-2 chart-card-2'
         'chart-card-1 chart-card-1 chart-card-2 chart-card-2'
-        'chart-card-1 chart-card-1 chart-card-2 chart-card-2';
+        'chart-card-1 chart-card-1 chart-card-2 chart-card-2'
+        'chart-card-3 chart-card-3 . .';
 
       gap: $size-18;
 
@@ -84,9 +85,9 @@
         }
       }
 
-      @media screen and (max-width: 1396px) {
+      @media screen and (max-width: 1250px) {
         grid-template-columns: repeat(2, minmax(100px, 1fr));
-        grid-template-rows: repeat(6, minmax(100px, 1fr));
+        grid-template-rows: repeat(7, minmax(100px, 1fr));
 
         grid-template-areas:
           'value-card-1 value-card-2'
@@ -94,7 +95,8 @@
           'chart-card-1 chart-card-1'
           'chart-card-1 chart-card-1'
           'chart-card-2 chart-card-2'
-          'chart-card-2 chart-card-2';
+          'chart-card-2 chart-card-2'
+          'chart-card-3 chart-card-3';
       }
     }
   }

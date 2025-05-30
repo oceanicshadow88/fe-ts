@@ -1,7 +1,11 @@
 import { useState, useEffect, useContext, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getDashBoardDailyScrumsByUser, getDashBoardData } from '../../../api/dashboard';
+import {
+  getDashBoardDailyScrumsByUser,
+  getDashBoardData,
+  getStatusSummaryBySprint
+} from '../../../api/dashboard/dashboard';
 import { UserContext } from '../../../context/UserInfoProvider';
 import { IDashboard, IDashBoardDailyScrum } from '../../../types';
 
@@ -54,6 +58,28 @@ export const useFetchDashboardDailyScrumsByUser = (id: string) => {
   }, [projectId, id]);
 
   return data;
+};
+
+export const useFetchStatusSummaryBySprint = (sprintId: string) => {
+  const { projectId } = useParams<{ projectId: string }>();
+  const [data, setData] = useState<{ name: string; value: number }[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!projectId || !sprintId) return;
+
+    (async () => {
+      try {
+        const res = await getStatusSummaryBySprint(projectId, sprintId);
+        setData(res);
+        setIsLoading(false);
+      } catch (e) {
+        toast.error('Failed to load status summary', { theme: 'colored' });
+      }
+    })();
+  }, [projectId, sprintId]);
+
+  return { data, isLoading };
 };
 
 export default useFetchDashboardData;

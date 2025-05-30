@@ -10,7 +10,11 @@ import {
   Legend,
   BarChart,
   Line,
-  LineChart
+  LineChart,
+  PieChart,
+  Pie,
+  Cell,
+  Label
 } from 'recharts';
 import { useCurrentPng } from 'recharts-to-png';
 import { toast } from 'react-toastify';
@@ -32,7 +36,8 @@ type Props = {
 
 export enum ChartType {
   BAR_CHART = 'barChart',
-  LINE_CHART = 'lineChart'
+  LINE_CHART = 'lineChart',
+  PIE_CHART = 'pieChart'
 }
 
 function getRandomHexColor() {
@@ -43,62 +48,141 @@ function getRandomHexColor() {
 
 function lineChart(data: any, ref: React.MutableRefObject<any>, dataKeyList: string[] = []) {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5
-        }}
-        ref={ref}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        {dataKeyList.map((dataKey) => {
-          return (
-            <Line
-              type="monotone"
-              key={uuidv4()}
-              dataKey={dataKey}
-              stroke={getRandomHexColor()}
-              activeDot={{ r: 8 }}
-            />
-          );
-        })}
-      </LineChart>
-    </ResponsiveContainer>
+    <div className={`${styles.chartArea} ${styles['chartArea--line']}`}>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          ref={ref}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          {dataKeyList.map((dataKey) => {
+            return (
+              <Line
+                type="monotone"
+                key={uuidv4()}
+                dataKey={dataKey}
+                stroke={getRandomHexColor()}
+                activeDot={{ r: 8 }}
+              />
+            );
+          })}
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
+
 function barChart(data: any) {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5
-        }}
-        barSize={35}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar key={uuidv4()} dataKey="count" fill="#6a2add" />;
-      </BarChart>
-    </ResponsiveContainer>
+    <div className={`${styles.chartArea} ${styles['chartArea--bar']}`}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          barSize={35}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar key={uuidv4()} dataKey="count" fill="#6a2add" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6666', '#9966CC', '#339966'];
+
+function pieChart(data: { name: string; value: number }[]) {
+  const total = data.reduce((sum, item) => sum + item.value, 0);
+
+  const renderCustomLegend = (props: any): React.ReactNode => {
+    const { payload } = props;
+
+    return (
+      <ul className={styles.legend}>
+        {payload?.map((entry: any) => {
+          const maybe = entry.payload;
+
+          if (typeof maybe === 'object' && maybe !== null && 'name' in maybe && 'value' in maybe) {
+            const pieChartData = maybe as { name: string; value: number };
+
+            return (
+              <li key={pieChartData.name} className={styles.legend__item}>
+                <div className={styles.legend__color} style={{ backgroundColor: entry.color }} />
+                <div className={styles.legend__text}>
+                  <span className={styles.legendLabel}>{pieChartData.name}</span>
+                  <span className={styles.legendValue}>: {pieChartData.value}</span>
+                </div>
+              </li>
+            );
+          }
+
+          return null;
+        })}
+      </ul>
+    );
+  };
+
+  return (
+    <div className={styles.chartCardWrapper}>
+      <div className={styles.chartHeader}>
+        <h3 className={styles.chartTitle}>Status overview</h3>
+        <p className={styles.chartSubtitle}>Get a snapshot of the status of your work items.</p>
+      </div>
+      <div className={styles.scrollContainer}>
+        <div className={styles.chartContent}>
+          <div className={`${styles.chartArea} ${styles['chartArea--pie']}`}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={data}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={90}
+                  outerRadius={110}
+                  labelLine={false}
+                >
+                  {data.map((entry, index) => (
+                    <Cell key={`cell-${entry.name}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                  <Label
+                    value="Total work items"
+                    position="center"
+                    className={styles.pieCenterLabel}
+                    dy={-10}
+                  />
+                  <Label
+                    value={total}
+                    position="center"
+                    className={styles.pieCenterValue}
+                    dy={10}
+                  />
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className={styles.legendWrapper}>
+            {renderCustomLegend({
+              payload: data.map((d, i) => ({ color: COLORS[i % COLORS.length], payload: d }))
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -138,12 +222,12 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
   }, [rawData]);
 
   useEffect(() => {
-    if (!newData) {
-      return;
+    if (!newData) return;
+    if (type === ChartType.LINE_CHART) {
+      setChartData(newData.data);
+      setDataKeyList(newData.dataKeyList);
     }
-    setChartData(newData?.data);
-    setDataKeyList(newData?.dataKeyList);
-  }, [newData]);
+  }, [newData, type]);
 
   const handleChartPNGGeneration = async () => {
     const png = await getLinePng();
@@ -158,24 +242,26 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
     setChartBase64String(base64);
   };
 
-  return type === ChartType.LINE_CHART ? (
-    <div style={{ ...style }} className={styles.mainWrapper}>
-      <button
-        onClick={handleChartPNGGeneration}
-        className={styles.chartToPdfBtn}
-        disabled={!isShowPDF}
-      >
-        Add this chart to PDF
-      </button>
-      {users?.length > 0 && (
-        <div className={styles.userSelect}>
+  const showUserSelector = type === ChartType.LINE_CHART;
+
+  return (
+    <div style={{ ...style }} className={styles.chartCardWrapper}>
+      {type === ChartType.LINE_CHART && (
+        <button
+          onClick={handleChartPNGGeneration}
+          className={styles.addToPdfBtn}
+          disabled={!isShowPDF}
+        >
+          Add this chart to PDF
+        </button>
+      )}
+
+      {showUserSelector && users.length > 0 && (
+        <div className={styles.controlBar}>
           <select
             name="dashboard-user-select"
-            id="dashboard-user-select"
             defaultValue={initialId ?? ''}
-            onChange={(e) => {
-              setCurrentUserId(e.target.value);
-            }}
+            onChange={(e) => setCurrentUserId(e.target.value)}
           >
             {users.map(({ name, id }) => (
               <option key={id} value={id ?? ''}>
@@ -185,16 +271,13 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
           </select>
         </div>
       )}
-      {lineChart(chartData, lineRef, chartDataKeyList)}
-    </div>
-  ) : (
-    <div style={{ ...style }} className={styles.mainWrapper}>
-      {barChart(chartData)}
+
+      {type === ChartType.LINE_CHART && lineChart(chartData, lineRef, chartDataKeyList)}
+      {type === ChartType.BAR_CHART && barChart(chartData)}
+      {type === ChartType.PIE_CHART && pieChart(chartData)}
     </div>
   );
 }
-
-export default React.memo(ChartCard);
 
 ChartCard.defaultProps = {
   style: {},
@@ -202,3 +285,5 @@ ChartCard.defaultProps = {
   dataKeyList: [],
   isShowPDF: false
 };
+
+export default React.memo(ChartCard);
