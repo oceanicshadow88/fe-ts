@@ -79,7 +79,9 @@ function EpicPage() {
       <div className={styles.scrollContainer}>
         <TicketSearch onChangeFilter={onChangeFilter} />
         <div className={styles.toolbar}>
-          <Button onClick={showCreateModal}>Create epic</Button>
+          <Button onClick={showCreateModal} dataTestId="epic-create-epic-btn">
+            Create epic
+          </Button>
         </div>
         <DragDropContext
           onDragEnd={(result) => {
@@ -99,6 +101,7 @@ function EpicPage() {
                   endDate={epic.dueAt}
                   epic={epic}
                   totalIssue={ticketsByEpicId[epic.id]?.length ?? 0}
+                  dataTestId={`epic-${epic.id}`}
                 >
                   <DroppableTicketItems
                     onTicketChanged={fetchBacklogData}
