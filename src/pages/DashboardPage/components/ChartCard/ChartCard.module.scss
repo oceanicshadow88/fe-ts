@@ -1,14 +1,21 @@
 @import '../../../ReportPage/styles/variables.scss';
 
 .chartCardWrapper {
-  height: 500px;
+  height: 100%;
   min-height: 300px;
-  padding: $size-24 $size-24 $size-55;
+  padding: $size-24;
   background-color: $color-white;
   border-radius: $size-10;
   position: relative;
   display: flex;
   flex-direction: column;
+
+  grid-column: span 2;
+  grid-row: span 2;
+
+  @media screen and (max-width: 768px) {
+    min-width: none;
+  }
 }
 
 .chartHeader {
@@ -30,9 +37,15 @@
 .chartContent {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
-  min-width: 400px;
+  // min-width: 400px;
   flex-wrap: wrap;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .chartArea {
@@ -51,22 +64,6 @@
   &--bar,
   &--line {
     height: 300px;
-  }
-}
-
-.scrollContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: $size-16;
-
-  max-height: 300px;
-  overflow-y: auto;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    max-height: none;
-    overflow-y: visible;
   }
 }
 
@@ -112,10 +109,8 @@
 
 // ⬇️ 操作区域：下拉框 + 按钮
 .controlBar {
-  position: absolute;
-  bottom: $size-14;
-  left: $size-24;
-  right: $size-24;
+  height: $size-35;
+  justify-self: flex-end;
   display: flex;
   justify-content: space-between;
   z-index: 1;
@@ -137,14 +132,13 @@
 
   &::after {
     content: '\25BC';
-    position: absolute;
-    right: $size-24;
     font-size: $size-12;
     color: $color-brand;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: $color-grey-2;
+    border-radius: calc($size-10 / 3);
     width: 22.5%;
     height: 100%;
     pointer-events: none;

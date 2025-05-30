@@ -135,54 +135,47 @@ function pieChart(data: { name: string; value: number }[]) {
   };
 
   return (
-    <div className={styles.chartCardWrapper}>
+    <>
       <div className={styles.chartHeader}>
         <h3 className={styles.chartTitle}>Status overview</h3>
         <p className={styles.chartSubtitle}>Get a snapshot of the status of your work items.</p>
       </div>
-      <div className={styles.scrollContainer}>
-        <div className={styles.chartContent}>
-          <div className={`${styles.chartArea} ${styles['chartArea--pie']}`}>
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={data}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={90}
-                  outerRadius={110}
-                  labelLine={false}
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${entry.name}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                  <Label
-                    value="Total work items"
-                    position="center"
-                    className={styles.pieCenterLabel}
-                    dy={-10}
-                  />
-                  <Label
-                    value={total}
-                    position="center"
-                    className={styles.pieCenterValue}
-                    dy={10}
-                  />
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className={styles.legendWrapper}>
-            {renderCustomLegend({
-              payload: data.map((d, i) => ({ color: COLORS[i % COLORS.length], payload: d }))
-            })}
-          </div>
+      <div className={styles.chartContent}>
+        <div className={`${styles.chartArea} ${styles['chartArea--pie']}`}>
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={data}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                innerRadius={90}
+                outerRadius={110}
+                labelLine={false}
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${entry.name}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+                <Label
+                  value="Total work items"
+                  position="center"
+                  className={styles.pieCenterLabel}
+                  dy={-10}
+                />
+                <Label value={total} position="center" className={styles.pieCenterValue} dy={10} />
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        <div className={styles.legendWrapper}>
+          {renderCustomLegend({
+            payload: data.map((d, i) => ({ color: COLORS[i % COLORS.length], payload: d }))
+          })}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -256,6 +249,10 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
         </button>
       )}
 
+      {type === ChartType.LINE_CHART && lineChart(chartData, lineRef, chartDataKeyList)}
+      {type === ChartType.BAR_CHART && barChart(chartData)}
+      {type === ChartType.PIE_CHART && pieChart(chartData)}
+
       {showUserSelector && users.length > 0 && (
         <div className={styles.controlBar}>
           <select
@@ -271,10 +268,6 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
           </select>
         </div>
       )}
-
-      {type === ChartType.LINE_CHART && lineChart(chartData, lineRef, chartDataKeyList)}
-      {type === ChartType.BAR_CHART && barChart(chartData)}
-      {type === ChartType.PIE_CHART && pieChart(chartData)}
     </div>
   );
 }

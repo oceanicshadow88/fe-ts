@@ -8,15 +8,18 @@
   padding: $size-20;
   background-color: $color-white;
   border-radius: $size-10;
+
+  grid-column: span 1;
+  grid-row: span 1;
   .title {
-    font-size: $size-24;
+    font-size: clamp($size-20, 3vw, $size-24);
     font-weight: 400;
-    align-self: flex-start;
+    flex-grow: 1;
     text-transform: capitalize;
   }
 
   .value {
-    font-size: $size-45;
+    font-size: clamp($size-30, 3vw, $size-45);
     font-weight: 900;
     flex: 1;
     display: flex;

@@ -221,32 +221,24 @@ function DashBoardPage() {
             ) : null} */}
             <div className={styles.dashboardGridLayout}>
               {valueCardList.map(({ title, value }, index) => (
-                <ValueCard
-                  key={uuidv4()}
-                  style={{ gridArea: `value-card-${index + 1}` }}
-                  title={title}
-                  value={value}
-                />
+                <ValueCard key={uuidv4()} title={title} value={value} />
               ))}
 
               <ChartCard
                 type={ChartType.PIE_CHART}
                 data={pieChartData}
-                style={{ gridArea: 'chart-card-1' }}
                 setChartBase64String={() => {}}
               />
               <ChartCard
                 data={lineChartData?.data}
                 dataKeyList={lineChartData?.dataKeyList}
                 type={ChartType.LINE_CHART}
-                style={{ gridArea: `chart-card-2` }}
                 setChartBase64String={setChartBase64String}
                 isShowPDF={isShowPDF}
               />
               <ChartCard
                 data={barChartData?.data}
                 type={ChartType.BAR_CHART}
-                style={{ gridArea: `chart-card-3` }}
                 setChartBase64String={setChartBase64String}
               />
             </div>
