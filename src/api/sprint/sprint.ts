@@ -24,7 +24,7 @@ export const getLatestSprint = async (projectId: string) => {
   return response.data;
 };
 
-export const getCurrentSprint = async (projectId: string) => {
+export const getCurrentSprints = async (projectId: string) => {
   const res = await alphaApiV2.get(`/projects/${projectId}/sprints/current`);
   return res.data?.[0];
 };

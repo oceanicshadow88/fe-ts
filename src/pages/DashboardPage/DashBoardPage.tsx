@@ -19,7 +19,7 @@ import {
   getPDFReportContent,
   getStatusSummaryBySprint
 } from '../../api/dashboard/dashboard';
-import { getCurrentSprint } from '../../api/sprint/sprint';
+import { getCurrentSprints } from '../../api/sprint/sprint';
 
 interface IValueCard {
   title: string;
@@ -60,28 +60,21 @@ function DashBoardPage() {
     const loadStatusSummary = async () => {
       if (!projectId) return;
       try {
-        const sprintList = await getCurrentSprint(projectId);
-        // eslint-disable-next-line no-console
-        console.log('✅ current sprint:', sprintList);
+        const sprintList = await getCurrentSprints(projectId);
 
         const sprint = Array.isArray(sprintList) ? sprintList[0] : sprintList;
+
         // eslint-disable-next-line no-underscore-dangle
         const sprintId = sprint?.id || sprint?._id;
 
         if (!sprintId) {
-          // eslint-disable-next-line no-console
-          console.warn('⛔ Sprint ID not found.');
           return;
         }
 
-        const result = await getStatusSummaryBySprint(projectId, sprintId);
-        // eslint-disable-next-line no-console
-        console.log('✅ status summary result:', result);
+        const result = await getStatusSummaryBySprint(projectId);
 
         setPieChartData(result);
       } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error('❌ getStatusSummaryBySprint failed:', err);
         toast.error('Failed to load sprint status summary', { theme: 'colored' });
       }
     };

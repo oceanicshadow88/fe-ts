@@ -70,7 +70,7 @@ export const useFetchStatusSummaryBySprint = (sprintId: string) => {
 
     (async () => {
       try {
-        const res = await getStatusSummaryBySprint(projectId, sprintId);
+        const res = await getStatusSummaryBySprint(projectId);
         setData(res);
         setIsLoading(false);
       } catch (e) {

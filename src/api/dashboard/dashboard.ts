@@ -36,10 +36,9 @@ export const getPDFReportContent = (projectId: string): Promise<IPDFReportConten
 // };
 
 export const getStatusSummaryBySprint = (
-  projectId: string,
-  sprintId: string
+  projectId: string
 ): Promise<{ name: string; value: number }[]> => {
-  return alphaApiV2.get(`/tickets/project/${projectId}/statusSummary/${sprintId}`).then((res) => {
+  return alphaApiV2.get(`/tickets/project/${projectId}/statusSummary`).then((res) => {
     return res.data.map((item: { name: string; total: number }) => ({
       name: item.name.toUpperCase(),
       value: item.total
