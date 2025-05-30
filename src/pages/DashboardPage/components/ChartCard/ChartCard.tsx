@@ -257,6 +257,7 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
         <div className={styles.controlBar}>
           <select
             name="dashboard-user-select"
+            id="dashboard-user-select"
             defaultValue={initialId ?? ''}
             onChange={(e) => setCurrentUserId(e.target.value)}
           >
