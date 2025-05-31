@@ -39,7 +39,6 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  // min-width: 400px;
   flex-wrap: wrap;
 
   @media screen and (max-width: 768px) {
@@ -57,7 +56,7 @@
     width: 300px;
     height: 250px;
     flex-shrink: 0;
-    max-width: 100%; // ✅ 避免超过父容器
+    max-width: 100%;
     overflow: hidden;
   }
 
@@ -67,7 +66,6 @@
   }
 }
 
-// 📊 自定义图例样式
 .legend {
   display: flex;
   flex-direction: column;
@@ -107,7 +105,6 @@
   padding: 8px;
 }
 
-// ⬇️ 操作区域：下拉框 + 按钮
 .controlBar {
   height: $size-35;
   justify-self: flex-end;

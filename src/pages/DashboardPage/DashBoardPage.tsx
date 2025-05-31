@@ -2,10 +2,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { v4 as uuidv4 } from 'uuid';
 import React, { useEffect, useMemo, useState } from 'react';
-import { PDFViewer } from '@react-pdf/renderer';
+// TODO: will be removed when the PDF feature is implemented
+// import { PDFViewer } from '@react-pdf/renderer';
+// import { subDays, format } from 'date-fns';
+// import PDFfile from './components/PDFfile/PDFfile';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { subDays, format } from 'date-fns';
 import Loading from '../../components/Loading/Loading';
 import ProjectNavigationV3 from '../../lib/ProjectNavigationV3/ProjectNavigationV3';
 import ValueCard from './components/ValueCard/ValueCard';
@@ -13,8 +15,9 @@ import styles from './DashBoardPage.module.scss';
 import useFetchDashboardData from './hooks/useFetchDashboardData';
 import ChartCard, { ChartType } from './components/ChartCard/ChartCard';
 import { convertProgressData } from './utils';
-import PDFfile from './components/PDFfile/PDFfile';
+
 import {
+  // TODO: will be fixed when the DailyReport
   // getDailyReport,
   getPDFReportContent,
   getStatusSummaryBySprint
@@ -47,6 +50,7 @@ function DashBoardPage() {
   const [pieChartData, setPieChartData] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
+    // TODO: will be fixed when the DailyReport feature is implemented
     // const loadDailyReport = async () => {
     //   if (!projectId) return;
     //   const result = await getDailyReport(
