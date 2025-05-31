@@ -15,7 +15,7 @@ export const getDashBoardData = async (projectId: string, userId: string): Promi
   return res.data;
 };
 
-export const getDashBoardDailyScrumsByUser = (
+export const getDashBoardDailyScrums = (
   projectId: string,
   userId: string
 ): Promise<IDashBoardDailyScrum[]> => {
@@ -29,18 +29,7 @@ export const getDashBoardDailyScrumsByUser = (
 export const getPDFReportContent = (projectId: string): Promise<IPDFReportContent> => {
   return alphaApiV2.get(`/${projectId}/dashboards/reports`);
 };
-// TODO: Implement getDailyReport when daily report chart feature is ready
-// export const getDailyReport = (projectId: string, date: string, tenantId: string) => {
-//   return kScrum.get(`projects/${projectId}/daily-report?reportDate=${date}&tenantId=${tenantId}`);
-// };
 
-export const getStatusSummaryBySprint = (
-  projectId: string
-): Promise<{ name: string; value: number }[]> => {
-  return alphaApiV2.get(`/tickets/project/${projectId}/statusSummary`).then((res) => {
-    return res.data.map((item: { name: string; total: number }) => ({
-      name: item.name.toUpperCase(),
-      value: item.total
-    }));
-  });
+export const getStatusSummary = (projectId: string) => {
+  return alphaApiV2.get(`/tickets/project/${projectId}/statusSummary`);
 };

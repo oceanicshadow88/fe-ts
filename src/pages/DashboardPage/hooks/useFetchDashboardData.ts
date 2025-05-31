@@ -1,11 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import {
-  getDashBoardDailyScrumsByUser,
-  getDashBoardData,
-  getStatusSummaryBySprint
-} from '../../../api/dashboard/dashboard';
+import { getDashBoardDailyScrums, getDashBoardData } from '../../../api/dashboard/dashboard';
 import { UserContext } from '../../../context/UserInfoProvider';
 import { IDashboard, IDashBoardDailyScrum } from '../../../types';
 
@@ -48,38 +44,12 @@ export const useFetchDashboardDailyScrumsByUser = (id: string) => {
       return;
     }
     (async () => {
-      try {
-        const result = await getDashBoardDailyScrumsByUser(projectId, id);
-        setData(result);
-      } catch (e) {
-        toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
-      }
+      const result = await getDashBoardDailyScrums(projectId, id);
+      setData(result);
     })();
   }, [projectId, id]);
 
   return data;
-};
-
-export const useFetchStatusSummaryBySprint = (sprintId: string) => {
-  const { projectId } = useParams<{ projectId: string }>();
-  const [data, setData] = useState<{ name: string; value: number }[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (!projectId || !sprintId) return;
-
-    (async () => {
-      try {
-        const res = await getStatusSummaryBySprint(projectId);
-        setData(res);
-        setIsLoading(false);
-      } catch (e) {
-        toast.error('Failed to load status summary', { theme: 'colored' });
-      }
-    })();
-  }, [projectId, sprintId]);
-
-  return { data, isLoading };
 };
 
 export default useFetchDashboardData;

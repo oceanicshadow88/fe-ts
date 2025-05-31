@@ -1,11 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { v4 as uuidv4 } from 'uuid';
-import React, { useEffect, useMemo, useState } from 'react';
-// TODO: will be removed when the PDF feature is implemented
-// import { PDFViewer } from '@react-pdf/renderer';
-// import { subDays, format } from 'date-fns';
-// import PDFfile from './components/PDFfile/PDFfile';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loading from '../../components/Loading/Loading';
@@ -16,13 +12,11 @@ import useFetchDashboardData from './hooks/useFetchDashboardData';
 import ChartCard, { ChartType } from './components/ChartCard/ChartCard';
 import { convertProgressData } from './utils';
 
-import {
-  // TODO: will be fixed when the DailyReport feature is implemented
-  // getDailyReport,
-  getPDFReportContent,
-  getStatusSummaryBySprint
-} from '../../api/dashboard/dashboard';
-import { getCurrentSprints } from '../../api/sprint/sprint';
+import { getPDFReportContent, getStatusSummary } from '../../api/dashboard/dashboard';
+import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
+import { IMinEvent } from '../../types';
+import { getSprintById } from '../../utils/sprintUtils';
+import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 
 interface IValueCard {
   title: string;
@@ -48,39 +42,20 @@ function DashBoardPage() {
   const [chartBase64String, setChartBase64String] = useState<string>('');
   const [dailyReport, setDailyReport] = useState<any>([]);
   const [pieChartData, setPieChartData] = useState<{ name: string; value: number }[]>([]);
+  const [selectedSprint, setSelectedSprint] = useState<any>('');
+  const projectDetails = useContext(ProjectDetailsContext);
 
   useEffect(() => {
-    // TODO: will be fixed when the DailyReport feature is implemented
-    // const loadDailyReport = async () => {
-    //   if (!projectId) return;
-    //   const result = await getDailyReport(
-    //     projectId,
-    //     format(subDays(new Date(), 1), 'yyyy-MM-dd'),
-    //     '6678cd0bc8dde03b2169871a'
-    //   );
-    //   setDailyReport(result);
-    // };
-    // loadDailyReport();
     const loadStatusSummary = async () => {
       if (!projectId) return;
-      try {
-        const sprintList = await getCurrentSprints(projectId);
+      const result = await getStatusSummary(projectId);
 
-        const sprint = Array.isArray(sprintList) ? sprintList[0] : sprintList;
-
-        // eslint-disable-next-line no-underscore-dangle
-        const sprintId = sprint?.id || sprint?._id;
-
-        if (!sprintId) {
-          return;
-        }
-
-        const result = await getStatusSummaryBySprint(projectId);
-
-        setPieChartData(result);
-      } catch (err) {
-        toast.error('Failed to load sprint status summary', { theme: 'colored' });
-      }
+      setPieChartData(
+        result?.data?.map((item: { name: string; total: number }) => ({
+          name: item.name.toUpperCase(),
+          value: item.total
+        }))
+      );
     };
 
     loadStatusSummary();
@@ -172,11 +147,33 @@ function DashBoardPage() {
     setChartBase64String('');
   };
 
+  const onChangeSprint = (e: IMinEvent) => {
+    setSelectedSprint(getSprintById(e.target.value as string, projectDetails));
+  };
+
+  const sprintsOptions = projectDetails.sprints
+    .filter((item) => item.currentSprint)
+    .map((item) => {
+      return {
+        label: item.name,
+        value: item.id
+      };
+    });
+
   return (
     <div className={styles.mainWrapper}>
       <h1 className={styles.header}>Dashboard</h1>
       <ProjectNavigationV3 />
 
+      <DropdownV2
+        label="Sprint"
+        dataTestId="Sprint"
+        onValueChanged={onChangeSprint}
+        onValueBlur={() => {}}
+        value={selectedSprint.id}
+        name="sprint"
+        options={sprintsOptions}
+      />
       {!isLoading ? (
         <>
           <div className={styles.dashboardWrapper}>
@@ -207,15 +204,6 @@ function DashBoardPage() {
               </div>
             </div>
             {isPDFLoading ? <Loading /> : null}
-            {/* {isShowPDF ? (
-              <PDFViewer width="100%" height="800px">
-                <PDFfile
-                  project={currentProject}
-                  content={PDFcontent}
-                  chartBase64String={chartBase64String}
-                />
-              </PDFViewer>
-            ) : null} */}
             <div className={styles.dashboardGridLayout}>
               {valueCardList.map(({ title, value }, index) => (
                 <ValueCard key={uuidv4()} title={title} value={value} />
