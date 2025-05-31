@@ -23,8 +23,3 @@ export const getLatestSprint = async (projectId: string) => {
   const response = await axios.get(`${config.apiAddressV2}/projects/${projectId}/sprints/current`);
   return response.data;
 };
-
-export const getCurrentSprints = async (projectId: string) => {
-  const res = await alphaApiV2.get(`/projects/${projectId}/sprints/current`);
-  return res.data?.[0];
-};
