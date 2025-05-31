@@ -24,6 +24,7 @@ import { UserContext } from '../../../../context/UserInfoProvider';
 import { useFetchDashboardDailyScrumsByUser } from '../../hooks/useFetchDashboardData';
 import { getUsers } from '../../../../api/user/user';
 import { convertProgressData } from '../../utils';
+import { pickCartoonCategoryColor } from './utils/colorUtils';
 
 type Props = {
   data?: any;
@@ -101,7 +102,6 @@ function barChart(data: any) {
     </div>
   );
 }
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6666', '#9966CC', '#339966'];
 
 function pieChart(data: { name: string; value: number }[]) {
   const total = data.reduce((sum, item) => sum + item.value, 0);
@@ -155,7 +155,7 @@ function pieChart(data: { name: string; value: number }[]) {
                 labelLine={false}
               >
                 {data.map((entry, index) => (
-                  <Cell key={`cell-${entry.name}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell key={`cell-${entry.name}`} fill={pickCartoonCategoryColor(index)} />
                 ))}
                 <Label
                   value="Total work items"
@@ -171,7 +171,10 @@ function pieChart(data: { name: string; value: number }[]) {
         </div>
         <div className={styles.legendWrapper}>
           {renderCustomLegend({
-            payload: data.map((d, i) => ({ color: COLORS[i % COLORS.length], payload: d }))
+            payload: data.map((d, i) => ({
+              color: pickCartoonCategoryColor(i),
+              payload: d
+            }))
           })}
         </div>
       </div>
