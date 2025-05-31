@@ -1,5 +1,4 @@
 import { alphaApiV2 } from '../../config/api';
-// import {kScrum } from '../../config/api';
 import { IDashboard, IDashBoardDailyScrum } from '../../types';
 
 interface IPDFReportContent {
@@ -30,7 +29,7 @@ export const getDashBoardDailyScrumsByUser = (
 export const getPDFReportContent = (projectId: string): Promise<IPDFReportContent> => {
   return alphaApiV2.get(`/${projectId}/dashboards/reports`);
 };
-
+// TODO: Implement getDailyReport when daily report chart feature is ready
 // export const getDailyReport = (projectId: string, date: string, tenantId: string) => {
 //   return kScrum.get(`projects/${projectId}/daily-report?reportDate=${date}&tenantId=${tenantId}`);
 // };

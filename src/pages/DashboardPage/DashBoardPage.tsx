@@ -17,7 +17,7 @@ import ChartCard, { ChartType } from './components/ChartCard/ChartCard';
 import { convertProgressData } from './utils';
 
 import {
-  // TODO: will be fixed when the DailyReport
+  // TODO: will be fixed when the DailyReport feature is implemented
   // getDailyReport,
   getPDFReportContent,
   getStatusSummaryBySprint
