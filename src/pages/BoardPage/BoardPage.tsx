@@ -13,6 +13,7 @@ import DraggableBoardCard from './components/DraggableBoardCard/DraggableBoardCa
 import ProjectHOC from '../../components/HOC/ProjectHOC';
 import CreateBoardTicket from './components/CreateBoardTicket/CreateBoardTicket';
 import ButtonV2 from '../../lib/FormV2/ButtonV2/ButtonV2';
+import { getSprintById } from '../../utils/sprintUtils';
 
 export default function BoardPage() {
   const [tickets, setTickets] = useState<ITicketBoard[]>([]);
@@ -22,14 +23,6 @@ export default function BoardPage() {
   const { projectId = '' } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-
-  const getSprintById = (id: string) => {
-    const result = projectDetails.sprints.find((item) => item.id === id);
-    if (!result) {
-      return null;
-    }
-    return result;
-  };
 
   const fetchSprintTickets = async (filterData) => {
     if (!selectedSprint) {
@@ -102,7 +95,7 @@ export default function BoardPage() {
   };
 
   const onChangeSprint = (e: IMinEvent) => {
-    setSelectedSprint(getSprintById(e.target.value as string));
+    setSelectedSprint(getSprintById(e.target.value as string, projectDetails));
   };
 
   if (loading) {

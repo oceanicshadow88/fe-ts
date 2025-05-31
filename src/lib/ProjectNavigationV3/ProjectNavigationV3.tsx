@@ -34,7 +34,7 @@ export default function Nav() {
       url: `/projects/${projectId}/dashboard`,
       icon: <MdOutlineDashboard />,
       dataTestId: 'dashboard-btn',
-      isDisable: true
+      isDisable: false
     },
     {
       name: 'Retro',

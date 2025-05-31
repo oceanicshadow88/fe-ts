@@ -68,13 +68,7 @@
     .dashboardGridLayout {
       display: grid;
       grid-template-columns: repeat(4, minmax(200px, 1fr));
-      grid-template-rows: repeat(4, minmax(90px, 1fr));
-
-      grid-template-areas:
-        'value-card-1 value-card-2 value-card-3 value-card-4'
-        'chart-card-1 chart-card-1 chart-card-2 chart-card-2'
-        'chart-card-1 chart-card-1 chart-card-2 chart-card-2'
-        'chart-card-1 chart-card-1 chart-card-2 chart-card-2';
+      grid-template-rows: repeat(auto, minmax(90px, 1fr));
 
       gap: $size-18;
 
@@ -84,17 +78,9 @@
         }
       }
 
-      @media screen and (max-width: 1396px) {
+      @media screen and (max-width: 1250px) {
         grid-template-columns: repeat(2, minmax(100px, 1fr));
-        grid-template-rows: repeat(6, minmax(100px, 1fr));
-
-        grid-template-areas:
-          'value-card-1 value-card-2'
-          'value-card-3 value-card-4'
-          'chart-card-1 chart-card-1'
-          'chart-card-1 chart-card-1'
-          'chart-card-2 chart-card-2'
-          'chart-card-2 chart-card-2';
+        grid-template-rows: repeat(auto, minmax(100px, 1fr));
       }
     }
   }

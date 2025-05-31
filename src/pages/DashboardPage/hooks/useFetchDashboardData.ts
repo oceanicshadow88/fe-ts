@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getDashBoardDailyScrumsByUser, getDashBoardData } from '../../../api/dashboard';
+import { getDashBoardDailyScrums, getDashBoardData } from '../../../api/dashboard/dashboard';
 import { UserContext } from '../../../context/UserInfoProvider';
 import { IDashboard, IDashBoardDailyScrum } from '../../../types';
 
@@ -44,12 +44,8 @@ export const useFetchDashboardDailyScrumsByUser = (id: string) => {
       return;
     }
     (async () => {
-      try {
-        const result = await getDashBoardDailyScrumsByUser(projectId, id);
-        setData(result);
-      } catch (e) {
-        toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
-      }
+      const result = await getDashBoardDailyScrums(projectId, id);
+      setData(result);
     })();
   }, [projectId, id]);
 
