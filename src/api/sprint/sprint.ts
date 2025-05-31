@@ -2,7 +2,6 @@
 
 import axios from 'axios';
 import config from '../../config/config';
-import { alphaApiV2 } from '../../config/api';
 
 export const createSprint = async (data: object) => {
   const response = await axios.post(`${config.apiAddressV2}/sprints`, data);
