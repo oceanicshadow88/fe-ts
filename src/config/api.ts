@@ -31,6 +31,13 @@ alphaApiV2.interceptors.request.use((axiosConfig: AxiosRequestConfig) => {
   return axiosConfig;
 });
 
+alphaApiV2.interceptors.response.use(
+  (response) => response,
+  () => {
+    errorStatusHandlers.default();
+  }
+);
+
 /// //////////////////////////////////////////////////////////////////////////////
 const kScrum: AxiosInstance = axios.create({
   baseURL: `${config.kScrumAddress}`,
@@ -44,6 +51,7 @@ kScrum.interceptors.response.use(
     return response.data ?? response;
   },
   (error) => {
+    errorStatusHandlers.default();
     return Promise.reject(error);
   }
 );
