@@ -12,7 +12,11 @@ import useFetchDashboardData from './hooks/useFetchDashboardData';
 import ChartCard, { ChartType } from './components/ChartCard/ChartCard';
 import { convertProgressData } from './utils';
 
-import { getPDFReportContent, getStatusSummary } from '../../api/dashboard/dashboard';
+import {
+  getEpicStatusSummary,
+  getPDFReportContent,
+  getStatusSummary
+} from '../../api/dashboard/dashboard';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
 import { IMinEvent } from '../../types';
 import { getSprintById } from '../../utils/sprintUtils';
@@ -59,6 +63,37 @@ function DashBoardPage() {
     };
 
     loadStatusSummary();
+  }, [projectId]);
+
+  const [epicChartData, setEpicChartData] = useState<any[]>([]);
+  const [epicStatusKeys, setEpicStatusKeys] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchEpicSummary = async () => {
+      if (!projectId) return;
+      const result = await getEpicStatusSummary(projectId);
+
+      const formatted = result.map((epic) => {
+        const { epicTitle, totalTicket, statusSummary } = epic;
+        const obj: any = { name: epicTitle };
+
+        statusSummary.forEach((s) => {
+          obj[s.status] = +((s.count / totalTicket) * 100).toFixed(2);
+        });
+
+        return obj;
+      });
+
+      const statusSet = new Set<string>();
+      result.forEach((epic) => {
+        epic.statusSummary.forEach((s) => statusSet.add(s.status));
+      });
+
+      setEpicChartData(formatted);
+      setEpicStatusKeys(Array.from(statusSet));
+    };
+
+    fetchEpicSummary();
   }, [projectId]);
 
   const valueCardList: IValueCard[] = useMemo(() => {
@@ -108,20 +143,6 @@ function DashBoardPage() {
           }))
         }))
       )
-    };
-  }, [data]);
-
-  const barChartData = useMemo((): IBarChartData => {
-    if (!data) return { data: [], dataKeyList: [] };
-    const { ticketCount } = data;
-    const modifiedData = Object.entries(ticketCount).filter(([key]) => key !== 'total');
-
-    return {
-      dataKeyList: modifiedData.map(([key]) => key),
-      data: modifiedData.map(([key, value]) => ({
-        name: key?.toUpperCase(),
-        count: value
-      }))
     };
   }, [data]);
 
@@ -222,8 +243,9 @@ function DashBoardPage() {
                 isShowPDF={isShowPDF}
               />
               <ChartCard
-                data={barChartData?.data}
-                type={ChartType.BAR_CHART}
+                data={epicChartData}
+                type={ChartType.EPIC_BAR_CHART}
+                dataKeyList={epicStatusKeys}
                 setChartBase64String={setChartBase64String}
               />
             </div>
