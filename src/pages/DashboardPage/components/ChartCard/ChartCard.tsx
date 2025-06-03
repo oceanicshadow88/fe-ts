@@ -38,7 +38,32 @@ type Props = {
 export enum ChartType {
   BAR_CHART = 'barChart',
   LINE_CHART = 'lineChart',
-  PIE_CHART = 'pieChart'
+  PIE_CHART = 'pieChart',
+  TYPE_BAR_CHART = 'typeBarChart'
+}
+
+const TYPE_COLOR_MAP: Record<string, string> = {
+  STORY: '#66bb6a',
+  BUG: '#ef5350',
+  TASK: '#42a5f5',
+  TECHDEBT: '#ffca28'
+};
+
+const TYPE_ICON_MAP: Record<string, string> = {
+  STORY:
+    'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium',
+  TASK: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium',
+  BUG: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium',
+  TECHDEBT:
+    'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10308?size=medium'
+};
+
+function pickTypeColor(type: string): string {
+  return TYPE_COLOR_MAP[type.toUpperCase().replace(/\s+/g, '')] || '#ccc';
+}
+
+function pickTypeIcon(type: string): string {
+  return TYPE_ICON_MAP[type.toUpperCase().replace(/\s+/g, '')] || '';
 }
 
 function getRandomHexColor() {
@@ -77,6 +102,52 @@ function lineChart(data: any, ref: React.MutableRefObject<any>, dataKeyList: str
         </LineChart>
       </ResponsiveContainer>
     </div>
+  );
+}
+
+function typeBarChart(data: { name: string; value: number }[]) {
+  return (
+    <>
+      <div className={styles.chartHeader}>
+        <h3 className={styles.chartTitle}>Types of work</h3>
+        <p className={styles.chartSubtitle}>
+          Breakdown of work items by type in the current sprint.
+        </p>
+      </div>
+
+      <div className={`${styles.chartArea} ${styles['chartArea--bar']}`}>
+        <ResponsiveContainer width="100%" height={data.length * 50 + 60}>
+          <BarChart
+            layout="vertical"
+            data={data}
+            margin={{ top: 20, right: 30, left: 100, bottom: 5 }}
+          >
+            <XAxis type="number" hide />
+            <YAxis
+              type="category"
+              dataKey="name"
+              tick={({ x, y, payload }) => {
+                const type = payload.value;
+                return (
+                  <g transform={`translate(${x - 100},${y})`}>
+                    <image href={pickTypeIcon(type)} x={0} y={-10} width={16} height={16} />
+                    <text x={24} y={0} dy={4} textAnchor="start" fill="#ccc" fontSize={14}>
+                      {type}
+                    </text>
+                  </g>
+                );
+              }}
+            />
+            <Tooltip />
+            <Bar dataKey="value" barSize={40}>
+              {data.map((item) => (
+                <Cell key={`cell-${item.name}`} fill={pickTypeColor(item.name)} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </>
   );
 }
 
@@ -255,6 +326,7 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
       {type === ChartType.LINE_CHART && lineChart(chartData, lineRef, chartDataKeyList)}
       {type === ChartType.BAR_CHART && barChart(chartData)}
       {type === ChartType.PIE_CHART && pieChart(chartData)}
+      {type === ChartType.TYPE_BAR_CHART && typeBarChart(chartData)}
 
       {showUserSelector && users.length > 0 && (
         <div className={styles.controlBar}>

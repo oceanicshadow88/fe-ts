@@ -12,7 +12,7 @@ import useFetchDashboardData from './hooks/useFetchDashboardData';
 import ChartCard, { ChartType } from './components/ChartCard/ChartCard';
 import { convertProgressData } from './utils';
 
-import { getPDFReportContent, getStatusSummary } from '../../api/dashboard/dashboard';
+import { getPDFReportContent, getSummary } from '../../api/dashboard/dashboard';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
 import { IMinEvent } from '../../types';
 import { getSprintById } from '../../utils/sprintUtils';
@@ -41,24 +41,38 @@ function DashBoardPage() {
   const [isShowPDF, setIsShowPDF] = useState<boolean>(false);
   const [chartBase64String, setChartBase64String] = useState<string>('');
   const [dailyReport, setDailyReport] = useState<any>([]);
-  const [pieChartData, setPieChartData] = useState<{ name: string; value: number }[]>([]);
   const [selectedSprint, setSelectedSprint] = useState<any>('');
   const projectDetails = useContext(ProjectDetailsContext);
+
+  const [pieChartData, setPieChartData] = useState<{ name: string; value: number }[]>([]);
+  const [typeChartData, setTypeChartData] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
     const loadStatusSummary = async () => {
       if (!projectId) return;
-      const result = await getStatusSummary(projectId);
-
+      const res = await getSummary(projectId, 'status');
       setPieChartData(
-        result?.data?.map((item: { name: string; total: number }) => ({
+        res?.data?.map((item: { name: string; total: number }) => ({
           name: item.name.toUpperCase(),
           value: item.total
         }))
       );
     };
-
     loadStatusSummary();
+  }, [projectId]);
+
+  useEffect(() => {
+    const loadTypeSummary = async () => {
+      if (!projectId) return;
+      const res = await getSummary(projectId, 'type');
+      setTypeChartData(
+        res?.data?.map((item: { name: string; total: number }) => ({
+          name: item.name.toUpperCase().replace(/\s+/g, ''),
+          value: item.total
+        }))
+      );
+    };
+    loadTypeSummary();
   }, [projectId]);
 
   const valueCardList: IValueCard[] = useMemo(() => {
@@ -93,22 +107,6 @@ function DashBoardPage() {
     ];
 
     return valueCardListData;
-  }, [data]);
-
-  const lineChartData = useMemo((): ILineChartData => {
-    if (!data) return { data: [], dataKeyList: [] };
-    return {
-      dataKeyList: data?.dailyScrums?.map((dailyScrum) => dailyScrum?.title),
-      data: convertProgressData(
-        data?.dailyScrums.map(({ title, progresses }) => ({
-          title,
-          progresses: progresses.map(({ timeStamp, value }) => ({
-            timeStamp,
-            value
-          }))
-        }))
-      )
-    };
   }, [data]);
 
   const barChartData = useMemo((): IBarChartData => {
@@ -214,17 +212,11 @@ function DashBoardPage() {
                 data={pieChartData}
                 setChartBase64String={() => {}}
               />
+
               <ChartCard
-                data={lineChartData?.data}
-                dataKeyList={lineChartData?.dataKeyList}
-                type={ChartType.LINE_CHART}
-                setChartBase64String={setChartBase64String}
-                isShowPDF={isShowPDF}
-              />
-              <ChartCard
-                data={barChartData?.data}
-                type={ChartType.BAR_CHART}
-                setChartBase64String={setChartBase64String}
+                type={ChartType.TYPE_BAR_CHART}
+                data={typeChartData}
+                setChartBase64String={() => {}}
               />
             </div>
           </div>
