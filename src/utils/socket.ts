@@ -10,7 +10,7 @@ const socket: Socket = io(config.socketUrl, {
 const useProjectSocket = (projectId: string) => {
   useEffect(() => {
     socket.connect();
-    socket.emit('join_project', projectId);
+    socket.emit('join_project_room', projectId);
 
     return () => {
       socket.disconnect();
