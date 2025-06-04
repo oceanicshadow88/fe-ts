@@ -44,14 +44,14 @@ function DashBoardPage() {
   const [selectedSprint, setSelectedSprint] = useState<any>('');
   const projectDetails = useContext(ProjectDetailsContext);
 
-  const [pieChartData, setPieChartData] = useState<{ name: string; value: number }[]>([]);
+  const [pieChartData, setStatusChartData] = useState<{ name: string; value: number }[]>([]);
   const [typeChartData, setTypeChartData] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
     const loadStatusSummary = async () => {
       if (!projectId) return;
       const res = await getSummary(projectId, 'status');
-      setPieChartData(
+      setStatusChartData(
         res?.data?.map((item: { name: string; total: number }) => ({
           name: item.name.toUpperCase(),
           value: item.total
