@@ -29,7 +29,6 @@ import * as helper from '../../src/utils/helpers';
 import { UserProvider } from '../../src/context/UserInfoProvider';
 import { UserBuilder } from '../builder/UserBuilder';
 import { ProjectBuilder } from '../builder/ProjectBuilder';
-import { doc } from 'prettier';
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
 // Alternatively, can be defined in cypress/support/component.d.ts
@@ -40,7 +39,7 @@ declare global {
       mount: typeof mount;
       setupTestEnvironment(routeElement: React.ReactElement, routerName: string): Chainable<any>;
       mockGlobalRequest(): Chainable<any>;
-      simulateDndForReactBeautifulDnd(fromSelector: string, toSelector: string): Chainable<void>;
+      dragAndDrop(subject: string, target: string): Chainable<void>;
     }
   }
 }

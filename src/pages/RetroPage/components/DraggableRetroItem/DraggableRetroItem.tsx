@@ -13,13 +13,14 @@ interface IDraggableBoardCard {
   index: number;
   projectId: string;
   onRemoveItem: (id: string) => void;
+  draggableId: string;
 }
 
 export default function DraggableRetroItem(props: IDraggableBoardCard) {
-  const { item, index, onRemoveItem, projectId } = props;
+  const { item, index, onRemoveItem, projectId, draggableId } = props;
 
   return (
-    <Draggable draggableId={item.id ?? ''} index={index}>
+    <Draggable draggableId={draggableId} index={index}>
       {(provided2) => {
         return (
           <div
@@ -35,6 +36,7 @@ export default function DraggableRetroItem(props: IDraggableBoardCard) {
               <GoTrash
                 onClick={() => onRemoveItem(item.id)}
                 style={{ minWidth: '30px', fontSize: '20px' }}
+                data-testid={`delete-retro-item-${item.id}`}
               />
             )}
           </div>

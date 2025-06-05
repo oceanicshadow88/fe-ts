@@ -186,6 +186,7 @@ export default function RetroPage() {
                           onRetroItemCreate(data, column.id);
                         }}
                         className={styles.cardAddNewCard}
+                        dataTestId={`create-retro-item-${column.id}`}
                       />
                     }
                   >
@@ -196,6 +197,7 @@ export default function RetroPage() {
                         index={index}
                         onRemoveItem={onRemoveItem}
                         projectId={projectId}
+                        draggableId={`${item.id}`}
                       />
                     ))}
                   </DroppableColumn>
