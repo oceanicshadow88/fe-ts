@@ -84,36 +84,46 @@ function epicBarChart(
   data: { name: string; [status: string]: string | number }[],
   statusKeys: string[]
 ) {
+  const BAR_HEIGHT = 25;
+  const BAR_GAP = 15;
+
+  const chartHeight = data.length * (BAR_HEIGHT + BAR_GAP) + 60;
+
   return (
     <>
       <div className={styles.chartHeader}>
         <h3 className={styles.chartTitle}>Epic progress</h3>
         <p className={styles.chartSubtitle}>See how your epics are progressing at a glance.</p>
       </div>
-
-      <div className={`${styles.chartArea} ${styles['chartArea--bar']}`}>
-        <ResponsiveContainer width="100%" height={30 * data.length + 70}>
-          <BarChart
-            layout="vertical"
-            data={data}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-            barSize={25}
-          >
-            <XAxis type="number" domain={[0, 100]} hide />
-            <YAxis type="category" dataKey="name" />
-            <Tooltip />
-            <Legend verticalAlign="top" />
-            {statusKeys.map((key, barIdx) => (
-              <Bar
-                key={key}
-                dataKey={key}
-                stackId="a"
-                fill={pickCartoonCategoryColor(barIdx)}
-                name={key.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
-              />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
+      <div className={styles.chartBarScrollWrapper}>
+        <div
+          className={`${styles.chartArea} ${styles['chartArea--bar']}`}
+          style={{ height: `${chartHeight}px` }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              layout="vertical"
+              data={data}
+              margin={{ top: 20, right: 30, left: 40, bottom: 30 }}
+              barSize={BAR_HEIGHT}
+              barCategoryGap={BAR_GAP}
+            >
+              <XAxis type="number" domain={[0, 100]} hide />
+              <YAxis type="category" dataKey="name" />
+              <Tooltip />
+              <Legend verticalAlign="top" />
+              {statusKeys.map((key, barIdx) => (
+                <Bar
+                  key={key}
+                  dataKey={key}
+                  stackId="a"
+                  fill={pickCartoonCategoryColor(barIdx)}
+                  name={key.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </>
   );
