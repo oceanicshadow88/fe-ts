@@ -11,7 +11,6 @@ import styles from './DashBoardPage.module.scss';
 import useFetchDashboardData from './hooks/useFetchDashboardData';
 import ChartCard, { ChartType } from './components/ChartCard/ChartCard';
 import { convertProgressData } from './utils';
-
 import {
   getEpicStatusSummary,
   getPDFReportContent,
@@ -35,6 +34,11 @@ interface ILineChartData {
 interface IBarChartData {
   dataKeyList: string[];
   data: { name: string; count: number }[];
+}
+
+interface IEpicChartItem {
+  name: string;
+  [status: string]: number | string;
 }
 
 function DashBoardPage() {
@@ -65,7 +69,7 @@ function DashBoardPage() {
     loadStatusSummary();
   }, [projectId]);
 
-  const [epicChartData, setEpicChartData] = useState<any[]>([]);
+  const [epicChartData, setEpicChartData] = useState<IEpicChartItem[]>([]);
   const [epicStatusKeys, setEpicStatusKeys] = useState<string[]>([]);
 
   useEffect(() => {
@@ -73,9 +77,8 @@ function DashBoardPage() {
       if (!projectId) return;
       const result = await getEpicStatusSummary(projectId);
 
-      const formatted = result.map((epic) => {
-        const { epicTitle, totalTicket, statusSummary } = epic;
-        const obj: any = { name: epicTitle };
+      const formatted = result.map(({ epicTitle, totalTicket, statusSummary }) => {
+        const obj: IEpicChartItem = { name: epicTitle };
 
         statusSummary.forEach((s) => {
           obj[s.status] = +((s.count / totalTicket) * 100).toFixed(2);
@@ -86,7 +89,7 @@ function DashBoardPage() {
 
       const statusSet = new Set<string>();
       result.forEach((epic) => {
-        epic.statusSummary.forEach((s) => statusSet.add(s.status));
+        epic.statusSummary.forEach((statusItem) => statusSet.add(statusItem.status));
       });
 
       setEpicChartData(formatted);

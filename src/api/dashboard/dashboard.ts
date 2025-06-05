@@ -6,14 +6,16 @@ interface IPDFReportContent {
   content: string;
 }
 
+export interface StatusCount {
+  status: string;
+  count: number;
+}
+
 export interface EpicStatusSummary {
   epicId: string;
   epicTitle: string;
   totalTicket: number;
-  statusSummary: {
-    status: string;
-    count: number;
-  }[];
+  statusSummary: StatusCount[];
 }
 
 export const getDashBoardData = async (projectId: string, userId: string): Promise<IDashboard> => {
