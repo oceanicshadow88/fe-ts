@@ -44,7 +44,7 @@ export const getStatusSummary = (projectId: string) => {
   return alphaApiV2.get(`/tickets/project/${projectId}/statusSummary`);
 };
 
-export const getEpicStatusSummary = async (projectId: string): Promise<EpicStatusSummary[]> => {
+export const getEpicStatusSummary = async (projectId: string) => {
   const res = await alphaApiV2.get(`/tickets/project/${projectId}/statusSummaryByEpic`);
   return res.data;
 };
