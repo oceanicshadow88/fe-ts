@@ -110,7 +110,7 @@ function epicBarChart(
             >
               <XAxis type="number" domain={[0, 100]} hide />
               <YAxis type="category" dataKey="name" />
-              <Tooltip />
+              <Tooltip formatter={(value: number) => `${value}%`} />
               <Legend verticalAlign="top" />
               {statusKeys.map((key, barIdx) => (
                 <Bar
