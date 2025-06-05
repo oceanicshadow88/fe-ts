@@ -58,13 +58,15 @@ const TYPE_ICON_MAP: Record<string, string> = {
     'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10308?size=medium'
 };
 
-function pickTypeColor(type: string): string {
-  return TYPE_COLOR_MAP[type.toUpperCase().replace(/\s+/g, '')] || '#ccc';
-}
+const normalizeDataType = (type: string): string => type.toUpperCase().replace(/\s+/g, '');
 
-function pickTypeIcon(type: string): string {
-  return TYPE_ICON_MAP[type.toUpperCase().replace(/\s+/g, '')] || '';
-}
+const pickTypeColor = (type: string): string => {
+  return TYPE_COLOR_MAP[normalizeDataType(type)] || '#ccc';
+};
+
+const pickTypeIcon = (type: string): string => {
+  return TYPE_ICON_MAP[normalizeDataType(type)] || '';
+};
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215)

@@ -11,7 +11,6 @@ import styles from './DashBoardPage.module.scss';
 import useFetchDashboardData from './hooks/useFetchDashboardData';
 import ChartCard, { ChartType } from './components/ChartCard/ChartCard';
 import { convertProgressData } from './utils';
-
 import { getPDFReportContent, getSummary } from '../../api/dashboard/dashboard';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
 import { IMinEvent } from '../../types';
@@ -32,6 +31,10 @@ interface IBarChartData {
   dataKeyList: string[];
   data: { name: string; count: number }[];
 }
+type SummaryItem = {
+  name: string;
+  total: number;
+};
 
 function DashBoardPage() {
   const { data, isLoading } = useFetchDashboardData();
@@ -44,15 +47,17 @@ function DashBoardPage() {
   const [selectedSprint, setSelectedSprint] = useState<any>('');
   const projectDetails = useContext(ProjectDetailsContext);
 
-  const [pieChartData, setStatusChartData] = useState<{ name: string; value: number }[]>([]);
-  const [typeChartData, setTypeChartData] = useState<{ name: string; value: number }[]>([]);
+  const [statusPieChartData, setStatusPieChartData] = useState<{ name: string; value: number }[]>(
+    []
+  );
+  const [typesBarChartData, setTypesBarChartData] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
     const loadStatusSummary = async () => {
       if (!projectId) return;
       const res = await getSummary(projectId, 'status');
-      setStatusChartData(
-        res?.data?.map((item: { name: string; total: number }) => ({
+      setStatusPieChartData(
+        res.data.map((item: SummaryItem) => ({
           name: item.name.toUpperCase(),
           value: item.total
         }))
@@ -65,8 +70,8 @@ function DashBoardPage() {
     const loadTypeSummary = async () => {
       if (!projectId) return;
       const res = await getSummary(projectId, 'type');
-      setTypeChartData(
-        res?.data?.map((item: { name: string; total: number }) => ({
+      setTypesBarChartData(
+        res.data.map((item: SummaryItem) => ({
           name: item.name.toUpperCase().replace(/\s+/g, ''),
           value: item.total
         }))
@@ -209,13 +214,13 @@ function DashBoardPage() {
 
               <ChartCard
                 type={ChartType.PIE_CHART}
-                data={pieChartData}
+                data={statusPieChartData}
                 setChartBase64String={() => {}}
               />
 
               <ChartCard
                 type={ChartType.TYPE_BAR_CHART}
-                data={typeChartData}
+                data={typesBarChartData}
                 setChartBase64String={() => {}}
               />
             </div>
