@@ -67,20 +67,7 @@ describe('RetroPage.cy.ts', () => {
     .addRetroBoard(retro)
     .build();
 
-  beforeEach(() => {
-    cy.mockGlobalRequest();
-
-    const projectDetailsUrl = `/projects/${defaultMockProject.id}/details`;
-    cy.intercept('GET', `**${projectDetailsUrl}`, {
-      statusCode: 200,
-      body: projectDetailsData
-    }).as('getProjectDetails');
-
-    cy.intercept('GET', `**/sprints/${sprint.id}/retro`, {
-      statusCode: 200,
-      body: [retro],
-    }).as('getRetroBoards');
-
+  const setupRetroTestEnvironment = () => {
     cy.setupTestEnvironment(
       <Route
         path="/projects/:projectId/retro"
@@ -97,29 +84,45 @@ describe('RetroPage.cy.ts', () => {
 
     cy.wait('@getProjectDetails');
     cy.wait('@getRetroBoards');
+  }
+
+  beforeEach(() => {
+    cy.mockGlobalRequest();
+
+    const projectDetailsUrl = `/projects/${defaultMockProject.id}/details`;
+    cy.intercept('GET', `**${projectDetailsUrl}`, {
+      statusCode: 200,
+      body: projectDetailsData
+    }).as('getProjectDetails');
+
+    cy.intercept('GET', `**/sprints/${sprint.id}/retro`, {
+      statusCode: 200,
+      body: [retro],
+    }).as('getRetroBoards');
   });
   
   it('Can create retro item', () => {
-    
-
     cy.intercept('GET', `**/sprints/${sprint.id}/retro/items`, {
       statusCode: 200,
       body: [],
     }).as('getRetroItems');
 
-    cy.wait('@getRetroItems');
-
+    
     const retroItem = new RetroItemBuilder()
-      .withContent('Test Retro Item')
-      .withSprint(sprint.id)
-      .withTenant(defaultMockUser.id)
-      .withStatus(retroStatuses[0].id)
-      .build();
-
+    .withContent('Test Retro Item')
+    .withSprint(sprint.id)
+    .withTenant(defaultMockUser.id)
+    .withStatus(retroStatuses[0].id)
+    .build();
+    
     cy.intercept('POST', `**/sprints/${sprint.id}/retro/items`, {
       statusCode: 200,
       body: retroItem,
     }).as('createRetroItem');
+    
+    setupRetroTestEnvironment();
+    
+    cy.wait('@getRetroItems');
 
     cy.get(`[data-testid="create-retro-item-${retroStatuses[0].id}-button"]`).click();
     cy.get(`[data-testid="create-retro-item-${retroStatuses[0].id}-input"]`)
@@ -145,12 +148,15 @@ describe('RetroPage.cy.ts', () => {
       body: [retroItem],
     }).as('getRetroItems');
 
-    cy.wait('@getRetroItems');
-
+    
     cy.intercept('DELETE', `**/retro/items/${retroItem.id}`, {
       statusCode: 200,
     }).as('deleteRetroItem');
-
+    
+    setupRetroTestEnvironment();
+    
+    cy.wait('@getRetroItems');
+    
     cy.get(`[data-testid="ticket-${retroItem.id}"]`).should('exist');
     cy.get(`[data-testid="delete-retro-item-${retroItem.id}"]`).click();
     cy.wait('@deleteRetroItem');
@@ -177,6 +183,8 @@ describe('RetroPage.cy.ts', () => {
         status: retroStatuses[1].id,
       },
     }).as('updateRetroItem');
+
+    setupRetroTestEnvironment();
 
     cy.wait('@getRetroItems');
 
