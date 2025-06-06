@@ -157,7 +157,7 @@ describe('RetroPage.cy.ts', () => {
     cy.get(`[data-testid="ticket-${retroItem.id}"]`).should('not.exist');
   });
 
-  it.only('Can move retro item to different class', () => {
+  it('Can move retro item to different class', () => {
     const retroItem = new RetroItemBuilder()
       .withContent('Test Retro Item')
       .withSprint(sprint.id)
