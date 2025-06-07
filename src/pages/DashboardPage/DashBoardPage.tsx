@@ -11,7 +11,11 @@ import styles from './DashBoardPage.module.scss';
 import useFetchDashboardData from './hooks/useFetchDashboardData';
 import ChartCard, { ChartType } from './components/ChartCard/ChartCard';
 import { convertProgressData } from './utils';
-import { getPDFReportContent, getSummary } from '../../api/dashboard/dashboard';
+import {
+  getEpicStatusSummary,
+  getPDFReportContent,
+  getSummary
+} from '../../api/dashboard/dashboard';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
 import { IMinEvent } from '../../types';
 import { getSprintById } from '../../utils/sprintUtils';
@@ -35,6 +39,11 @@ type SummaryItem = {
   name: string;
   total: number;
 };
+
+interface IEpicChartItem {
+  name: string;
+  [status: string]: number | string;
+}
 
 function DashBoardPage() {
   const { data, isLoading } = useFetchDashboardData();
@@ -78,6 +87,36 @@ function DashBoardPage() {
       );
     };
     loadTypeSummary();
+  }, [projectId]);
+
+  const [epicChartData, setEpicChartData] = useState<IEpicChartItem[]>([]);
+  const [epicStatusKeys, setEpicStatusKeys] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchEpicSummary = async () => {
+      if (!projectId) return;
+      const result = await getEpicStatusSummary(projectId);
+
+      const formatted = result.map(({ epicTitle, statusSummary }) => {
+        const obj: IEpicChartItem = { name: epicTitle };
+
+        statusSummary.forEach((s) => {
+          obj[s.status] = +s.count;
+        });
+
+        return obj;
+      });
+
+      const statusSet = new Set<string>();
+      result.forEach((epic) => {
+        epic.statusSummary.forEach((statusItem) => statusSet.add(statusItem.status));
+      });
+
+      setEpicChartData(formatted);
+      setEpicStatusKeys(Array.from(statusSet));
+    };
+
+    fetchEpicSummary();
   }, [projectId]);
 
   const valueCardList: IValueCard[] = useMemo(() => {
@@ -211,16 +250,20 @@ function DashBoardPage() {
               {valueCardList.map(({ title, value }, index) => (
                 <ValueCard key={uuidv4()} title={title} value={value} />
               ))}
-
               <ChartCard
                 type={ChartType.PIE_CHART}
                 data={statusPieChartData}
                 setChartBase64String={() => {}}
               />
-
               <ChartCard
                 type={ChartType.TYPE_BAR_CHART}
                 data={typesBarChartData}
+                setChartBase64String={() => {}}
+              />
+              <ChartCard
+                data={epicChartData}
+                type={ChartType.EPIC_BAR_CHART}
+                dataKeyList={epicStatusKeys}
                 setChartBase64String={() => {}}
               />
             </div>
