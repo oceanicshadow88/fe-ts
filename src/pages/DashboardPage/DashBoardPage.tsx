@@ -57,7 +57,7 @@ function DashBoardPage() {
       if (!projectId) return;
       const res = await getSummary(projectId, 'status');
       setStatusPieChartData(
-        res.data.map((item: SummaryItem) => ({
+        res?.data?.map((item: SummaryItem) => ({
           name: item.name.toUpperCase(),
           value: item.total
         }))
@@ -71,7 +71,7 @@ function DashBoardPage() {
       if (!projectId) return;
       const res = await getSummary(projectId, 'type');
       setTypesBarChartData(
-        res.data.map((item: SummaryItem) => ({
+        res?.data?.map((item: SummaryItem) => ({
           name: item.name.toUpperCase().replace(/\s+/g, ''),
           value: item.total
         }))
