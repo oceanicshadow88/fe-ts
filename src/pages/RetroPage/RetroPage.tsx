@@ -18,7 +18,7 @@ import {
 } from '../../api/retro/retro';
 import CreateRetroItem from './components/CreateRetroItem/CreateRetroItem';
 import DraggableRetroItem from './components/DraggableRetroItem/DraggableRetroItem';
-import { useProjectSocket } from '../../utils/socket';
+import { RegisterRetroSocketHandler } from '../../utils/socket';
 
 export default function RetroPage() {
   const [retroItems, setRetroItems] = useState<any>([]);
@@ -29,7 +29,7 @@ export default function RetroPage() {
   const [searchParams] = useSearchParams();
   const { projectId = '' } = useParams();
 
-  useProjectSocket(projectId);
+  RegisterRetroSocketHandler(selectedSprintId);
 
   const fetchRetroItems = async () => {
     if (!selectedSprintId) {

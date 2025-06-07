@@ -7,15 +7,15 @@ const socket: Socket = io(config.socketUrl, {
   withCredentials: false
 });
 
-const useProjectSocket = (projectId: string) => {
+const RegisterRetroSocketHandler = (sprintId: string) => {
   useEffect(() => {
     socket.connect();
-    socket.emit('join_project_room', projectId);
+    socket.emit('join_retro_sprint_room', sprintId);
 
     return () => {
       socket.disconnect();
     };
-  }, [projectId]);
+  }, [sprintId]);
 };
 
-export { socket, useProjectSocket };
+export { socket, RegisterRetroSocketHandler };
