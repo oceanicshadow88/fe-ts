@@ -14,7 +14,7 @@ import { convertProgressData } from './utils';
 import {
   getEpicStatusSummary,
   getPDFReportContent,
-  getStatusSummary
+  getSummary
 } from '../../api/dashboard/dashboard';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
 import { IMinEvent } from '../../types';
@@ -35,6 +35,10 @@ interface IBarChartData {
   dataKeyList: string[];
   data: { name: string; count: number }[];
 }
+type SummaryItem = {
+  name: string;
+  total: number;
+};
 
 interface IEpicChartItem {
   name: string;
@@ -49,24 +53,40 @@ function DashBoardPage() {
   const [isShowPDF, setIsShowPDF] = useState<boolean>(false);
   const [chartBase64String, setChartBase64String] = useState<string>('');
   const [dailyReport, setDailyReport] = useState<any>([]);
-  const [pieChartData, setPieChartData] = useState<{ name: string; value: number }[]>([]);
   const [selectedSprint, setSelectedSprint] = useState<any>('');
   const projectDetails = useContext(ProjectDetailsContext);
+
+  const [statusPieChartData, setStatusPieChartData] = useState<{ name: string; value: number }[]>(
+    []
+  );
+  const [typesBarChartData, setTypesBarChartData] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
     const loadStatusSummary = async () => {
       if (!projectId) return;
-      const result = await getStatusSummary(projectId);
-
-      setPieChartData(
-        result?.data?.map((item: { name: string; total: number }) => ({
+      const res = await getSummary(projectId, 'status');
+      setStatusPieChartData(
+        res?.data?.map((item: SummaryItem) => ({
           name: item.name.toUpperCase(),
           value: item.total
         }))
       );
     };
-
     loadStatusSummary();
+  }, [projectId]);
+
+  useEffect(() => {
+    const loadTypeSummary = async () => {
+      if (!projectId) return;
+      const res = await getSummary(projectId, 'type');
+      setTypesBarChartData(
+        res?.data?.map((item: SummaryItem) => ({
+          name: item.name.toUpperCase().replace(/\s+/g, ''),
+          value: item.total
+        }))
+      );
+    };
+    loadTypeSummary();
   }, [projectId]);
 
   const [epicChartData, setEpicChartData] = useState<IEpicChartItem[]>([]);
@@ -133,19 +153,17 @@ function DashBoardPage() {
     return valueCardListData;
   }, [data]);
 
-  const lineChartData = useMemo((): ILineChartData => {
+  const barChartData = useMemo((): IBarChartData => {
     if (!data) return { data: [], dataKeyList: [] };
+    const { ticketCount } = data;
+    const modifiedData = Object.entries(ticketCount).filter(([key]) => key !== 'total');
+
     return {
-      dataKeyList: data?.dailyScrums?.map((dailyScrum) => dailyScrum?.title),
-      data: convertProgressData(
-        data?.dailyScrums.map(({ title, progresses }) => ({
-          title,
-          progresses: progresses.map(({ timeStamp, value }) => ({
-            timeStamp,
-            value
-          }))
-        }))
-      )
+      dataKeyList: modifiedData.map(([key]) => key),
+      data: modifiedData.map(([key, value]) => ({
+        name: key?.toUpperCase(),
+        count: value
+      }))
     };
   }, [data]);
 
@@ -232,24 +250,21 @@ function DashBoardPage() {
               {valueCardList.map(({ title, value }, index) => (
                 <ValueCard key={uuidv4()} title={title} value={value} />
               ))}
-
               <ChartCard
                 type={ChartType.PIE_CHART}
-                data={pieChartData}
+                data={statusPieChartData}
                 setChartBase64String={() => {}}
               />
               <ChartCard
-                data={lineChartData?.data}
-                dataKeyList={lineChartData?.dataKeyList}
-                type={ChartType.LINE_CHART}
-                setChartBase64String={setChartBase64String}
-                isShowPDF={isShowPDF}
+                type={ChartType.TYPE_BAR_CHART}
+                data={typesBarChartData}
+                setChartBase64String={() => {}}
               />
               <ChartCard
                 data={epicChartData}
                 type={ChartType.EPIC_BAR_CHART}
                 dataKeyList={epicStatusKeys}
-                setChartBase64String={setChartBase64String}
+                setChartBase64String={() => {}}
               />
             </div>
           </div>

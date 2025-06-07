@@ -37,13 +37,14 @@ export const getDashBoardDailyScrums = (
     }
   });
 };
-
 export const getPDFReportContent = (projectId: string): Promise<IPDFReportContent> => {
   return alphaApiV2.get(`/${projectId}/dashboards/reports`);
 };
 
-export const getStatusSummary = (projectId: string) => {
-  return alphaApiV2.get(`/tickets/project/${projectId}/statusSummary`);
+export const getSummary = (projectId: string, summaryBy: 'status' | 'type') => {
+  return alphaApiV2.get(`/tickets/project/${projectId}/summary`, {
+    params: { summaryBy }
+  });
 };
 
 export const getEpicStatusSummary = async (projectId: string) => {
