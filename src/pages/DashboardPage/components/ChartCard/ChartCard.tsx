@@ -43,9 +43,9 @@ export enum ChartType {
 }
 
 const TYPE_COLOR_MAP: Record<string, string> = {
-  STORY: '#66bb6a',
-  BUG: '#ef5350',
-  TASK: '#42a5f5',
+  STORY: '#81c784',
+  BUG: '#e57373',
+  TASK: '#7ab8cc',
   TECHDEBT: '#ffca28'
 };
 
