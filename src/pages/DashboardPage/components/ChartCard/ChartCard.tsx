@@ -36,7 +36,7 @@ type Props = {
 };
 
 export enum ChartType {
-  BAR_CHART = 'barChart',
+  EPIC_BAR_CHART = 'epicBarChart',
   LINE_CHART = 'lineChart',
   PIE_CHART = 'pieChart'
 }
@@ -80,26 +80,52 @@ function lineChart(data: any, ref: React.MutableRefObject<any>, dataKeyList: str
   );
 }
 
-function barChart(data: any) {
+function epicBarChart(
+  data: { name: string; [status: string]: string | number }[],
+  statusKeys: string[]
+) {
+  const BAR_HEIGHT = 25;
+  const BAR_GAP = 15;
+
+  const chartHeight = data.length * (BAR_HEIGHT + BAR_GAP) + 60;
+
   return (
-    <div className={`${styles.chartArea} ${styles['chartArea--bar']}`}>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          barSize={35}
+    <>
+      <div className={styles.chartHeader}>
+        <h3 className={styles.chartTitle}>Epic progress</h3>
+        <p className={styles.chartSubtitle}>See how your epics are progressing at a glance.</p>
+      </div>
+      <div className={styles.chartBarScrollWrapper}>
+        <div
+          className={`${styles.chartArea} ${styles['chartArea--bar']}`}
+          style={{ height: `${chartHeight}px` }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar key={uuidv4()} dataKey="count" fill="#6a2add" />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              layout="vertical"
+              data={data}
+              margin={{ top: 20, right: 30, left: 40, bottom: 30 }}
+              barSize={BAR_HEIGHT}
+              barCategoryGap={BAR_GAP}
+            >
+              <XAxis type="number" hide />
+              <YAxis type="category" dataKey="name" />
+              <Tooltip formatter={(value: number) => `${value}`} />
+              <Legend verticalAlign="top" />
+              {statusKeys.map((key, barIdx) => (
+                <Bar
+                  key={key}
+                  dataKey={key}
+                  stackId="a"
+                  fill={pickCartoonCategoryColor(barIdx)}
+                  name={key.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -253,7 +279,7 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
       )}
 
       {type === ChartType.LINE_CHART && lineChart(chartData, lineRef, chartDataKeyList)}
-      {type === ChartType.BAR_CHART && barChart(chartData)}
+      {type === ChartType.EPIC_BAR_CHART && epicBarChart(chartData, chartDataKeyList)}
       {type === ChartType.PIE_CHART && pieChart(chartData)}
 
       {showUserSelector && users.length > 0 && (

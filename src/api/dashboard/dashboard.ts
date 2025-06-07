@@ -6,6 +6,18 @@ interface IPDFReportContent {
   content: string;
 }
 
+export interface StatusCount {
+  status: string;
+  count: number;
+}
+
+export interface EpicStatusSummary {
+  epicId: string;
+  epicTitle: string;
+  totalTicket: number;
+  statusSummary: StatusCount[];
+}
+
 export const getDashBoardData = async (projectId: string, userId: string): Promise<IDashboard> => {
   const res = await alphaApiV2.get(`/projects/${projectId}/dashboards`, {
     params: {
@@ -32,4 +44,9 @@ export const getPDFReportContent = (projectId: string): Promise<IPDFReportConten
 
 export const getStatusSummary = (projectId: string) => {
   return alphaApiV2.get(`/tickets/project/${projectId}/statusSummary`);
+};
+
+export const getEpicStatusSummary = async (projectId: string) => {
+  const res = await alphaApiV2.get(`/tickets/project/${projectId}/statusSummaryByEpic`);
+  return res.data;
 };
