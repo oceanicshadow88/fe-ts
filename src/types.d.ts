@@ -518,3 +518,35 @@ export interface IProduct {
   productDescription: string;
   prices: IPrice;
 }
+/** ******************************************************* */
+export interface IRetroBoard {
+  id: string;
+  title: string;
+  tenant?: string;
+  statuses: IRetroStatus[];
+  isPublic: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IRetroStatus {
+  id: string;
+  description: string;
+  slug: string;
+  tenant?: string;
+  isPublic: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IRetroItem {
+  id: string;
+  content: string;
+  order?: number;
+  tenant: string;
+  sprint: string;
+  status: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+/** ******************************************************* */

@@ -45,6 +45,7 @@
     "react-toastify": "^9.1.0",
     "recharts": "^2.5.0",
     "recharts-to-png": "^2.2.1",
+    "socket.io-client": "^4.8.1",
     "tippy.js": "^6.3.7",
     "tiptap-extension-resize-image": "^1.2.1",
     "typescript": "^4.6.4",
