@@ -77,11 +77,11 @@ function DashBoardPage() {
       if (!projectId) return;
       const result = await getEpicStatusSummary(projectId);
 
-      const formatted = result.map(({ epicTitle, totalTicket, statusSummary }) => {
+      const formatted = result.map(({ epicTitle, statusSummary }) => {
         const obj: IEpicChartItem = { name: epicTitle };
 
         statusSummary.forEach((s) => {
-          obj[s.status] = +((s.count / totalTicket) * 100).toFixed(2);
+          obj[s.status] = +s.count;
         });
 
         return obj;

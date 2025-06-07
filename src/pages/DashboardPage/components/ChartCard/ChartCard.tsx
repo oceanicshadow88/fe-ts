@@ -108,9 +108,9 @@ function epicBarChart(
               barSize={BAR_HEIGHT}
               barCategoryGap={BAR_GAP}
             >
-              <XAxis type="number" domain={[0, 100]} hide />
+              <XAxis type="number" hide />
               <YAxis type="category" dataKey="name" />
-              <Tooltip formatter={(value: number) => `${value}%`} />
+              <Tooltip formatter={(value: number) => `${value}`} />
               <Legend verticalAlign="top" />
               {statusKeys.map((key, barIdx) => (
                 <Bar
