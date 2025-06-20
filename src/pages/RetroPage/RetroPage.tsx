@@ -1,11 +1,11 @@
 /* eslint-disable no-useless-return */
 /* eslint-disable no-unused-vars */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useParams, useSearchParams } from 'react-router-dom';
 import styles from './RetroPage.module.scss';
 import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
-import { IMinEvent } from '../../types';
+import { IMinEvent, IRetroItem } from '../../types';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
 import DroppableColumn from '../BoardPage/components/DroppableColumn/DroppableColumn';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
@@ -18,10 +18,16 @@ import {
 } from '../../api/retro/retro';
 import CreateRetroItem from './components/CreateRetroItem/CreateRetroItem';
 import DraggableRetroItem from './components/DraggableRetroItem/DraggableRetroItem';
-import { RegisterRetroSocketHandler } from '../../utils/socket';
+import {
+  onRetroRoomJoin,
+  onRetroRoomLeave,
+  onRetroItemChange,
+  onRetroItemBroadcast
+} from '../../utils/socket';
 
 export default function RetroPage() {
-  const [retroItems, setRetroItems] = useState<any>([]);
+  const [retroItems, setRetroItems] = useState<IRetroItem[]>([]);
+  const [retroItemsUpdated, setRetroItemsUpdated] = useState<boolean>(false);
   const [boardDetails, setBoardDetails] = useState<any>();
   const [selectedSprintId, setSelectedSprintId] = useState<string>('');
   const [selectedBoard, setSelectedBoard] = useState<any>();
@@ -29,15 +35,34 @@ export default function RetroPage() {
   const [searchParams] = useSearchParams();
   const { projectId = '' } = useParams();
 
-  RegisterRetroSocketHandler(selectedSprintId);
+  const fetchRetroItems = useCallback(async (sprintId: string) => {
+    if (!sprintId) return;
 
-  const fetchRetroItems = async () => {
-    if (!selectedSprintId) {
-      return;
-    }
-    const res = await getSprintRetroItems(selectedSprintId);
+    const res = await getSprintRetroItems(sprintId);
     setRetroItems(res.data);
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedSprintId) return;
+
+    onRetroRoomJoin(selectedSprintId);
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      onRetroRoomLeave();
+    };
+  }, [selectedSprintId]);
+
+  useEffect(() => {
+    onRetroItemChange(fetchRetroItems);
+  }, [fetchRetroItems]);
+
+  useEffect(() => {
+    if (retroItemsUpdated) {
+      onRetroItemBroadcast(selectedSprintId);
+      setRetroItemsUpdated(false);
+    }
+  }, [retroItemsUpdated]);
 
   const fetchBoards = async () => {
     const result = projectDetails.sprints.find((item) => item.id === selectedSprintId);
@@ -74,7 +99,7 @@ export default function RetroPage() {
     }
 
     fetchBoards();
-    fetchRetroItems();
+    fetchRetroItems(selectedSprintId);
   }, [selectedSprintId, projectDetails.isLoadingDetails]);
 
   if (projectDetails.isLoadingDetails) {
@@ -92,14 +117,16 @@ export default function RetroPage() {
       status: columnId
     });
     setRetroItems([...retroItems, item.data]);
+    setRetroItemsUpdated(true);
   };
 
-  const onRemoveItem = (id: string) => {
-    deleteRetroItem(id);
+  const onRemoveItem = async (id: string) => {
+    await deleteRetroItem(id);
     setRetroItems(retroItems.filter((item) => item.id !== id));
+    setRetroItemsUpdated(true);
   };
 
-  const dragEventHandler = (result: DropResult) => {
+  const dragEventHandler = async (result: DropResult) => {
     const toId = result.destination?.droppableId;
     const retroId = result.draggableId;
     if (!toId) {
@@ -112,7 +139,8 @@ export default function RetroPage() {
     }
     const updateItem = { ...retroItem, ...{ status: toId } };
     setRetroItems(retroItems.map((item) => (item.id === retroId ? updateItem : item)));
-    updateRetroStatus(retroId, toId);
+    await updateRetroStatus(retroId, toId);
+    setRetroItemsUpdated(true);
   };
 
   const onDefaultChange = (e: IMinEvent) => {
