@@ -21,8 +21,19 @@ const onRetroItemChange = (fetchRetoItemHandler: (sprintId: string) => void) => 
   });
 };
 
+const onRetroItemChangeCleanup = () => {
+  socket.off('retro_item_updated');
+};
+
 const onRetroItemBroadcast = (sprintId: string) => {
   socket.emit('retro_item_boardcast', sprintId);
 };
 
-export { socket, onRetroRoomJoin, onRetroRoomLeave, onRetroItemChange, onRetroItemBroadcast };
+export {
+  socket,
+  onRetroRoomJoin,
+  onRetroRoomLeave,
+  onRetroItemChange,
+  onRetroItemBroadcast,
+  onRetroItemChangeCleanup
+};

@@ -22,6 +22,7 @@ import {
   onRetroRoomJoin,
   onRetroRoomLeave,
   onRetroItemChange,
+  onRetroItemChangeCleanup,
   onRetroItemBroadcast
 } from '../../utils/socket';
 
@@ -55,6 +56,10 @@ export default function RetroPage() {
 
   useEffect(() => {
     onRetroItemChange(fetchRetroItems);
+
+    return () => {
+      onRetroItemChangeCleanup();
+    };
   }, [fetchRetroItems]);
 
   useEffect(() => {
