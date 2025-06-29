@@ -6,7 +6,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import IBoard, { IProject, ISprint, IStatusBacklog, IUserInfo } from '../types';
+import { IBoard, IProject, ISprint, IStatus, IUserInfo } from '../types';
 import { getOwner } from '../utils/helpers';
 import { getProjectDetails } from '../api/projects/projects';
 
@@ -16,7 +16,7 @@ export interface IProjectDetails {
   sprints: ISprint[];
   epics: any;
   users: IUserInfo[];
-  statuses: IStatusBacklog[];
+  statuses: IStatus[];
   boards: IBoard[];
   details: IProject;
   retroBoards: any;
@@ -41,6 +41,7 @@ const ProjectDetailsContext = createContext<IProjectDetails>({
   details: {
     id: '',
     name: '',
+    key: '',
     iconUrl: '',
     updateAt: new Date(),
     roles: [],
@@ -82,7 +83,32 @@ interface IProjectDetailsProvider {
 }
 
 function ProjectDetailsProvider({ children }: IProjectDetailsProvider) {
-  const [details, setDetails] = useState<any>({ users: [], statuses: [], ticketTypes: [] });
+  const [details, setDetails] = useState<any>({
+    labels: [],
+    ticketTypes: [],
+    sprints: [],
+    epics: [],
+    users: [],
+    statuses: [],
+    boards: [],
+    retroBoards: [],
+    details: {
+      id: '',
+      name: '',
+      iconUrl: '',
+      updateAt: new Date(),
+      roles: [],
+      defaultRetroBoard: '',
+      shortcut: []
+    },
+    isLoadingDetails: true,
+    onRemoveSprint: () => {},
+    onUpsertSprint: () => {},
+    onUpdateSprint: () => {},
+    onUpsertEpic: () => {},
+    onUpdateEpic: () => {},
+    onRemoveEpic: () => {}
+  });
   const [isLoadingDetails, setIsLoadingDetails] = useState(true);
   const { projectId = null } = useParams();
 
@@ -99,7 +125,7 @@ function ProjectDetailsProvider({ children }: IProjectDetailsProvider) {
         sprints: res.data.sprints,
         epics: res.data.epics,
         statuses: [
-          ...res.data.statues,
+          ...res.data.statuses,
           {
             id: null,
             slug: null,

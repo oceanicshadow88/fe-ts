@@ -1,9 +1,21 @@
-import { alphaApiV2, kScrum } from '../../config/api';
+import { alphaApiV2 } from '../../config/api';
 import { IDashboard, IDashBoardDailyScrum } from '../../types';
 
 interface IPDFReportContent {
   role: string;
   content: string;
+}
+
+export interface StatusCount {
+  status: string;
+  count: number;
+}
+
+export interface EpicStatusSummary {
+  epicId: string;
+  epicTitle: string;
+  totalTicket: number;
+  statusSummary: StatusCount[];
 }
 
 export const getDashBoardData = async (projectId: string, userId: string): Promise<IDashboard> => {
@@ -15,7 +27,7 @@ export const getDashBoardData = async (projectId: string, userId: string): Promi
   return res.data;
 };
 
-export const getDashBoardDailyScrumsByUser = (
+export const getDashBoardDailyScrums = (
   projectId: string,
   userId: string
 ): Promise<IDashBoardDailyScrum[]> => {
@@ -25,11 +37,17 @@ export const getDashBoardDailyScrumsByUser = (
     }
   });
 };
-
 export const getPDFReportContent = (projectId: string): Promise<IPDFReportContent> => {
   return alphaApiV2.get(`/${projectId}/dashboards/reports`);
 };
 
-export const getDailyReport = (projectId: string, date: string, tenantId: string) => {
-  return kScrum.get(`projects/${projectId}/daily-report?reportDate=${date}&tenantId=${tenantId}`);
+export const getSummary = (projectId: string, summaryBy: 'status' | 'type') => {
+  return alphaApiV2.get(`/tickets/project/${projectId}/summary`, {
+    params: { summaryBy }
+  });
+};
+
+export const getEpicStatusSummary = async (projectId: string) => {
+  const res = await alphaApiV2.get(`/tickets/project/${projectId}/statusSummaryByEpic`);
+  return res.data;
 };

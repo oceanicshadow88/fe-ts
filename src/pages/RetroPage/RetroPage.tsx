@@ -18,6 +18,7 @@ import {
 } from '../../api/retro/retro';
 import CreateRetroItem from './components/CreateRetroItem/CreateRetroItem';
 import DraggableRetroItem from './components/DraggableRetroItem/DraggableRetroItem';
+import { RegisterRetroSocketHandler } from '../../utils/socket';
 
 export default function RetroPage() {
   const [retroItems, setRetroItems] = useState<any>([]);
@@ -27,6 +28,8 @@ export default function RetroPage() {
   const projectDetails = useContext(ProjectDetailsContext);
   const [searchParams] = useSearchParams();
   const { projectId = '' } = useParams();
+
+  RegisterRetroSocketHandler(selectedSprintId);
 
   const fetchRetroItems = async () => {
     if (!selectedSprintId) {
@@ -113,7 +116,7 @@ export default function RetroPage() {
   };
 
   const onDefaultChange = (e: IMinEvent) => {
-    setSelectedSprintId(e.target.value);
+    setSelectedSprintId(e.target.value as string);
   };
 
   if (loading) {
@@ -183,6 +186,7 @@ export default function RetroPage() {
                           onRetroItemCreate(data, column.id);
                         }}
                         className={styles.cardAddNewCard}
+                        dataTestId={`create-retro-item-${column.id}`}
                       />
                     }
                   >
@@ -193,6 +197,7 @@ export default function RetroPage() {
                         index={index}
                         onRemoveItem={onRemoveItem}
                         projectId={projectId}
+                        draggableId={`${item.id}`}
                       />
                     ))}
                   </DroppableColumn>

@@ -7,6 +7,7 @@ export interface IShortcut {
 export interface IProject {
   id: string;
   name: string;
+  key: string;
   iconUrl: string;
   type?: string;
   board?: string;
@@ -38,6 +39,7 @@ export interface ITicketBasic {
   createdAt?: Date;
   updatedAt?: Date;
   epic: string;
+  ticketNumber: string;
 }
 /** **********Combine this with ITicketBasic*************** */
 export interface ITicketBoard {
@@ -60,6 +62,7 @@ export interface ITicketBoard {
   attachmentUrls?: any;
   createdAt?: Date;
   updatedAt?: Date;
+  ticketNumber: string;
 }
 
 export interface ITicketInput {
@@ -103,13 +106,14 @@ export interface ITicketDetails {
   attachmentUrls?: any;
   createdAt?: Date;
   updatedAt?: Date;
+  epic: string;
 }
 /** ******************************************************* */
 export interface ISprint {
   id: string;
   name: string;
   startDate?: Date;
-  endDate?: Date;
+  endDate?: Date | null;
   description?: string;
   currentSprint: boolean;
   isComplete: boolean;
@@ -223,17 +227,15 @@ export interface IColumnsFromBackend {
 
 export interface IStatus {
   id: string;
-  slug: string;
   name: string;
-}
-
-export interface IStatusBacklog {
-  id: string;
   slug: string;
-  name: string;
-  order: number;
+  tenant: string;
+  isDefault: boolean;
+  createdAt: string;
+  updatedAt: string;
   board?: string;
 }
+
 export interface ITicketBacklog {
   assign?: IUserInfo | null;
   attachmentUrls?: [];
@@ -246,7 +248,7 @@ export interface ITicketBacklog {
   projectId?: string;
   reporter?: IUserInfo | null;
   sprint?: ISprint | null;
-  status?: IStatusBacklog;
+  status?: IStatus;
   storyPoint?: number;
   tags?: [];
   title?: string;
@@ -256,10 +258,14 @@ export interface ITicketBacklog {
 export interface IBacklogData {
   cards?: ITicketBacklog[];
 }
-export default interface IBoard {
+export interface IBoard {
   id: string;
   title: string;
-  statuses: IStatusEntity[];
+  tenant: string;
+  statuses: IStatus[];
+  isPublic: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IOnChangeTicketStatus {
@@ -413,7 +419,7 @@ export interface IChangePassword {
 
 export interface IMinEvent {
   target: {
-    value: string;
+    value: string | null;
     name: string;
   };
 }
@@ -512,3 +518,35 @@ export interface IProduct {
   productDescription: string;
   prices: IPrice;
 }
+/** ******************************************************* */
+export interface IRetroBoard {
+  id: string;
+  title: string;
+  tenant?: string;
+  statuses: IRetroStatus[];
+  isPublic: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IRetroStatus {
+  id: string;
+  description: string;
+  slug: string;
+  tenant?: string;
+  isPublic: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IRetroItem {
+  id: string;
+  content: string;
+  order?: number;
+  tenant: string;
+  sprint: string;
+  status: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+/** ******************************************************* */

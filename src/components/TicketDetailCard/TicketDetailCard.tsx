@@ -27,6 +27,7 @@ import LabelDropDownV2 from './@components/LabelsDropdown/LabelsDropDownV2';
 import checkAccess from '../../utils/helpers';
 import { Permission } from '../../utils/permission';
 import SVGPaths from '../../assets/ticketDetailCard/ticketDetailCardSvgPath';
+import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
 
 interface ITicketDetailCardProps {
   ticketId: string;
@@ -134,103 +135,159 @@ function TicketDetailCard({
   };
 
   const renderDetails = () => {
-    const tagItems = [
-      { icon: BiLabel, text: 'Type' },
-      { icon: MdOutlineCategory, text: 'Status' },
-      { icon: AiOutlineCalendar, text: 'Due Date' },
-      { icon: RiFlag2Line, text: 'Priority' },
-      { icon: GoPeople, text: 'Reporter' },
-      { icon: IoPersonOutline, text: 'Assignee' },
-      { icon: GoTag, text: 'Label' }
-    ];
-
     const options: IOption[] = statuses.map((item: IStatus) => ({
       id: item.id,
       name: item.name
     }));
 
+    const tagItems = [
+      {
+        icon: BiLabel,
+        text: 'Type',
+        render: (
+          <div className={styles.ticketDetailInfoItem}>
+            <TicketTypeDropDown
+              value={ticketInfo?.type}
+              ticketTypes={ticketTypes}
+              showButtonText
+              onChange={(fieldName: string, value: any) => {
+                onDefaultChange(fieldName, value);
+              }}
+              isDisabled={isReadOnly}
+            />
+          </div>
+        )
+      },
+      {
+        icon: MdOutlineCategory,
+        text: 'Status',
+        render: (
+          <div className={styles.ticketDetailInfoItem}>
+            <TicketStatusDropDown
+              value={ticketInfo?.status}
+              options={options}
+              onChange={(value: string) => {
+                onDefaultChange('status', value);
+              }}
+              isDisabled={isReadOnly}
+            />
+          </div>
+        )
+      },
+      {
+        icon: AiOutlineCalendar,
+        text: 'Due Date',
+        render: (
+          <DueDatePicker
+            ticketInfo={ticketInfo}
+            dueDateOnchange={(updatedTicketInfo: ITicketDetails) => {
+              onDefaultChange('dueAt', updatedTicketInfo.dueAt);
+            }}
+            isDisabled={isReadOnly}
+          />
+        )
+      },
+      {
+        icon: RiFlag2Line,
+        text: 'Priority',
+        render: (
+          <div className={styles.ticketDetailInfoItem}>
+            <TicketPriorityDropDown
+              priority={ticketInfo.priority}
+              onChange={(value: string) => {
+                onDefaultChange('priority', value);
+              }}
+              isDisabled={isReadOnly}
+            />
+          </div>
+        )
+      },
+      {
+        icon: GoPeople,
+        text: 'Reporter',
+        render: (
+          <div className={styles.ticketDetailInfoItem}>
+            <UsersDropDown
+              value={ticketInfo.reporter}
+              users={users}
+              onChange={(value: IUserInfo | undefined) => {
+                onDefaultChange('reporter', value);
+              }}
+              dataTestId="reporter"
+            />
+          </div>
+        )
+      },
+      {
+        icon: IoPersonOutline,
+        text: 'Assignee',
+        render: (
+          <div className={styles.ticketDetailInfoItem}>
+            <UsersDropDown
+              value={ticketInfo.assign}
+              users={users}
+              onChange={(value: IUserInfo | undefined) => {
+                onDefaultChange('assign', value);
+              }}
+              dataTestId="assign"
+            />
+          </div>
+        )
+      },
+      {
+        icon: GoTag,
+        text: 'Label',
+        render: (
+          <LabelDropDownV2
+            ticketLabels={ticketInfo.labels || []}
+            ticketId={ticketInfo.id}
+            projectId={ticketInfo.project.id}
+            onTicketLabelsChange={(value: ILabelData[]) => {
+              onDefaultChange('labels', value);
+            }}
+            dataTestId="labels"
+            isDisabled={isReadOnly}
+          />
+        )
+      },
+      {
+        icon: GoTag,
+        text: 'Epic',
+        render: (
+          <DropdownV2
+            options={projectDetails.epics.map((item) => {
+              return {
+                label: item.title,
+                value: item.id
+              };
+            })}
+            label="Epic"
+            name="epic"
+            onValueChanged={(e) => {
+              onDefaultChange('epic', e.target.value);
+            }}
+            value={ticketInfo.epic}
+            hasBorder={false}
+            placeHolder="None"
+          />
+        )
+      }
+    ];
+
     return (
       <div className={styles.ticketDetailsContent}>
         {tagItems.map((item) => (
-          <div className={styles.ticketDetailTagItem} key={item.text}>
-            <item.icon className={styles.reactIcon} />
-            <p>{item.text}</p>
+          <div
+            style={{ display: 'flex', alignItems: 'center', margin: '5px 0', minHeight: '40px' }}
+            key={item.text}
+          >
+            <div className={styles.ticketDetailTagItem}>
+              <item.icon className={styles.reactIcon} />
+              <p>{item.text}</p>
+            </div>
+            {item?.render}
           </div>
         ))}
-
-        <div className={styles.ticketDetailInfoItem}>
-          <TicketTypeDropDown
-            value={ticketInfo?.type}
-            ticketTypes={ticketTypes}
-            showButtonText
-            onChange={(fieldName: string, value: any) => {
-              onDefaultChange(fieldName, value);
-            }}
-            isDisabled={isReadOnly}
-          />
-        </div>
-
-        <div className={styles.ticketDetailInfoItem}>
-          <TicketStatusDropDown
-            value={ticketInfo?.status}
-            options={options}
-            onChange={(value: string) => {
-              onDefaultChange('status', value);
-            }}
-            isDisabled={isReadOnly}
-          />
-        </div>
-
-        <DueDatePicker
-          ticketInfo={ticketInfo}
-          dueDateOnchange={(updatedTicketInfo: ITicketDetails) => {
-            onDefaultChange('dueAt', updatedTicketInfo.dueAt);
-          }}
-          isDisabled={isReadOnly}
-        />
-
-        <div className={styles.ticketDetailInfoItem}>
-          <TicketPriorityDropDown
-            priority={ticketInfo.priority}
-            onChange={(value: string) => {
-              onDefaultChange('priority', value);
-            }}
-            isDisabled={isReadOnly}
-          />
-        </div>
-
-        <div className={styles.ticketDetailInfoItem}>
-          <UsersDropDown
-            value={ticketInfo.reporter}
-            users={users}
-            onChange={(value: IUserInfo | undefined) => {
-              onDefaultChange('reporter', value);
-            }}
-            dataTestId="reporter"
-          />
-        </div>
-
-        <div className={styles.ticketDetailInfoItem}>
-          <UsersDropDown
-            value={ticketInfo.assign}
-            users={users}
-            onChange={(value: IUserInfo | undefined) => {
-              onDefaultChange('assign', value);
-            }}
-            dataTestId="assign"
-          />
-        </div>
-
-        <LabelDropDownV2
-          ticketLabels={ticketInfo.labels || []}
-          ticketId={ticketInfo.id}
-          projectId={ticketInfo.project.id}
-          onTicketLabelsChange={(value: ILabelData[]) => {
-            onDefaultChange('labels', value);
-          }}
-          dataTestId="labels"
-          isDisabled={isReadOnly}
-        />
       </div>
     );
   };
@@ -252,6 +309,7 @@ function TicketDetailCard({
             />
           ) : (
             <button
+              data-testid="ticket-detail-title"
               onClick={() => {
                 if (isReadOnly) return;
                 setEditTitle(true);

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { DatePicker } from '@atlaskit/datetime-picker';
 import styles from './CreateEditEpic.module.scss';
 import Modal from '../../../../lib/Modal/Modal';
 import DefaultModalHeader from '../../../../lib/Modal/ModalHeader/DefaultModalHeader/DefaultModalHeader';
 import { IProjectDetails } from '../../../../context/ProjectDetailsProvider';
 import { createEpic, deleteEpic, updateEpic } from '../../../../api/epic/epic';
+import InputV2 from '../../../../lib/FormV2/InputV2/InputV2';
 import checkAccess from '../../../../utils/helpers';
 import { Permission } from '../../../../utils/permission';
 
@@ -52,10 +54,14 @@ export default function CreateEditEpic({
       goal: epicGoal,
       description: epicDescription
     };
-    createEpic(data).then((res) => {
-      projectDetails.onUpsertEpic(res);
-      onClickCloseModal();
-    });
+    createEpic(data)
+      .then((res) => {
+        projectDetails.onUpsertEpic(res);
+        onClickCloseModal();
+      })
+      .catch(() => {
+        toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
+      });
   };
 
   const onClickUpdateEpic = (epicId: string) => {
@@ -91,15 +97,16 @@ export default function CreateEditEpic({
       <div className={styles.createEditSprintContainer}>
         <div className={styles.createEditSprintInputContainer}>
           <div className={styles.inputContainer}>
-            <p className={styles.label}>Epic Name:</p>
-            <input
+            <InputV2
               type="text"
               name="name"
               value={epicName}
-              className={styles.textInput}
-              onChange={(e) => {
+              onValueChanged={(e) => {
                 setEpicName(e.target.value);
               }}
+              label="Epic Name"
+              dataTestId="epic-name"
+              required
             />
           </div>
           <div className={styles.inputContainer}>
@@ -203,6 +210,7 @@ export default function CreateEditEpic({
               }
             }}
             disabled={disabled}
+            data-testid={`epic-${type.toLowerCase()}-btn`}
           >
             {type === 'Create' ? 'Create' : 'Update'}
           </button>

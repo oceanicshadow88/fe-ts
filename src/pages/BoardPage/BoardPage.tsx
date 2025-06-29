@@ -5,14 +5,15 @@ import styles from './BoardPage.module.scss';
 import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import { getBoardDetails, getSprintTickets } from '../../api/board/board';
 import { createNewTicket, updateTicketStatus } from '../../api/ticket/ticket';
-import BoardSearch, { IFilterData } from '../../components/Board/BoardSearch/BoardSearch';
+import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
-import IBoard, { IMinEvent, ITicketBoard } from '../../types';
+import { IBoard, IMinEvent, ITicketBoard } from '../../types';
 import DroppableColumn from './components/DroppableColumn/DroppableColumn';
 import DraggableBoardCard from './components/DraggableBoardCard/DraggableBoardCard';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
 import CreateBoardTicket from './components/CreateBoardTicket/CreateBoardTicket';
 import ButtonV2 from '../../lib/FormV2/ButtonV2/ButtonV2';
+import { getSprintById } from '../../utils/sprintUtils';
 
 export default function BoardPage() {
   const [tickets, setTickets] = useState<ITicketBoard[]>([]);
@@ -22,14 +23,6 @@ export default function BoardPage() {
   const { projectId = '' } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-
-  const getSprintById = (id: string) => {
-    const result = projectDetails.sprints.find((item) => item.id === id);
-    if (!result) {
-      return null;
-    }
-    return result;
-  };
 
   const fetchSprintTickets = async (filterData) => {
     if (!selectedSprint) {
@@ -102,7 +95,7 @@ export default function BoardPage() {
   };
 
   const onChangeSprint = (e: IMinEvent) => {
-    setSelectedSprint(getSprintById(e.target.value));
+    setSelectedSprint(getSprintById(e.target.value as string, projectDetails));
   };
 
   if (loading) {
@@ -145,7 +138,7 @@ export default function BoardPage() {
                 }}
               />
             </div>
-            <BoardSearch onChangeFilter={onChangeFilter} />
+            <TicketSearch onChangeFilter={onChangeFilter} />
             <div className={styles.boardMainContainer}>
               <DragDropContext onDragEnd={dragEventHandler}>
                 {boardDetails.statuses.map((column) => (

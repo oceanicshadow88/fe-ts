@@ -129,11 +129,11 @@ export default function CreateEditSprint({
   };
 
   const onChangeBoard = (e: IMinEvent) => {
-    setBoardId(e.target.value);
+    setBoardId(e.target.value as string);
   };
 
   const onChangeRetroBoard = (e: IMinEvent) => {
-    setRetroBoardId(e.target.value);
+    setRetroBoardId(e.target.value as string);
   };
 
   return (
@@ -201,6 +201,9 @@ export default function CreateEditSprint({
                           <button
                             onClick={() => {
                               setDuration(item);
+                              const newDate = new Date();
+                              setStartDate(dateWithDay(newDate.toISOString()));
+                              setEndDate(dateAfter(newDate.toISOString(), '1 week') ?? '');
                               setVisible(false);
                             }}
                           >
@@ -300,6 +303,7 @@ export default function CreateEditSprint({
                   }
                 }}
                 disabled={disabled}
+                data-testid="sprint-submit-btn"
               >
                 {type === 'Create' ? 'Create' : 'Update'}
               </button>

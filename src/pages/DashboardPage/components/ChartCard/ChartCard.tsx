@@ -10,7 +10,11 @@ import {
   Legend,
   BarChart,
   Line,
-  LineChart
+  LineChart,
+  PieChart,
+  Pie,
+  Cell,
+  Label
 } from 'recharts';
 import { useCurrentPng } from 'recharts-to-png';
 import { toast } from 'react-toastify';
@@ -20,6 +24,7 @@ import { UserContext } from '../../../../context/UserInfoProvider';
 import { useFetchDashboardDailyScrumsByUser } from '../../hooks/useFetchDashboardData';
 import { getUsers } from '../../../../api/user/user';
 import { convertProgressData } from '../../utils';
+import { pickCartoonCategoryColor } from './utils/colorUtils';
 
 type Props = {
   data?: any;
@@ -31,9 +36,37 @@ type Props = {
 };
 
 export enum ChartType {
-  BAR_CHART = 'barChart',
-  LINE_CHART = 'lineChart'
+  EPIC_BAR_CHART = 'epicBarChart',
+  LINE_CHART = 'lineChart',
+  PIE_CHART = 'pieChart',
+  TYPE_BAR_CHART = 'typeBarChart'
 }
+
+const TYPE_COLOR_MAP: Record<string, string> = {
+  STORY: '#81c784',
+  BUG: '#e57373',
+  TASK: '#7ab8cc',
+  TECHDEBT: '#ffca28'
+};
+
+const TYPE_ICON_MAP: Record<string, string> = {
+  STORY:
+    'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium',
+  TASK: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium',
+  BUG: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium',
+  TECHDEBT:
+    'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10308?size=medium'
+};
+
+const normalizeDataType = (type: string): string => type.toUpperCase().replace(/\s+/g, '');
+
+const pickTypeColor = (type: string): string => {
+  return TYPE_COLOR_MAP[normalizeDataType(type)] || '#ccc';
+};
+
+const pickTypeIcon = (type: string): string => {
+  return TYPE_ICON_MAP[normalizeDataType(type)] || '';
+};
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215)
@@ -43,62 +76,208 @@ function getRandomHexColor() {
 
 function lineChart(data: any, ref: React.MutableRefObject<any>, dataKeyList: string[] = []) {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5
-        }}
-        ref={ref}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        {dataKeyList.map((dataKey) => {
-          return (
-            <Line
-              type="monotone"
-              key={uuidv4()}
-              dataKey={dataKey}
-              stroke={getRandomHexColor()}
-              activeDot={{ r: 8 }}
-            />
-          );
-        })}
-      </LineChart>
-    </ResponsiveContainer>
+    <div className={`${styles.chartArea} ${styles['chartArea--line']}`}>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          ref={ref}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          {dataKeyList.map((dataKey) => {
+            return (
+              <Line
+                type="monotone"
+                key={uuidv4()}
+                dataKey={dataKey}
+                stroke={getRandomHexColor()}
+                activeDot={{ r: 8 }}
+              />
+            );
+          })}
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
-function barChart(data: any) {
+
+function typeBarChart(data: { name: string; value: number }[]) {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5
-        }}
-        barSize={35}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar key={uuidv4()} dataKey="count" fill="#6a2add" />;
-      </BarChart>
-    </ResponsiveContainer>
+    <>
+      <div className={styles.chartHeader}>
+        <h3 className={styles.chartTitle}>Types of work</h3>
+        <p className={styles.chartSubtitle}>
+          Breakdown of work items by type in the current sprint.
+        </p>
+      </div>
+
+      <div className={`${styles.chartArea} ${styles['chartArea--bar']}`}>
+        <ResponsiveContainer width="100%" height={data.length * 50 + 60}>
+          <BarChart
+            layout="vertical"
+            data={data}
+            margin={{ top: 20, right: 30, left: 100, bottom: 5 }}
+          >
+            <XAxis type="number" hide />
+            <YAxis
+              type="category"
+              dataKey="name"
+              tick={({ x, y, payload }) => {
+                const type = payload.value;
+                return (
+                  <g transform={`translate(${x - 100},${y})`}>
+                    <image href={pickTypeIcon(type)} x={0} y={-10} width={16} height={16} />
+                    <text x={24} y={0} dy={4} textAnchor="start" fill="#ccc" fontSize={14}>
+                      {type}
+                    </text>
+                  </g>
+                );
+              }}
+            />
+            <Tooltip />
+            <Bar dataKey="value" barSize={40}>
+              {data.map((item) => (
+                <Cell key={`cell-${item.name}`} fill={pickTypeColor(item.name)} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </>
+  );
+}
+
+function epicBarChart(
+  data: { name: string; [status: string]: string | number }[],
+  statusKeys: string[]
+) {
+  const BAR_HEIGHT = 25;
+  const BAR_GAP = 15;
+
+  const chartHeight = data.length * (BAR_HEIGHT + BAR_GAP) + 60;
+
+  return (
+    <>
+      <div className={styles.chartHeader}>
+        <h3 className={styles.chartTitle}>Epic progress</h3>
+        <p className={styles.chartSubtitle}>See how your epics are progressing at a glance.</p>
+      </div>
+      <div className={styles.chartBarScrollWrapper}>
+        <div
+          className={`${styles.chartArea} ${styles['chartArea--bar']}`}
+          style={{ height: `${chartHeight}px` }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              layout="vertical"
+              data={data}
+              margin={{ top: 20, right: 30, left: 40, bottom: 30 }}
+              barSize={BAR_HEIGHT}
+              barCategoryGap={BAR_GAP}
+            >
+              <XAxis type="number" hide />
+              <YAxis type="category" dataKey="name" />
+              <Tooltip formatter={(value: number) => `${value}`} />
+              <Legend verticalAlign="top" />
+              {statusKeys.map((key, barIdx) => (
+                <Bar
+                  key={key}
+                  dataKey={key}
+                  stackId="a"
+                  fill={pickCartoonCategoryColor(barIdx)}
+                  name={key.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function pieChart(data: { name: string; value: number }[]) {
+  const total = data.reduce((sum, item) => sum + item.value, 0);
+
+  const renderCustomLegend = (props: any): React.ReactNode => {
+    const { payload } = props;
+
+    return (
+      <ul className={styles.legend}>
+        {payload?.map((entry: any) => {
+          const maybe = entry.payload;
+
+          if (typeof maybe === 'object' && maybe !== null && 'name' in maybe && 'value' in maybe) {
+            const pieChartData = maybe as { name: string; value: number };
+
+            return (
+              <li key={pieChartData.name} className={styles.legend__item}>
+                <div className={styles.legend__color} style={{ backgroundColor: entry.color }} />
+                <div className={styles.legend__text}>
+                  <span className={styles.legendLabel}>{pieChartData.name}</span>
+                  <span className={styles.legendValue}>: {pieChartData.value}</span>
+                </div>
+              </li>
+            );
+          }
+
+          return null;
+        })}
+      </ul>
+    );
+  };
+
+  return (
+    <>
+      <div className={styles.chartHeader}>
+        <h3 className={styles.chartTitle}>Status overview</h3>
+        <p className={styles.chartSubtitle}>Get a snapshot of the status of your work items.</p>
+      </div>
+      <div className={styles.chartContent}>
+        <div className={`${styles.chartArea} ${styles['chartArea--pie']}`}>
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={data}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                innerRadius={90}
+                outerRadius={110}
+                labelLine={false}
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${entry.name}`} fill={pickCartoonCategoryColor(index)} />
+                ))}
+                <Label
+                  value="Total work items"
+                  position="center"
+                  className={styles.pieCenterLabel}
+                  dy={-10}
+                />
+                <Label value={total} position="center" className={styles.pieCenterValue} dy={10} />
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        <div className={styles.legendWrapper}>
+          {renderCustomLegend({
+            payload: data.map((d, i) => ({
+              color: pickCartoonCategoryColor(i),
+              payload: d
+            }))
+          })}
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -138,12 +317,12 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
   }, [rawData]);
 
   useEffect(() => {
-    if (!newData) {
-      return;
+    if (!newData) return;
+    if (type === ChartType.LINE_CHART) {
+      setChartData(newData.data);
+      setDataKeyList(newData.dataKeyList);
     }
-    setChartData(newData?.data);
-    setDataKeyList(newData?.dataKeyList);
-  }, [newData]);
+  }, [newData, type]);
 
   const handleChartPNGGeneration = async () => {
     const png = await getLinePng();
@@ -158,24 +337,32 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
     setChartBase64String(base64);
   };
 
-  return type === ChartType.LINE_CHART ? (
-    <div style={{ ...style }} className={styles.mainWrapper}>
-      <button
-        onClick={handleChartPNGGeneration}
-        className={styles.chartToPdfBtn}
-        disabled={!isShowPDF}
-      >
-        Add this chart to PDF
-      </button>
-      {users?.length > 0 && (
-        <div className={styles.userSelect}>
+  const showUserSelector = type === ChartType.LINE_CHART;
+
+  return (
+    <div style={{ ...style }} className={styles.chartCardWrapper}>
+      {type === ChartType.LINE_CHART && (
+        <button
+          onClick={handleChartPNGGeneration}
+          className={styles.addToPdfBtn}
+          disabled={!isShowPDF}
+        >
+          Add this chart to PDF
+        </button>
+      )}
+
+      {type === ChartType.LINE_CHART && lineChart(chartData, lineRef, chartDataKeyList)}
+      {type === ChartType.EPIC_BAR_CHART && epicBarChart(chartData, chartDataKeyList)}
+      {type === ChartType.PIE_CHART && pieChart(chartData)}
+      {type === ChartType.TYPE_BAR_CHART && typeBarChart(chartData)}
+
+      {showUserSelector && users.length > 0 && (
+        <div className={styles.controlBar}>
           <select
             name="dashboard-user-select"
             id="dashboard-user-select"
             defaultValue={initialId ?? ''}
-            onChange={(e) => {
-              setCurrentUserId(e.target.value);
-            }}
+            onChange={(e) => setCurrentUserId(e.target.value)}
           >
             {users.map(({ name, id }) => (
               <option key={id} value={id ?? ''}>
@@ -185,16 +372,9 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
           </select>
         </div>
       )}
-      {lineChart(chartData, lineRef, chartDataKeyList)}
-    </div>
-  ) : (
-    <div style={{ ...style }} className={styles.mainWrapper}>
-      {barChart(chartData)}
     </div>
   );
 }
-
-export default React.memo(ChartCard);
 
 ChartCard.defaultProps = {
   style: {},
@@ -202,3 +382,5 @@ ChartCard.defaultProps = {
   dataKeyList: [],
   isShowPDF: false
 };
+
+export default React.memo(ChartCard);

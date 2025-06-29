@@ -12,5 +12,6 @@ export default {
     process.env.REACT_APP_BACKEND_URL_V2 ??
     'https://afternoon-fortress-36104.herokuapp.com/api/v1',
   kScrumAddress: 'http://localhost:8080/api/v1',
-  isCI: process.env.REACT_APP_CI ?? false
+  isCI: process.env.REACT_APP_CI ?? false,
+  socketUrl: process.env.REACT_APP_SOCKET_URL ?? 'http://localhost:8000'
 };

@@ -2,10 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { v4 as uuidv4 } from 'uuid';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { PDFViewer } from '@react-pdf/renderer';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { subDays, format } from 'date-fns';
 import Loading from '../../components/Loading/Loading';
 import ProjectNavigationV3 from '../../lib/ProjectNavigationV3/ProjectNavigationV3';
 import ValueCard from './components/ValueCard/ValueCard';
@@ -13,8 +11,15 @@ import styles from './DashBoardPage.module.scss';
 import useFetchDashboardData from './hooks/useFetchDashboardData';
 import ChartCard, { ChartType } from './components/ChartCard/ChartCard';
 import { convertProgressData } from './utils';
-import PDFfile from './components/PDFfile/PDFfile';
-import { getDailyReport, getPDFReportContent } from '../../api/dashboard';
+import {
+  getEpicStatusSummary,
+  getPDFReportContent,
+  getSummary
+} from '../../api/dashboard/dashboard';
+import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
+import { IMinEvent } from '../../types';
+import { getSprintById } from '../../utils/sprintUtils';
+import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 
 interface IValueCard {
   title: string;
@@ -30,6 +35,15 @@ interface IBarChartData {
   dataKeyList: string[];
   data: { name: string; count: number }[];
 }
+type SummaryItem = {
+  name: string;
+  total: number;
+};
+
+interface IEpicChartItem {
+  name: string;
+  [status: string]: number | string;
+}
 
 function DashBoardPage() {
   const { data, isLoading } = useFetchDashboardData();
@@ -39,25 +53,76 @@ function DashBoardPage() {
   const [isShowPDF, setIsShowPDF] = useState<boolean>(false);
   const [chartBase64String, setChartBase64String] = useState<string>('');
   const [dailyReport, setDailyReport] = useState<any>([]);
+  const [selectedSprint, setSelectedSprint] = useState<any>('');
+  const projectDetails = useContext(ProjectDetailsContext);
+
+  const [statusPieChartData, setStatusPieChartData] = useState<{ name: string; value: number }[]>(
+    []
+  );
+  const [typesBarChartData, setTypesBarChartData] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
-    const loadDailyReport = async () => {
+    const loadStatusSummary = async () => {
       if (!projectId) return;
-      const result = await getDailyReport(
-        projectId,
-        format(subDays(new Date(), 1), 'yyyy-MM-dd'),
-        '6678cd0bc8dde03b2169871a'
+      const res = await getSummary(projectId, 'status');
+      setStatusPieChartData(
+        res?.data?.map((item: SummaryItem) => ({
+          name: item.name.toUpperCase(),
+          value: item.total
+        }))
       );
-      setDailyReport(result);
     };
-    loadDailyReport();
+    loadStatusSummary();
+  }, [projectId]);
+
+  useEffect(() => {
+    const loadTypeSummary = async () => {
+      if (!projectId) return;
+      const res = await getSummary(projectId, 'type');
+      setTypesBarChartData(
+        res?.data?.map((item: SummaryItem) => ({
+          name: item.name.toUpperCase().replace(/\s+/g, ''),
+          value: item.total
+        }))
+      );
+    };
+    loadTypeSummary();
+  }, [projectId]);
+
+  const [epicChartData, setEpicChartData] = useState<IEpicChartItem[]>([]);
+  const [epicStatusKeys, setEpicStatusKeys] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchEpicSummary = async () => {
+      if (!projectId) return;
+      const result = await getEpicStatusSummary(projectId);
+
+      const formatted = result.map(({ epicTitle, statusSummary }) => {
+        const obj: IEpicChartItem = { name: epicTitle };
+
+        statusSummary.forEach((s) => {
+          obj[s.status] = +s.count;
+        });
+
+        return obj;
+      });
+
+      const statusSet = new Set<string>();
+      result.forEach((epic) => {
+        epic.statusSummary.forEach((statusItem) => statusSet.add(statusItem.status));
+      });
+
+      setEpicChartData(formatted);
+      setEpicStatusKeys(Array.from(statusSet));
+    };
+
+    fetchEpicSummary();
   }, [projectId]);
 
   const valueCardList: IValueCard[] = useMemo(() => {
     if (!data) return [];
 
     const { ticketCount, dailyScrumCount } = data;
-
     const { total: totalDailyScrum, isCanFinish } = dailyScrumCount;
     const { total: totalTicket, toDo, inProgress, done, review } = ticketCount;
 
@@ -86,22 +151,6 @@ function DashBoardPage() {
     ];
 
     return valueCardListData;
-  }, [data]);
-
-  const lineChartData = useMemo((): ILineChartData => {
-    if (!data) return { data: [], dataKeyList: [] };
-    return {
-      dataKeyList: data?.dailyScrums?.map((dailyScrum) => dailyScrum?.title),
-      data: convertProgressData(
-        data?.dailyScrums.map(({ title, progresses }) => ({
-          title,
-          progresses: progresses.map(({ timeStamp, value }) => ({
-            timeStamp,
-            value
-          }))
-        }))
-      )
-    };
   }, [data]);
 
   const barChartData = useMemo((): IBarChartData => {
@@ -140,11 +189,33 @@ function DashBoardPage() {
     setChartBase64String('');
   };
 
+  const onChangeSprint = (e: IMinEvent) => {
+    setSelectedSprint(getSprintById(e.target.value as string, projectDetails));
+  };
+
+  const sprintsOptions = projectDetails.sprints
+    .filter((item) => item.currentSprint)
+    .map((item) => {
+      return {
+        label: item.name,
+        value: item.id
+      };
+    });
+
   return (
     <div className={styles.mainWrapper}>
       <h1 className={styles.header}>Dashboard</h1>
       <ProjectNavigationV3 />
 
+      <DropdownV2
+        label="Sprint"
+        dataTestId="Sprint"
+        onValueChanged={onChangeSprint}
+        onValueBlur={() => {}}
+        value={selectedSprint.id}
+        name="sprint"
+        options={sprintsOptions}
+      />
       {!isLoading ? (
         <>
           <div className={styles.dashboardWrapper}>
@@ -175,40 +246,25 @@ function DashBoardPage() {
               </div>
             </div>
             {isPDFLoading ? <Loading /> : null}
-            {/* {isShowPDF ? (
-              <PDFViewer width="100%" height="800px">
-                <PDFfile
-                  project={currentProject}
-                  content={PDFcontent}
-                  chartBase64String={chartBase64String}
-                />
-              </PDFViewer>
-            ) : null} */}
             <div className={styles.dashboardGridLayout}>
-              {valueCardList.map(({ title, value }, index) => {
-                return (
-                  <ValueCard
-                    key={uuidv4()}
-                    style={{ gridArea: `value-card-${index + 1}` }}
-                    title={title}
-                    value={value}
-                  />
-                );
-              })}
-
+              {valueCardList.map(({ title, value }, index) => (
+                <ValueCard key={uuidv4()} title={title} value={value} />
+              ))}
               <ChartCard
-                data={lineChartData?.data}
-                dataKeyList={lineChartData?.dataKeyList}
-                type={ChartType.LINE_CHART}
-                style={{ gridArea: `chart-card-1` }}
-                setChartBase64String={setChartBase64String}
-                isShowPDF={isShowPDF}
+                type={ChartType.PIE_CHART}
+                data={statusPieChartData}
+                setChartBase64String={() => {}}
               />
               <ChartCard
-                data={barChartData?.data}
-                type={ChartType.BAR_CHART}
-                style={{ gridArea: `chart-card-2` }}
-                setChartBase64String={setChartBase64String}
+                type={ChartType.TYPE_BAR_CHART}
+                data={typesBarChartData}
+                setChartBase64String={() => {}}
+              />
+              <ChartCard
+                data={epicChartData}
+                type={ChartType.EPIC_BAR_CHART}
+                dataKeyList={epicStatusKeys}
+                setChartBase64String={() => {}}
               />
             </div>
           </div>

@@ -17,12 +17,13 @@ interface IProjectSectionHOC {
   endDate?: Date | null;
   totalIssue: number;
   epic: any;
+  dataTestId?: string;
   children: React.ReactNode;
 }
 
 export default function ProjectSectionHOC(props: IProjectSectionHOC) {
   const { projectId = '' } = useParams();
-  const { title, startDate, endDate, totalIssue, epic, children } = props;
+  const { title, startDate, endDate, totalIssue, epic, dataTestId, children } = props;
   const projectDetails = useContext(ProjectDetailsContext);
   const { showModal, closeModal } = useContext(ModalContext);
 
@@ -57,7 +58,10 @@ export default function ProjectSectionHOC(props: IProjectSectionHOC) {
   };
 
   return (
-    <section className={[styles.container, styles.sprintContainer].join(' ')}>
+    <section
+      className={[styles.container, styles.sprintContainer].join(' ')}
+      data-testid={dataTestId}
+    >
       <div className={styles.header}>
         <div className={styles.heading}>
           <h1>{title}</h1>

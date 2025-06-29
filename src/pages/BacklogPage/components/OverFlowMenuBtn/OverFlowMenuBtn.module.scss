@@ -4,7 +4,7 @@ $bgColorDarkGray: rgb(216, 216, 216);
 $bgColorDark: rgb(40, 54, 84);
 $borderColor: #ebecf0;
 .optionBtnContainer {
-  visibility: hidden;
+  display: block;
   position: relative;
   .optionBtn {
     width: 30px;
@@ -20,7 +20,6 @@ $borderColor: #ebecf0;
       background-color: $bgColorDarkGray;
     }
   }
-
 
   .clickOptionBtn {
     background-color: $bgColorDark;

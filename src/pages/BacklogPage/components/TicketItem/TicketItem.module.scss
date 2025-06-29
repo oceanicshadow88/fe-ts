@@ -23,7 +23,7 @@ $btHoverBg: rgb(245, 245, 247);
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  height: 40px;
+  padding: 5px 0;
   font-size: 15px;
   &:hover {
     .editButton {
@@ -64,6 +64,7 @@ $btHoverBg: rgb(245, 245, 247);
     display: flex;
     width: calc(100% - 268px);
     height: 100%;
+    align-items: center;
 
     .taskIdContainer {
       width: 100%;

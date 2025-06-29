@@ -39,11 +39,19 @@ declare global {
       mount: typeof mount;
       setupTestEnvironment(routeElement: React.ReactElement, routerName: string): Chainable<any>;
       mockGlobalRequest(): Chainable<any>;
+      dragAndDrop(subject: string, target: string): Chainable<void>;
     }
   }
 }
 export const defaultMockUser = new UserBuilder().build();
-export const defaultMockProject = new ProjectBuilder().withName('TT').build();
+export const defaultMockProject = new ProjectBuilder()
+  .withName('TT')
+  .withOwner({
+    id: defaultMockUser.id,
+    name: defaultMockUser.name,
+    email: defaultMockUser.email
+  })
+  .build();
 const mockProjects = [defaultMockProject];
 Cypress.Commands.add('mount', mount);
 
@@ -68,13 +76,24 @@ Cypress.Commands.add('mockGlobalRequest', () => {
     body: {}
   }).as('getIsCurrentUserOwner');
 
+  // eslint-disable-next-line no-secrets/no-secrets
+  cy.intercept('GET', `**/api/v2/tenants/owner?userId=67da9e58d29a0b82bb478c38`, {
+    statusCode: 200,
+    body: true
+  }).as('getOwner');
+
   cy.intercept('POST', '**/api/v2/auto-fetch-userInfo', { user: defaultMockUser }).as('userMe');
+
+  cy.intercept('GET', `**/api/v2/tenants/owner?userId=${defaultMockUser.id}`, {
+    statusCode: 200,
+    body: true
+  }).as('getTenantOwner');
 });
 
 Cypress.Commands.add('setupTestEnvironment', (routeElement, routerName) => {
   const today = new Date();
   cy.stub(localStorage, 'getItem')
-    .withArgs('is_admin')
+    .withArgs('isCurrentUserOwner')
     .returns('true')
     .withArgs('user_id')
     .returns(defaultMockUser.id)
@@ -103,7 +122,11 @@ Cypress.Commands.add('setupTestEnvironment', (routeElement, routerName) => {
           permission: [{ slug: 'edit:shortcut' }, { slug: 'delete:shortcut' }]
         }
       })
-    );
+    )
+    .withArgs('is_superUser')
+    .returns('true')
+    .withArgs('isCurrentUserOwner')
+    .returns('true');
 
   // Override the imported checkAccess function to use our stubs
   // eslint-disable-next-line no-unused-vars
