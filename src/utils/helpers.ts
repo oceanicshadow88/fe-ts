@@ -26,7 +26,9 @@ const checkAccess = (accessLevel: string, projectId?: string) => {
 
     userProjectRoles = JSON.parse(data);
     roleData = JSON.parse(rolesData);
-
+    if (accessLevel === 'add:projects') {
+      return true;
+    }
     if (!projectId) {
       return false;
     }
