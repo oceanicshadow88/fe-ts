@@ -225,31 +225,34 @@ export default function ProjectPage() {
           <h1>Projects</h1>
 
           {checkAccess(Permission.CreateProjects) && (
-            <ButtonV2
-              customStyles={styles.createProjectBtn}
-              text="New project"
-              onClick={() => setShowCreateProjectModal(true)}
-              icon={<IoIosAdd className={styles.createCardIcon} />}
-              fill
-              dataTestId="board-create-card"
-            />
+            <div className={styles.buttonContainer}>
+              <ButtonV2
+                customStyles={styles.createProjectBtn}
+                text="New project"
+                onClick={() => setShowCreateProjectModal(true)}
+                icon={<IoIosAdd className={styles.createCardIcon} />}
+                fill
+                dataTestId="board-create-card"
+              />
+
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept=".csv, .json"
+                onChange={(e) => {
+                  handleFileUpload(e.target.files);
+                }}
+                style={{ display: 'none' }}
+              />
+              <ButtonV2
+                customStyles={styles.importProjectBtn}
+                text="Import project"
+                onClick={() => fileInputRef.current?.click()}
+                icon={<IoIosAdd className={styles.createCardIcon} />}
+                fill
+              />
+            </div>
           )}
-          <input
-            type="file"
-            ref={fileInputRef}
-            accept=".csv, .json"
-            onChange={(e) => {
-              handleFileUpload(e.target.files);
-            }}
-            style={{ display: 'none' }}
-          />
-          <ButtonV2
-            customStyles={styles.importProjectBtn}
-            text="Import project"
-            onClick={() => fileInputRef.current?.click()}
-            icon={<IoIosAdd className={styles.createCardIcon} />}
-            fill
-          />
         </div>
       </div>
     );
