@@ -63,7 +63,7 @@ export interface ITicketBoard {
   attachmentUrls?: any;
   createdAt?: Date;
   updatedAt?: Date;
-  ticketNumber: string,
+  ticketNumber: string;
   rank?: string;
 }
 
