@@ -40,6 +40,7 @@ export interface ITicketBasic {
   updatedAt?: Date;
   epic: string;
   ticketNumber: string;
+  rank?: string;
 }
 /** **********Combine this with ITicketBasic*************** */
 export interface ITicketBoard {
@@ -62,7 +63,8 @@ export interface ITicketBoard {
   attachmentUrls?: any;
   createdAt?: Date;
   updatedAt?: Date;
-  ticketNumber: string;
+  ticketNumber: string,
+  rank?: string;
 }
 
 export interface ITicketInput {
@@ -85,6 +87,7 @@ export interface ITicketInput {
   epicId?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  rank?: string;
 }
 
 export interface ITicketDetails {

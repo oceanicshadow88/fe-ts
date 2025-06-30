@@ -57,7 +57,7 @@
     "import/prefer-default-export": "off",
     "react/jsx-no-useless-fragment": "off",
     "react/require-default-props": "off",
-    "no-secrets/no-secrets": ["error", { "ignoreContent": "^https" }],
+    "no-secrets/no-secrets": ["error", { "ignoreContent": ["^https", "BASE_62_DIGITS"] }],
     "no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "off",
     "react/button-has-type": [

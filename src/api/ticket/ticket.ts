@@ -64,8 +64,16 @@ export function updateTicketEpic(ticketId: string, epic?: string | null) {
   return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, { epic });
 }
 
-export function updateTicketStatus(ticketId: string, statusId: string) {
-  return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, { status: statusId });
+export function updateTicketStatus(ticketId: string, statusId: string, rank?: string) {
+  const updateData: any = { status: statusId };
+  if (rank) {
+    updateData.rank = rank;
+  }
+  return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, updateData);
+}
+
+export function batchUpdateTicketRanks(updates: Array<{ ticketId: string; rank: string }>) {
+  return alphaApiV2.put(`${config.apiAddressV2}/tickets/batch-update-ranks`, { updates });
 }
 
 export function removeTicket(id: string) {

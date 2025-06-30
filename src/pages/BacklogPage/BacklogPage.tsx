@@ -1,7 +1,4 @@
-/* eslint-disable no-alert */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useContext } from 'react';
-import { toast } from 'react-toastify';
+import React, { useState, useContext, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, DraggableLocation, DropResult } from 'react-beautiful-dnd';
 import BacklogSection from './components/BacklogSection/BacklogSection';
@@ -17,11 +14,12 @@ import CreateIssue, { ICreateIssue } from '../../components/Projects/CreateIssue
 import DroppableTicketItems from '../../components/Projects/DroppableTicketItems/DroppableTicketItems';
 import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import { ModalContext } from '../../context/ModalProvider';
-import { ITicketBasic, ITicketInput } from '../../types';
+import { ISprint, ITicketBasic, ITicketInput } from '../../types';
 import { createNewTicket, updateTicketSprint } from '../../api/ticket/ticket';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
 import checkAccess from '../../utils/helpers';
 import { Permission } from '../../utils/permission';
+import { customCompare, generateKeyBetween } from '../../utils/lexoRank';
 
 export default function BacklogPage() {
   const { projectId = '' } = useParams();
@@ -30,12 +28,8 @@ export default function BacklogPage() {
   const { showModal, closeModal } = useContext(ModalContext);
 
   const fetchBacklogData = async (filterData?: IFilterData | null) => {
-    try {
-      const data = await getBacklogTickets(projectId, filterData);
-      setTickets(data);
-    } catch (e) {
-      toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
-    }
+    const response = await getBacklogTickets(projectId, filterData);
+    setTickets(response.data);
   };
 
   const onChangeFilter = (data: IFilterData) => {
@@ -77,29 +71,79 @@ export default function BacklogPage() {
     return false;
   };
 
+  function calculateNewRank(destination, source, draggableId) {
+    const sectionTickets =
+      destination.droppableId === 'backlog'
+        ? tickets.filter((t) => !t.sprint)
+        : tickets.filter(
+            (t) => t.sprint && String(t.sprint.id ?? t.sprint) === destination.droppableId
+          );
+
+    const sortedTickets = [...sectionTickets].sort((a, b) => customCompare(a?.rank, b?.rank));
+
+    const ticketsWithoutCurrent =
+      source.droppableId === destination.droppableId
+        ? sortedTickets.filter((t) => t.id !== draggableId)
+        : sortedTickets;
+
+    if (destination.index === 0) {
+      const firstTicket = ticketsWithoutCurrent[0];
+      return generateKeyBetween(null, firstTicket?.rank || null);
+    }
+    if (destination.index >= ticketsWithoutCurrent.length) {
+      const lastTicket = ticketsWithoutCurrent[ticketsWithoutCurrent.length - 1];
+      return generateKeyBetween(lastTicket?.rank || null, null);
+    }
+    const prevTicket = ticketsWithoutCurrent[destination.index - 1];
+    const nextTicket = ticketsWithoutCurrent[destination.index];
+    return generateKeyBetween(prevTicket?.rank || null, nextTicket?.rank || null);
+  }
+
   const onDragEventHandler = async (result: DropResult) => {
-    const { destination, draggableId } = result;
+    const { destination, draggableId, source } = result;
+
+    if (!destination) {
+      return;
+    }
 
     if (shouldShowAlert(result)) {
       alert(
-        'Unless it can be finished within this sprint, Please consider move a ticket out of the sprint first, or put it the new ticket in next sprint if it cannot be finished'
+        'Unless it can be finished within this sprint, Please consider move a ticket out of the sprint first, or put the new ticket in next sprint if it cannot be finished'
       );
     }
 
-    const currentTicket = tickets.find((item) => item.id === draggableId);
-    if (!currentTicket) {
-      return;
-    }
-    const droppedFailed = destination?.droppableId === currentTicket.sprint?.id;
-    if (droppedFailed) {
-      return;
-    }
+    const droppedFailed =
+      destination.droppableId === source.droppableId && source.index === destination.index;
 
-    const sprintId = destination?.droppableId === 'backlog' ? null : destination?.droppableId;
+    if (droppedFailed) return;
+
+    const currentTicket = tickets.find((item) => item.id === draggableId);
+    if (!currentTicket) return;
+
+    const sprintId = destination.droppableId === 'backlog' ? null : destination.droppableId;
     const statusId = getStatusId(currentTicket, destination);
 
-    await updateTicketSprint(draggableId, sprintId, { status: statusId });
-    fetchBacklogData(null);
+    const newRank = calculateNewRank(destination, source, draggableId);
+
+    const sprintObj = projectDetails.sprints.find((s) => s.id === sprintId) || undefined;
+    const statusObj = projectDetails.statuses.find((s) => s.id === statusId);
+
+    const updatedTicket = {
+      ...currentTicket,
+      rank: newRank,
+      sprint: sprintObj,
+      status: statusObj
+    };
+
+    setTickets((prevTickets) =>
+      prevTickets.map((ticket) => (ticket.id === draggableId ? updatedTicket : ticket))
+    );
+
+    try {
+      await updateTicketSprint(draggableId, sprintId, { status: statusId, rank: newRank });
+    } catch (error) {
+      alert('Failed to update Ticket!');
+    }
   };
 
   const onIssueCreate = async (data: ITicketInput) => {
@@ -111,7 +155,18 @@ export default function BacklogPage() {
         );
       }
     }
-    await createNewTicket(data);
+
+    const sectionTickets = data.sprintId
+      ? tickets.filter((t) => t.sprint && String(t.sprint.id ?? t.sprint) === data.sprintId)
+      : tickets.filter((t) => !t.sprint);
+
+    const sorted = [...sectionTickets].sort((a, b) => customCompare(a?.rank, b?.rank));
+    const lastRank = sorted.length > 0 ? sorted[sorted.length - 1].rank : null;
+    const newRank = generateKeyBetween(lastRank, null);
+
+    const ticketData = { ...data, rank: newRank };
+
+    await createNewTicket(ticketData);
     fetchBacklogData();
   };
 
@@ -145,7 +200,33 @@ export default function BacklogPage() {
   };
 
   const sprintData = projectDetails?.sprints ?? [];
-  const ticketsBySprintId = tickets?.groupBy('sprint', 'backlog') ?? {};
+
+  const getNormalizedSprintId = (sprint: string | ISprint | null | undefined): string => {
+    if (!sprint) return 'backlog';
+    if (typeof sprint === 'string') return sprint;
+    return sprint.id;
+  };
+
+  const ticketsBySprintId = useMemo(() => {
+    const grouped: Record<string, ITicketBasic[]> = { backlog: [] };
+
+    tickets.forEach((ticket) => {
+      const sprintId = getNormalizedSprintId(ticket.sprint);
+
+      if (!grouped[sprintId]) {
+        grouped[sprintId] = [];
+      }
+
+      grouped[sprintId].push(ticket);
+    });
+
+    Object.keys(grouped).forEach((key) => {
+      grouped[key] = grouped[key].sort((a, b) => customCompare(a?.rank, b?.rank));
+    });
+
+    return grouped;
+  }, [tickets]);
+
   if (projectDetails.isLoadingDetails) {
     return (
       <div className="container">
