@@ -79,3 +79,7 @@ export function batchUpdateTicketRanks(updates: Array<{ ticketId: string; rank: 
 export function removeTicket(id: string) {
   return alphaApiV2.delete(`${config.apiAddressV2}/tickets/${id}`);
 }
+
+export function migrateTicketRanks(projectId: string) {
+  return alphaApiV2.post(`${config.apiAddressV2}/tickets/migrate-ranks`, { projectId });
+}

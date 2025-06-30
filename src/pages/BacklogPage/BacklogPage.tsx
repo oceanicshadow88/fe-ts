@@ -15,7 +15,7 @@ import DroppableTicketItems from '../../components/Projects/DroppableTicketItems
 import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import { ModalContext } from '../../context/ModalProvider';
 import { ISprint, ITicketBasic, ITicketInput } from '../../types';
-import { createNewTicket, updateTicketSprint } from '../../api/ticket/ticket';
+import { createNewTicket, migrateTicketRanks, updateTicketSprint } from '../../api/ticket/ticket';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
 import checkAccess from '../../utils/helpers';
 import { Permission } from '../../utils/permission';
@@ -26,10 +26,32 @@ export default function BacklogPage() {
   const [tickets, setTickets] = useState<ITicketBasic[]>([]);
   const projectDetails = useContext(ProjectDetailsContext);
   const { showModal, closeModal } = useContext(ModalContext);
+  const [isMigrating, setIsMigrating] = useState(false);
 
   const fetchBacklogData = async (filterData?: IFilterData | null) => {
-    const response = await getBacklogTickets(projectId, filterData);
-    setTickets(response.data);
+    try {
+      const response = await getBacklogTickets(projectId, filterData);
+      const ticketsData = response || [];
+      const needsMigration = ticketsData.some((ticket) => !ticket.rank);
+
+      if (needsMigration && !isMigrating) {
+        setIsMigrating(true);
+        try {
+          await migrateTicketRanks(projectId);
+
+          const updatedResponse = await getBacklogTickets(projectId, filterData);
+          setTickets(updatedResponse || []);
+        } catch (error) {
+          alert('Migrate Ticket Ranks Failed!');
+        } finally {
+          setIsMigrating(false);
+        }
+      } else {
+        setTickets(ticketsData);
+      }
+    } catch (error) {
+      setTickets([]);
+    }
   };
 
   const onChangeFilter = (data: IFilterData) => {
@@ -40,7 +62,7 @@ export default function BacklogPage() {
     const movingToSprint = destination?.droppableId !== 'backlog';
     const hasStatus = currentTicket.status;
     if (movingToSprint && !hasStatus) {
-      return projectDetails.statuses[0].id;
+      return projectDetails?.statuses?.[0]?.id;
     }
     return !movingToSprint ? null : currentTicket?.status?.id;
   };
@@ -50,7 +72,7 @@ export default function BacklogPage() {
     const isTargetBackLog = destination?.droppableId === 'backlog';
     const isSourceBackLog = source.droppableId === 'backlog';
     if (!isTargetBackLog && isSourceBackLog) {
-      const targetSprint = projectDetails.sprints.find(
+      const targetSprint = projectDetails?.sprints?.find(
         (item) => item.id === destination?.droppableId
       );
       if (targetSprint?.currentSprint) {
@@ -59,10 +81,10 @@ export default function BacklogPage() {
     }
 
     if (!isTargetBackLog && !isSourceBackLog) {
-      const targetSprint = projectDetails.sprints.find(
+      const targetSprint = projectDetails?.sprints?.find(
         (item) => item.id === destination?.droppableId
       );
-      const sourceSprint = projectDetails.sprints.find((item) => item.id === source?.droppableId);
+      const sourceSprint = projectDetails?.sprints?.find((item) => item.id === source?.droppableId);
 
       if (targetSprint?.currentSprint && !sourceSprint?.currentSprint) {
         return true;
@@ -125,8 +147,8 @@ export default function BacklogPage() {
 
     const newRank = calculateNewRank(destination, source, draggableId);
 
-    const sprintObj = projectDetails.sprints.find((s) => s.id === sprintId) || undefined;
-    const statusObj = projectDetails.statuses.find((s) => s.id === statusId);
+    const sprintObj = projectDetails?.sprints?.find((s) => s.id === sprintId) || undefined;
+    const statusObj = projectDetails?.statuses?.find((s) => s.id === statusId);
 
     const updatedTicket = {
       ...currentTicket,
@@ -148,14 +170,13 @@ export default function BacklogPage() {
 
   const onIssueCreate = async (data: ITicketInput) => {
     if (data.sprintId) {
-      const sprint = projectDetails.sprints.find((item) => item.id === data.sprintId);
+      const sprint = projectDetails?.sprints?.find((item) => item.id === data.sprintId);
       if (sprint?.currentSprint) {
         alert(
           'Unless it can be finished within this sprint, Please consider move a ticket out of the sprint first, or put it the new ticket in next sprint if it cannot be finished'
         );
       }
     }
-
     const sectionTickets = data.sprintId
       ? tickets.filter((t) => t.sprint && String(t.sprint.id ?? t.sprint) === data.sprintId)
       : tickets.filter((t) => !t.sprint);
@@ -165,14 +186,13 @@ export default function BacklogPage() {
     const newRank = generateKeyBetween(lastRank, null);
 
     const ticketData = { ...data, rank: newRank };
-
     await createNewTicket(ticketData);
     fetchBacklogData();
   };
 
   const calculateShowDropDownTop = () => {
     let totalIncompleteSprint = 0;
-    projectDetails.sprints.forEach((sprint) => {
+    projectDetails?.sprints?.forEach((sprint) => {
       if (!sprint.isComplete) {
         totalIncompleteSprint += 1;
       }
@@ -210,7 +230,7 @@ export default function BacklogPage() {
   const ticketsBySprintId = useMemo(() => {
     const grouped: Record<string, ITicketBasic[]> = { backlog: [] };
 
-    tickets.forEach((ticket) => {
+    tickets?.forEach((ticket) => {
       const sprintId = getNormalizedSprintId(ticket.sprint);
 
       if (!grouped[sprintId]) {

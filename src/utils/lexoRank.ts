@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-secrets/no-secrets
 export const BASE_62_DIGITS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 export function customCompare(a?: string, b?: string): number {
@@ -248,9 +249,9 @@ export function generateNKeysBetween(
 }
 
 export function rebalanceRanks(ranks?: string[]): string[] {
-  if (!ranks){
+  if (!ranks) {
     return [];
   }
   const newRanks = generateNKeysBetween(null, null, ranks.length);
-  return newRanks; 
+  return newRanks;
 }
