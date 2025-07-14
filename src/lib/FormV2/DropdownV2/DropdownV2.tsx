@@ -61,8 +61,6 @@ export default function DropdownV2(props: IDropdownV2) {
     if (onValueBlur) {
       onValueBlur(e);
     }
-    // const errorMessage = getErrorMessage(e.target.value, props);
-    // setError(errorMessage);
     setIsActive(false);
   };
 
