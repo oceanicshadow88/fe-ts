@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styles from './BoardPage.module.scss';
@@ -14,6 +14,7 @@ import ProjectHOC from '../../components/HOC/ProjectHOC';
 import CreateBoardTicket from './components/CreateBoardTicket/CreateBoardTicket';
 import ButtonV2 from '../../lib/FormV2/ButtonV2/ButtonV2';
 import { getSprintById } from '../../utils/sprintUtils';
+import { generateKeyBetween, customCompare } from '../../utils/lexoRank';
 
 export default function BoardPage() {
   const [tickets, setTickets] = useState<ITicketBoard[]>([]);
@@ -63,6 +64,26 @@ export default function BoardPage() {
     fetchSprintTickets(null);
   }, [selectedSprint, projectDetails.isLoadingDetails]);
 
+  const ticketsByStatus = useMemo(() => {
+    const grouped: Record<string, ITicketBoard[]> = {};
+
+    boardDetails?.statuses.forEach((status) => {
+      grouped[status.id] = [];
+    });
+
+    tickets.forEach((ticket) => {
+      if (ticket.status && grouped[ticket.status]) {
+        grouped[ticket.status].push(ticket);
+      }
+    });
+
+    Object.keys(grouped).forEach((statusId) => {
+      grouped[statusId] = grouped[statusId].sort((a, b) => customCompare(a?.rank, b?.rank));
+    });
+
+    return grouped;
+  }, [tickets, boardDetails]);
+
   if (projectDetails.isLoadingDetails) {
     return <></>;
   }
@@ -70,24 +91,115 @@ export default function BoardPage() {
   const loading = projectDetails.isLoadingDetails;
 
   const onTicketCreate = async (data) => {
-    const res = await createNewTicket(data);
+    const allTicketsSorted = tickets.sort((a, b) => customCompare(a?.rank, b?.rank));
+
+    const newRank =
+      allTicketsSorted.length > 0
+        ? generateKeyBetween(allTicketsSorted[allTicketsSorted.length - 1]?.rank, null)
+        : generateKeyBetween(null, null);
+
+    const ticketData = { ...data, rank: newRank };
+
+    const res = await createNewTicket(ticketData);
     setTickets([...tickets, res.data]);
   };
 
-  const dragEventHandler = (result: DropResult) => {
-    const toId = result.destination?.droppableId;
-    const ticketId = result.draggableId;
-    if (!toId) {
+  const getGlobalTicketRank = (
+    destinationIndex: number,
+    allTicketsSorted: ITicketBoard[],
+    destinationTickets: ITicketBoard[]
+  ) => {
+    if (destinationIndex === 0) {
+      const [topTicket] = destinationTickets;
+      if (topTicket) {
+        const globalIndex = allTicketsSorted.findIndex((t) => t.id === topTicket.id);
+        const prevTicket = globalIndex > 0 ? allTicketsSorted[globalIndex - 1] : undefined;
+        return { prevRank: prevTicket?.rank || null, nextRank: topTicket.rank };
+      }
+    } else if (destinationIndex >= destinationTickets.length) {
+      const lastTicket = destinationTickets[destinationTickets.length - 1];
+      if (lastTicket) {
+        const globalIndex = allTicketsSorted.findIndex((t) => t.id === lastTicket.id);
+        const nextTicket =
+          globalIndex < allTicketsSorted.length - 1 ? allTicketsSorted[globalIndex + 1] : undefined;
+        return { prevRank: lastTicket.rank, nextRank: nextTicket?.rank || null };
+      }
+    }
+    const prevTicket = destinationTickets[destinationIndex - 1];
+    const prevGlobalIndex = allTicketsSorted.findIndex((t) => t.id === prevTicket.id);
+
+    const nextTicket = allTicketsSorted[prevGlobalIndex + 1];
+    return { prevRank: prevTicket?.rank, nextRank: nextTicket?.rank };
+  };
+
+  const dragEventHandler = async (result: DropResult) => {
+    const { destination, source, draggableId } = result;
+
+    if (!destination) {
       return;
     }
 
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
+
+    const ticketId = draggableId;
     const ticket = tickets.find((item) => item.id === ticketId);
     if (!ticket) {
       return;
     }
-    const updateTicket = { ...ticket, ...{ status: toId } };
-    setTickets(tickets.map((item) => (item.id === ticketId ? updateTicket : item)));
-    updateTicketStatus(ticketId, toId);
+
+    const allTicketsSorted = tickets
+      .filter((t) => t.id !== ticketId)
+      .sort((a, b) => customCompare(a?.rank, b?.rank));
+
+    const destinationTickets = allTicketsSorted.filter((t) => t.status === destination.droppableId);
+
+    let newRank: string | undefined;
+    let needsRankUpdate = false;
+
+    if (destinationTickets.length !== 0) {
+      const { prevRank, nextRank } = getGlobalTicketRank(
+        destination.index,
+        allTicketsSorted,
+        destinationTickets
+      );
+
+      if (destination.droppableId === source.droppableId) {
+        needsRankUpdate = true;
+        newRank = generateKeyBetween(prevRank, nextRank);
+      } else {
+        const currentRank = ticket.rank || '';
+        const fitsCorrectly =
+          (prevRank === null || customCompare(prevRank, currentRank) < 0) &&
+          (nextRank === null || customCompare(currentRank, nextRank) < 0);
+
+        if (fitsCorrectly) {
+          needsRankUpdate = false;
+        } else {
+          needsRankUpdate = true;
+          newRank = generateKeyBetween(prevRank, nextRank);
+        }
+      }
+    }
+
+    const updatedTicket = {
+      ...ticket,
+      status: destination.droppableId,
+      ...(needsRankUpdate && newRank ? { rank: newRank } : {})
+    };
+
+    setTickets(tickets.map((item) => (item.id === ticketId ? updatedTicket : item)));
+
+    try {
+      if (needsRankUpdate && newRank) {
+        await updateTicketStatus(ticketId, destination.droppableId, newRank);
+      } else {
+        await updateTicketStatus(ticketId, destination.droppableId);
+      }
+    } catch (error) {
+      fetchSprintTickets(null);
+    }
   };
 
   const onChangeFilter = (filterData: IFilterData) => {
@@ -101,7 +213,6 @@ export default function BoardPage() {
   if (loading) {
     return <></>;
   }
-  const ticketByStatus = tickets?.groupBy('status') ?? [];
 
   const sprintsOptions = projectDetails.sprints
     .filter((item) => item.currentSprint)
@@ -146,7 +257,7 @@ export default function BoardPage() {
                     key={column.id}
                     name={column.name}
                     id={column.id}
-                    totalTicket={ticketByStatus[column.id]?.length ?? 0}
+                    totalTicket={ticketsByStatus[column.id]?.length ?? 0}
                     projectId={projectId}
                     sprintId={selectedSprint.id}
                     createBtn={
@@ -158,7 +269,7 @@ export default function BoardPage() {
                             status: column.id,
                             type: data.type,
                             project: projectId,
-                            sprint: sprintId,
+                            sprintId,
                             dueAt: new Date(),
                             description: ''
                           });
@@ -167,7 +278,7 @@ export default function BoardPage() {
                       />
                     }
                   >
-                    {ticketByStatus[column.id]?.map((item, index) => (
+                    {ticketsByStatus[column.id]?.map((item, index) => (
                       <DraggableBoardCard
                         key={item.id}
                         item={item}
