@@ -42,7 +42,7 @@ export default function MultiSelectDropdownV2(props: IMultiSelectDropdownV2) {
 
   const onChangeSelect = (item) => {
     const e = { target: { value: item.value, label: item.label } };
-    const errorMessage = getErrorMessage(e, props);
+    const errorMessage = getErrorMessage(e.target.value, props);
     setError(errorMessage);
 
     const updateSelectedItems = [...selectedItems, item];

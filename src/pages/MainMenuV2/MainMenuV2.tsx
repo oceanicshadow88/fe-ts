@@ -73,7 +73,7 @@ export default function MainMenuV2() {
 
   useEffect(() => {
     getCustomerId().then((data) => {
-      setCustomerId(data.data);
+      setCustomerId(data?.data);
     });
   }, []);
 

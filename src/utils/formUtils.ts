@@ -6,19 +6,19 @@ export const defaultErrorMessage = (label) => {
   };
 };
 
-export const getErrorMessage = (e, props) => {
+export const getErrorMessage = (value, props) => {
   const { required = false, label = '', min = null, max = null } = props;
 
-  if (required && !e.target.value) {
+  if (required && !value) {
     return defaultErrorMessage(label).required;
   }
-  if (min && e.target.value) {
-    if (min > e.target.value) {
+  if (min && value) {
+    if (min > value) {
       return defaultErrorMessage(label).min + min;
     }
   }
-  if (max && e.target.value) {
-    if (max < e.target.value) {
+  if (max && value) {
+    if (max < value) {
       return defaultErrorMessage(label).max + max;
     }
   }

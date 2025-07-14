@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unused-prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import { getErrorMessage } from '../../../utils/formUtils';
 import styles from '../FormV2.module.scss';
 
@@ -19,36 +19,49 @@ interface IInputV2 {
   loading?: boolean;
   classes?: string | string[];
   value?: string;
+  mode?: 'onChange' | 'onBlur';
+}
+export interface InputV2Handle {
+  validate: () => boolean;
 }
 
-export default function InputV2(props: IInputV2) {
+const InputV2 = forwardRef<InputV2Handle, IInputV2>((props, ref) => {
   const {
-    defaultValue,
+    defaultValue = '',
     name,
     label,
-    placeHolder,
-    type,
-    required,
+    placeHolder = '',
+    type = 'text',
+    required = false,
     onValueChanged,
-    onValueBlur,
+    onValueBlur = () => {},
     dataTestId,
     loading = false,
-    classes,
-    value
+    classes = '',
+    value = null,
+    mode = 'onChange'
   } = props;
   const [val, setVal] = useState(defaultValue);
   const [hadDefaultValue, setHadDefaultValue] = useState(value === null);
   const [error, setError] = useState<null | string>(null);
   const [isActive, setIsActive] = useState(false);
-  useEffect(() => {
-    if (value !== null) {
-      setHadDefaultValue(false);
-    }
-  }, [value]);
+
+  const actualValue = hadDefaultValue ? val ?? '' : value ?? '';
+
+  const checkError = (targetValue = val ?? '') => {
+    const errorMessage = getErrorMessage(targetValue, props);
+    setError(errorMessage);
+    return errorMessage === null;
+  };
+
+  useImperativeHandle(ref, () => ({
+    validate: () => checkError(actualValue)
+  }));
 
   const onChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const errorMessage = getErrorMessage(e, props);
-    setError(errorMessage);
+    if (mode === 'onChange') {
+      checkError(e.target.value);
+    }
     if (hadDefaultValue) {
       setVal(e.target.value);
     }
@@ -56,11 +69,20 @@ export default function InputV2(props: IInputV2) {
   };
 
   const onBlurValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (mode === 'onBlur') {
+      checkError(e.target.value);
+    }
     if (onValueBlur) {
       onValueBlur(e);
     }
     setIsActive(false);
   };
+
+  useEffect(() => {
+    if (value !== null) {
+      setHadDefaultValue(false);
+    }
+  }, [value]);
 
   useEffect(() => {
     if (!loading) {
@@ -107,17 +129,6 @@ export default function InputV2(props: IInputV2) {
       {error && <p className={styles.errorMessage}>{error}</p>}
     </div>
   );
-}
+});
 
-InputV2.defaultProps = {
-  required: false,
-  placeHolder: '',
-  type: 'text',
-  min: null,
-  max: null,
-  onValueBlur: null,
-  loading: false,
-  classes: null,
-  value: null,
-  defaultValue: null
-};
+export default InputV2;
