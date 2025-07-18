@@ -4,7 +4,6 @@ import { optimizeContent } from '../../../api/ai/ai';
 
 type AiAction = 'optimizeTicketDescription' | 'optimizeText';
 
-// 将字段名转换为可读格式
 function formatFieldName(key: string): string {
   // 特殊字段处理
   const specialFields: Record<string, string> = {

@@ -11,16 +11,11 @@ export interface AiOptimizeStructuredResponse {
   data: {
     include_pass_test: string;
     url_page: string;
-    limitation: string;
-    effect_related_functions: string;
-    technical_details: string;
-    description: string;
-    acceptance_criteria: Array<{
-      given: string;
-      when: string;
-      then: string;
-      and: string;
-    }>;
+    limitation: Array<string>;
+    effect_related_functions: Array<string>;
+    technical_details: Array<string>;
+    description: Array<string>;
+    acceptance_criteria: Array<string>;
   };
 }
 
