@@ -95,24 +95,94 @@ $hover-bg-color: #e0e0e0;
   }
 }
 
+/* 彩虹边框动画 */
+@keyframes rainbow-border {
+  0% {
+    border-color: #ff0000;
+    box-shadow: 0 0 5px #ff0000;
+  }
+  16.7% {
+    border-color: #ff8000;
+    box-shadow: 0 0 5px #ff8000;
+  }
+  33.3% {
+    border-color: #ffff00;
+    box-shadow: 0 0 5px #ffff00;
+  }
+  50% {
+    border-color: #00ff00;
+    box-shadow: 0 0 5px #00ff00;
+  }
+  66.7% {
+    border-color: #00ffff;
+    box-shadow: 0 0 5px #00ffff;
+  }
+  83.3% {
+    border-color: #7a00ff;
+    box-shadow: 0 0 5px #7a00ff;
+  }
+  100% {
+    border-color: #ff00ff;
+    box-shadow: 0 0 5px #ff00ff;
+  }
+}
+
 .aiButton {
   background-color: transparent;
   border: none;
-  padding: 3px 6px;
-  margin: 0 5px;
-  height: 28px;
+  padding: 3px 10px;
+  margin: 10px 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+
+  svg {
+    color: #007bff;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
 
   &:hover {
-    transform: scale(1.1);
+    background-color: #e0e0e0;
+
+    svg {
+      transform: scale(1.1);
+    }
   }
 
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+  }
+}
+
+/* 加载状态下的彩虹边框特效 */
+.aiButton:disabled {
+  background-color: transparent;
+  opacity: 1;
+  // transform: scale(1);
+  // border: 2px solid transparent;
+  animation: rainbow-border 2s linear infinite;
+
+  svg {
+    color: #007bff;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
   }
 }
