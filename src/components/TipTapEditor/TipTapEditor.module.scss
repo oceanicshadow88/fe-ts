@@ -154,3 +154,44 @@
     background-color: #0056b3;
   }
 }
+
+@keyframes rainbow-color {
+  0% {
+    border-color: #ff0000;
+    box-shadow: 0 0 8px #ff0000;
+  }
+  16.7% {
+    border-color: #ff8000;
+    box-shadow: 0 0 8px #ff8000;
+  }
+  33.3% {
+    border-color: #ffff00;
+    box-shadow: 0 0 8px #ffff00;
+  }
+  50% {
+    border-color: #00ff00;
+    box-shadow: 0 0 8px #00ff00;
+  }
+  66.7% {
+    border-color: #00ffff;
+    box-shadow: 0 0 8px #00ffff;
+  }
+  83.3% {
+    border-color: #7a00ff;
+    box-shadow: 0 0 8px #7a00ff;
+  }
+  100% {
+    border-color: #ff00ff;
+    box-shadow: 0 0 8px #ff00ff;
+  }
+}
+
+.baseBorder {
+  box-shadow: none;
+  transition: transform 0.3s ease;
+}
+
+.rainbowBorder {
+  animation: rainbow-color 2s linear infinite;
+  transform: translate(-1px, -1px);
+}

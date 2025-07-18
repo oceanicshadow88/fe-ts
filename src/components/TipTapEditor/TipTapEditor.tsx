@@ -80,13 +80,16 @@ function TipTapEditor({
 
   return (
     <div className={style.commentEditor}>
-      <TooLBar
-        editor={editor}
-        groups={CommentEditorToolBarButtonConfig}
-        onAiButtonClick={handleAiOptimize}
-        loading={isLoading}
-      />
-      <EditorContent editor={editor} />
+      <div className={`${style.baseBorder} ${isLoading ? style.rainbowBorder : ''}`}>
+        <TooLBar
+          editor={editor}
+          groups={CommentEditorToolBarButtonConfig}
+          onAiButtonClick={handleAiOptimize}
+          loading={isLoading}
+        />
+        <EditorContent editor={editor} />
+      </div>
+
       <div className={style.buttonContainer}>
         <button onClick={handleSubmit} className={style.submitButton}>
           {!isContentEmpty(initialContent) ? 'Update' : 'Submit'}
