@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { JSONContent } from '@tiptap/core';
@@ -18,6 +18,8 @@ interface ICommentEditorProps {
 }
 
 function TipTapEditor({ onSubmit, onCancel, initialContent, users }: ICommentEditorProps) {
+  const [isAiOptimizing, setIsAiOptimizing] = useState(false);
+
   const editor = useEditor({
     extensions: [StarterKit, ImageResize, createMentionExtension(users), DropUploadImageExtension],
     content: initialContent || ''
@@ -62,13 +64,37 @@ function TipTapEditor({ onSubmit, onCancel, initialContent, users }: ICommentEdi
     editor.commands.clearContent();
   };
 
+  const handleAiOptimize = async () => {
+    if (!editor || isAiOptimizing) {
+      return;
+    }
+
+    setIsAiOptimizing(true);
+
+    try {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 2000);
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('AI optimization failed:', error);
+    } finally {
+      setIsAiOptimizing(false);
+    }
+  };
+
   if (!editor) {
     return null;
   }
 
   return (
     <div className={style.commentEditor}>
-      <TooLBar editor={editor} groups={CommentEditorToolBarButtonConfig} />
+      <TooLBar
+        editor={editor}
+        groups={CommentEditorToolBarButtonConfig}
+        onAiOptimize={handleAiOptimize}
+        loading={isAiOptimizing}
+      />
       <EditorContent editor={editor} />
       <div className={style.buttonContainer}>
         <button onClick={handleSubmit} className={style.submitButton}>
