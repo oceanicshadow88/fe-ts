@@ -20,11 +20,11 @@ export interface IButtonGroup {
 interface IToolbarProps {
   editor: Editor | null;
   groups?: IButtonGroup[];
-  onAiOptimize?: () => void;
+  onAiButtonClick?: () => void;
   loading?: boolean;
 }
 
-function Toolbar({ editor, groups = [], onAiOptimize, loading }: IToolbarProps) {
+function Toolbar({ editor, groups = [], onAiButtonClick, loading }: IToolbarProps) {
   const [openGroup, setOpenGroup] = useState<string | null>(null);
 
   const { visible, setVisible, myRef } = useOutsideAlerter(false);
@@ -73,8 +73,8 @@ function Toolbar({ editor, groups = [], onAiOptimize, loading }: IToolbarProps) 
         </div>
       ))}
 
-      {onAiOptimize && (
-        <button onClick={onAiOptimize} disabled={loading}>
+      {onAiButtonClick && (
+        <button onClick={onAiButtonClick} disabled={loading} title="AI Optimize">
           <FaMagic color={loading ? '#aaa' : '#007bff'} size={20} />
         </button>
       )}

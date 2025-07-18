@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { JSONContent } from '@tiptap/core';
@@ -9,16 +9,24 @@ import { CommentEditorToolBarButtonConfig } from './@const/CommentEditorToolBarB
 import { IUserInfo } from '../../types';
 import { createMentionExtension } from './@const/MentionExtension';
 import { DropUploadImageExtension } from './@const/DropUploadImageExtension';
+import { useAiOptimize } from './hooks/useAiOptimize';
 
 interface ICommentEditorProps {
   onSubmit: (content: JSONContent) => void;
   onCancel: () => void;
   initialContent?: JSONContent;
   users: IUserInfo[];
+  aiOptimizeAction: 'optimizeTicketDescription' | 'optimizeText';
 }
 
-function TipTapEditor({ onSubmit, onCancel, initialContent, users }: ICommentEditorProps) {
-  const [isAiOptimizing, setIsAiOptimizing] = useState(false);
+function TipTapEditor({
+  onSubmit,
+  onCancel,
+  initialContent,
+  users,
+  aiOptimizeAction
+}: ICommentEditorProps) {
+  const { optimize, isLoading } = useAiOptimize();
 
   const editor = useEditor({
     extensions: [StarterKit, ImageResize, createMentionExtension(users), DropUploadImageExtension],
@@ -45,41 +53,22 @@ function TipTapEditor({ onSubmit, onCancel, initialContent, users }: ICommentEdi
   };
 
   const handleSubmit = () => {
-    if (!editor) {
-      return;
-    }
+    if (!editor) return;
 
     const content = editor.getJSON();
-
-    if (isContentEmpty(content)) {
-      return;
-    }
-
-    if (isContentUnchanged(content)) {
-      return;
-    }
+    if (isContentEmpty(content) || isContentUnchanged(content)) return;
 
     onSubmit(content);
-
     editor.commands.clearContent();
   };
 
+  // AI优化按钮点击逻辑，使用新版useAiOptimize
   const handleAiOptimize = async () => {
-    if (!editor || isAiOptimizing) {
-      return;
-    }
-
-    setIsAiOptimizing(true);
-
-    try {
-      await new Promise((resolve) => {
-        setTimeout(resolve, 2000);
-      });
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('AI optimization failed:', error);
-    } finally {
-      setIsAiOptimizing(false);
+    if (!editor) return;
+    const text = editor.getText();
+    const result = await optimize(text, aiOptimizeAction);
+    if (result) {
+      editor.commands.setContent(result);
     }
   };
 
@@ -92,8 +81,8 @@ function TipTapEditor({ onSubmit, onCancel, initialContent, users }: ICommentEdi
       <TooLBar
         editor={editor}
         groups={CommentEditorToolBarButtonConfig}
-        onAiOptimize={handleAiOptimize}
-        loading={isAiOptimizing}
+        onAiButtonClick={handleAiOptimize}
+        loading={isLoading}
       />
       <EditorContent editor={editor} />
       <div className={style.buttonContainer}>
