@@ -1,62 +1,107 @@
+import { JSONContent } from '@tiptap/core';
 import { useState } from 'react';
 import { optimizeContent } from '../../../api/ai/ai';
 
 type AiAction = 'optimizeTicketDescription' | 'optimizeText';
 
-function formatStructuredData(data: any): string {
-  return `
-<div>
-  <h3>include_pass_test</h3>
-  <p>${data.include_pass_test}</p>
-</div>
+// 将字段名转换为可读格式
+function formatFieldName(key: string): string {
+  // 特殊字段处理
+  const specialFields: Record<string, string> = {
+    url_page: 'URL Page',
+    effect_related_functions: 'Effect Related Functions',
+    include_pass_test: 'Include Pass Test',
+    technical_details: 'Technical Details',
+    acceptance_criteria: 'Acceptance Criteria'
+  };
 
-<div>
-  <h3>url_page</h3>
-  <p>${data.url_page}</p>
-</div>
+  // 如果是特殊字段，直接返回映射值
+  if (specialFields[key]) {
+    return specialFields[key];
+  }
 
-<div>
-  <h3>limitation</h3>
-  <p>${data.limitation}</p>
-</div>
+  // 一般字段：将下划线替换为空格，每个单词首字母大写
+  return key
+    .split('_')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
 
-<div>
-  <h3>effect_related_functions</h3>
-  <p>${data.effect_related_functions}</p>
-</div>
+function convertDataToJSONContent(data: any): JSONContent {
+  const content: JSONContent[] = [];
 
-<div>
-  <h3>technical_details</h3>
-  <p>${data.technical_details}</p>
-</div>
+  // 添加主标题
+  content.push({
+    type: 'heading',
+    attrs: { level: 1 },
+    content: [{ type: 'text', text: 'Feature Requirements' }]
+  });
 
-<div>
-  <h3>description</h3>
-  <p>${data.description}</p>
-</div>
+  // 固定顺序：先处理description和url_page
+  const priorityFields = ['description', 'url_page'];
+  priorityFields.forEach((key) => {
+    if (data[key]) {
+      // 添加字段标题
+      content.push({
+        type: 'heading',
+        attrs: { level: 2 },
+        content: [{ type: 'text', text: formatFieldName(key) }]
+      });
 
-<div>
-  <h3>acceptance_criteria</h3>
-  ${data.acceptance_criteria
-    .map(
-      (criteria: any) => `
-  <div>
-    <p><strong>GIVEN:</strong> ${criteria.given}</p>
-    <p><strong>WHEN:</strong> ${criteria.when}</p>
-    <p><strong>THEN:</strong> ${criteria.then}</p>
-    ${criteria.and ? `<p><strong>AND:</strong> ${criteria.and}</p>` : ''}
-  </div>
-  `
-    )
-    .join('')}
-</div>
-  `.trim();
+      // 字符串类型直接显示
+      content.push({
+        type: 'paragraph',
+        content: [{ type: 'text', text: String(data[key]) }]
+      });
+    }
+  });
+
+  // 处理其他字段
+  Object.entries(data).forEach(([key, value]) => {
+    // 跳过已处理的字段和空值
+    if (priorityFields.includes(key) || !value || (Array.isArray(value) && value.length === 0)) {
+      return;
+    }
+
+    // 添加字段标题
+    content.push({
+      type: 'heading',
+      attrs: { level: 2 },
+      content: [{ type: 'text', text: formatFieldName(key) }]
+    });
+
+    // 处理值：字符串直接显示，数组使用列表
+    if (Array.isArray(value)) {
+      // 不使用列表，改为每项一个段落，前面加上"• "
+      value.forEach((item) => {
+        content.push({
+          type: 'paragraph',
+          content: [{ type: 'text', text: `- ${String(item)}` }]
+        });
+      });
+    } else {
+      // 字符串类型直接显示
+      content.push({
+        type: 'paragraph',
+        content: [{ type: 'text', text: String(value) }]
+      });
+    }
+  });
+
+  return { type: 'doc', content };
+}
+
+function formatPlainText(data: any): string {
+  return typeof data === 'string' ? data : '';
 }
 
 export function useAiOptimize() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const optimize = async (text: string, action: AiAction): Promise<string | undefined> => {
+  const optimize = async (
+    text: string,
+    action: AiAction
+  ): Promise<JSONContent | string | undefined> => {
     if (!text.trim() || isLoading) return undefined;
     setIsLoading(true);
     try {
@@ -65,12 +110,12 @@ export function useAiOptimize() {
         action
       });
       if (response.data.success) {
-        if (action === 'optimizeText') {
-          return response.data.data as string;
+        if (action === 'optimizeTicketDescription') {
+          return convertDataToJSONContent(response.data.data);
         }
-        // optimizeTicketDescription
-        const data = response.data.data as any;
-        return formatStructuredData(data);
+        if (action === 'optimizeText') {
+          return formatPlainText(response.data.data);
+        }
       }
       return undefined;
     } catch (error) {

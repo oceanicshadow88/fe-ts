@@ -68,6 +68,8 @@ function TipTapEditor({
     const text = editor.getText();
     const result = await optimize(text, aiOptimizeAction);
     if (result) {
+      // 对于JSONContent，使用setContent直接设置
+      // 对于string，TipTap会自动解析
       editor.commands.setContent(result);
     }
   };
