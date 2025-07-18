@@ -74,8 +74,13 @@ function Toolbar({ editor, groups = [], onAiButtonClick, loading }: IToolbarProp
       ))}
 
       {onAiButtonClick && (
-        <button onClick={onAiButtonClick} disabled={loading} title="AI Optimize">
-          <FaMagic color={loading ? '#aaa' : '#007bff'} size={20} />
+        <button
+          onClick={onAiButtonClick}
+          disabled={loading}
+          title="AI Optimize"
+          className={style.aiButton}
+        >
+          <FaMagic color={loading ? '#aaa' : '#007bff'} size={17} />
         </button>
       )}
     </div>
