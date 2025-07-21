@@ -21,11 +21,11 @@ interface IInputV2 {
   value?: string;
   mode?: 'onChange' | 'onBlur';
 }
-export interface InputV2Handle {
+export interface IInputV2Handle {
   validate: () => boolean;
 }
 
-const InputV2 = forwardRef<InputV2Handle, IInputV2>((props, ref) => {
+const InputV2 = forwardRef<IInputV2Handle, IInputV2>((props, ref) => {
   const {
     defaultValue = '',
     name,

@@ -16,8 +16,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import checkAccess from '../../utils/helpers';
 import MainMenuV2 from '../MainMenuV2/MainMenuV2';
 import ButtonV2 from '../../lib/FormV2/ButtonV2/ButtonV2';
-import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
-import InputV2, { InputV2Handle } from '../../lib/FormV2/InputV2/InputV2';
+import DropdownV2, { IDropdownV2Handle } from '../../lib/FormV2/DropdownV2/DropdownV2';
+import InputV2, { IInputV2Handle } from '../../lib/FormV2/InputV2/InputV2';
 import SubSettingMenu from '../../lib/SubSettingMenu/SubSettingMenu';
 import Modal from '../../lib/Modal/Modal';
 
@@ -61,10 +61,11 @@ export default function Setting() {
   const [userList, setUserList] = useState<any>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const nameRef = useRef<InputV2Handle>(null);
-  const projectKeyRef = useRef<InputV2Handle>(null);
-  const webUrlRef = useRef<InputV2Handle>(null);
-  const descriptionRef = useRef<InputV2Handle>(null);
+  const nameRef = useRef<IInputV2Handle>(null);
+  const projectKeyRef = useRef<IInputV2Handle>(null);
+  const webUrlRef = useRef<IInputV2Handle>(null);
+  const descriptionRef = useRef<IInputV2Handle>(null);
+  const projectLeadRef = useRef<IDropdownV2Handle>(null);
 
   useEffect(() => {
     if (Object.keys(userInfo).length === 0 || !userInfo) {
@@ -131,8 +132,15 @@ export default function Setting() {
     const isProjectKeyValid = projectKeyRef.current?.validate() ?? false;
     const isWebUrlValid = webUrlRef.current?.validate() ?? false;
     const isDescriptionValid = descriptionRef.current?.validate() ?? false;
+    const isProjectLeadValid = projectLeadRef.current?.validate() ?? false;
 
-    if (!isNameValid || !isProjectKeyValid || !isWebUrlValid || !isDescriptionValid) {
+    if (
+      !isNameValid ||
+      !isProjectKeyValid ||
+      !isWebUrlValid ||
+      !isDescriptionValid ||
+      !isProjectLeadValid
+    ) {
       return;
     }
 
@@ -204,6 +212,8 @@ export default function Setting() {
             </div>
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <DropdownV2
+                ref={projectLeadRef}
+                addNullOptions
                 label="Project Lead"
                 dataTestId="projectLead"
                 onValueChanged={onChange}
