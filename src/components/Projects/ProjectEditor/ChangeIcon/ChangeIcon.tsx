@@ -48,7 +48,3 @@ export default function ChangeIcon(props: IChangeIconProps) {
     </div>
   );
 }
-
-ChangeIcon.defaultProps = {
-  loading: false
-};
