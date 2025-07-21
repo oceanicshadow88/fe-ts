@@ -58,7 +58,6 @@ export default function DroppableTicketItems({
                         ref={provided2.innerRef}
                         {...provided2.dragHandleProps}
                         {...provided2.draggableProps}
-                        aria-hidden="true"
                       >
                         {checkAccess(Permission.viewTickets, projectId) && (
                           <TicketItem

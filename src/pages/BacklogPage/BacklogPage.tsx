@@ -94,30 +94,42 @@ export default function BacklogPage() {
   };
 
   function calculateNewRank(destination, source, draggableId) {
-    const sectionTickets =
-      destination.droppableId === 'backlog'
-        ? tickets.filter((t) => !t.sprint)
-        : tickets.filter(
-            (t) => t.sprint && String(t.sprint.id ?? t.sprint) === destination.droppableId
-          );
+    const sortedTickets = [...tickets]
+      .filter((t) => t.id !== draggableId)
+      .sort((a, b) => customCompare(a?.rank, b?.rank));
 
-    const sortedTickets = [...sectionTickets].sort((a, b) => customCompare(a?.rank, b?.rank));
+    const destinationTickets = sortedTickets.filter((t) => {
+      if (destination.droppableId === 'backlog') {
+        return !t.sprint;
+      }
+      return t.sprint && String(t.sprint.id ?? t.sprint) === destination.droppableId;
+    });
 
-    const ticketsWithoutCurrent =
-      source.droppableId === destination.droppableId
-        ? sortedTickets.filter((t) => t.id !== draggableId)
-        : sortedTickets;
+    if (destinationTickets.length === 0) {
+      const lastGlobalTicket = sortedTickets[sortedTickets.length - 1];
+      return generateKeyBetween(lastGlobalTicket?.rank || null, null);
+    }
 
     if (destination.index === 0) {
-      const firstTicket = ticketsWithoutCurrent[0];
-      return generateKeyBetween(null, firstTicket?.rank || null);
+      const firstTicket = destinationTickets[0];
+      const firstTicketGlobalIndex = sortedTickets.findIndex((t) => t.id === firstTicket.id);
+      const prevTicket =
+        firstTicketGlobalIndex > 0 ? sortedTickets[firstTicketGlobalIndex - 1] : null;
+      return generateKeyBetween(prevTicket?.rank || null, firstTicket?.rank || null);
     }
-    if (destination.index >= ticketsWithoutCurrent.length) {
-      const lastTicket = ticketsWithoutCurrent[ticketsWithoutCurrent.length - 1];
-      return generateKeyBetween(lastTicket?.rank || null, null);
+
+    if (destination.index >= destinationTickets.length) {
+      const lastTicket = destinationTickets[destinationTickets.length - 1];
+      const lastTicketGlobalIndex = sortedTickets.findIndex((t) => t.id === lastTicket.id);
+      const nextTicket =
+        lastTicketGlobalIndex < sortedTickets.length - 1
+          ? sortedTickets[lastTicketGlobalIndex + 1]
+          : null;
+      return generateKeyBetween(lastTicket?.rank || null, nextTicket?.rank || null);
     }
-    const prevTicket = ticketsWithoutCurrent[destination.index - 1];
-    const nextTicket = ticketsWithoutCurrent[destination.index];
+
+    const prevTicket = destinationTickets[destination.index - 1];
+    const nextTicket = destinationTickets[destination.index];
     return generateKeyBetween(prevTicket?.rank || null, nextTicket?.rank || null);
   }
 
@@ -177,11 +189,8 @@ export default function BacklogPage() {
         );
       }
     }
-    const sectionTickets = data.sprintId
-      ? tickets.filter((t) => t.sprint && String(t.sprint.id ?? t.sprint) === data.sprintId)
-      : tickets.filter((t) => !t.sprint);
 
-    const sorted = [...sectionTickets].sort((a, b) => customCompare(a?.rank, b?.rank));
+    const sorted = [...tickets].sort((a, b) => customCompare(a?.rank, b?.rank));
     const lastRank = sorted.length > 0 ? sorted[sorted.length - 1].rank : null;
     const newRank = generateKeyBetween(lastRank, null);
 

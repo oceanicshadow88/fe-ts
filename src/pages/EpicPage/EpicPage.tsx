@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+/* eslint-disable no-console */
+import React, { useContext, useState, useMemo } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { getBacklogTickets } from '../../api/backlog/backlog';
-import { createNewTicket, updateTicketEpic } from '../../api/ticket/ticket';
+import { createNewTicket, updateTicketEpic, migrateTicketRanks } from '../../api/ticket/ticket';
 import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import Button from '../../components/Form/Button/Button';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
@@ -15,19 +15,38 @@ import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import { ITicketBasic, ITicketInput } from '../../types';
 import CreateEditEpic from './components/CreateEditEpic/CreateEditEpic';
 import styles from './EpicPage.module.scss';
+import { customCompare, generateKeyBetween } from '../../utils/lexoRank';
 
 function EpicPage() {
   const { projectId = '' } = useParams();
   const [tickets, setTickets] = useState<ITicketBasic[]>([]);
   const { showModal, closeModal } = useContext(ModalContext);
   const projectDetails = useContext(ProjectDetailsContext);
+  const [isMigrating, setIsMigrating] = useState(false);
 
   const fetchBacklogData = async (filterData?: IFilterData | null) => {
     try {
-      const data = await getBacklogTickets(projectId, filterData);
-      setTickets(data);
+      const response = await getBacklogTickets(projectId, filterData);
+      const ticketsData = response || [];
+      const needsMigration = ticketsData.some((ticket) => !ticket.rank);
+
+      if (needsMigration && !isMigrating) {
+        setIsMigrating(true);
+        try {
+          await migrateTicketRanks(projectId);
+
+          const updatedResponse = await getBacklogTickets(projectId, filterData);
+          setTickets(updatedResponse || []);
+        } catch (error) {
+          alert('Migrate Ticket Ranks Failed!');
+        } finally {
+          setIsMigrating(false);
+        }
+      } else {
+        setTickets(ticketsData);
+      }
     } catch (e) {
-      toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
+      setTickets([]);
     }
   };
 
@@ -35,25 +54,94 @@ function EpicPage() {
     fetchBacklogData(data);
   };
 
+  const calculateNewRank = (destination, source, draggableId) => {
+    const sortedTickets = [...tickets]
+      .filter((t) => t.id !== draggableId)
+      .sort((a, b) => customCompare(a?.rank, b?.rank));
+
+    const destinationTickets = sortedTickets.filter((t) => {
+      return t.epic === destination.droppableId;
+    });
+
+    if (destinationTickets.length === 0) {
+      const lastGlobalTicket = sortedTickets[sortedTickets.length - 1];
+      const newRank = generateKeyBetween(lastGlobalTicket?.rank || null, null);
+      return newRank;
+    }
+
+    if (destination.index === 0) {
+      const firstTicket = destinationTickets[0];
+      const firstTicketGlobalIndex = sortedTickets.findIndex((t) => t.id === firstTicket.id);
+      const prevTicket =
+        firstTicketGlobalIndex > 0 ? sortedTickets[firstTicketGlobalIndex - 1] : null;
+      const newRank = generateKeyBetween(prevTicket?.rank || null, firstTicket?.rank || null);
+      return newRank;
+    }
+
+    if (destination.index >= destinationTickets.length) {
+      const lastTicket = destinationTickets[destinationTickets.length - 1];
+      const lastTicketGlobalIndex = sortedTickets.findIndex((t) => t.id === lastTicket.id);
+      const nextTicket =
+        lastTicketGlobalIndex < sortedTickets.length - 1
+          ? sortedTickets[lastTicketGlobalIndex + 1]
+          : null;
+      const newRank = generateKeyBetween(lastTicket?.rank || null, nextTicket?.rank || null);
+      return newRank;
+    }
+
+    const prevTicket = destinationTickets[destination.index - 1];
+    const nextTicket = destinationTickets[destination.index];
+    const newRank = generateKeyBetween(prevTicket?.rank || null, nextTicket?.rank || null);
+    return newRank;
+  };
+
   const onDragEventHandler = async (result: DropResult) => {
-    const { destination, draggableId } = result;
+    const { destination, draggableId, source } = result;
+
+    if (!destination) {
+      return;
+    }
 
     const currentTicket = tickets.find((item) => item.id === draggableId);
     if (!currentTicket) {
       return;
     }
 
-    const droppedFailed = destination?.droppableId === currentTicket.epic;
+    const droppedFailed =
+      destination.droppableId === source.droppableId && destination.index === source.index;
     if (droppedFailed) {
       return;
     }
-    const epicId = destination?.droppableId;
-    await updateTicketEpic(draggableId, epicId);
-    fetchBacklogData(null);
+
+    const epicId = destination.droppableId === 'no-epic' ? 'no-epic' : destination.droppableId;
+    const newRank = calculateNewRank(destination, source, draggableId);
+
+    const updatedTicket = {
+      ...currentTicket,
+      epic: epicId,
+      rank: newRank
+    };
+
+    setTickets((prevTickets) =>
+      prevTickets.map((ticket) => (ticket.id === draggableId ? updatedTicket : ticket))
+    );
+
+    try {
+      await updateTicketEpic(draggableId, epicId, newRank);
+    } catch (error) {
+      alert('Failed to update Ticket!');
+      fetchBacklogData(null);
+    }
   };
 
   const onIssueCreate = async (data: ITicketInput) => {
-    await createNewTicket(data);
+    const sorted = [...tickets].sort((a, b) => customCompare(a?.rank, b?.rank));
+    const lastRank = sorted.length > 0 ? sorted[sorted.length - 1].rank : null;
+    const newRank = generateKeyBetween(lastRank, null);
+
+    const ticketData = { ...data, rank: newRank };
+
+    await createNewTicket(ticketData);
     fetchBacklogData();
   };
 
@@ -73,7 +161,30 @@ function EpicPage() {
 
   const epicDataFromBackend = projectDetails?.epics ?? [];
 
-  const ticketsByEpicId = tickets?.groupBy('epic') ?? {};
+  const ticketsByEpicId = useMemo(() => {
+    const grouped: Record<string, ITicketBasic[]> = { 'no-epic': [] };
+
+    tickets?.forEach((ticket) => {
+      const epicId =
+        typeof ticket.epic === 'object' && ticket.epic !== null
+          ? (ticket.epic as { id: string }).id
+          : ticket.epic;
+      const key = epicId || 'no-epic';
+
+      if (!grouped[key]) {
+        grouped[key] = [];
+      }
+
+      grouped[key].push(ticket);
+    });
+
+    Object.keys(grouped).forEach((key) => {
+      grouped[key] = grouped[key].sort((a, b) => customCompare(a?.rank, b?.rank));
+    });
+
+    return grouped;
+  }, [tickets]);
+
   return (
     <ProjectHOC title="Epic">
       <div className={styles.scrollContainer}>
