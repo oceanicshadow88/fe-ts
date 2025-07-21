@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useContext, useState, useMemo } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useParams } from 'react-router-dom';
