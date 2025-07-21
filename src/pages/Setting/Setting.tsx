@@ -213,7 +213,6 @@ export default function Setting() {
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <DropdownV2
                 ref={projectLeadRef}
-                addNullOptions
                 label="Project Lead"
                 dataTestId="projectLead"
                 onValueChanged={onChange}
