@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
+import { GoDotFill } from 'react-icons/go';
 import { IMinEvent, IOptions } from '../../../types';
 import { getErrorMessage } from '../../../utils/formUtils';
 import styles from '../FormV2.module.scss';
@@ -24,7 +25,10 @@ interface IDropdownV2 {
   color?: string;
 }
 
-export default function DropdownV2(props: IDropdownV2) {
+export interface IDropdownV2Handle {
+  validate: () => boolean;
+}
+const DropdownV2 = forwardRef<IDropdownV2Handle, IDropdownV2>((props, ref) => {
   const {
     value = '',
     name,
@@ -45,13 +49,23 @@ export default function DropdownV2(props: IDropdownV2) {
   const [error, setError] = useState<null | string>(null);
   const [isActive, setIsActive] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const dropDownRef = useRef<HTMLDivElement>(null);
 
   const finalValue = options?.find((item) => item?.value?.toString() === value?.toString())?.label;
 
+  const checkError = (targetValue = value ?? '') => {
+    const errorMessage = getErrorMessage(targetValue, props);
+    setError(errorMessage);
+    return errorMessage === null;
+  };
+
+  useImperativeHandle(ref, () => ({
+    validate: () => checkError(finalValue)
+  }));
+
   const onChangeSelect = (val: string | null) => {
     const e = { target: { value: val, name } };
-    const errorMessage = getErrorMessage(e.target.value, props);
-    setError(errorMessage);
+    checkError(val ?? '');
     onValueChanged(e);
     setShowMenu(false);
     setIsActive(false);
@@ -63,6 +77,19 @@ export default function DropdownV2(props: IDropdownV2) {
     }
     setIsActive(false);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropDownRef.current && !dropDownRef.current.contains(e.target as Node)) {
+        setShowMenu(false);
+        setIsActive(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   if (loading) {
     return <div className={styles.skeleton} />;
@@ -77,23 +104,31 @@ export default function DropdownV2(props: IDropdownV2) {
         <div className={defaultStyles.dropDownList}>
           {addNullOptions && (
             <button onClick={() => onChangeSelect(null)} data-testid="leader-name-null">
+              <GoDotFill className={value === null ? undefined : defaultStyles.dotIcon} />
               None
             </button>
           )}
-          {options.length > 0 &&
-            options
-              .filter((item) => item.value !== value)
-              .map((item) => {
+          {options.length > 0
+            ? options.map((item) => {
                 return (
                   <button
                     key={item.value}
+                    className={item.value === value ? defaultStyles.selected : undefined}
                     onClick={() => onChangeSelect(item.value)}
                     data-testid={`leader-name-${item.label}`}
                   >
+                    <GoDotFill
+                      className={item.value === value ? undefined : defaultStyles.dotIcon}
+                    />
                     {item.label}
                   </button>
                 );
-              })}
+              })
+            : !addNullOptions && (
+                <button onClick={() => onChangeSelect(null)} data-testid="leader-name-null">
+                  No Content
+                </button>
+              )}
         </div>
       </div>
     );
@@ -104,6 +139,7 @@ export default function DropdownV2(props: IDropdownV2) {
   const textStyle = !finalValue ? placeHolderCss : defaultStyles.val;
   return (
     <div
+      ref={dropDownRef}
       className={[
         'relative',
         borderCss,
@@ -147,4 +183,5 @@ export default function DropdownV2(props: IDropdownV2) {
       {renderDropdown()}
     </div>
   );
-}
+});
+export default DropdownV2;
