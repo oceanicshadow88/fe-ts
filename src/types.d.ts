@@ -553,3 +553,5 @@ export interface IRetroItem {
   updatedAt?: string;
 }
 /** ******************************************************* */
+
+export type AvatarEditPanel = 'MAIN' | 'CROPPER' | 'COLLECTION';

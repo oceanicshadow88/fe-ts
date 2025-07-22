@@ -2,9 +2,9 @@ import React from 'react';
 import { RiMoreFill } from 'react-icons/ri';
 import { upload } from '../../../../api/upload/upload';
 import uploadImage from '../../../../assets/uploadImage.png';
-// eslint-disable-next-line import/no-cycle
-import { AvatarEditPanel, IconList } from '../AvatarEditModal';
 import styles from './MainPanel.module.scss';
+import IconList from '../IconList/IconList';
+import { AvatarEditPanel } from '../../../../types';
 
 interface IMainPanelProps {
   setCurrentPanel: (currentPanel: AvatarEditPanel) => void;
@@ -47,7 +47,9 @@ function MainPanel({ setCurrentPanel, uploadSuccess }: IMainPanelProps) {
         </div>
         <div className={styles.photoCollection}>
           <div className={styles.iconList}>
-            <ul>{IconList(0, 5)}</ul>
+            <ul>
+              <IconList startIndex={0} endIndex={5} />
+            </ul>
           </div>
           <button type="button" onClick={() => setCurrentPanel('COLLECTION')}>
             <span>
