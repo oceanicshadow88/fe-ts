@@ -47,7 +47,7 @@ export default function AssigneeBtn({
     <div className={styles.assigneeContainer} ref={myRef} data-testid={`assignee-btn-${ticketId}`}>
       <IconButton
         overrideStyle={styles.assignee}
-        icon={<Avatar user={assignee} />}
+        icon={<Avatar src={assignee?.avatarIcon} name={assignee?.name} />}
         tooltip={name}
         onClick={() => {
           if (isDisabled) {
@@ -64,7 +64,7 @@ export default function AssigneeBtn({
         >
           <div className={styles.inputContainer}>
             <input type="text" value={query} onChange={onChangeInput} />
-            <Avatar user={null} />
+            <Avatar />
           </div>
           <ul className={styles.assigneeDropdownList}>
             <li>
@@ -74,7 +74,7 @@ export default function AssigneeBtn({
                 }}
                 className={styles.gap10}
               >
-                <Avatar user={null} />
+                <Avatar />
                 Unassigned
               </button>
             </li>
@@ -96,7 +96,11 @@ export default function AssigneeBtn({
                       className={styles.gap10}
                       data-testid={`assignee-btn-${ticketId}-${user.id}`}
                     >
-                      <Avatar user={user} />
+                      <Avatar
+                        src={user?.avatarIcon}
+                        name={user?.name}
+                        backgroundColor={user.backgroundColor}
+                      />
                       {user.name}
                     </button>
                   </li>

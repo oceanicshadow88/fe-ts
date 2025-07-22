@@ -29,7 +29,12 @@ export default function PersonalProfile({ userInfo }: Props) {
               <button type="button" onClick={() => handleClickOutside(true)}>
                 <div className={styles.avatarContent}>
                   <span>
-                    <Avatar user={userInfo} size={30} />
+                    <Avatar
+                      src={userInfo.avatarIcon}
+                      backgroundColor={userInfo.backgroundColor}
+                      name={userInfo.name}
+                      size={30}
+                    />
                   </span>
                 </div>
               </button>
@@ -40,7 +45,11 @@ export default function PersonalProfile({ userInfo }: Props) {
                   <div className={styles.settingTop}>
                     <h1>Account</h1>
                     <div className={styles.accountContent}>
-                      <Avatar user={userInfo} />
+                      <Avatar
+                        src={userInfo.avatarIcon}
+                        backgroundColor={userInfo.backgroundColor}
+                        name={userInfo.name}
+                      />
                       <div className={styles.userContext}>
                         <p className={styles.userName}>{userInfo.name}</p>
                         <p>{userInfo.email}</p>
@@ -77,7 +86,12 @@ export default function PersonalProfile({ userInfo }: Props) {
             <button type="button" onClick={() => handleClickOutside(false)}>
               <div className={styles.avatarContent}>
                 <span>
-                  <Avatar user={userInfo} size={30} />
+                  <Avatar
+                    src={userInfo.avatarIcon}
+                    backgroundColor={userInfo.backgroundColor}
+                    name={userInfo.name}
+                    size={30}
+                  />
                 </span>
               </div>
             </button>

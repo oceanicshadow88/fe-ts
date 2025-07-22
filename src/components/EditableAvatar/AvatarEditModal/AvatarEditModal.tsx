@@ -7,26 +7,48 @@ import { AvatarEditPanel } from '../../../types';
 import styles from './AvatarEditModal.module.scss';
 
 interface IModalProps {
+  addPredefinedIcons: boolean;
   close: () => void;
   uploadSuccess: (data: any) => void;
 }
 
-export default function ChangeIconModal({ close, uploadSuccess }: IModalProps) {
+export default function ChangeIconModal({ addPredefinedIcons, close, uploadSuccess }: IModalProps) {
   const [currentPanel, setCurrentPanel] = useState<AvatarEditPanel>('MAIN');
+  const [selectedIconPhoto, setSelectedIconPhoto] = useState<string | undefined>(undefined);
 
+  const handleSelect = () => {
+    // eslint-disable-next-line no-console
+    console.log(selectedIconPhoto);
+    uploadSuccess(selectedIconPhoto);
+    close();
+  };
   return (
-    <Modal close={close} header="Add profile photo">
+    <Modal close={close} header={addPredefinedIcons ? 'Choose an icon' : 'Add profile photo'}>
       <div className={styles.modalWidth}>
         {/* Modal body */}
         {currentPanel === 'MAIN' && (
-          <MainPanel setCurrentPanel={setCurrentPanel} uploadSuccess={uploadSuccess} />
+          <MainPanel
+            getSelectedIcon={setSelectedIconPhoto}
+            setCurrentPanel={setCurrentPanel}
+            uploadSuccess={uploadSuccess}
+            addPredefinedIcons={addPredefinedIcons}
+          />
         )}
         {currentPanel === 'CROPPER' && <ImageCroper />}
-        {currentPanel === 'COLLECTION' && <IconCollection setCurrentPanel={setCurrentPanel} />}
-
+        {currentPanel === 'COLLECTION' && (
+          <IconCollection
+            setCurrentPanel={setCurrentPanel}
+            getSelectedIcon={setSelectedIconPhoto}
+          />
+        )}
         {/* Button set */}
         <div className={styles.buttonSection}>
-          <button className={styles.selectBtn} type="button" data-testid="saveIcon" onClick={close}>
+          <button
+            className={styles.selectBtn}
+            type="button"
+            data-testid="saveIcon"
+            onClick={handleSelect}
+          >
             Select
           </button>
           <button className={styles.cancelBtn} type="button" onClick={close}>

@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import ChangeIcon from '../../EditableAvatar/EditableAvatar';
 import styles from './ProjectEditor.module.scss';
 import { IOnChangeProjectLead, IProjectEditor } from '../../../types';
 import { UserContext } from '../../../context/UserInfoProvider';
@@ -11,6 +10,7 @@ import InputV2 from '../../../lib/FormV3/InputV3/InputV3';
 import TextAreaV2 from '../../../lib/FormV2/TextAreaV2/TextAreaV2';
 import BtnContainer from '../../../lib/Grid/BtnContainer/BtnContainer';
 import Row from '../../../lib/Grid/Row/Row';
+import EditableAvatar from '../../EditableAvatar/EditableAvatar';
 
 interface ProjectEditorProps {
   showCancelBtn?: boolean;
@@ -98,7 +98,7 @@ function ProjectEditor(props: ProjectEditorProps) {
     <div className={styles.editSection}>
       <div className={styles.editContainer}>
         <form onSubmit={onSave}>
-          <ChangeIcon uploadSuccess={uploadSuccess} value={data.iconUrl} />
+          <EditableAvatar uploadSuccess={uploadSuccess} src={data.iconUrl} addPredefinedIcons />
           <Row defaultMargin>
             <UsersFieldsV2
               onChange={onChange}

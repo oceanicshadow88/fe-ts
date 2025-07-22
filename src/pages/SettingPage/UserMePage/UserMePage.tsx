@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
-import ChangeIcon from '../../../components/EditableAvatar/EditableAvatar';
+import EditableAvatar from '../../../components/EditableAvatar/EditableAvatar';
 import { UserContext, UserDispatchContext } from '../../../context/UserInfoProvider';
 import styles from './UserMePage.module.scss';
 import SettingCard from '../../../components/SettingCard/SettingCard';
@@ -85,8 +85,10 @@ export default function UserMePage() {
               <hr className={styles.divider} />
             </header>
             <SettingCard title="Personal Information">
-              <ChangeIcon
-                value={userInfo}
+              <EditableAvatar
+                src={userInfo.avatarIcon}
+                backgroundColor={userInfo.backgroundColor}
+                name={userInfo.name}
                 uploadSuccess={(photoData: any) => {
                   onChangeUser({ target: { name: 'avatarIcon', value: photoData[0].location } });
                 }}

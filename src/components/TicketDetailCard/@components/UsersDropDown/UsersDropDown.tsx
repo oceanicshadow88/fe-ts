@@ -27,7 +27,13 @@ export default function UsersDropDown({ value, users, onChange, dataTestId }: IS
   return (
     <div ref={myRef} className={styles.userDropDown}>
       <Button
-        icon={<Avatar user={value} />}
+        icon={
+          <Avatar
+            src={value?.avatarIcon}
+            backgroundColor={value?.backgroundColor}
+            name={value?.name}
+          />
+        }
         onClick={() => setVisible(!visible)}
         overrideStyle={styles.userBtn}
         dataTestId={dataTestId}
@@ -41,7 +47,7 @@ export default function UsersDropDown({ value, users, onChange, dataTestId }: IS
             <li key={item.id}>
               <Button
                 overrideStyle={styles.userBtn}
-                icon={<Avatar user={item} />}
+                icon={<Avatar name={item?.name} />}
                 onClick={() => {
                   onChange(item as ITypes);
                   setVisible(false);
