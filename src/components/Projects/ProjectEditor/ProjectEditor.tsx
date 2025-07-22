@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import ChangeIcon from './ChangeIcon/ChangeIcon';
+import ChangeIcon from '../../EditableAvatar/EditableAvatar';
 import styles from './ProjectEditor.module.scss';
 import { IOnChangeProjectLead, IProjectEditor } from '../../../types';
 import { UserContext } from '../../../context/UserInfoProvider';

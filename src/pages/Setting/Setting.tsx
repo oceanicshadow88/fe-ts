@@ -9,7 +9,7 @@ import { deleteProject, showProject, updateProject } from '../../api/projects/pr
 import { IMinEvent, IProjectData, IProjectForm } from '../../types';
 import { UserContext } from '../../context/UserInfoProvider';
 import SettingCard from '../../components/SettingCard/SettingCard';
-import ChangeIcon from '../../components/Projects/ProjectEditor/ChangeIcon/ChangeIcon';
+import ChangeIcon from '../../components/EditableAvatar/EditableAvatar';
 import { getUsers } from '../../api/user/user';
 import 'react-toastify/dist/ReactToastify.css';
 import checkAccess from '../../utils/helpers';
