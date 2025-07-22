@@ -7,11 +7,18 @@ import IconList from '../IconList/IconList';
 import { AvatarEditPanel } from '../../../../types';
 
 interface IMainPanelProps {
+  addPredefinedIcons: boolean;
+  getSelectedIcon: (selectedIcon: string) => void;
   setCurrentPanel: (currentPanel: AvatarEditPanel) => void;
   uploadSuccess: (data: any) => void;
 }
 
-function MainPanel({ setCurrentPanel, uploadSuccess }: IMainPanelProps) {
+function MainPanel({
+  addPredefinedIcons,
+  setCurrentPanel,
+  uploadSuccess,
+  getSelectedIcon
+}: IMainPanelProps) {
   const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
@@ -22,6 +29,7 @@ function MainPanel({ setCurrentPanel, uploadSuccess }: IMainPanelProps) {
       uploadSuccess(res.data);
     });
   };
+
   return (
     <div className={styles.uploadSection}>
       <div className={styles.uploadContainer}>
@@ -45,18 +53,18 @@ function MainPanel({ setCurrentPanel, uploadSuccess }: IMainPanelProps) {
             </label>
           </div>
         </div>
-        <div className={styles.photoCollection}>
-          <div className={styles.iconList}>
-            <ul>
-              <IconList startIndex={0} endIndex={5} />
-            </ul>
+        {addPredefinedIcons && (
+          <div className={styles.photoCollection}>
+            <div className={styles.iconList}>
+              <IconList startIndex={0} endIndex={5} getSelectedIcon={getSelectedIcon} />
+            </div>
+            <button type="button" onClick={() => setCurrentPanel('COLLECTION')}>
+              <span>
+                <RiMoreFill />
+              </span>
+            </button>
           </div>
-          <button type="button" onClick={() => setCurrentPanel('COLLECTION')}>
-            <span>
-              <RiMoreFill />
-            </span>
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

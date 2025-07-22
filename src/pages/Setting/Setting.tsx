@@ -10,7 +10,7 @@ import { deleteProject, showProject, updateProject } from '../../api/projects/pr
 import { IMinEvent, IProjectData, IProjectEditor } from '../../types';
 import { UserContext } from '../../context/UserInfoProvider';
 import SettingCard from '../../components/SettingCard/SettingCard';
-import ChangeIcon from '../../components/EditableAvatar/EditableAvatar';
+import EditableAvatar from '../../components/EditableAvatar/EditableAvatar';
 import { getUsers } from '../../api/user/user';
 import 'react-toastify/dist/ReactToastify.css';
 import checkAccess from '../../utils/helpers';
@@ -83,7 +83,8 @@ export default function Setting() {
           projectLead: projectDesc?.projectLead?.id ?? '',
           description: projectDesc?.description ?? '',
           websiteUrl: projectDesc?.websiteUrl ?? '',
-          owner: projectDesc?.owner ?? {}
+          owner: projectDesc?.owner ?? {},
+          iconUrl: projectDesc?.iconUrl ?? ''
         };
         setOriginalData(initialData);
         setData(initialData);
@@ -146,9 +147,9 @@ export default function Setting() {
 
   const uploadSuccess = (photoData: any) => {
     const updateData = { ...data };
-    updateData.iconUrl = photoData[0].location;
+    updateData.iconUrl = typeof photoData === 'string' ? photoData : photoData[0].location;
     setData(updateData);
-    update({ iconUrl: updateData.iconUrl });
+    update(updateData);
   };
 
   const onChange = (e: IMinEvent) => {
@@ -175,7 +176,12 @@ export default function Setting() {
             <hr className={styles.divider} />
           </header>
           <SettingCard title="Project Information">
-            <ChangeIcon uploadSuccess={uploadSuccess} value={data?.iconUrl} loading={!data} />
+            <EditableAvatar
+              uploadSuccess={uploadSuccess}
+              src={data?.iconUrl}
+              loading={!data}
+              addPredefinedIcons
+            />
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <InputV2
                 ref={nameRef}

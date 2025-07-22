@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styles from './IconList.module.scss';
 
 const icons = [
   {
@@ -136,18 +137,36 @@ const icons = [
 interface IconListProps {
   startIndex?: number;
   endIndex?: number;
+  getSelectedIcon: (selectedIcon: string) => void;
 }
 
-export default function IconList({ startIndex, endIndex }: IconListProps) {
+export default function IconList({ startIndex, endIndex, getSelectedIcon }: IconListProps) {
+  const [selectedIconId, setSelectedIconId] = useState<number | undefined>(undefined);
   const visibleIcons = icons.slice(startIndex, endIndex);
 
   return (
-    <>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+    <ul
+      onClick={(e) => {
+        const li = (e.target as HTMLElement).closest<HTMLLIElement>('li[data-id]');
+        if (!li) return;
+        const { id } = li.dataset;
+        if (id) {
+          setSelectedIconId(Number(id));
+          const selectedIcon = icons.find((icon) => icon.id === Number(id));
+          if (selectedIcon) getSelectedIcon(selectedIcon.photo);
+        }
+      }}
+    >
       {visibleIcons.map((icon) => (
-        <li key={icon.id}>
+        <li
+          key={icon.id}
+          data-id={icon.id}
+          className={selectedIconId === icon.id ? styles.selected : undefined}
+        >
           <img src={icon.photo} alt="icon" />
         </li>
       ))}
-    </>
+    </ul>
   );
 }

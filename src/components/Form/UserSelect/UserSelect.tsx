@@ -102,7 +102,7 @@ export default function UserSelect(props: IUserSelect) {
                       onClickUser(null);
                     }}
                   >
-                    <Avatar user={null} />
+                    <Avatar />
                     <span>Unassigned</span>
                   </button>
                 </li>
@@ -116,7 +116,11 @@ export default function UserSelect(props: IUserSelect) {
                             onClickUser(user);
                           }}
                         >
-                          <Avatar user={user} />
+                          <Avatar
+                            src={user.avatarIcon}
+                            backgroundColor={user.backgroundColor}
+                            name={user.name}
+                          />
                           <span>
                             {user.userName && user.userName !== '' ? user.userName : user.name}
                           </span>
@@ -129,7 +133,11 @@ export default function UserSelect(props: IUserSelect) {
           </div>
         ) : (
           <button className={styles.leadInputClose} type="button" onClick={handleClickOutside}>
-            <Avatar user={currentSelectedUser} />
+            <Avatar
+              src={currentSelectedUser.avatarIcon}
+              backgroundColor={currentSelectedUser.backgroundColor}
+              name={currentSelectedUser.name}
+            />
             <span>{currentSelectedUser.name}</span>
           </button>
         )}

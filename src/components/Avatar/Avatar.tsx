@@ -1,34 +1,40 @@
 import React from 'react';
 import styles from './Avatar.module.scss';
-import { IUserInfo } from '../../types';
 import InitialAvatar from '../InitialAvatar/InitialAvatar';
 import userAvatar from '../../assets/userAvatar.png';
 
 interface AvatarProps {
-  user?: IUserInfo | null;
+  src?: string;
+  backgroundColor?: string;
+  name?: string;
   selected?: boolean;
   size?: number;
 }
 
-function Avatar({ user, selected = false, size = 25 }: AvatarProps) {
-  if (!user || user?.name === 'Unassigned') {
+function Avatar({
+  src,
+  backgroundColor = '',
+  name = 'Unassigned',
+  selected = false,
+  size = 25
+}: AvatarProps) {
+  if (src) {
     return (
       <img
+        style={{ width: size, height: size }}
         className={selected ? styles.backlogUserIconWithBorder : styles.backlogUserIcon}
-        src={userAvatar}
-        alt="Unassigned"
+        src={src}
+        alt="AvatarImage"
       />
     );
   }
-
-  const { name, avatarIcon, backgroundColor = '' } = user;
-
-  if (avatarIcon) {
+  if (name === 'Unassigned') {
     return (
       <img
+        style={{ width: size, height: size }}
         className={selected ? styles.backlogUserIconWithBorder : styles.backlogUserIcon}
-        src={user.avatarIcon}
-        alt={user.name}
+        src={userAvatar}
+        alt="Unassigned"
       />
     );
   }

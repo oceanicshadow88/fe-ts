@@ -1,30 +1,39 @@
 import React, { useState } from 'react';
 import styles from './EditableAvatar.module.scss';
 import Avatar from '../Avatar/Avatar';
-import { IUserInfo } from '../../types';
 import AvatarEditModal from './AvatarEditModal/AvatarEditModal';
 
-interface IChangeIconProps {
+interface IEditableAvatarProps {
   uploadSuccess: (data: any) => void;
-  value: IUserInfo;
+  src?: string;
+  backgroundColor?: string;
+  name?: string;
   loading?: boolean;
+  addPredefinedIcons?: boolean;
 }
 
-export default function ChangeIcon(props: IChangeIconProps) {
-  const { uploadSuccess, value, loading = false } = props;
+export default function EditableAvatar(props: IEditableAvatarProps) {
+  const {
+    uploadSuccess,
+    src,
+    backgroundColor,
+    name,
+    loading = false,
+    addPredefinedIcons = false
+  } = props;
   const [modalShown, toggleModal] = useState(false);
 
   if (loading) {
     return (
-      <div className={(styles.icon, styles.changeIconContainer)}>
+      <div className={(styles.icon, styles.editableAvatarContainer)}>
         <div className={styles.skeletonImg} />
       </div>
     );
   }
 
   return (
-    <div className={(styles.icon, styles.changeIconContainer)}>
-      <Avatar user={value} size={100} />
+    <div className={(styles.icon, styles.editableAvatarContainer)}>
+      <Avatar src={src} backgroundColor={backgroundColor} name={name} size={100} />
       <button
         type="button"
         data-testid="iconButton"
@@ -37,6 +46,7 @@ export default function ChangeIcon(props: IChangeIconProps) {
       </button>
       {modalShown && (
         <AvatarEditModal
+          addPredefinedIcons={addPredefinedIcons}
           close={() => {
             toggleModal(false);
           }}
