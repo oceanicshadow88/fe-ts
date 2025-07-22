@@ -1,8 +1,8 @@
 import React from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
+import { AvatarEditPanel } from '../../../../types';
+import IconList from '../IconList/IconList';
 import styles from './IconCollection.module.scss';
-// eslint-disable-next-line import/no-cycle
-import { AvatarEditPanel, IconList } from '../AvatarEditModal';
 
 interface IIconCollectionProps {
   setCurrentPanel: (currentPanel: AvatarEditPanel) => void;
@@ -20,7 +20,9 @@ function IconCollection({ setCurrentPanel }: IIconCollectionProps) {
           </button>
           <h4>Default icons</h4>
         </div>
-        <ul>{IconList()}</ul>
+        <ul>
+          <IconList />
+        </ul>
       </div>
     </div>
   );
