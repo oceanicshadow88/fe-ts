@@ -1,0 +1,48 @@
+@import '../../../variables.scss';
+
+.modalWidth {
+  width: 325px;
+}
+.buttonSection {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-end;
+  .selectBtn {
+    margin-right: 3px;
+    font-size: 14px;
+    font-style: normal;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 2.28571em;
+    color: #ffffff;
+    background: $primaryColor;
+    border-width: 0px;
+    border-radius: 3px;
+    padding: 0px 12px;
+    transition: background 0.1s ease-out 0s,
+      box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+    &:hover {
+      background: $primaryColor-hover;
+    }
+  }
+  .cancelBtn {
+    font-size: 14px;
+    font-style: normal;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 2.28571em;
+    color: $textPrimaryColor;
+    background: rgba(9, 30, 66, 0.08);
+    border-width: 0;
+    border-radius: 3px;
+    padding: 0px 12px;
+    transition: background 0.1s ease-out 0s,
+      box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+    &:hover {
+      background: rgba(9, 30, 66, 0.12);
+    }
+  }
+}

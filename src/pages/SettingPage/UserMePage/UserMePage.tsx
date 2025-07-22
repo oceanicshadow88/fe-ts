@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
-import ChangeIcon from '../../../components/Projects/ProjectEditor/ChangeIcon/ChangeIcon';
+import ChangeIcon from '../../../components/EditableAvatar/EditableAvatar';
 import { UserContext, UserDispatchContext } from '../../../context/UserInfoProvider';
 import styles from './UserMePage.module.scss';
 import SettingCard from '../../../components/SettingCard/SettingCard';

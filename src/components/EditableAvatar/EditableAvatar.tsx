@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import styles from './ChangeIcon.module.scss';
-import ChangeIconModal from './Modal/ChangeIconModal';
-import Avatar from '../../../Avatar/Avatar';
-import { IUserInfo } from '../../../../types';
+import styles from './EditableAvatar.module.scss';
+import Avatar from '../Avatar/Avatar';
+import { IUserInfo } from '../../types';
+import AvatarEditModal from './AvatarEditModal/AvatarEditModal';
 
 interface IChangeIconProps {
   uploadSuccess: (data: any) => void;
@@ -35,16 +35,17 @@ export default function ChangeIcon(props: IChangeIconProps) {
       >
         Change
       </button>
-      <ChangeIconModal
-        shown={modalShown}
-        close={() => {
-          toggleModal(false);
-        }}
-        uploadSuccess={(data) => {
-          toggleModal(!modalShown);
-          uploadSuccess(data);
-        }}
-      />
+      {modalShown && (
+        <AvatarEditModal
+          close={() => {
+            toggleModal(false);
+          }}
+          uploadSuccess={(data) => {
+            toggleModal(!modalShown);
+            uploadSuccess(data);
+          }}
+        />
+      )}
     </div>
   );
 }

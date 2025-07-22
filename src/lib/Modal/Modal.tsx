@@ -3,11 +3,13 @@ import React, { useEffect } from 'react';
 import styles from './Modal.module.scss';
 
 interface IModal {
+  close?: () => void;
+  header?: string;
   children?: React.ReactNode;
   classesName?: string;
   fullWidth?: boolean;
 }
-export default function Modal({ children, classesName, fullWidth }: IModal) {
+export default function Modal({ close, header, children, classesName, fullWidth }: IModal) {
   const show = true;
   useEffect(() => {
     if (show) {
@@ -21,9 +23,19 @@ export default function Modal({ children, classesName, fullWidth }: IModal) {
   }, [show]);
 
   return (
-    <div className={styles.backdrop}>
-      <div className={[styles.modal, fullWidth ? styles.fullWidth : '', classesName].join(' ')}>
-        {children}
+    <div className={styles.backdrop} onClick={close ?? undefined} aria-hidden="true">
+      <div
+        className={[styles.modal, fullWidth ? styles.fullWidth : '', classesName].join(' ')}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        aria-hidden="true"
+      >
+        <div className={styles.popupBody}>
+          {/* Modal header */}
+          {header && <h3>{header}</h3>}
+          {children}
+        </div>
       </div>
     </div>
   );
