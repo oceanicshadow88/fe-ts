@@ -564,3 +564,10 @@ export interface IRetroItem {
 /** ******************************************************* */
 
 export type AvatarEditPanel = 'MAIN' | 'CROPPER' | 'COLLECTION';
+export interface IUploadImageResponse {
+  data: IImage[];
+}
+interface IImage {
+  fieldname: string;
+  location: string;
+}

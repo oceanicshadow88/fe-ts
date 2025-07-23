@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './IconList.module.scss';
 
 const icons = [
@@ -135,13 +135,18 @@ const icons = [
 ];
 
 interface IconListProps {
+  initialValue?: string;
   startIndex?: number;
   endIndex?: number;
   getSelectedIcon: (selectedIcon: string) => void;
 }
 
-export default function IconList({ startIndex, endIndex, getSelectedIcon }: IconListProps) {
-  const [selectedIconId, setSelectedIconId] = useState<number | undefined>(undefined);
+export default function IconList({
+  initialValue,
+  startIndex,
+  endIndex,
+  getSelectedIcon
+}: IconListProps) {
   const visibleIcons = icons.slice(startIndex, endIndex);
 
   return (
@@ -152,17 +157,15 @@ export default function IconList({ startIndex, endIndex, getSelectedIcon }: Icon
         if (!li) return;
         const { id } = li.dataset;
         if (id) {
-          setSelectedIconId(Number(id));
-          const selectedIcon = icons.find((icon) => icon.id === Number(id));
-          if (selectedIcon) getSelectedIcon(selectedIcon.photo);
+          getSelectedIcon(id);
         }
       }}
     >
       {visibleIcons.map((icon) => (
         <li
           key={icon.id}
-          data-id={icon.id}
-          className={selectedIconId === icon.id ? styles.selected : undefined}
+          data-id={icon.photo}
+          className={initialValue === icon.photo ? styles.selected : undefined}
         >
           <img src={icon.photo} alt="icon" />
         </li>

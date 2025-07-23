@@ -5,11 +5,12 @@ import IconList from '../IconList/IconList';
 import styles from './IconCollection.module.scss';
 
 interface IIconCollectionProps {
-  getSelectedIcon: (selectedIcon: string) => void;
+  initialValue?: string;
+  getSelectedImage: (selectedIcon: string) => void;
   setCurrentPanel: (currentPanel: AvatarEditPanel) => void;
 }
 
-function IconCollection({ getSelectedIcon, setCurrentPanel }: IIconCollectionProps) {
+function IconCollection({ initialValue, getSelectedImage, setCurrentPanel }: IIconCollectionProps) {
   return (
     <div className={styles.defaultIconSection}>
       <div className={styles.defaultIconContainer}>
@@ -21,7 +22,7 @@ function IconCollection({ getSelectedIcon, setCurrentPanel }: IIconCollectionPro
           </button>
           <h4>Default icons</h4>
         </div>
-        <IconList getSelectedIcon={getSelectedIcon} />
+        <IconList initialValue={initialValue} getSelectedIcon={getSelectedImage} />
       </div>
     </div>
   );
