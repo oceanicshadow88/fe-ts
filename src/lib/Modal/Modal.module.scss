@@ -25,7 +25,6 @@
     transform: translate(-50%, -50%);
     margin: auto;
     .popupBody {
-      padding: 30px 26px;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -33,6 +32,7 @@
       color: #091e42;
       pointer-events: auto;
       h3 {
+        padding: 30px 26px 0 26px;
         font-weight: 600;
         font-size: 20px;
       }

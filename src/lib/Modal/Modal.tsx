@@ -1,5 +1,6 @@
 /* eslint-disable no-return-assign */
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './Modal.module.scss';
 
 interface IModal {
@@ -8,8 +9,9 @@ interface IModal {
   children?: React.ReactNode;
   classesName?: string;
   fullWidth?: boolean;
+  zIndex?: number;
 }
-export default function Modal({ close, header, children, classesName, fullWidth }: IModal) {
+export default function Modal({ close, header, children, classesName, fullWidth, zIndex }: IModal) {
   const show = true;
   useEffect(() => {
     if (show) {
@@ -22,8 +24,13 @@ export default function Modal({ close, header, children, classesName, fullWidth 
     };
   }, [show]);
 
-  return (
-    <div className={styles.backdrop} onClick={close ?? undefined} aria-hidden="true">
+  return createPortal(
+    <div
+      className={styles.backdrop}
+      onClick={close ?? undefined}
+      aria-hidden="true"
+      style={{ zIndex }}
+    >
       <div
         className={[styles.modal, fullWidth ? styles.fullWidth : '', classesName].join(' ')}
         onClick={(e) => {
@@ -37,7 +44,8 @@ export default function Modal({ close, header, children, classesName, fullWidth 
           {children}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 Modal.defaultProps = {
