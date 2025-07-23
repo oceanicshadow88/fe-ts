@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
+import { Area } from 'react-easy-crop';
+import { GoAlertFill } from 'react-icons/go';
+import { toast } from 'react-toastify';
 import IconCollection from './IconCollection/IconCollection';
 import Modal from '../../../lib/Modal/Modal';
 import ImageCroper from './ImageCroper/ImageCroper';
 import MainPanel from './MainPanel/MainPanel';
-import { AvatarEditPanel } from '../../../types';
+import { AvatarEditPanel, IUploadImageResponse } from '../../../types';
 import styles from './AvatarEditModal.module.scss';
+import { getCroppedImg } from '../../../utils/canvasUtils';
+import { upload } from '../../../api/upload/upload';
 
+function readFile(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => resolve(reader.result), false);
+    reader.readAsDataURL(file);
+  });
+}
 interface IAvatarEditModalProps {
   initialValue?: string;
   addPredefinedIcons: boolean;
@@ -21,13 +33,52 @@ export default function AvatarEditModal({
 }: IAvatarEditModalProps) {
   const [currentPanel, setCurrentPanel] = useState<AvatarEditPanel>('MAIN');
   const [selectedImage, setSelectedImage] = useState<string | undefined>(initialValue);
+  const [fileImageSrc, setFileImageSrc] = useState<string | null>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+  const [showErrorMsg, setShowErrorMsg] = useState<boolean>(false);
 
-  const handleSelect = () => {
+  const getUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const imageDataUrl = (await readFile(file)) as string;
+      setFileImageSrc(imageDataUrl);
+    }
+  };
+
+  const uploadCroppedImage = async (): Promise<string> => {
+    try {
+      const croppedImageTmp = await getCroppedImg(fileImageSrc, croppedAreaPixels);
+      if (croppedImageTmp) {
+        const data = new FormData();
+        data.append('photos', croppedImageTmp);
+        const res = (await upload(data)) as IUploadImageResponse;
+        const imageUrl = res.data[0]?.location;
+        return imageUrl;
+      }
+      return '';
+    } catch (e) {
+      toast.error('Error occured when cropping the image.');
+      return '';
+    }
+  };
+
+  const handleSelect = async () => {
     // eslint-disable-next-line no-console
     console.log(selectedImage);
-    if (selectedImage) uploadSuccess(selectedImage);
-    close();
+    if (currentPanel === 'MAIN' || currentPanel === 'COLLECTION') {
+      if (selectedImage) {
+        uploadSuccess(selectedImage);
+        close();
+      } else {
+        setShowErrorMsg(true);
+      }
+    } else if (currentPanel === 'CROPPER') {
+      const imageUrl = await uploadCroppedImage();
+      uploadSuccess(imageUrl);
+      close();
+    }
   };
+
   return (
     <Modal
       close={close}
@@ -35,16 +86,25 @@ export default function AvatarEditModal({
       zIndex={9999}
     >
       <div className={styles.modalContainer}>
+        {showErrorMsg && (
+          <div className={styles.errorMsg}>
+            <GoAlertFill color="white" />
+            Upload a photo {addPredefinedIcons && 'or select from some default options'}
+          </div>
+        )}
         {/* Modal body */}
         {currentPanel === 'MAIN' && (
           <MainPanel
+            getUploadFile={getUploadFile}
             initialValue={selectedImage}
             getSelectedImage={setSelectedImage}
             setCurrentPanel={setCurrentPanel}
             addPredefinedIcons={addPredefinedIcons}
           />
         )}
-        {currentPanel === 'CROPPER' && <ImageCroper />}
+        {currentPanel === 'CROPPER' && (
+          <ImageCroper fileImageSrc={fileImageSrc} setCroppedAreaPixels={setCroppedAreaPixels} />
+        )}
         {currentPanel === 'COLLECTION' && (
           <IconCollection
             initialValue={selectedImage}
