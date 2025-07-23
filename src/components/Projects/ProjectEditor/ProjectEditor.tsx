@@ -90,7 +90,7 @@ function ProjectEditor(props: ProjectEditorProps) {
 
   const uploadSuccess = (photoData: any) => {
     const updateData = { ...data };
-    updateData.iconUrl = photoData[0].location;
+    updateData.iconUrl = typeof photoData === 'string' ? photoData : photoData[0].location;
     setData(updateData);
   };
 

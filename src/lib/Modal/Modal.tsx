@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, { createPortal } from 'react-dom';
 import styles from './Modal.module.scss';
 
 interface IModal {
   children?: React.ReactNode;
   classesName?: string;
   fullWidth?: boolean;
+  zIndex?: number;
 }
 export default function Modal({ children, classesName, fullWidth }: IModal) {
   const show = true;

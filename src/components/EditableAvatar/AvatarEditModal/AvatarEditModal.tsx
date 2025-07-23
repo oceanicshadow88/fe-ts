@@ -6,13 +6,17 @@ import MainPanel from './MainPanel/MainPanel';
 import { AvatarEditPanel } from '../../../types';
 import styles from './AvatarEditModal.module.scss';
 
-interface IModalProps {
+interface IAvatarEditModalProps {
   addPredefinedIcons: boolean;
   close: () => void;
   uploadSuccess: (data: any) => void;
 }
 
-export default function ChangeIconModal({ addPredefinedIcons, close, uploadSuccess }: IModalProps) {
+export default function AvatarEditModal({
+  addPredefinedIcons,
+  close,
+  uploadSuccess
+}: IAvatarEditModalProps) {
   const [currentPanel, setCurrentPanel] = useState<AvatarEditPanel>('MAIN');
   const [selectedIconPhoto, setSelectedIconPhoto] = useState<string | undefined>(undefined);
 
@@ -23,8 +27,12 @@ export default function ChangeIconModal({ addPredefinedIcons, close, uploadSucce
     close();
   };
   return (
-    <Modal close={close} header={addPredefinedIcons ? 'Choose an icon' : 'Add profile photo'}>
-      <div className={styles.modalWidth}>
+    <Modal
+      close={close}
+      header={addPredefinedIcons ? 'Choose an icon' : 'Add profile photo'}
+      zIndex={9999}
+    >
+      <div className={styles.modalContainer}>
         {/* Modal body */}
         {currentPanel === 'MAIN' && (
           <MainPanel
