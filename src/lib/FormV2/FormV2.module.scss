@@ -32,7 +32,6 @@ $transition: all 0.25s ease-in-out;
 .errorMessage {
   position: absolute;
   z-index: 2;
-  // left: 7px;
   bottom: -32px;
   background-color: $promptsBackgroundColour;
   padding: 5px 10px;
