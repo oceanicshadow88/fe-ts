@@ -147,9 +147,8 @@ export default function Setting() {
 
   const uploadSuccess = (photoData: any) => {
     const updateData = { ...data };
-    updateData.iconUrl = typeof photoData === 'string' ? photoData : photoData[0].location;
+    updateData.iconUrl = photoData;
     setData(updateData);
-    update(updateData);
   };
 
   const onChange = (e: IMinEvent) => {

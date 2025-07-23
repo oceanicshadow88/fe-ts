@@ -7,23 +7,25 @@ import { AvatarEditPanel } from '../../../types';
 import styles from './AvatarEditModal.module.scss';
 
 interface IAvatarEditModalProps {
+  initialValue?: string;
   addPredefinedIcons: boolean;
   close: () => void;
-  uploadSuccess: (data: any) => void;
+  uploadSuccess: (data: string) => void;
 }
 
 export default function AvatarEditModal({
+  initialValue,
   addPredefinedIcons,
   close,
   uploadSuccess
 }: IAvatarEditModalProps) {
   const [currentPanel, setCurrentPanel] = useState<AvatarEditPanel>('MAIN');
-  const [selectedIconPhoto, setSelectedIconPhoto] = useState<string | undefined>(undefined);
+  const [selectedImage, setSelectedImage] = useState<string | undefined>(initialValue);
 
   const handleSelect = () => {
     // eslint-disable-next-line no-console
-    console.log(selectedIconPhoto);
-    uploadSuccess(selectedIconPhoto);
+    console.log(selectedImage);
+    if (selectedImage) uploadSuccess(selectedImage);
     close();
   };
   return (
@@ -36,17 +38,18 @@ export default function AvatarEditModal({
         {/* Modal body */}
         {currentPanel === 'MAIN' && (
           <MainPanel
-            getSelectedIcon={setSelectedIconPhoto}
+            initialValue={selectedImage}
+            getSelectedImage={setSelectedImage}
             setCurrentPanel={setCurrentPanel}
-            uploadSuccess={uploadSuccess}
             addPredefinedIcons={addPredefinedIcons}
           />
         )}
         {currentPanel === 'CROPPER' && <ImageCroper />}
         {currentPanel === 'COLLECTION' && (
           <IconCollection
+            initialValue={selectedImage}
             setCurrentPanel={setCurrentPanel}
-            getSelectedIcon={setSelectedIconPhoto}
+            getSelectedImage={setSelectedImage}
           />
         )}
         {/* Button set */}

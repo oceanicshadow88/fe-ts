@@ -89,8 +89,8 @@ export default function UserMePage() {
                 src={userInfo.avatarIcon}
                 backgroundColor={userInfo.backgroundColor}
                 name={userInfo.name}
-                uploadSuccess={(photoData: any) => {
-                  onChangeUser({ target: { name: 'avatarIcon', value: photoData[0].location } });
+                uploadSuccess={(photoData: string) => {
+                  onChangeUser({ target: { name: 'avatarIcon', value: photoData } });
                 }}
               />
               <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
