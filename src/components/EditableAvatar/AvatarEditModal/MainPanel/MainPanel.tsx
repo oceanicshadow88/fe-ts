@@ -1,5 +1,7 @@
 import React from 'react';
 import { RiMoreFill } from 'react-icons/ri';
+import { useDropzone } from 'react-dropzone';
+import clsx from 'clsx';
 import uploadImage from '../../../../assets/uploadImage.png';
 import styles from './MainPanel.module.scss';
 import IconList from '../IconList/IconList';
@@ -20,14 +22,44 @@ function MainPanel({
   getUploadFile,
   getSelectedImage
 }: IMainPanelProps) {
+  const { getRootProps, getInputProps, isDragAccept, isDragReject } = useDropzone({
+    accept: { 'image/*': [] },
+    noClick: true,
+    maxFiles: 1,
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles.length === 0) return;
+
+      const mockEvent = {
+        target: {
+          files: acceptedFiles
+        }
+      } as unknown as React.ChangeEvent<HTMLInputElement>;
+
+      getUploadFile(mockEvent);
+      setCurrentPanel('CROPPER');
+    }
+  });
+
   return (
     <div className={styles.uploadSection}>
       <div className={styles.uploadContainer}>
         <div className={styles.uploadOptions}>
           <div className={styles.dragArea}>
-            <div className={styles.dragCircle}>
+            <div
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...getRootProps({
+                className: clsx(styles.dragCircle, {
+                  [styles.accept]: isDragAccept,
+                  [styles.reject]: isDragReject
+                })
+              })}
+            >
+              <input
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...getInputProps()}
+              />
               <img src={uploadImage} alt="upload icon" />
-              <span>Drag and drop your images here</span>
+              <p>Drag and drop images here</p>
             </div>
             <p>or</p>
             <label htmlFor="uploadPhoto">
@@ -41,8 +73,6 @@ function MainPanel({
                 style={{ display: 'none' }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   getUploadFile(e);
-                  // eslint-disable-next-line no-console
-                  console.log(e);
                   setCurrentPanel('CROPPER');
                 }}
               />

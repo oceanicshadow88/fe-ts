@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Area } from 'react-easy-crop';
 import { GoAlertFill } from 'react-icons/go';
 import { toast } from 'react-toastify';
@@ -67,19 +67,32 @@ export default function AvatarEditModal({
   const handleSelect = async () => {
     if (currentPanel === 'MAIN' || currentPanel === 'COLLECTION') {
       if (selectedImage) {
-        uploadSuccess(selectedImage);
+        if (selectedImage !== initialValue) {
+          uploadSuccess(selectedImage);
+        }
         close();
       } else {
         setShowErrorMsg(true);
       }
     } else if (currentPanel === 'CROPPER') {
       const imageUrl = await uploadCroppedImage();
-      // eslint-disable-next-line no-console
-      console.log(imageUrl);
-      uploadSuccess(imageUrl);
-      close();
+      if (imageUrl) {
+        uploadSuccess(imageUrl);
+        close();
+      }
     }
   };
+
+  useEffect(() => {
+    const handleClick = () => {
+      setShowErrorMsg(false);
+    };
+
+    document.addEventListener('mousedown', handleClick);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, []);
 
   return (
     <Modal
@@ -90,8 +103,8 @@ export default function AvatarEditModal({
       <div className={styles.modalContainer}>
         {showErrorMsg && (
           <div className={styles.errorMsg}>
-            <GoAlertFill color="white" />
-            Upload a photo {addPredefinedIcons && 'or select from some default options'}
+            <GoAlertFill color="white" size={26} />
+            <p>Upload a photo {addPredefinedIcons && 'or select from some default options'}</p>
           </div>
         )}
         {/* Modal body */}
@@ -105,7 +118,11 @@ export default function AvatarEditModal({
           />
         )}
         {currentPanel === 'CROPPER' && (
-          <ImageCroper fileImageSrc={fileImageSrc} setCroppedAreaPixels={setCroppedAreaPixels} />
+          <ImageCroper
+            fileImageSrc={fileImageSrc}
+            setCroppedAreaPixels={setCroppedAreaPixels}
+            setCurrentPanel={setCurrentPanel}
+          />
         )}
         {currentPanel === 'COLLECTION' && (
           <IconCollection

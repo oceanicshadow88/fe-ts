@@ -4,32 +4,41 @@ import Cropper, { Area, Point } from 'react-easy-crop';
 import Slider from 'rc-slider';
 import { LuImageMinus, LuImagePlus } from 'react-icons/lu';
 import styles from './ImageCroper.module.scss';
+import { AvatarEditPanel } from '../../../../types';
 
 interface IImageCroperProps {
   fileImageSrc: string | null;
   setCroppedAreaPixels: (selectedImage: Area | null) => void;
+  setCurrentPanel: (currentPanel: AvatarEditPanel) => void;
 }
 
-function ImageCroper({ fileImageSrc, setCroppedAreaPixels }: IImageCroperProps) {
+function ImageCroper({
+  // eslint-disable-next-line no-unused-vars
+  fileImageSrc,
+  setCroppedAreaPixels,
+  setCurrentPanel
+}: IImageCroperProps) {
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState<number[] | number>(1);
   const [minZoom, setMinZoom] = useState<number[] | number>(1);
 
   const onCropComplete = (croppedArea: Area, croppedAreaPixelsValue: Area) => {
-    // eslint-disable-next-line no-console
-    console.log('onCropComplete');
-    // eslint-disable-next-line no-console
-    console.log(croppedAreaPixelsValue.x);
-    // eslint-disable-next-line no-console
-    console.log(croppedAreaPixelsValue.y);
     setCroppedAreaPixels(croppedAreaPixelsValue);
   };
 
   return (
     <div className={styles.panelContainer}>
-      {fileImageSrc && (
+      {fileImageSrc ? (
         <>
-          <RxCross1 />
+          <RxCross1
+            className={styles.crossBtn}
+            color="white"
+            size={26}
+            onClick={() => {
+              setCurrentPanel('MAIN');
+              setCroppedAreaPixels(null);
+            }}
+          />
           <Cropper
             classes={{
               containerClassName: styles.cropContainer,
@@ -49,31 +58,44 @@ function ImageCroper({ fileImageSrc, setCroppedAreaPixels }: IImageCroperProps) 
               setMinZoom(zoomFactor);
             }}
           />
-          <div className={styles.controls}>
-            <button className={styles.iconBtn} type="button" onClick={() => setZoom(minZoom)}>
-              <LuImageMinus />
-            </button>
-            <div className={styles.slider}>
-              <Slider
-                value={zoom}
-                min={minZoom as number}
-                max={3}
-                step={0.1}
-                aria-labelledby="Zoom"
-                classNames={{
-                  track: styles.track,
-                  handle: styles.handle,
-                  rail: styles.rail
-                }}
-                onChange={(value: number | number[]) => setZoom(value)}
-              />
-            </div>
-            <button className={styles.iconBtn} type="button" onClick={() => setZoom(3)}>
-              <LuImagePlus />
-            </button>
-          </div>
         </>
+      ) : (
+        <div className={styles.skeleton} />
       )}
+      <div className={styles.controls}>
+        <button
+          disabled={!fileImageSrc}
+          className={styles.iconBtn}
+          type="button"
+          onClick={() => setZoom(minZoom)}
+        >
+          <LuImageMinus />
+        </button>
+        <div className={styles.slider}>
+          <Slider
+            disabled={!fileImageSrc}
+            value={zoom}
+            min={minZoom as number}
+            max={3}
+            step={0.1}
+            aria-labelledby="Zoom"
+            classNames={{
+              track: styles.track,
+              handle: styles.handle,
+              rail: styles.rail
+            }}
+            onChange={(value: number | number[]) => setZoom(value)}
+          />
+        </div>
+        <button
+          disabled={!fileImageSrc}
+          className={styles.iconBtn}
+          type="button"
+          onClick={() => setZoom(3)}
+        >
+          <LuImagePlus />
+        </button>
+      </div>
     </div>
   );
 }
