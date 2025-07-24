@@ -8,8 +8,8 @@ import ImageCroper from './ImageCroper/ImageCroper';
 import MainPanel from './MainPanel/MainPanel';
 import { AvatarEditPanel, IUploadImageResponse } from '../../../types';
 import styles from './AvatarEditModal.module.scss';
-import { getCroppedImg } from '../../../utils/canvasUtils';
 import { upload } from '../../../api/upload/upload';
+import { getCroppedImg } from '../../../utils/canvasUtils';
 
 function readFile(file) {
   return new Promise((resolve) => {
@@ -47,24 +47,24 @@ export default function AvatarEditModal({
 
   const uploadCroppedImage = async (): Promise<string> => {
     try {
-      const croppedImageTmp = await getCroppedImg(fileImageSrc, croppedAreaPixels);
-      if (croppedImageTmp) {
-        const data = new FormData();
-        data.append('photos', croppedImageTmp);
-        const res = (await upload(data)) as IUploadImageResponse;
-        const imageUrl = res.data[0]?.location;
-        return imageUrl;
+      if (fileImageSrc && croppedAreaPixels) {
+        const croppedImageTmp = await getCroppedImg(fileImageSrc, croppedAreaPixels);
+        if (croppedImageTmp) {
+          const data = new FormData();
+          data.append('photos', croppedImageTmp);
+          const res = (await upload(data)) as IUploadImageResponse;
+          const imageUrl = res.data[0]?.location;
+          return imageUrl;
+        }
       }
-      return '';
-    } catch (e) {
-      toast.error('Error occured when cropping the image.');
+      throw new Error('cropped Image Cannot be empty.');
+    } catch (e: any) {
+      toast.error(`Error occured when cropping the image: ${e?.message}`);
       return '';
     }
   };
 
   const handleSelect = async () => {
-    // eslint-disable-next-line no-console
-    console.log(selectedImage);
     if (currentPanel === 'MAIN' || currentPanel === 'COLLECTION') {
       if (selectedImage) {
         uploadSuccess(selectedImage);
@@ -74,6 +74,8 @@ export default function AvatarEditModal({
       }
     } else if (currentPanel === 'CROPPER') {
       const imageUrl = await uploadCroppedImage();
+      // eslint-disable-next-line no-console
+      console.log(imageUrl);
       uploadSuccess(imageUrl);
       close();
     }

@@ -34,11 +34,17 @@ function MainPanel({
               Upload a photo
               <input
                 id="uploadPhoto"
+                type="file"
                 accept="image/*"
                 name="Upload a photo"
                 data-testid="picInput"
                 style={{ display: 'none' }}
-                onChange={getUploadFile}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  getUploadFile(e);
+                  // eslint-disable-next-line no-console
+                  console.log(e);
+                  setCurrentPanel('CROPPER');
+                }}
               />
             </label>
           </div>

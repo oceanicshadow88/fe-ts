@@ -1,0 +1,79 @@
+.panelContainer {
+  flex: 1 1 auto;
+  padding: 16px 24px;
+  .cropContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 3px;
+    overflow: hidden;
+    background: lightgray url('../../../../assets/transparent-grid-background.webp') repeat;
+    background-size: cover;
+  }
+  .cropArea {
+    border-radius: 3px;
+  }
+  .controls {
+    width: 100%;
+    padding: 16px 0;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+    .slider {
+      position: relative;
+      width: 100%;
+      .track {
+        background-color: #3b3d42;
+        border-radius: 3px;
+        height: 6px;
+        position: absolute;
+        top: 0;
+        transition: background-color 0.2s ease;
+        &:hover {
+          background-color: #4b4d52;
+        }
+      }
+      .handle {
+        background-color: #3b3d42;
+        border-radius: 10px;
+        height: 16px;
+        width: 16px;
+        position: absolute;
+        top: -5px;
+        transition: background-color 0.2s ease;
+        &:hover {
+          background-color: #55575d;
+        }
+      }
+      .rail {
+        background-color: lightgray;
+        border-radius: 3px;
+        height: 6px;
+        transition: background-color 0.2s ease;
+        &:hover {
+          background-color: #c0c0c0;
+        }
+      }
+    }
+    .iconBtn {
+      font-size: 14px;
+      font-style: normal;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      line-height: 2.28571em;
+      background: rgba(9, 30, 66, 0.08);
+      border-width: 0;
+      border-radius: 3px;
+      width: 50px;
+      height: 30px;
+      transition: background 0.1s ease-out 0s,
+        box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+      &:hover {
+        background: rgba(9, 30, 66, 0.12);
+      }
+    }
+  }
+}
