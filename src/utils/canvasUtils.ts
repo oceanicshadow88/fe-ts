@@ -1,4 +1,4 @@
-import { rotateSize } from 'react-easy-crop/helpers';
+import { Area } from 'react-easy-crop';
 
 export const createImage = (url) =>
   new Promise((resolve, reject) => {
@@ -14,14 +14,26 @@ export function getRadianAngle(degreeValue) {
 }
 
 /**
+ * Returns the new bounding area of a rotated rectangle.
+ */
+export function rotateSize(width, height, rotation) {
+  const rotRad = getRadianAngle(rotation);
+
+  return {
+    width: Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
+    height: Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height)
+  };
+}
+
+/**
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
 /**
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
 export async function getCroppedImg(
-  imageSrc,
-  pixelCrop,
+  imageSrc: string,
+  pixelCrop: Area,
   rotation = 0,
   flip = { horizontal: false, vertical: false }
 ) {
@@ -32,12 +44,10 @@ export async function getCroppedImg(
   if (!ctx) {
     return null;
   }
-
   const rotRad = getRadianAngle(rotation);
 
   // calculate bounding box of the rotated image
   const { width: bBoxWidth, height: bBoxHeight } = rotateSize(image.width, image.height, rotation);
-
   // set canvas size to match the bounding box
   canvas.width = bBoxWidth;
   canvas.height = bBoxHeight;
@@ -77,13 +87,13 @@ export async function getCroppedImg(
   );
 
   // As Base64 string
-  return croppedCanvas.toDataURL('image/jpeg');
+  // return croppedCanvas.toDataURL('image/jpeg');
 
   // As a blob
-  // return new Promise<Blob>((resolve, reject) => {
-  //   croppedCanvas.toBlob((file) => {
-  //     if (file) resolve(file);
-  //     reject(new Error('Canvas toBlob failed'));
-  //   }, 'image/png');
-  // });
+  return new Promise<Blob>((resolve, reject) => {
+    croppedCanvas.toBlob((file) => {
+      if (file) resolve(file);
+      reject(new Error('Canvas toBlob failed'));
+    }, 'image/png');
+  });
 }
