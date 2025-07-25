@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { getErrorMessage } from '../utils/formUtils';
-
-type FormValue = Record<string, string | undefined>;
+import { IMinEvent } from '../types';
 
 type FieldOptions = {
   required?: boolean;
@@ -10,13 +9,22 @@ type FieldOptions = {
   label?: string;
 };
 
-export function useForm<T extends FormValue>(
-  initialValues: T,
-  fieldValidateRules: Record<keyof T, FieldOptions>
-) {
-  const [formValues, setFormValues] = useState<T>(initialValues);
+type FormField = {
+  value: string;
+  rules?: FieldOptions;
+};
+
+type FormConfig<T> = Record<keyof T, FormField>;
+
+export function useForm<T extends Record<string, string | null>>(projectFormConfig: FormConfig<T>) {
+  const [formValues, setFormValues] = useState<T>(
+    Object.keys(projectFormConfig).reduce((acc, key: keyof T) => {
+      acc[key] = projectFormConfig[key].value as T[keyof T];
+      return acc;
+    }, {} as T)
+  );
   const [formErrors, setFormErrors] = useState<Record<keyof T, string | null>>(
-    Object.keys(initialValues).reduce((acc, key: keyof T) => {
+    Object.keys(projectFormConfig).reduce((acc, key: keyof T) => {
       acc[key] = null;
       return acc;
     }, {} as Record<keyof T, string | null>)
@@ -26,15 +34,16 @@ export function useForm<T extends FormValue>(
     return (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
       setFormValues((prev) => ({ ...prev, [field]: value }));
+      const { rules } = projectFormConfig[field];
+      const error = getErrorMessage(value, { ...rules, label: String(field) });
+      setFormErrors((prev) => ({ ...prev, [field]: error }));
     };
   };
 
   const handleBlur = (field: keyof T) => {
-    return (e: React.ChangeEvent<HTMLInputElement>) => {
+    return (e: React.ChangeEvent<HTMLInputElement> | IMinEvent) => {
       const { value } = e.target;
-      const rules = fieldValidateRules[field];
-      const error = getErrorMessage(value, { ...rules, label: String(field) });
-      setFormErrors((prev) => ({ ...prev, [field]: error }));
+      setFormValues((prev) => ({ ...prev, [field]: value }));
     };
   };
 
@@ -44,7 +53,7 @@ export function useForm<T extends FormValue>(
 
     Object.keys(formValues).forEach((key: keyof T) => {
       const value = formValues[key];
-      const rules = fieldValidateRules[key];
+      const { rules } = projectFormConfig[key];
       const error = getErrorMessage(value, { ...rules, label: key });
       newErrors[key] = error;
       if (error) isValid = false;
