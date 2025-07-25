@@ -76,6 +76,7 @@ export default function DescriptionSession({
               description ? safeParseJsonContent(description) || undefined : undefined
             }
             onCancel={() => setIsEditing(false)}
+            aiOptimizeAction="optimizeTicketDescription"
           />
         ) : (
           <button
