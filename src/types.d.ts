@@ -184,6 +184,15 @@ export interface Ticket {
 export interface IProjectEditor {
   [key: string]: any;
 }
+export interface IProjectForm {
+  name: string;
+  key: string;
+  projectLead: string;
+  description: string;
+  websiteUrl: string;
+  iconUrl: string;
+  [key: string]: string;
+}
 
 export interface IJobApplyEditor {
   fullName: string;

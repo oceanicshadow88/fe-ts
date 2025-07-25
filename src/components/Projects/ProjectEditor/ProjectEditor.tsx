@@ -7,7 +7,7 @@ import { IOnChangeProjectLead, IProjectEditor } from '../../../types';
 import { UserContext } from '../../../context/UserInfoProvider';
 import UsersFieldsV2 from '../../../lib/FieldsV2/UsersFieldsV2/UsersFieldsV2';
 import ButtonV2 from '../../../lib/FormV2/ButtonV2/ButtonV2';
-import InputV2 from '../../../lib/FormV2/InputV2/InputV2';
+import InputV2 from '../../../lib/FormV3/InputV3/InputV3';
 import TextAreaV2 from '../../../lib/FormV2/TextAreaV2/TextAreaV2';
 import BtnContainer from '../../../lib/Grid/BtnContainer/BtnContainer';
 import Row from '../../../lib/Grid/Row/Row';
