@@ -2,9 +2,9 @@ import React from 'react';
 import styles from '../../FormV2/FormV2.module.scss';
 
 interface IInputV3 {
+  label: string;
   name: string;
   value: string;
-  label: string;
   onValueChanged: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onValueBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeHolder?: string;
@@ -18,9 +18,9 @@ interface IInputV3 {
 
 function InputV3(props: IInputV3) {
   const {
+    label,
     name,
     value,
-    label,
     onValueChanged,
     onValueBlur = () => {},
     placeHolder = '',

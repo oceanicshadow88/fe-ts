@@ -7,7 +7,7 @@ import { AiOutlineSetting, AiOutlineUnorderedList } from 'react-icons/ai';
 import { BsBriefcase } from 'react-icons/bs';
 import styles from './Setting.module.scss';
 import { deleteProject, showProject, updateProject } from '../../api/projects/projects';
-import { IProjectData, IProjectForm } from '../../types';
+import { IMinEvent, IProjectData, IProjectForm } from '../../types';
 import { UserContext } from '../../context/UserInfoProvider';
 import SettingCard from '../../components/SettingCard/SettingCard';
 import ChangeIcon from '../../components/Projects/ProjectEditor/ChangeIcon/ChangeIcon';
@@ -20,6 +20,7 @@ import InputV3 from '../../lib/FormV3/InputV3/InputV3';
 import SubSettingMenu from '../../lib/SubSettingMenu/SubSettingMenu';
 import Modal from '../../lib/Modal/Modal';
 import { useForm } from '../../hooks/Form';
+import DropdownV3 from '../../lib/FormV3/DropdownV3/DropdownV3';
 
 const subMenuItem = (projectId: string) => {
   return {
@@ -58,28 +59,18 @@ export default function Setting() {
   const userInfo = useContext(UserContext);
   const [userList, setUserList] = useState<any>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [originalData, setOriginalData] = useState<IProjectForm | null>(null);
 
   const { formValues, setFormValues, formErrors, handleChange, handleBlur, validateAll } =
-    useForm<IProjectForm>(
-      {
-        name: '',
-        key: '',
-        projectLead: '',
-        description: '',
-        websiteUrl: '',
-        iconUrl: '',
-        owner: ' '
-      },
-      {
-        name: { required: true },
-        key: { required: true },
-        projectLead: {},
-        description: {},
-        websiteUrl: {},
-        iconUrl: {},
-        owner: {}
-      }
-    );
+    useForm<IProjectForm>({
+      name: { value: '', rules: { required: true } },
+      key: { value: '', rules: { required: true } },
+      projectLead: { value: '', rules: { required: true } },
+      description: { value: '' },
+      websiteUrl: { value: '' },
+      iconUrl: { value: '' },
+      owner: { value: '' }
+    });
 
   const update = (updateData: IProjectData) => {
     setLoading(true);
@@ -88,6 +79,7 @@ export default function Setting() {
         if (!res.data) {
           return;
         }
+        setOriginalData(formValues);
         toast.success('Your profile has been successfully updated', {
           theme: 'colored',
           className: 'primaryColorBackground'
@@ -103,8 +95,9 @@ export default function Setting() {
 
   const onClickSave = () => {
     const isValid = validateAll();
+    const isFormDirty = JSON.stringify(formValues) !== JSON.stringify(originalData);
 
-    if (!isValid) {
+    if (!isValid || !isFormDirty) {
       return;
     }
 
@@ -120,10 +113,21 @@ export default function Setting() {
   };
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // manually call trigger validation
+    handleChange('name')(e);
+
+    const nameValue = e.target.value;
+    const keyValue = nameValue.substring(0, 3).toUpperCase();
+
     const updateData = {
-      [e.target.name]: e.target.value,
-      key: e.target.value.substring(0, 3).toUpperCase()
+      [e.target.name]: nameValue,
+      key: keyValue
     };
+
+    // manually call trigger validation
+    const copiedE = { target: { value: keyValue } } as React.ChangeEvent<HTMLInputElement>;
+    handleChange('key')(copiedE);
+
     setFormValues((prev) => ({ ...prev, ...updateData }));
   };
 
@@ -148,6 +152,7 @@ export default function Setting() {
           iconUrl: projectDesc?.iconUrl ?? ''
         };
         setFormValues(initialData);
+        setOriginalData(initialData);
       })
       .catch((e) => {
         if (e.response.status === 403) {
@@ -207,13 +212,13 @@ export default function Setting() {
               />
             </div>
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
-              {/* <DropdownV2
-                ref={projectLeadRef}
+              <DropdownV3
                 label="Project Lead"
                 dataTestId="projectLead"
-                onValueChanged={onChange}
-                onValueBlur={() => {}}
+                onValueChanged={handleChange('projectLead') as (e: IMinEvent) => void}
+                onValueBlur={handleBlur('projectLead')}
                 value={formValues?.projectLead}
+                error={formErrors?.projectLead}
                 placeHolder={
                   userList.find((item) => item.id === formValues?.projectLead)?.name ?? ''
                 }
@@ -226,7 +231,8 @@ export default function Setting() {
                   };
                 })}
                 required
-              /> */}
+                addNullOptions
+              />
               <InputV3
                 label="Website Url"
                 onValueChanged={handleChange('websiteUrl')}
@@ -251,6 +257,7 @@ export default function Setting() {
               />
             </div>
             <ButtonV2
+              disabled={JSON.stringify(formValues) === JSON.stringify(originalData)}
               text="SAVE CHANGES"
               onClick={onClickSave}
               loading={loading}
