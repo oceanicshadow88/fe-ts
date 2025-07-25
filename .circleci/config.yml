@@ -6,7 +6,6 @@ orbs:
   snyk: snyk/snyk@1.2.3
   aws-cloudfront: topmonks/aws-cloudfront@1.0.0
   jq: circleci/jq@2.2.0
-  sonarcloud: sonarsource/sonarcloud@2.0.0
 
 jobs:
   skip_ci_check:
@@ -147,7 +146,6 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
       - run: yarn install
-      - sonarcloud/scan
       - save_cache:
           paths:
             - node_modules
