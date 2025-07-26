@@ -1,4 +1,4 @@
-import { IStatus, IBoard, ISprint, ITypes } from '../../src/types';
+import { IStatus, IBoard, ISprint, ITypes, IRetroBoard } from '../../src/types';
 import BaseBuilder from './BaseBuilder';
 //TODO: import SprintBuilder from './SprintBuilder';
 //TODO: import EpicBuilder from './EpicBuilder';
@@ -25,42 +25,6 @@ export class ProjectDetailsBuilder extends BaseBuilder {
       __v: 0
     };
 
-    const retroBoards = [
-      {
-        id: '680ad5c98b96b6e88509d9d9',
-        title: 'Default',
-        statuses: [
-          {
-            id: '680ad5c93304169fba2fdb22',
-            slug: 'to-do',
-            createdAt: '2025-04-25T00:22:33.882Z',
-            description: 'Went well',
-            isPublic: true,
-            updatedAt: '2025-04-25T00:22:33.882Z'
-          },
-          {
-            id: '680ad5c93304169fba2fdb23',
-            slug: 'in-progress',
-            createdAt: '2025-04-25T00:22:33.882Z',
-            description: 'To Improve',
-            isPublic: true,
-            updatedAt: '2025-04-25T00:22:33.882Z'
-          },
-          {
-            id: '680ad5c93304169fba2fdb24',
-            slug: 'review',
-            createdAt: '2025-04-25T00:22:33.882Z',
-            description: 'Discuss/Ideas',
-            isPublic: true,
-            updatedAt: '2025-04-25T00:22:33.882Z'
-          }
-        ],
-        isPublic: true,
-        createdAt: '2025-04-25T00:22:33.908Z',
-        updatedAt: '2025-04-25T00:22:33.908Z'
-      }
-    ];
-
     this.data = {
       labels: [],
       users: [],
@@ -70,7 +34,7 @@ export class ProjectDetailsBuilder extends BaseBuilder {
       details: details,
       statuses: statuses,
       boards: boards,
-      retroBoards: retroBoards
+      retroBoards: []
     };
   }
 
@@ -96,6 +60,11 @@ export class ProjectDetailsBuilder extends BaseBuilder {
 
   addEpic(epic: any): this {
     this.data.epics.push(epic);
+    return this;
+  }
+
+  addRetroBoard(retroBoard: IRetroBoard): this {
+    this.data.retroBoards.push(retroBoard);
     return this;
   }
 

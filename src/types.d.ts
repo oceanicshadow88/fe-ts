@@ -40,6 +40,7 @@ export interface ITicketBasic {
   updatedAt?: Date;
   epic: string;
   ticketNumber: string;
+  rank?: string;
 }
 /** **********Combine this with ITicketBasic*************** */
 export interface ITicketBoard {
@@ -63,6 +64,7 @@ export interface ITicketBoard {
   createdAt?: Date;
   updatedAt?: Date;
   ticketNumber: string;
+  rank?: string;
 }
 
 export interface ITicketInput {
@@ -85,6 +87,7 @@ export interface ITicketInput {
   epicId?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  rank?: string;
 }
 
 export interface ITicketDetails {
@@ -518,3 +521,35 @@ export interface IProduct {
   productDescription: string;
   prices: IPrice;
 }
+/** ******************************************************* */
+export interface IRetroBoard {
+  id: string;
+  title: string;
+  tenant?: string;
+  statuses: IRetroStatus[];
+  isPublic: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IRetroStatus {
+  id: string;
+  description: string;
+  slug: string;
+  tenant?: string;
+  isPublic: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IRetroItem {
+  id: string;
+  content: string;
+  order?: number;
+  tenant: string;
+  sprint: string;
+  status: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+/** ******************************************************* */

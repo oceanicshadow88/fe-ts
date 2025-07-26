@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Editor } from '@tiptap/react';
+import { FaMagic } from 'react-icons/fa';
 import style from './ToolBar.module.scss';
 import useOutsideAlerter from '../../../hooks/OutsideAlerter';
 
@@ -19,9 +20,11 @@ export interface IButtonGroup {
 interface IToolbarProps {
   editor: Editor | null;
   groups?: IButtonGroup[];
+  onAiButtonClick?: () => void;
+  loading?: boolean;
 }
 
-function Toolbar({ editor, groups = [] }: IToolbarProps) {
+function Toolbar({ editor, groups = [], onAiButtonClick, loading }: IToolbarProps) {
   const [openGroup, setOpenGroup] = useState<string | null>(null);
 
   const { visible, setVisible, myRef } = useOutsideAlerter(false);
@@ -69,6 +72,17 @@ function Toolbar({ editor, groups = [] }: IToolbarProps) {
           )}
         </div>
       ))}
+
+      {onAiButtonClick && (
+        <button
+          onClick={onAiButtonClick}
+          disabled={loading}
+          title="AI Optimize"
+          className={style.aiButton}
+        >
+          <FaMagic color={loading ? '#aaa' : '#007bff'} size={17} />
+        </button>
+      )}
     </div>
   );
 }

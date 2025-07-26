@@ -125,22 +125,21 @@ export default function Nav() {
   const renderMenu = () => {
     return (
       <ul className={styles.menu}>
-        {buttons.map((item) => {
-          if (!checkAccess(item.checkAccess as string, projectId)) {
-            return <></>;
-          }
-          return (
-            <li
-              className={[
-                styles.menuItem,
-                location.pathname === item.url ? styles.active : ''
-              ].join(' ')}
-              key={item.name}
-            >
-              {renderBtn(item)}
-            </li>
-          );
-        })}
+        {buttons
+          .filter((item) => checkAccess(item.checkAccess as string, projectId))
+          .map((item) => {
+            return (
+              <li
+                className={[
+                  styles.menuItem,
+                  location.pathname === item.url ? styles.active : ''
+                ].join(' ')}
+                key={item.name}
+              >
+                {renderBtn(item)}
+              </li>
+            );
+          })}
       </ul>
     );
   };

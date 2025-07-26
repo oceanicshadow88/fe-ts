@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
@@ -17,7 +17,7 @@ import checkAccess from '../../utils/helpers';
 import MainMenuV2 from '../MainMenuV2/MainMenuV2';
 import ButtonV2 from '../../lib/FormV2/ButtonV2/ButtonV2';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
-import InputV2 from '../../lib/FormV2/InputV2/InputV2';
+import InputV2, { InputV2Handle } from '../../lib/FormV2/InputV2/InputV2';
 import SubSettingMenu from '../../lib/SubSettingMenu/SubSettingMenu';
 import Modal from '../../lib/Modal/Modal';
 
@@ -53,12 +53,18 @@ const subMenuItem = (projectId: string) => {
 export default function Setting() {
   const navigate = useNavigate();
   const { projectId = '' } = useParams();
+  const [originalData, setOriginalData] = useState<IProjectEditor | null>(null);
   const [data, setData] = useState<IProjectEditor | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const userInfo = useContext(UserContext);
   const [userList, setUserList] = useState<any>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const nameRef = useRef<InputV2Handle>(null);
+  const projectKeyRef = useRef<InputV2Handle>(null);
+  const webUrlRef = useRef<InputV2Handle>(null);
+  const descriptionRef = useRef<InputV2Handle>(null);
 
   useEffect(() => {
     if (Object.keys(userInfo).length === 0 || !userInfo) {
@@ -70,7 +76,17 @@ export default function Setting() {
     }
     showProject(projectId)
       .then((res) => {
-        setData(res.data);
+        const projectDesc = res?.data;
+        const initialData = {
+          name: projectDesc?.name ?? '',
+          key: projectDesc?.key ?? '',
+          projectLead: projectDesc?.projectLead?.id ?? '',
+          description: projectDesc?.description ?? '',
+          websiteUrl: projectDesc?.websiteUrl ?? '',
+          owner: projectDesc?.owner ?? {}
+        };
+        setOriginalData(initialData);
+        setData(initialData);
       })
       .catch((e) => {
         if (e.response.status === 403) {
@@ -96,7 +112,7 @@ export default function Setting() {
         if (!res.data) {
           return;
         }
-        setLoading(false);
+        setOriginalData(data);
         toast.success('Your profile has been successfully updated', {
           theme: 'colored',
           className: 'primaryColorBackground'
@@ -104,14 +120,26 @@ export default function Setting() {
       })
       .catch(() => {
         toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
+      })
+      .finally(() => {
         setLoading(false);
       });
   };
 
   const onClickSave = () => {
-    if (!data) {
+    const isNameValid = nameRef.current?.validate() ?? false;
+    const isProjectKeyValid = projectKeyRef.current?.validate() ?? false;
+    const isWebUrlValid = webUrlRef.current?.validate() ?? false;
+    const isDescriptionValid = descriptionRef.current?.validate() ?? false;
+
+    if (!isNameValid || !isProjectKeyValid || !isWebUrlValid || !isDescriptionValid) {
       return;
     }
+
+    if (JSON.stringify(data) === JSON.stringify(originalData)) {
+      return;
+    }
+
     const copiedData = { ...data };
     update(copiedData);
   };
@@ -150,6 +178,7 @@ export default function Setting() {
             <ChangeIcon uploadSuccess={uploadSuccess} value={data?.iconUrl} loading={!data} />
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <InputV2
+                ref={nameRef}
                 label="Project Name"
                 onValueChanged={onChangeName}
                 onValueBlur={() => {}}
@@ -161,6 +190,7 @@ export default function Setting() {
                 required
               />
               <InputV2
+                ref={projectKeyRef}
                 label="Project Key"
                 onValueChanged={onChange}
                 onValueBlur={() => {}}
@@ -178,8 +208,8 @@ export default function Setting() {
                 dataTestId="projectLead"
                 onValueChanged={onChange}
                 onValueBlur={() => {}}
-                value={data?.projectLead?.id}
-                placeHolder={data?.projectLead?.name}
+                value={data?.projectLead}
+                placeHolder={userList.find((item) => item.id === data?.projectLead)?.name ?? ''}
                 name="projectLead"
                 loading={!data}
                 options={userList.map((item) => {
@@ -191,6 +221,7 @@ export default function Setting() {
                 required
               />
               <InputV2
+                ref={webUrlRef}
                 label="Website Url"
                 onValueChanged={onChange}
                 onValueBlur={() => {}}
@@ -203,6 +234,7 @@ export default function Setting() {
             </div>
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <InputV2
+                ref={descriptionRef}
                 label="Description"
                 onValueChanged={onChange}
                 onValueBlur={() => {}}
@@ -214,6 +246,7 @@ export default function Setting() {
               />
             </div>
             <ButtonV2
+              disabled={JSON.stringify(data) === JSON.stringify(originalData)}
               text="SAVE CHANGES"
               onClick={onClickSave}
               loading={loading}

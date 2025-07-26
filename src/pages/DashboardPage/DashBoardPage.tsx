@@ -11,8 +11,11 @@ import styles from './DashBoardPage.module.scss';
 import useFetchDashboardData from './hooks/useFetchDashboardData';
 import ChartCard, { ChartType } from './components/ChartCard/ChartCard';
 import { convertProgressData } from './utils';
-
-import { getPDFReportContent, getStatusSummary } from '../../api/dashboard/dashboard';
+import {
+  getEpicStatusSummary,
+  getPDFReportContent,
+  getSummary
+} from '../../api/dashboard/dashboard';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
 import { IMinEvent } from '../../types';
 import { getSprintById } from '../../utils/sprintUtils';
@@ -32,6 +35,15 @@ interface IBarChartData {
   dataKeyList: string[];
   data: { name: string; count: number }[];
 }
+type SummaryItem = {
+  name: string;
+  total: number;
+};
+
+interface IEpicChartItem {
+  name: string;
+  [status: string]: number | string;
+}
 
 function DashBoardPage() {
   const { data, isLoading } = useFetchDashboardData();
@@ -41,24 +53,70 @@ function DashBoardPage() {
   const [isShowPDF, setIsShowPDF] = useState<boolean>(false);
   const [chartBase64String, setChartBase64String] = useState<string>('');
   const [dailyReport, setDailyReport] = useState<any>([]);
-  const [pieChartData, setPieChartData] = useState<{ name: string; value: number }[]>([]);
   const [selectedSprint, setSelectedSprint] = useState<any>('');
   const projectDetails = useContext(ProjectDetailsContext);
+
+  const [statusPieChartData, setStatusPieChartData] = useState<{ name: string; value: number }[]>(
+    []
+  );
+  const [typesBarChartData, setTypesBarChartData] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
     const loadStatusSummary = async () => {
       if (!projectId) return;
-      const result = await getStatusSummary(projectId);
-
-      setPieChartData(
-        result?.data?.map((item: { name: string; total: number }) => ({
+      const res = await getSummary(projectId, 'status');
+      setStatusPieChartData(
+        res?.data?.map((item: SummaryItem) => ({
           name: item.name.toUpperCase(),
           value: item.total
         }))
       );
     };
-
     loadStatusSummary();
+  }, [projectId]);
+
+  useEffect(() => {
+    const loadTypeSummary = async () => {
+      if (!projectId) return;
+      const res = await getSummary(projectId, 'type');
+      setTypesBarChartData(
+        res?.data?.map((item: SummaryItem) => ({
+          name: item.name.toUpperCase().replace(/\s+/g, ''),
+          value: item.total
+        }))
+      );
+    };
+    loadTypeSummary();
+  }, [projectId]);
+
+  const [epicChartData, setEpicChartData] = useState<IEpicChartItem[]>([]);
+  const [epicStatusKeys, setEpicStatusKeys] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchEpicSummary = async () => {
+      if (!projectId) return;
+      const result = await getEpicStatusSummary(projectId);
+
+      const formatted = result.map(({ epicTitle, statusSummary }) => {
+        const obj: IEpicChartItem = { name: epicTitle };
+
+        statusSummary.forEach((s) => {
+          obj[s.status] = +s.count;
+        });
+
+        return obj;
+      });
+
+      const statusSet = new Set<string>();
+      result.forEach((epic) => {
+        epic.statusSummary.forEach((statusItem) => statusSet.add(statusItem.status));
+      });
+
+      setEpicChartData(formatted);
+      setEpicStatusKeys(Array.from(statusSet));
+    };
+
+    fetchEpicSummary();
   }, [projectId]);
 
   const valueCardList: IValueCard[] = useMemo(() => {
@@ -93,22 +151,6 @@ function DashBoardPage() {
     ];
 
     return valueCardListData;
-  }, [data]);
-
-  const lineChartData = useMemo((): ILineChartData => {
-    if (!data) return { data: [], dataKeyList: [] };
-    return {
-      dataKeyList: data?.dailyScrums?.map((dailyScrum) => dailyScrum?.title),
-      data: convertProgressData(
-        data?.dailyScrums.map(({ title, progresses }) => ({
-          title,
-          progresses: progresses.map(({ timeStamp, value }) => ({
-            timeStamp,
-            value
-          }))
-        }))
-      )
-    };
   }, [data]);
 
   const barChartData = useMemo((): IBarChartData => {
@@ -208,23 +250,21 @@ function DashBoardPage() {
               {valueCardList.map(({ title, value }, index) => (
                 <ValueCard key={uuidv4()} title={title} value={value} />
               ))}
-
               <ChartCard
                 type={ChartType.PIE_CHART}
-                data={pieChartData}
+                data={statusPieChartData}
                 setChartBase64String={() => {}}
               />
               <ChartCard
-                data={lineChartData?.data}
-                dataKeyList={lineChartData?.dataKeyList}
-                type={ChartType.LINE_CHART}
-                setChartBase64String={setChartBase64String}
-                isShowPDF={isShowPDF}
+                type={ChartType.TYPE_BAR_CHART}
+                data={typesBarChartData}
+                setChartBase64String={() => {}}
               />
               <ChartCard
-                data={barChartData?.data}
-                type={ChartType.BAR_CHART}
-                setChartBase64String={setChartBase64String}
+                data={epicChartData}
+                type={ChartType.EPIC_BAR_CHART}
+                dataKeyList={epicStatusKeys}
+                setChartBase64String={() => {}}
               />
             </div>
           </div>

@@ -17,6 +17,7 @@ import { Permission } from '../../../../utils/permission';
 interface ISprintSection {
   sprint: ISprint;
   totalIssue: number;
+  onSprintComplete: (sprintId: string) => Promise<boolean>;
   children?: React.ReactNode | string;
   dataTestId?: string;
 }
@@ -25,7 +26,8 @@ export default function SprintSection({
   totalIssue,
   sprint,
   dataTestId,
-  children
+  children,
+  onSprintComplete
 }: ISprintSection) {
   const { projectId = '' } = useParams();
   const projectDetails = useContext(ProjectDetailsContext);
@@ -49,7 +51,10 @@ export default function SprintSection({
         toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
       });
   };
-  const onClickCompleteSprint = (sprintId: string) => {
+  const onClickCompleteSprint = async (sprintId: string) => {
+    const isSuccess = await onSprintComplete(sprintId);
+    if (!isSuccess) return;
+
     const data = { isComplete: true, currentSprint: false };
     updateSprint(sprintId, data)
       .then((res) => {

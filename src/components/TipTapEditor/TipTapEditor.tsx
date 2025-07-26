@@ -9,15 +9,25 @@ import { CommentEditorToolBarButtonConfig } from './@const/CommentEditorToolBarB
 import { IUserInfo } from '../../types';
 import { createMentionExtension } from './@const/MentionExtension';
 import { DropUploadImageExtension } from './@const/DropUploadImageExtension';
+import { useAiOptimize } from './hooks/useAiOptimize';
 
 interface ICommentEditorProps {
   onSubmit: (content: JSONContent) => void;
   onCancel: () => void;
   initialContent?: JSONContent;
   users: IUserInfo[];
+  aiOptimizeAction: 'optimizeTicketDescription' | 'optimizeText';
 }
 
-function TipTapEditor({ onSubmit, onCancel, initialContent, users }: ICommentEditorProps) {
+function TipTapEditor({
+  onSubmit,
+  onCancel,
+  initialContent,
+  users,
+  aiOptimizeAction
+}: ICommentEditorProps) {
+  const { optimize, isLoading } = useAiOptimize();
+
   const editor = useEditor({
     extensions: [StarterKit, ImageResize, createMentionExtension(users), DropUploadImageExtension],
     content: initialContent || ''
@@ -43,23 +53,22 @@ function TipTapEditor({ onSubmit, onCancel, initialContent, users }: ICommentEdi
   };
 
   const handleSubmit = () => {
-    if (!editor) {
-      return;
-    }
+    if (!editor) return;
 
     const content = editor.getJSON();
-
-    if (isContentEmpty(content)) {
-      return;
-    }
-
-    if (isContentUnchanged(content)) {
-      return;
-    }
+    if (isContentEmpty(content) || isContentUnchanged(content)) return;
 
     onSubmit(content);
-
     editor.commands.clearContent();
+  };
+
+  const handleAiOptimize = async () => {
+    if (!editor) return;
+    const text = editor.getText();
+    const result = await optimize(text, aiOptimizeAction);
+    if (result) {
+      editor.commands.setContent(result);
+    }
   };
 
   if (!editor) {
@@ -68,8 +77,16 @@ function TipTapEditor({ onSubmit, onCancel, initialContent, users }: ICommentEdi
 
   return (
     <div className={style.commentEditor}>
-      <TooLBar editor={editor} groups={CommentEditorToolBarButtonConfig} />
-      <EditorContent editor={editor} />
+      <div className={`${style.baseBorder} ${isLoading ? style.rainbowBorder : ''}`}>
+        <TooLBar
+          editor={editor}
+          groups={CommentEditorToolBarButtonConfig}
+          onAiButtonClick={handleAiOptimize}
+          loading={isLoading}
+        />
+        <EditorContent editor={editor} />
+      </div>
+
       <div className={style.buttonContainer}>
         <button onClick={handleSubmit} className={style.submitButton}>
           {!isContentEmpty(initialContent) ? 'Update' : 'Submit'}
