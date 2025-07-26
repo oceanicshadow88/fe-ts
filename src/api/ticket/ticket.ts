@@ -57,7 +57,10 @@ export function updateTicket(id: string, data: any) {
 }
 
 export function updateTicketSprint(ticketId: string, sprintId?: string | null, data?: any) {
-  return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, { sprintId, ...data });
+  return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, {
+    sprint: sprintId,
+    ...data
+  });
 }
 
 export function updateTicketEpic(ticketId: string, epic?: string | null) {
