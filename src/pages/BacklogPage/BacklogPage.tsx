@@ -1,7 +1,8 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, DraggableLocation, DropResult } from 'react-beautiful-dnd';
 import BacklogSection from './components/BacklogSection/BacklogSection';
+import MoveIncompleteTicketsModal from './components/MoveIncompleteTicketsModal/MoveIncompleteTicketsModal';
 import styles from './BacklogPage.module.scss';
 import { getBacklogTickets } from '../../api/backlog/backlog';
 import SprintSection from './components/SprintSection/SprintSection';
@@ -15,7 +16,12 @@ import DroppableTicketItems from '../../components/Projects/DroppableTicketItems
 import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import { ModalContext } from '../../context/ModalProvider';
 import { ISprint, ITicketBasic, ITicketInput } from '../../types';
-import { createNewTicket, migrateTicketRanks, updateTicketSprint } from '../../api/ticket/ticket';
+import {
+  createNewTicket,
+  migrateTicketRanks,
+  updateTicketSprint,
+  updateTicket
+} from '../../api/ticket/ticket';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
 import checkAccess from '../../utils/helpers';
 import { Permission } from '../../utils/permission';
@@ -247,6 +253,58 @@ export default function BacklogPage() {
     return grouped;
   }, [tickets]);
 
+  const onSprintComplete = useCallback(
+    async (sprintId: string) => {
+      const sprintTickets = ticketsBySprintId[sprintId];
+      const statusDone = projectDetails.statuses.find((s) => s.slug === 'done');
+      const incompleteTickets = sprintTickets.filter((ticket) => ticket.status !== statusDone?.id);
+      const incompleteSprints = projectDetails.sprints.filter(
+        (sprint) => !sprint.isComplete && sprint.id !== sprintId
+      );
+
+      const onClickConfirmModal = async (target: 'sprint' | 'backlog') => {
+        const closestSprint = incompleteSprints[0];
+        await Promise.all(
+          incompleteTickets.map((ticket) =>
+            updateTicket(ticket.id, { sprint: target === 'sprint' ? closestSprint.id : null })
+          )
+        );
+
+        closeModal('move-incomplete-tickets');
+        fetchBacklogData();
+      };
+
+      const showMoveIncompleteTicketsModal = async () =>
+        new Promise<'sprint' | 'backlog' | null>((resolve) => {
+          showModal(
+            'move-incomplete-tickets',
+            <MoveIncompleteTicketsModal
+              onConfirm={async (target: 'sprint' | 'backlog') => {
+                await onClickConfirmModal(target);
+                resolve(target);
+              }}
+              onClickCloseModal={() => {
+                closeModal('move-incomplete-tickets');
+                resolve(null);
+              }}
+            />
+          );
+        });
+
+      const hasIncompleteTickets = incompleteTickets.length > 0;
+      const hasNextSprint = incompleteSprints.length > 0;
+
+      if (hasIncompleteTickets && hasNextSprint) {
+        const result = await showMoveIncompleteTicketsModal();
+        if (!result) return false;
+      } else if (hasIncompleteTickets) {
+        await onClickConfirmModal('backlog');
+      }
+      return true;
+    },
+    [ticketsBySprintId, projectDetails, showModal, closeModal, fetchBacklogData]
+  );
+
   if (projectDetails.isLoadingDetails) {
     return (
       <div className="container">
@@ -278,6 +336,7 @@ export default function BacklogPage() {
                   key={sprint.id}
                   sprint={sprint}
                   totalIssue={ticketsBySprintId[sprint.id]?.length ?? 0}
+                  onSprintComplete={onSprintComplete}
                   dataTestId={`sprint-${sprint.id}`}
                 >
                   <DroppableTicketItems
