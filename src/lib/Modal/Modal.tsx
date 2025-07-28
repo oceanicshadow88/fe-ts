@@ -4,14 +4,12 @@ import { createPortal } from 'react-dom';
 import styles from './Modal.module.scss';
 
 interface IModal {
-  close?: () => void;
-  header?: string;
   children?: React.ReactNode;
   classesName?: string;
+  backdropClassName?: string;
   fullWidth?: boolean;
-  zIndex?: number;
 }
-export default function Modal({ close, header, children, classesName, fullWidth, zIndex }: IModal) {
+export default function Modal({ children, backdropClassName, classesName, fullWidth }: IModal) {
   const show = true;
   useEffect(() => {
     if (show) {
@@ -25,24 +23,9 @@ export default function Modal({ close, header, children, classesName, fullWidth,
   }, [show]);
 
   return createPortal(
-    <div
-      className={styles.backdrop}
-      onClick={close ?? undefined}
-      aria-hidden="true"
-      style={{ zIndex }}
-    >
-      <div
-        className={[styles.modal, fullWidth ? styles.fullWidth : '', classesName].join(' ')}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        aria-hidden="true"
-      >
-        <div className={styles.popupBody}>
-          {/* Modal header */}
-          {header && <h3>{header}</h3>}
-          {children}
-        </div>
+    <div className={[styles.backdrop, backdropClassName].join(' ')}>
+      <div className={[styles.modal, fullWidth ? styles.fullWidth : '', classesName].join(' ')}>
+        {children}
       </div>
     </div>,
     document.body

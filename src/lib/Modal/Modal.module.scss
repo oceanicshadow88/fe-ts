@@ -24,19 +24,6 @@
     top: 50%;
     transform: translate(-50%, -50%);
     margin: auto;
-    .popupBody {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      background-color: #ffffff;
-      color: #091e42;
-      pointer-events: auto;
-      h3 {
-        padding: 30px 26px 0 26px;
-        font-weight: 600;
-        font-size: 20px;
-      }
-    }
   }
 }
 
@@ -53,4 +40,20 @@
 
 .fullWidth {
   width: 100%;
+}
+
+.ZIndex200 {
+  z-index: 200;
+}
+.ZIndex300 {
+  z-index: 300;
+}
+.ZIndex400 {
+  z-index: 400;
+}
+.ZIndex500 {
+  z-index: 500;
+}
+.ZIndex999 {
+  z-index: 999;
 }

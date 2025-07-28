@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Area } from 'react-easy-crop';
 import { GoAlertFill } from 'react-icons/go';
+import { Area } from 'react-easy-crop';
 import { toast } from 'react-toastify';
 import IconCollection from './IconCollection/IconCollection';
 import Modal from '../../../lib/Modal/Modal';
@@ -8,8 +8,11 @@ import ImageCroper from './ImageCroper/ImageCroper';
 import MainPanel from './MainPanel/MainPanel';
 import { AvatarEditPanel, IUploadImageResponse } from '../../../types';
 import styles from './AvatarEditModal.module.scss';
+import modalStyles from '../../../lib/Modal/Modal.module.scss';
 import { upload } from '../../../api/upload/upload';
 import { getCroppedImg } from '../../../utils/canvasUtils';
+import DefaultModalBody from '../../../lib/Modal/ModalBody/DefaultModalHeader/DefaultModalBody';
+import DefaultModalHeader from '../../../lib/Modal/ModalHeader/DefaultModalHeader/DefaultModalHeader';
 
 function readFile(file) {
   return new Promise((resolve) => {
@@ -95,57 +98,59 @@ export default function AvatarEditModal({
   }, []);
 
   return (
-    <Modal
-      close={close}
-      header={addPredefinedIcons ? 'Choose an icon' : 'Add profile photo'}
-      zIndex={9999}
-    >
-      <div className={styles.modalContainer}>
-        {showErrorMsg && (
-          <div className={styles.errorMsg}>
-            <GoAlertFill color="white" size={26} />
-            <p>Upload a photo {addPredefinedIcons && 'or select from some default options'}</p>
+    <Modal backdropClassName={modalStyles.ZIndex999}>
+      <DefaultModalHeader
+        title={addPredefinedIcons ? 'Choose an icon' : 'Add profile photo'}
+        onClickClose={close}
+      />
+      <DefaultModalBody defaultPadding={false} classesName={styles.modalPadding}>
+        <div className={styles.modalContainer}>
+          {showErrorMsg && (
+            <div className={styles.errorMsg}>
+              <GoAlertFill color="white" size={26} />
+              <p>Upload a photo {addPredefinedIcons && 'or select from some default options'}</p>
+            </div>
+          )}
+          {/* Modal body */}
+          {currentPanel === 'MAIN' && (
+            <MainPanel
+              getUploadFile={getUploadFile}
+              initialValue={selectedImage}
+              getSelectedImage={setSelectedImage}
+              setCurrentPanel={setCurrentPanel}
+              addPredefinedIcons={addPredefinedIcons}
+            />
+          )}
+          {currentPanel === 'CROPPER' && (
+            <ImageCroper
+              fileImageSrc={fileImageSrc}
+              setCroppedAreaPixels={setCroppedAreaPixels}
+              setCurrentPanel={setCurrentPanel}
+            />
+          )}
+          {currentPanel === 'COLLECTION' && (
+            <IconCollection
+              initialValue={selectedImage}
+              setCurrentPanel={setCurrentPanel}
+              getSelectedImage={setSelectedImage}
+            />
+          )}
+          {/* Button set */}
+          <div className={styles.buttonSection}>
+            <button
+              className={styles.selectBtn}
+              type="button"
+              data-testid="saveIcon"
+              onClick={handleSelect}
+            >
+              Select
+            </button>
+            <button className={styles.cancelBtn} type="button" onClick={close}>
+              Cancel
+            </button>
           </div>
-        )}
-        {/* Modal body */}
-        {currentPanel === 'MAIN' && (
-          <MainPanel
-            getUploadFile={getUploadFile}
-            initialValue={selectedImage}
-            getSelectedImage={setSelectedImage}
-            setCurrentPanel={setCurrentPanel}
-            addPredefinedIcons={addPredefinedIcons}
-          />
-        )}
-        {currentPanel === 'CROPPER' && (
-          <ImageCroper
-            fileImageSrc={fileImageSrc}
-            setCroppedAreaPixels={setCroppedAreaPixels}
-            setCurrentPanel={setCurrentPanel}
-          />
-        )}
-        {currentPanel === 'COLLECTION' && (
-          <IconCollection
-            initialValue={selectedImage}
-            setCurrentPanel={setCurrentPanel}
-            getSelectedImage={setSelectedImage}
-          />
-        )}
-        {/* Button set */}
-        <div className={styles.buttonSection}>
-          <button
-            className={styles.selectBtn}
-            type="button"
-            data-testid="saveIcon"
-            onClick={handleSelect}
-          >
-            Select
-          </button>
-          <button className={styles.cancelBtn} type="button" onClick={close}>
-            Cancel
-          </button>
         </div>
-      </div>
+      </DefaultModalBody>
     </Modal>
   );
 }
