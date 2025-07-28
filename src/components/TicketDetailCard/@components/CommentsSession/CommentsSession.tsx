@@ -120,6 +120,7 @@ function CommentsSession(Props: ICommentsSessionProps) {
                   onCancel={handleCancelEdit}
                   initialContent={JSON.parse(comment.content)}
                   users={users}
+                  aiOptimizeAction="optimizeText"
                 />
               </div>
             ) : (
@@ -147,7 +148,12 @@ function CommentsSession(Props: ICommentsSessionProps) {
     <>
       {checkAccess(Permission.AddComments, projectId) &&
         (isEditing ? (
-          <TipTapEditor onSubmit={handleSubmit} onCancel={handleCancel} users={users} />
+          <TipTapEditor
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+            users={users}
+            aiOptimizeAction="optimizeText"
+          />
         ) : (
           <button className={style.commentInputDisactive} onClick={() => setIsEditing(true)}>
             Input comments here...
