@@ -269,12 +269,15 @@ export default function BacklogPage() {
         const closestSprint = incompleteSprints[0];
         await Promise.all(
           incompleteTickets.map((ticket) =>
-            updateTicket(ticket.id, { sprint: target === 'sprint' ? closestSprint.id : null })
+            updateTicket(ticket.id, {
+              sprint: target === 'sprint' ? closestSprint.id : null,
+              status: target === 'sprint' ? ticket.status : null
+            })
           )
         );
 
         closeModal('move-incomplete-tickets');
-        fetchBacklogData();
+        await fetchBacklogData();
       };
 
       const showMoveIncompleteTicketsModal = async () =>
