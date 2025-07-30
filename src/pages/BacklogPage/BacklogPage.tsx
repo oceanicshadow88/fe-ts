@@ -64,13 +64,17 @@ export default function BacklogPage() {
     fetchBacklogData(data);
   };
 
-  const getStatusId = (currentTicket: ITicketBasic, destination?: DraggableLocation | null) => {
+  const getUpdatedStatusId = (
+    currentTicket: ITicketBasic,
+    source: DraggableLocation,
+    destination?: DraggableLocation | null
+  ) => {
     const movingToSprint = destination?.droppableId !== 'backlog';
-    const hasStatus = currentTicket.status;
-    if (movingToSprint && !hasStatus) {
+    const movingFromBacklog = source.droppableId === 'backlog';
+    if (movingToSprint && movingFromBacklog) {
       return projectDetails?.statuses?.[0]?.id;
     }
-    return !movingToSprint ? null : currentTicket?.status?.id;
+    return !movingToSprint ? null : currentTicket?.status;
   };
 
   const shouldShowAlert = (result: DropResult) => {
@@ -149,18 +153,17 @@ export default function BacklogPage() {
     if (!currentTicket) return;
 
     const sprintId = destination.droppableId === 'backlog' ? null : destination.droppableId;
-    const statusId = getStatusId(currentTicket, destination);
+    const statusId = getUpdatedStatusId(currentTicket, source, destination);
 
     const newRank = calculateNewRank(destination, source, draggableId);
 
     const sprintObj = projectDetails?.sprints?.find((s) => s.id === sprintId) || undefined;
-    const statusObj = projectDetails?.statuses?.find((s) => s.id === statusId);
 
-    const updatedTicket = {
+    const updatedTicket: ITicketBasic = {
       ...currentTicket,
       rank: newRank,
       sprint: sprintObj,
-      status: statusObj
+      status: statusId
     };
 
     setTickets((prevTickets) =>
@@ -266,12 +269,15 @@ export default function BacklogPage() {
         const closestSprint = incompleteSprints[0];
         await Promise.all(
           incompleteTickets.map((ticket) =>
-            updateTicket(ticket.id, { sprint: target === 'sprint' ? closestSprint.id : null })
+            updateTicket(ticket.id, {
+              sprint: target === 'sprint' ? closestSprint.id : null,
+              status: target === 'sprint' ? ticket.status : null
+            })
           )
         );
 
         closeModal('move-incomplete-tickets');
-        fetchBacklogData();
+        await fetchBacklogData();
       };
 
       const showMoveIncompleteTicketsModal = async () =>

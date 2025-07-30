@@ -23,7 +23,7 @@ export interface ITicketBasic {
   title: string;
   tags?: ILabelData[];
   comments?: any;
-  status?: IStatus;
+  status?: string | null | undefined;
   priority: 'Highest' | 'High' | 'Medium' | 'Low' | 'Lowest';
   project: IProject;
   board?: string;

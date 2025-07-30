@@ -35,7 +35,7 @@ export function updateTicket(id: string, data: any) {
     copyData.assign = !data.assign ? null : data.assign.id;
   }
   if (typeof data.status !== 'string') {
-    copyData.status = data?.status?.id;
+    copyData.status = data.status === null ? null : data?.status?.id;
   }
   if (typeof data.reporter !== 'string') {
     copyData.reporter = data?.reporter?.id;
