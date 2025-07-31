@@ -41,62 +41,54 @@ function MainPanel({
   });
 
   return (
-    <div className={styles.uploadSection}>
-      <div className={styles.uploadContainer}>
-        <div className={styles.uploadOptions}>
-          <div className={styles.dragArea}>
-            <div
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...getRootProps({
-                className: clsx(styles.dragCircle, {
-                  [styles.accept]: isDragAccept,
-                  [styles.reject]: isDragReject
-                })
-              })}
-            >
-              <input
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...getInputProps()}
-              />
-              <img src={uploadImage} alt="upload icon" />
-              <p>Drag and drop images here</p>
-            </div>
-            <p>or</p>
-            <label htmlFor="uploadPhoto">
-              Upload a photo
-              <input
-                id="uploadPhoto"
-                type="file"
-                accept="image/*"
-                name="Upload a photo"
-                data-testid="picInput"
-                style={{ display: 'none' }}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  getUploadFile(e);
-                  setCurrentPanel('CROPPER');
-                }}
-              />
-            </label>
-          </div>
+    <div className={styles.mainContainer}>
+      <div className={styles.uploadOptions}>
+        <div
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...getRootProps({
+            className: clsx(styles.dragCircle, {
+              [styles.accept]: isDragAccept,
+              [styles.reject]: isDragReject
+            })
+          })}
+        >
+          <input
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...getInputProps()}
+          />
+          <img src={uploadImage} alt="upload icon" />
+          <p>Drag and drop images here</p>
         </div>
-        {addPredefinedIcons && (
-          <div className={styles.photoCollection}>
-            <div className={styles.iconList}>
-              <IconList
-                startIndex={0}
-                endIndex={5}
-                getSelectedIcon={getSelectedImage}
-                initialValue={initialValue}
-              />
-            </div>
-            <button type="button" onClick={() => setCurrentPanel('COLLECTION')}>
-              <span>
-                <RiMoreFill />
-              </span>
-            </button>
-          </div>
-        )}
+        <p>or</p>
+        <label htmlFor="uploadPhoto">
+          Upload a photo
+          <input
+            id="uploadPhoto"
+            type="file"
+            accept="image/*"
+            name="Upload a photo"
+            data-testid="picInput"
+            style={{ display: 'none' }}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              getUploadFile(e);
+              setCurrentPanel('CROPPER');
+            }}
+          />
+        </label>
       </div>
+      {addPredefinedIcons && (
+        <div className={styles.photoCollection}>
+          <IconList
+            startIndex={0}
+            endIndex={5}
+            getSelectedIcon={getSelectedImage}
+            initialValue={initialValue}
+          />
+          <button type="button" onClick={() => setCurrentPanel('COLLECTION')}>
+            <RiMoreFill size={20} />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

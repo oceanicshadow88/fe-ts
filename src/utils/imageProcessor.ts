@@ -28,9 +28,6 @@ export function rotateSize(width, height, rotation) {
 /**
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
-/**
- * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
- */
 export async function getCroppedImg(
   imageSrc: string,
   pixelCrop: Area,
@@ -85,9 +82,6 @@ export async function getCroppedImg(
     pixelCrop.width,
     pixelCrop.height
   );
-
-  // As Base64 string
-  // return croppedCanvas.toDataURL('image/jpeg');
 
   // As a blob
   return new Promise<Blob>((resolve, reject) => {

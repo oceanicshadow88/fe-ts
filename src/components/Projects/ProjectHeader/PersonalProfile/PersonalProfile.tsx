@@ -30,7 +30,7 @@ export default function PersonalProfile({ userInfo }: Props) {
                 <div className={styles.avatarContent}>
                   <span>
                     <Avatar
-                      src={userInfo.avatarIcon}
+                      avatarIcon={userInfo.avatarIcon}
                       backgroundColor={userInfo.backgroundColor}
                       name={userInfo.name}
                       size={30}
@@ -46,7 +46,7 @@ export default function PersonalProfile({ userInfo }: Props) {
                     <h1>Account</h1>
                     <div className={styles.accountContent}>
                       <Avatar
-                        src={userInfo.avatarIcon}
+                        avatarIcon={userInfo.avatarIcon}
                         backgroundColor={userInfo.backgroundColor}
                         name={userInfo.name}
                       />
@@ -87,7 +87,7 @@ export default function PersonalProfile({ userInfo }: Props) {
               <div className={styles.avatarContent}>
                 <span>
                   <Avatar
-                    src={userInfo.avatarIcon}
+                    avatarIcon={userInfo.avatarIcon}
                     backgroundColor={userInfo.backgroundColor}
                     name={userInfo.name}
                     size={30}

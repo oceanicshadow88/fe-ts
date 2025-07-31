@@ -47,7 +47,7 @@ export default function AssigneeBtn({
     <div className={styles.assigneeContainer} ref={myRef} data-testid={`assignee-btn-${ticketId}`}>
       <IconButton
         overrideStyle={styles.assignee}
-        icon={<Avatar src={assignee?.avatarIcon} name={assignee?.name} />}
+        icon={<Avatar avatarIcon={assignee?.avatarIcon} name={assignee?.name} />}
         tooltip={name}
         onClick={() => {
           if (isDisabled) {
@@ -97,7 +97,7 @@ export default function AssigneeBtn({
                       data-testid={`assignee-btn-${ticketId}-${user.id}`}
                     >
                       <Avatar
-                        src={user?.avatarIcon}
+                        avatarIcon={user?.avatarIcon}
                         name={user?.name}
                         backgroundColor={user.backgroundColor}
                       />

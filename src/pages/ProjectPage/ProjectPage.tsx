@@ -415,14 +415,14 @@ export default function ProjectPage() {
                       >
                         <Avatar
                           size={30}
-                          src={project?.projectLead?.avatarIcon}
+                          avatarIcon={project?.projectLead?.avatarIcon}
                           backgroundColor={project?.projectLead?.backgroundColor}
                           name={project?.projectLead?.name}
                         />
                         <div className={[styles.absolute, styles.profileV2].join(' ')}>
                           <div className={styles.profileV2Header}>
                             <Avatar
-                              src={project?.projectLead?.avatarIcon}
+                              avatarIcon={project?.projectLead?.avatarIcon}
                               backgroundColor={project?.projectLead?.backgroundColor}
                               name={project?.projectLead?.name}
                               size={30}

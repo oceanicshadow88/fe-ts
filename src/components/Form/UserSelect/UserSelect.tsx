@@ -117,7 +117,7 @@ export default function UserSelect(props: IUserSelect) {
                           }}
                         >
                           <Avatar
-                            src={user.avatarIcon}
+                            avatarIcon={user.avatarIcon}
                             backgroundColor={user.backgroundColor}
                             name={user.name}
                           />
@@ -134,7 +134,7 @@ export default function UserSelect(props: IUserSelect) {
         ) : (
           <button className={styles.leadInputClose} type="button" onClick={handleClickOutside}>
             <Avatar
-              src={currentSelectedUser.avatarIcon}
+              avatarIcon={currentSelectedUser.avatarIcon}
               backgroundColor={currentSelectedUser.backgroundColor}
               name={currentSelectedUser.name}
             />
