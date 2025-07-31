@@ -54,14 +54,15 @@ const subMenuItem = (projectId: string) => {
 export default function Setting() {
   const navigate = useNavigate();
   const { projectId = '' } = useParams();
+  const userInfo = useContext(UserContext);
+
+  const [userList, setUserList] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const userInfo = useContext(UserContext);
-  const [userList, setUserList] = useState<any>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [originalData, setOriginalData] = useState<IProjectForm | null>(null);
 
-  const { formValues, setFormValues, formErrors, handleChange, handleBlur, validateAll } =
+  const { formValues, setFormValues, formErrors, handleFieldChange, handleFieldBlur, validateAll } =
     useForm<IProjectForm>({
       name: { value: '', rules: { required: true } },
       key: { value: '', rules: { required: true } },
@@ -72,7 +73,7 @@ export default function Setting() {
       owner: { value: '' }
     });
 
-  const update = (updateData: IProjectData) => {
+  const updateFormData = (updateData: IProjectData) => {
     setLoading(true);
     updateProject(projectId, updateData)
       .then((res: AxiosResponse) => {
@@ -93,7 +94,7 @@ export default function Setting() {
       });
   };
 
-  const onClickSave = () => {
+  const handleClickSave = () => {
     const isValid = validateAll();
     const isFormDirty = JSON.stringify(formValues) !== JSON.stringify(originalData);
 
@@ -102,19 +103,19 @@ export default function Setting() {
     }
 
     const copiedData = { ...formValues };
-    update(copiedData);
+    updateFormData(copiedData);
   };
 
-  const uploadSuccess = (photoData: any) => {
+  const handleUploadSuccess = (photoData: any) => {
     const updateData = { ...formValues };
     updateData.iconUrl = photoData[0].location;
     setFormValues(updateData);
-    update({ iconUrl: updateData.iconUrl });
+    updateFormData({ iconUrl: updateData.iconUrl });
   };
 
-  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // manually call trigger validation
-    handleChange('name')(e);
+    handleFieldChange('name')(e);
 
     const nameValue = e.target.value;
     const keyValue = nameValue.substring(0, 3).toUpperCase();
@@ -126,7 +127,7 @@ export default function Setting() {
 
     // manually call trigger validation
     const copiedE = { target: { value: keyValue } } as React.ChangeEvent<HTMLInputElement>;
-    handleChange('key')(copiedE);
+    handleFieldChange('key')(copiedE);
 
     setFormValues((prev) => ({ ...prev, ...updateData }));
   };
@@ -183,15 +184,15 @@ export default function Setting() {
           </header>
           <SettingCard title="Project Information">
             <ChangeIcon
-              uploadSuccess={uploadSuccess}
+              uploadSuccess={handleUploadSuccess}
               value={formValues}
               loading={!formValues.iconUrl}
             />
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <InputV3
                 label="Project Name"
-                onValueChanged={handleChangeName}
-                onValueBlur={handleBlur('name')}
+                onValueChanged={handleNameChange}
+                onValueBlur={handleFieldBlur('name')}
                 value={formValues?.name}
                 error={formErrors?.name}
                 name="name"
@@ -201,8 +202,8 @@ export default function Setting() {
               />
               <InputV3
                 label="Project Key"
-                onValueChanged={handleChange('key')}
-                onValueBlur={handleBlur('key')}
+                onValueChanged={handleFieldChange('key')}
+                onValueBlur={handleFieldBlur('key')}
                 value={formValues?.key}
                 error={formErrors?.key}
                 name="key"
@@ -215,8 +216,8 @@ export default function Setting() {
               <DropdownV3
                 label="Project Lead"
                 dataTestId="projectLead"
-                onValueChanged={handleChange('projectLead') as (e: IMinEvent) => void}
-                onValueBlur={handleBlur('projectLead')}
+                onValueChanged={handleFieldChange('projectLead') as (e: IMinEvent) => void}
+                onValueBlur={handleFieldBlur('projectLead')}
                 value={formValues?.projectLead}
                 error={formErrors?.projectLead}
                 placeHolder={
@@ -235,8 +236,8 @@ export default function Setting() {
               />
               <InputV3
                 label="Website Url"
-                onValueChanged={handleChange('websiteUrl')}
-                onValueBlur={handleBlur('websiteUrl')}
+                onValueChanged={handleFieldChange('websiteUrl')}
+                onValueBlur={handleFieldBlur('websiteUrl')}
                 value={formValues?.websiteUrl}
                 error={formErrors?.websiteUrl}
                 name="websiteUrl"
@@ -247,8 +248,8 @@ export default function Setting() {
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <InputV3
                 label="Description"
-                onValueChanged={handleChange('description')}
-                onValueBlur={handleBlur('description')}
+                onValueChanged={handleFieldChange('description')}
+                onValueBlur={handleFieldBlur('description')}
                 value={formValues?.description}
                 error={formErrors?.description}
                 name="description"
@@ -259,7 +260,7 @@ export default function Setting() {
             <ButtonV2
               disabled={JSON.stringify(formValues) === JSON.stringify(originalData)}
               text="SAVE CHANGES"
-              onClick={onClickSave}
+              onClick={handleClickSave}
               loading={loading}
               dataTestId="projectUpdateBtn"
             />

@@ -30,7 +30,7 @@ export function useForm<T extends Record<string, string | null>>(projectFormConf
     }, {} as Record<keyof T, string | null>)
   );
 
-  const handleChange = (field: keyof T) => {
+  const handleFieldChange = (field: keyof T) => {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
       setFormValues((prev) => ({ ...prev, [field]: value }));
@@ -40,7 +40,7 @@ export function useForm<T extends Record<string, string | null>>(projectFormConf
     };
   };
 
-  const handleBlur = (field: keyof T) => {
+  const handleFieldBlur = (field: keyof T) => {
     return (e: React.ChangeEvent<HTMLInputElement> | IMinEvent) => {
       const { value } = e.target;
       setFormValues((prev) => ({ ...prev, [field]: value }));
@@ -67,8 +67,8 @@ export function useForm<T extends Record<string, string | null>>(projectFormConf
     formValues,
     setFormValues,
     formErrors,
-    handleChange,
-    handleBlur,
+    handleFieldChange,
+    handleFieldBlur,
     validateAll
   };
 }
