@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
@@ -66,6 +65,64 @@ export default function Setting() {
   const webUrlRef = useRef<InputV2Handle>(null);
   const descriptionRef = useRef<InputV2Handle>(null);
 
+  const updateFormData = (updateData: IProjectData) => {
+    setLoading(true);
+    updateProject(projectId, updateData)
+      .then((res: AxiosResponse) => {
+        if (!res.data) {
+          return;
+        }
+        setOriginalData(data);
+        toast.success('Your profile has been successfully updated', {
+          theme: 'colored',
+          className: 'primaryColorBackground'
+        });
+      })
+      .catch(() => {
+        toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleClickSave = () => {
+    const isNameValid = nameRef.current?.validate() ?? false;
+    const isProjectKeyValid = projectKeyRef.current?.validate() ?? false;
+    const isWebUrlValid = webUrlRef.current?.validate() ?? false;
+    const isDescriptionValid = descriptionRef.current?.validate() ?? false;
+
+    if (!isNameValid || !isProjectKeyValid || !isWebUrlValid || !isDescriptionValid) {
+      return;
+    }
+
+    if (JSON.stringify(data) === JSON.stringify(originalData)) {
+      return;
+    }
+
+    const copiedData = { ...data };
+    updateFormData(copiedData);
+  };
+
+  const handleUploadSuccess = (photoData: any) => {
+    const updateData = { ...data };
+    updateData.iconUrl = photoData;
+    setData(updateData);
+  };
+
+  const handleFormFieldChange = (e: IMinEvent) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updateData = {
+      [e.target.name]: e.target.value,
+      key: e.target.value.substring(0, 3).toUpperCase()
+    };
+
+    setData({ ...data, ...updateData });
+  };
+
   useEffect(() => {
     if (Object.keys(userInfo).length === 0 || !userInfo) {
       return;
@@ -106,64 +163,6 @@ export default function Setting() {
     getUsersList();
   }, [userList]);
 
-  const update = (updateData: IProjectData) => {
-    setLoading(true);
-    updateProject(projectId, updateData)
-      .then((res: AxiosResponse) => {
-        if (!res.data) {
-          return;
-        }
-        setOriginalData(data);
-        toast.success('Your profile has been successfully updated', {
-          theme: 'colored',
-          className: 'primaryColorBackground'
-        });
-      })
-      .catch(() => {
-        toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const onClickSave = () => {
-    const isNameValid = nameRef.current?.validate() ?? false;
-    const isProjectKeyValid = projectKeyRef.current?.validate() ?? false;
-    const isWebUrlValid = webUrlRef.current?.validate() ?? false;
-    const isDescriptionValid = descriptionRef.current?.validate() ?? false;
-
-    if (!isNameValid || !isProjectKeyValid || !isWebUrlValid || !isDescriptionValid) {
-      return;
-    }
-
-    if (JSON.stringify(data) === JSON.stringify(originalData)) {
-      return;
-    }
-
-    const copiedData = { ...data };
-    update(copiedData);
-  };
-
-  const uploadSuccess = (photoData: any) => {
-    const updateData = { ...data };
-    updateData.iconUrl = photoData;
-    setData(updateData);
-  };
-
-  const onChange = (e: IMinEvent) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
-
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updateData = {
-      [e.target.name]: e.target.value,
-      key: e.target.value.substring(0, 3).toUpperCase()
-    };
-
-    setData({ ...data, ...updateData });
-  };
-
   return (
     <div className={[styles.settingPage, 'relative'].join(' ')} data-testid="setting-page">
       <MainMenuV2 />
@@ -175,8 +174,8 @@ export default function Setting() {
         </header>
         <SettingCard title="Project Information">
           <EditableAvatar
-            uploadSuccess={uploadSuccess}
-            src={data?.iconUrl}
+            uploadSuccess={handleUploadSuccess}
+            avatarIcon={data?.iconUrl}
             loading={!data}
             addPredefinedIcons
           />
@@ -184,7 +183,7 @@ export default function Setting() {
             <InputV2
               ref={nameRef}
               label="Project Name"
-              onValueChanged={onChangeName}
+              onValueChanged={handleNameChange}
               onValueBlur={() => {}}
               value={data?.name}
               defaultValue={data?.name}
@@ -196,7 +195,7 @@ export default function Setting() {
             <InputV2
               ref={projectKeyRef}
               label="Project Key"
-              onValueChanged={onChange}
+              onValueChanged={handleFormFieldChange}
               onValueBlur={() => {}}
               value={data?.key}
               defaultValue={data?.key}
@@ -210,7 +209,7 @@ export default function Setting() {
             <DropdownV2
               label="Project Lead"
               dataTestId="projectLead"
-              onValueChanged={onChange}
+              onValueChanged={handleFormFieldChange}
               onValueBlur={() => {}}
               value={data?.projectLead}
               placeHolder={userList.find((item) => item.id === data?.projectLead)?.name ?? ''}
@@ -227,7 +226,7 @@ export default function Setting() {
             <InputV2
               ref={webUrlRef}
               label="Website Url"
-              onValueChanged={onChange}
+              onValueChanged={handleFormFieldChange}
               onValueBlur={() => {}}
               value={data?.websiteUrl}
               defaultValue={data?.websiteUrl}
@@ -240,7 +239,7 @@ export default function Setting() {
             <InputV2
               ref={descriptionRef}
               label="Description"
-              onValueChanged={onChange}
+              onValueChanged={handleFormFieldChange}
               onValueBlur={() => {}}
               value={data?.description}
               defaultValue={data?.description}
@@ -252,7 +251,7 @@ export default function Setting() {
           <ButtonV2
             disabled={JSON.stringify(data) === JSON.stringify(originalData)}
             text="SAVE CHANGES"
-            onClick={onClickSave}
+            onClick={handleClickSave}
             loading={loading}
             dataTestId="projectUpdateBtn"
           />
