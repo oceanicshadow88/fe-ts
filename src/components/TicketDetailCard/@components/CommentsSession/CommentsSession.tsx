@@ -108,7 +108,7 @@ function CommentsSession(Props: ICommentsSessionProps) {
             <div className={style.commentsUser}>
               <div className={style.commentsUserInfo}>
                 <Avatar
-                  src={comment?.sender?.avatarIcon}
+                  avatarIcon={comment?.sender?.avatarIcon}
                   backgroundColor={comment?.sender?.backgroundColor}
                   name={comment?.sender?.name}
                 />

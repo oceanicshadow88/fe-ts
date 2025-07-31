@@ -94,7 +94,7 @@ export default function MainMenuV2() {
         <div className={styles.userSettings}>
           <div className={styles.item}>
             <Avatar
-              src={userInfo.avatarIcon}
+              avatarIcon={userInfo.avatarIcon}
               backgroundColor={userInfo.backgroundColor}
               name={userInfo.name}
             />

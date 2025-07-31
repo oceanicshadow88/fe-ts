@@ -147,7 +147,7 @@ export default function ActivitiesSession({ ticketId, ticketInfo }: IActivitiesS
           <div key={activity.id} className={style.container}>
             <div key={activity.id} className={style.headContainer}>
               <div className={style.userContainer}>
-                <Avatar src={activity?.user?.avatarIcon} name={activity?.user?.name} />
+                <Avatar avatarIcon={activity?.user?.avatarIcon} name={activity?.user?.name} />
                 <p>{activity.user.name}</p>
               </div>
               <div className={style.operationContainer}>

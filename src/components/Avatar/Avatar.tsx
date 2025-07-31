@@ -4,47 +4,35 @@ import InitialAvatar from '../InitialAvatar/InitialAvatar';
 import userAvatar from '../../assets/userAvatar.png';
 
 interface AvatarProps {
-  src?: string;
+  avatarIcon?: string;
   backgroundColor?: string;
   name?: string;
+  unassignedAvatar?: string;
   selected?: boolean;
   size?: number;
 }
 
 function Avatar({
-  src,
+  avatarIcon,
   backgroundColor = '',
   name = 'Unassigned',
+  unassignedAvatar = userAvatar,
   selected = false,
   size = 25
 }: AvatarProps) {
-  if (src) {
+  if (avatarIcon || name === 'Unassigned') {
     return (
       <img
         style={{ width: size, height: size }}
         className={selected ? styles.backlogUserIconWithBorder : styles.backlogUserIcon}
-        src={src}
-        alt="AvatarImage"
+        src={avatarIcon ?? unassignedAvatar}
+        alt={name}
       />
     );
   }
-  if (name === 'Unassigned') {
-    return (
-      <img
-        style={{ width: size, height: size }}
-        className={selected ? styles.backlogUserIconWithBorder : styles.backlogUserIcon}
-        src={userAvatar}
-        alt="Unassigned"
-      />
-    );
-  }
+
   return (
-    <InitialAvatar
-      name={name ?? ''}
-      backgroundColor={backgroundColor}
-      size={size}
-      selected={selected}
-    />
+    <InitialAvatar name={name} backgroundColor={backgroundColor} size={size} selected={selected} />
   );
 }
 

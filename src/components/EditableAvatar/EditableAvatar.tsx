@@ -33,7 +33,7 @@ export default function EditableAvatar(props: IEditableAvatarProps) {
 
   return (
     <div className={(styles.icon, styles.editableAvatarContainer)}>
-      <Avatar src={src} backgroundColor={backgroundColor} name={name} size={100} />
+      <Avatar avatarIcon={src} backgroundColor={backgroundColor} name={name} size={100} />
       <button
         type="button"
         data-testid="iconButton"

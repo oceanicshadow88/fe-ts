@@ -13,17 +13,13 @@ interface IIconCollectionProps {
 function IconCollection({ initialValue, getSelectedImage, setCurrentPanel }: IIconCollectionProps) {
   return (
     <div className={styles.defaultIconSection}>
-      <div className={styles.defaultIconContainer}>
-        <div className={styles.defaultIconHeader}>
-          <button type="button" className={styles.backBtn} onClick={() => setCurrentPanel('MAIN')}>
-            <span>
-              <FiArrowLeft />
-            </span>
-          </button>
-          <h4>Default icons</h4>
-        </div>
-        <IconList initialValue={initialValue} getSelectedIcon={getSelectedImage} />
+      <div className={styles.defaultIconHeader}>
+        <button type="button" className={styles.backBtn} onClick={() => setCurrentPanel('MAIN')}>
+          <FiArrowLeft size={20} />
+        </button>
+        <h4>Default icons</h4>
       </div>
+      <IconList initialValue={initialValue} getSelectedIcon={getSelectedImage} />
     </div>
   );
 }

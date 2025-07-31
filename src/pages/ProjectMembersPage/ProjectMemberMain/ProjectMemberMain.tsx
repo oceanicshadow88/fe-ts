@@ -44,7 +44,7 @@ export default function ProjectMemberMain({
             <tr>
               <th className={styles.name}>
                 <Avatar
-                  src={owner.avatarIcon}
+                  avatarIcon={owner.avatarIcon}
                   backgroundColor={owner.backgroundColor}
                   name={owner.name}
                 />
@@ -67,7 +67,7 @@ export default function ProjectMemberMain({
               <tr key={member.id}>
                 <th className={styles.name}>
                   <Avatar
-                    src={member?.avatarIcon}
+                    avatarIcon={member?.avatarIcon}
                     backgroundColor={member?.backgroundColor}
                     name={member?.name}
                   />

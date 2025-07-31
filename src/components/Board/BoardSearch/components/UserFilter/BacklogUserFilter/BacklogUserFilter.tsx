@@ -35,7 +35,7 @@ export default function BacklogUserFilter(props: IBacklogFilter) {
       <button className={styles.backlogUserIconButton} onClick={handleUserFilterSelect}>
         <div className={styles.backlogUserIconContainer} data-tooltip={user.name}>
           <Avatar
-            src={user.avatarIcon}
+            avatarIcon={user.avatarIcon}
             backgroundColor={user.backgroundColor}
             name={user.name}
             selected={pressed}

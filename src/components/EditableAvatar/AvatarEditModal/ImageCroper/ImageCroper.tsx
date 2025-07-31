@@ -3,8 +3,8 @@ import { RxCross1 } from 'react-icons/rx';
 import Cropper, { Area, Point } from 'react-easy-crop';
 import Slider from 'rc-slider';
 import { LuImageMinus, LuImagePlus } from 'react-icons/lu';
-import styles from './ImageCroper.module.scss';
 import { AvatarEditPanel } from '../../../../types';
+import styles from './ImageCroper.module.scss';
 
 interface IImageCroperProps {
   fileImageSrc: string | null;
@@ -12,22 +12,17 @@ interface IImageCroperProps {
   setCurrentPanel: (currentPanel: AvatarEditPanel) => void;
 }
 
-function ImageCroper({
-  // eslint-disable-next-line no-unused-vars
-  fileImageSrc,
-  setCroppedAreaPixels,
-  setCurrentPanel
-}: IImageCroperProps) {
+function ImageCroper({ fileImageSrc, setCroppedAreaPixels, setCurrentPanel }: IImageCroperProps) {
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState<number[] | number>(1);
   const [minZoom, setMinZoom] = useState<number[] | number>(1);
 
-  const onCropComplete = (croppedArea: Area, croppedAreaPixelsValue: Area) => {
+  const onCropComplete = (_croppedArea: Area, croppedAreaPixelsValue: Area) => {
     setCroppedAreaPixels(croppedAreaPixelsValue);
   };
 
   return (
-    <div className={styles.panelContainer}>
+    <div className={styles.imageCroperContainer}>
       {fileImageSrc ? (
         <>
           <RxCross1

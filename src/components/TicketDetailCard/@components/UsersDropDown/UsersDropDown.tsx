@@ -29,7 +29,7 @@ export default function UsersDropDown({ value, users, onChange, dataTestId }: IS
       <Button
         icon={
           <Avatar
-            src={value?.avatarIcon}
+            avatarIcon={value?.avatarIcon}
             backgroundColor={value?.backgroundColor}
             name={value?.name}
           />

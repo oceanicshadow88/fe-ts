@@ -169,112 +169,110 @@ export default function Setting() {
       <MainMenuV2 />
       <SubSettingMenu items={subMenuItem(projectId)} />
       <div className={styles.settingContainer}>
-        <div className={styles.settingMiniContainer}>
-          <header>
-            <h1 className={styles.headerText}>Project Settings</h1>
-            <hr className={styles.divider} />
-          </header>
-          <SettingCard title="Project Information">
-            <EditableAvatar
-              uploadSuccess={uploadSuccess}
-              src={data?.iconUrl}
+        <header>
+          <h1 className={styles.headerText}>Project Settings</h1>
+          <hr className={styles.divider} />
+        </header>
+        <SettingCard title="Project Information">
+          <EditableAvatar
+            uploadSuccess={uploadSuccess}
+            src={data?.iconUrl}
+            loading={!data}
+            addPredefinedIcons
+          />
+          <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
+            <InputV2
+              ref={nameRef}
+              label="Project Name"
+              onValueChanged={onChangeName}
+              onValueBlur={() => {}}
+              value={data?.name}
+              defaultValue={data?.name}
+              name="name"
               loading={!data}
-              addPredefinedIcons
+              dataTestId="projectName"
+              required
             />
-            <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
-              <InputV2
-                ref={nameRef}
-                label="Project Name"
-                onValueChanged={onChangeName}
-                onValueBlur={() => {}}
-                value={data?.name}
-                defaultValue={data?.name}
-                name="name"
-                loading={!data}
-                dataTestId="projectName"
-                required
-              />
-              <InputV2
-                ref={projectKeyRef}
-                label="Project Key"
-                onValueChanged={onChange}
-                onValueBlur={() => {}}
-                value={data?.key}
-                defaultValue={data?.key}
-                name="key"
-                loading={!data}
-                dataTestId="projectKey"
-                required
-              />
-            </div>
-            <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
-              <DropdownV2
-                label="Project Lead"
-                dataTestId="projectLead"
-                onValueChanged={onChange}
-                onValueBlur={() => {}}
-                value={data?.projectLead}
-                placeHolder={userList.find((item) => item.id === data?.projectLead)?.name ?? ''}
-                name="projectLead"
-                loading={!data}
-                options={userList.map((item) => {
-                  return {
-                    label: item.name,
-                    value: item.id
-                  };
-                })}
-                required
-              />
-              <InputV2
-                ref={webUrlRef}
-                label="Website Url"
-                onValueChanged={onChange}
-                onValueBlur={() => {}}
-                value={data?.websiteUrl}
-                defaultValue={data?.websiteUrl}
-                name="websiteUrl"
-                loading={!data}
-                dataTestId="websiteUrl"
-              />
-            </div>
-            <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
-              <InputV2
-                ref={descriptionRef}
-                label="Description"
-                onValueChanged={onChange}
-                onValueBlur={() => {}}
-                value={data?.description}
-                defaultValue={data?.description}
-                name="description"
-                loading={!data}
-                dataTestId="description"
-              />
-            </div>
+            <InputV2
+              ref={projectKeyRef}
+              label="Project Key"
+              onValueChanged={onChange}
+              onValueBlur={() => {}}
+              value={data?.key}
+              defaultValue={data?.key}
+              name="key"
+              loading={!data}
+              dataTestId="projectKey"
+              required
+            />
+          </div>
+          <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
+            <DropdownV2
+              label="Project Lead"
+              dataTestId="projectLead"
+              onValueChanged={onChange}
+              onValueBlur={() => {}}
+              value={data?.projectLead}
+              placeHolder={userList.find((item) => item.id === data?.projectLead)?.name ?? ''}
+              name="projectLead"
+              loading={!data}
+              options={userList.map((item) => {
+                return {
+                  label: item.name,
+                  value: item.id
+                };
+              })}
+              required
+            />
+            <InputV2
+              ref={webUrlRef}
+              label="Website Url"
+              onValueChanged={onChange}
+              onValueBlur={() => {}}
+              value={data?.websiteUrl}
+              defaultValue={data?.websiteUrl}
+              name="websiteUrl"
+              loading={!data}
+              dataTestId="websiteUrl"
+            />
+          </div>
+          <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
+            <InputV2
+              ref={descriptionRef}
+              label="Description"
+              onValueChanged={onChange}
+              onValueBlur={() => {}}
+              value={data?.description}
+              defaultValue={data?.description}
+              name="description"
+              loading={!data}
+              dataTestId="description"
+            />
+          </div>
+          <ButtonV2
+            disabled={JSON.stringify(data) === JSON.stringify(originalData)}
+            text="SAVE CHANGES"
+            onClick={onClickSave}
+            loading={loading}
+            dataTestId="projectUpdateBtn"
+          />
+        </SettingCard>
+        {checkAccess('delete:projects', projectId) && (
+          <SettingCard title="Delete Project">
+            <p className={styles.p}>
+              Delete your project and all of your source data. This is irreversible.
+            </p>
             <ButtonV2
-              disabled={JSON.stringify(data) === JSON.stringify(originalData)}
-              text="SAVE CHANGES"
-              onClick={onClickSave}
-              loading={loading}
-              dataTestId="projectUpdateBtn"
+              text="DELETE"
+              danger
+              size="xs"
+              dataTestId="delete-project"
+              onClick={() => {
+                setShowDeleteModal(true);
+              }}
             />
           </SettingCard>
-          {checkAccess('delete:projects', projectId) && (
-            <SettingCard title="Delete Project">
-              <p className={styles.p}>
-                Delete your project and all of your source data. This is irreversible.
-              </p>
-              <ButtonV2
-                text="DELETE"
-                danger
-                size="xs"
-                dataTestId="delete-project"
-                onClick={() => {
-                  setShowDeleteModal(true);
-                }}
-              />
-            </SettingCard>
-          )}
-        </div>
+        )}
       </div>
       {showDeleteModal && (
         <Modal classesName={styles.modal}>
