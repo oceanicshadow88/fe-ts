@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import styles from './ProjectEditor.module.scss';
@@ -98,7 +97,11 @@ function ProjectEditor(props: ProjectEditorProps) {
     <div className={styles.editSection}>
       <div className={styles.editContainer}>
         <form onSubmit={onSave}>
-          <EditableAvatar uploadSuccess={uploadSuccess} src={data.iconUrl} addPredefinedIcons />
+          <EditableAvatar
+            uploadSuccess={uploadSuccess}
+            avatarIcon={data.iconUrl}
+            addPredefinedIcons
+          />
           <Row defaultMargin>
             <UsersFieldsV2
               onChange={onChange}

@@ -5,7 +5,7 @@ import AvatarEditModal from './AvatarEditModal/AvatarEditModal';
 
 interface IEditableAvatarProps {
   uploadSuccess: (data: string) => void;
-  src?: string;
+  avatarIcon?: string;
   backgroundColor?: string;
   name?: string;
   loading?: boolean;
@@ -15,7 +15,7 @@ interface IEditableAvatarProps {
 export default function EditableAvatar(props: IEditableAvatarProps) {
   const {
     uploadSuccess,
-    src,
+    avatarIcon,
     backgroundColor,
     name,
     loading = false,
@@ -33,7 +33,7 @@ export default function EditableAvatar(props: IEditableAvatarProps) {
 
   return (
     <div className={(styles.icon, styles.editableAvatarContainer)}>
-      <Avatar avatarIcon={src} backgroundColor={backgroundColor} name={name} size={100} />
+      <Avatar avatarIcon={avatarIcon} backgroundColor={backgroundColor} name={name} size={100} />
       <button
         type="button"
         data-testid="iconButton"
@@ -46,7 +46,7 @@ export default function EditableAvatar(props: IEditableAvatarProps) {
       </button>
       {modalShown && (
         <AvatarEditModal
-          initialValue={src}
+          initialValue={avatarIcon}
           addPredefinedIcons={addPredefinedIcons}
           close={() => {
             toggleModal(false);

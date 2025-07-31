@@ -22,11 +22,11 @@ export default function UserMePage() {
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
 
-  const onChangeUser = (e) => {
+  const handleChangeUser = (e) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
 
-  const onSaveMe = async () => {
+  const handleSaveMe = async () => {
     if (!userInfo.token) {
       return;
     }
@@ -56,7 +56,7 @@ export default function UserMePage() {
     }
   };
 
-  const onUpdatePassword = async () => {
+  const handleUpdatePassword = async () => {
     const token = userInfo?.token;
     if (newPassword === confirmPassword) {
       try {
@@ -86,17 +86,17 @@ export default function UserMePage() {
             </header>
             <SettingCard title="Personal Information">
               <EditableAvatar
-                src={userInfo.avatarIcon}
+                avatarIcon={userInfo.avatarIcon}
                 backgroundColor={userInfo.backgroundColor}
                 name={userInfo.name}
                 uploadSuccess={(photoData: string) => {
-                  onChangeUser({ target: { name: 'avatarIcon', value: photoData } });
+                  handleChangeUser({ target: { name: 'avatarIcon', value: photoData } });
                 }}
               />
               <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
                 <InputV2
                   label="User Name"
-                  onValueChanged={onChangeUser}
+                  onValueChanged={handleChangeUser}
                   defaultValue={userInfo.userName}
                   name="userName"
                   loading={loading}
@@ -104,7 +104,7 @@ export default function UserMePage() {
                 />
                 <InputV2
                   label="Full Name"
-                  onValueChanged={onChangeUser}
+                  onValueChanged={handleChangeUser}
                   defaultValue={userInfo.name}
                   name="name"
                   loading={loading}
@@ -114,7 +114,7 @@ export default function UserMePage() {
               <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
                 <InputV2
                   label="Job Title"
-                  onValueChanged={onChangeUser}
+                  onValueChanged={handleChangeUser}
                   defaultValue={userInfo.jobTitle}
                   name="jobTitle"
                   loading={loading}
@@ -122,14 +122,14 @@ export default function UserMePage() {
                 />
                 <InputV2
                   label="Location"
-                  onValueChanged={onChangeUser}
+                  onValueChanged={handleChangeUser}
                   defaultValue={userInfo.location}
                   name="location"
                   loading={loading}
                   dataTestId="location"
                 />
               </div>
-              <ButtonV2 text="Save Changes" onClick={onSaveMe} dataTestId="save-changes" />
+              <ButtonV2 text="Save Changes" onClick={handleSaveMe} dataTestId="save-changes" />
             </SettingCard>
             <SettingCard title="Change Password">
               <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
@@ -169,7 +169,7 @@ export default function UserMePage() {
                   dataTestId="confirmPassword"
                 />
               </div>
-              <ButtonV2 text="Update" onClick={onUpdatePassword} />
+              <ButtonV2 text="Update" onClick={handleUpdatePassword} />
             </SettingCard>
             <SettingCard title="Delete Account (WIP)">
               <p className={styles.p}>

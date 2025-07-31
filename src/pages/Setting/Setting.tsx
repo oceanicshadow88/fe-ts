@@ -189,8 +189,8 @@ export default function Setting() {
           <SettingCard title="Project Information">
             <EditableAvatar
               uploadSuccess={handleUploadSuccess}
-              src={formFields?.iconUrl.value}
-              loading={!formValues}
+              avatarIcon={formFields?.iconUrl.value}
+              loading={!formFields}
               addPredefinedIcons
             />
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
