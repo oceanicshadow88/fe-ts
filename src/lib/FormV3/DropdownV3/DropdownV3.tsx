@@ -50,17 +50,15 @@ function DropdownV3(props: IDropdownV3) {
 
   const finalValue = options?.find((item) => item?.value?.toString() === value?.toString())?.label;
 
-  const onChangeSelect = (val: string | null) => {
+  const handleSelect = (val: string | null) => {
     const e = { target: { value: val, name } };
     onValueChanged(e);
     setShowMenu(false);
     setIsActive(false);
   };
 
-  const onBlurValue = (e: React.ChangeEvent<HTMLButtonElement>) => {
-    if (onValueBlur) {
-      onValueBlur(e);
-    }
+  const handleValueBlur = (e: React.ChangeEvent<HTMLButtonElement>) => {
+    onValueBlur?.(e);
     setIsActive(false);
   };
 
@@ -82,56 +80,54 @@ function DropdownV3(props: IDropdownV3) {
   }
 
   const renderDropdown = () => {
-    if (!showMenu) {
-      return <></>;
-    }
     return (
-      <div className="relative">
-        <div className={defaultStyles.dropDownList}>
-          {addNullOptions && (
-            <button onClick={() => onChangeSelect(null)} data-testid="leader-name-null">
-              <GoDotFill className={value === null ? undefined : defaultStyles.dotIcon} />
-              None
-            </button>
-          )}
-          {options?.length > 0
-            ? options.map((item) => {
-                return (
-                  <button
-                    key={item.value}
-                    className={item.value === value ? defaultStyles.selected : undefined}
-                    onClick={() => onChangeSelect(item.value)}
-                    data-testid={`leader-name-${item.label}`}
-                  >
-                    <GoDotFill
-                      className={item.value === value ? undefined : defaultStyles.dotIcon}
-                    />
-                    {item.label}
+      showMenu && (
+        <div className="relative">
+          <div className={defaultStyles.dropDownList}>
+            {addNullOptions && (
+              <button onClick={() => handleSelect(null)} data-testid="leader-name-null">
+                <GoDotFill className={value === null ? undefined : defaultStyles.dotIcon} />
+                None
+              </button>
+            )}
+            {options?.length > 0
+              ? options.map((item) => {
+                  return (
+                    <button
+                      key={item.value}
+                      className={item.value === value ? defaultStyles.selected : undefined}
+                      onClick={() => handleSelect(item.value)}
+                      data-testid={`leader-name-${item.label}`}
+                    >
+                      <GoDotFill
+                        className={item.value === value ? undefined : defaultStyles.dotIcon}
+                      />
+                      {item.label}
+                    </button>
+                  );
+                })
+              : !addNullOptions && (
+                  <button onClick={() => handleSelect(null)} data-testid="leader-name-null">
+                    No Content
                   </button>
-                );
-              })
-            : !addNullOptions && (
-                <button onClick={() => onChangeSelect(null)} data-testid="leader-name-null">
-                  No Content
-                </button>
-              )}
+                )}
+          </div>
         </div>
-      </div>
+      )
     );
   };
-  const borderCss = hasBorder ? styles.inputContainer : styles.inputContainerNoBorder;
-  const hasContainer = hasBorder ? defaultStyles.dropDownListContainer : '';
   const placeHolderCss = hasBorder ? defaultStyles.placeHolder : defaultStyles.placeHolderNoBorder;
-  const textStyle = !finalValue ? placeHolderCss : defaultStyles.val;
+  const textStyle = finalValue ? defaultStyles.val : placeHolderCss;
+
   return (
     <div
       ref={dropDownRef}
       className={[
         'relative',
-        borderCss,
-        hasContainer,
-        isActive ? styles.borderActive : '',
-        error ? styles.borderRed : ''
+        hasBorder ? styles.inputContainer : styles.inputContainerNoBorder,
+        hasBorder && defaultStyles.dropDownListContainer,
+        isActive && styles.borderActive,
+        error && styles.borderRed
       ].join(' ')}
       data-testid={dataTestId}
     >
@@ -143,21 +139,19 @@ function DropdownV3(props: IDropdownV3) {
       >
         {hasBorder && (
           <label
-            className={[
-              styles.label,
-              error ? styles.errorRed : '',
-              isActive ? styles.active : ''
-            ].join(' ')}
+            className={[styles.label, error && styles.errorRed, isActive && styles.active].join(
+              ' '
+            )}
             htmlFor={name}
           >
             {label}
-            {required ? <span className={styles.errorRed}>*</span> : ''}
+            {required && <span className={styles.errorRed}>*</span>}
           </label>
         )}
         <button
           type={type}
-          className={[styles.input, !value ? styles.lightGrey : ''].join(' ')}
-          onBlur={onBlurValue}
+          className={[styles.input, !value && styles.lightGrey].join(' ')}
+          onBlur={handleValueBlur}
         >
           <p className={[textStyle].join(' ')} style={color ? { color } : undefined}>
             {finalValue ?? placeHolder}
