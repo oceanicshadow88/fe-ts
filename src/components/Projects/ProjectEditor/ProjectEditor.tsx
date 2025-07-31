@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import styles from './ProjectEditor.module.scss';
