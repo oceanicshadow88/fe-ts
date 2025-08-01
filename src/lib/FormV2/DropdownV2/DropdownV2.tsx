@@ -50,7 +50,7 @@ export default function DropdownV2(props: IDropdownV2) {
 
   const onChangeSelect = (val: string | null) => {
     const e = { target: { value: val, name } };
-    const errorMessage = getErrorMessage(e, props);
+    const errorMessage = getErrorMessage(e.target.value, props);
     setError(errorMessage);
     onValueChanged(e);
     setShowMenu(false);
@@ -61,7 +61,7 @@ export default function DropdownV2(props: IDropdownV2) {
     if (onValueBlur) {
       onValueBlur(e);
     }
-    const errorMessage = getErrorMessage(e, props);
+    const errorMessage = getErrorMessage(e.target.value, props);
     setError(errorMessage);
     setIsActive(false);
   };

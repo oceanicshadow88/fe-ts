@@ -86,9 +86,6 @@ export default function Setting() {
           className: 'primaryColorBackground'
         });
       })
-      .catch(() => {
-        toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
-      })
       .finally(() => {
         setLoading(false);
       });
@@ -115,7 +112,7 @@ export default function Setting() {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // manually call trigger validation
-    handleFieldChange('name')(e);
+    handleFieldChange(e);
 
     const nameValue = e.target.value;
     const keyValue = nameValue.substring(0, 3).toUpperCase();
@@ -127,7 +124,7 @@ export default function Setting() {
 
     // manually call trigger validation
     const copiedE = { target: { value: keyValue } } as React.ChangeEvent<HTMLInputElement>;
-    handleFieldChange('key')(copiedE);
+    handleFieldChange(copiedE);
 
     setFormValues((prev) => ({ ...prev, ...updateData }));
   };
@@ -185,6 +182,7 @@ export default function Setting() {
           <SettingCard title="Project Information">
             <ChangeIcon
               uploadSuccess={handleUploadSuccess}
+              // todo: will resolve it in next MR
               value={formValues}
               loading={!formValues.iconUrl}
             />
@@ -192,7 +190,7 @@ export default function Setting() {
               <InputV3
                 label="Project Name"
                 onValueChanged={handleNameChange}
-                onValueBlur={handleFieldBlur('name')}
+                onValueBlur={handleFieldBlur}
                 value={formValues?.name}
                 error={formErrors?.name}
                 name="name"
@@ -202,8 +200,8 @@ export default function Setting() {
               />
               <InputV3
                 label="Project Key"
-                onValueChanged={handleFieldChange('key')}
-                onValueBlur={handleFieldBlur('key')}
+                onValueChanged={handleFieldChange}
+                onValueBlur={handleFieldBlur}
                 value={formValues?.key}
                 error={formErrors?.key}
                 name="key"
@@ -216,8 +214,8 @@ export default function Setting() {
               <DropdownV3
                 label="Project Lead"
                 dataTestId="projectLead"
-                onValueChanged={handleFieldChange('projectLead') as (e: IMinEvent) => void}
-                onValueBlur={handleFieldBlur('projectLead')}
+                onValueChanged={handleFieldChange as (e: IMinEvent) => void}
+                onValueBlur={handleFieldBlur}
                 value={formValues?.projectLead}
                 error={formErrors?.projectLead}
                 placeHolder={
@@ -236,8 +234,8 @@ export default function Setting() {
               />
               <InputV3
                 label="Website Url"
-                onValueChanged={handleFieldChange('websiteUrl')}
-                onValueBlur={handleFieldBlur('websiteUrl')}
+                onValueChanged={handleFieldChange}
+                onValueBlur={handleFieldBlur}
                 value={formValues?.websiteUrl}
                 error={formErrors?.websiteUrl}
                 name="websiteUrl"
@@ -248,8 +246,8 @@ export default function Setting() {
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <InputV3
                 label="Description"
-                onValueChanged={handleFieldChange('description')}
-                onValueBlur={handleFieldBlur('description')}
+                onValueChanged={handleFieldChange}
+                onValueBlur={handleFieldBlur}
                 value={formValues?.description}
                 error={formErrors?.description}
                 name="description"

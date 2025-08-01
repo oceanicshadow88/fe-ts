@@ -30,21 +30,17 @@ export function useForm<T extends Record<string, string | null>>(projectFormConf
     }, {} as Record<keyof T, string | null>)
   );
 
-  const handleFieldChange = (field: keyof T) => {
-    return (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = e.target;
-      setFormValues((prev) => ({ ...prev, [field]: value }));
-      const { rules } = projectFormConfig[field];
-      const error = getErrorMessage(value, { ...rules, label: String(field) });
-      setFormErrors((prev) => ({ ...prev, [field]: error }));
-    };
+  const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+    const { rules } = projectFormConfig[name];
+    const error = getErrorMessage(value, { ...rules, label: name });
+    setFormErrors((prev) => ({ ...prev, [name]: error }));
   };
 
-  const handleFieldBlur = (field: keyof T) => {
-    return (e: React.ChangeEvent<HTMLInputElement> | IMinEvent) => {
-      const { value } = e.target;
-      setFormValues((prev) => ({ ...prev, [field]: value }));
-    };
+  const handleFieldBlur = (e: React.ChangeEvent<HTMLInputElement> | IMinEvent) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
   const validateAll = () => {
@@ -54,7 +50,7 @@ export function useForm<T extends Record<string, string | null>>(projectFormConf
     Object.keys(formValues).forEach((key: keyof T) => {
       const value = formValues[key];
       const { rules } = projectFormConfig[key];
-      const error = getErrorMessage(value, { ...rules, label: key });
+      const error = getErrorMessage(value, { ...rules, label: String(key) });
       newErrors[key] = error;
       if (error) isValid = false;
     });
