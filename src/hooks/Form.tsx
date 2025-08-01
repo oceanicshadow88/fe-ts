@@ -46,13 +46,14 @@ export function useForm<T extends Record<string, string | null>>(projectFormConf
   const validateAll = () => {
     const newErrors = {} as Record<keyof T, string | null>;
     let isValid = true;
-
     Object.keys(formValues).forEach((key: keyof T) => {
       const value = formValues[key];
-      const { rules } = projectFormConfig[key];
-      const error = getErrorMessage(value, { ...rules, label: String(key) });
-      newErrors[key] = error;
-      if (error) isValid = false;
+      const rules = projectFormConfig[String(key)]?.rules;
+      if (rules) {
+        const error = getErrorMessage(value, { ...rules, label: String(key) });
+        newErrors[key] = error;
+        if (error) isValid = false;
+      }
     });
 
     setFormErrors(newErrors);

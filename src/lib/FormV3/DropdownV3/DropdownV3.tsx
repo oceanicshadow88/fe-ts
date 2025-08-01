@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useRef, useEffect } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 import { GoDotFill } from 'react-icons/go';
@@ -131,11 +129,14 @@ function DropdownV3(props: IDropdownV3) {
       ].join(' ')}
       data-testid={dataTestId}
     >
-      <div
+      <button
+        type={type}
         onClick={() => {
           setShowMenu(!showMenu);
           setIsActive(true);
         }}
+        onBlur={handleValueBlur}
+        className={styles.input}
       >
         {hasBorder && (
           <label
@@ -148,18 +149,15 @@ function DropdownV3(props: IDropdownV3) {
             {required && <span className={styles.errorRed}>*</span>}
           </label>
         )}
-        <button
-          type={type}
-          className={[styles.input, !value && styles.lightGrey].join(' ')}
-          onBlur={handleValueBlur}
+        <span
+          className={[textStyle, !value && styles.lightGrey].join(' ')}
+          style={color ? { color } : undefined}
         >
-          <p className={[textStyle].join(' ')} style={color ? { color } : undefined}>
-            {finalValue ?? placeHolder}
-          </p>
-        </button>
+          {finalValue ?? placeHolder}
+        </span>
         {hasBorder && <RiArrowDropDownLine className={defaultStyles.dropDown} />}
-        {error && <p className={styles.errorMessage}>{error}</p>}
-      </div>
+      </button>
+      {error && <p className={styles.errorMessage}>{error}</p>}
       {renderDropdown()}
     </div>
   );
