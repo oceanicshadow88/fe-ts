@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
@@ -142,15 +141,6 @@ export default function Setting() {
       .then((res) => {
         const projectDesc = res?.data;
         const initialData = { ...projectDesc, projectLead: projectDesc?.projectLead?.id ?? '' };
-        // const initialData = {
-        //   name: projectDesc?.name ?? '',
-        //   key: projectDesc?.key ?? '',
-        //   projectLead: projectDesc?.projectLead?.id ?? '',
-        //   description: projectDesc?.description ?? '',
-        //   websiteUrl: projectDesc?.websiteUrl ?? '',
-        //   owner: projectDesc?.owner ?? {},
-        //   iconUrl: projectDesc?.iconUrl ?? ''
-        // };
         setFormValues(initialData);
         setOriginalData(initialData);
       })
