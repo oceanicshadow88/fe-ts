@@ -33,7 +33,6 @@ export default function ProjectPage() {
   const refShowMore = projectList.map(() => createRef<HTMLDivElement>());
   const [showCreateProjectModal, setShowCreateProjectModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showChildModal, setShowChildModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [deleteProjectId, setDeleteProjectId] = useState<string>('');
@@ -179,31 +178,14 @@ export default function ProjectPage() {
               }}
             />
             <DefaultModalBody defaultPadding={false} classesName={styles.modalPadding}>
-              <button
-                onClick={() => {
-                  setShowChildModal(true);
-                }}
-              >
-                show child modal
-              </button>
-              {showChildModal && (
-                <Modal>
-                  <DefaultModalHeader
-                    title="child modal"
-                    onClickClose={() => {
-                      setShowChildModal(false);
-                    }}
-                  />
-                </Modal>
-              )}
-              {/* <ProjectEditor
+              <ProjectEditor
                 showCancelBtn
                 onClickSave={onClickProjectSave}
                 onClickCancel={() => {
                   setShowCreateProjectModal(false);
                 }}
                 loading={loading}
-              /> */}
+              />
             </DefaultModalBody>
           </Modal>
         )}
