@@ -25,7 +25,7 @@ function Avatar({
       <img
         style={{ width: size, height: size }}
         className={selected ? styles.backlogUserIconWithBorder : styles.backlogUserIcon}
-        src={avatarIcon ?? unassignedAvatar}
+        src={avatarIcon || unassignedAvatar}
         alt={name}
       />
     );
