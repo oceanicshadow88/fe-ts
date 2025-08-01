@@ -1,15 +1,14 @@
 /* eslint-disable no-return-assign */
 import React, { useEffect } from 'react';
-import { createPortal } from 'react-dom';
+import ReactDOM from 'react-dom';
 import styles from './Modal.module.scss';
 
 interface IModal {
   children?: React.ReactNode;
   classesName?: string;
-  backdropClassName?: string;
   fullWidth?: boolean;
 }
-export default function Modal({ children, backdropClassName, classesName, fullWidth }: IModal) {
+export default function Modal({ children, classesName, fullWidth }: IModal) {
   const show = true;
   useEffect(() => {
     if (show) {
@@ -22,8 +21,8 @@ export default function Modal({ children, backdropClassName, classesName, fullWi
     };
   }, [show]);
 
-  return createPortal(
-    <div className={[styles.backdrop, backdropClassName].join(' ')}>
+  return ReactDOM.createPortal(
+    <div className={styles.backdrop}>
       <div className={[styles.modal, fullWidth ? styles.fullWidth : '', classesName].join(' ')}>
         {children}
       </div>
