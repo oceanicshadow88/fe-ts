@@ -69,8 +69,7 @@ export default function Setting() {
       projectLead: { value: '', rules: { required: true } },
       description: { value: '' },
       websiteUrl: { value: '' },
-      iconUrl: { value: '' },
-      owner: { value: '' }
+      iconUrl: { value: '' }
     });
 
   const updateFormData = (updateData: IProjectData) => {
@@ -123,7 +122,9 @@ export default function Setting() {
     };
 
     // manually call trigger validation
-    const copiedE = { target: { value: keyValue } } as React.ChangeEvent<HTMLInputElement>;
+    const copiedE = {
+      target: { name: 'key', value: keyValue }
+    } as React.ChangeEvent<HTMLInputElement>;
     handleFieldChange(copiedE);
 
     setFormValues((prev) => ({ ...prev, ...updateData }));
@@ -140,15 +141,16 @@ export default function Setting() {
     showProject(projectId)
       .then((res) => {
         const projectDesc = res?.data;
-        const initialData = {
-          name: projectDesc?.name ?? '',
-          key: projectDesc?.key ?? '',
-          projectLead: projectDesc?.projectLead?.id ?? '',
-          description: projectDesc?.description ?? '',
-          websiteUrl: projectDesc?.websiteUrl ?? '',
-          owner: projectDesc?.owner ?? {},
-          iconUrl: projectDesc?.iconUrl ?? ''
-        };
+        const initialData = { ...projectDesc, projectLead: projectDesc?.projectLead?.id ?? '' };
+        // const initialData = {
+        //   name: projectDesc?.name ?? '',
+        //   key: projectDesc?.key ?? '',
+        //   projectLead: projectDesc?.projectLead?.id ?? '',
+        //   description: projectDesc?.description ?? '',
+        //   websiteUrl: projectDesc?.websiteUrl ?? '',
+        //   owner: projectDesc?.owner ?? {},
+        //   iconUrl: projectDesc?.iconUrl ?? ''
+        // };
         setFormValues(initialData);
         setOriginalData(initialData);
       })
