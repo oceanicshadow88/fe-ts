@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
@@ -10,7 +9,7 @@ import { deleteProject, showProject, updateProject } from '../../api/projects/pr
 import { IMinEvent, IProjectData, IProjectEditor } from '../../types';
 import { UserContext } from '../../context/UserInfoProvider';
 import SettingCard from '../../components/SettingCard/SettingCard';
-import ChangeIcon from '../../components/Projects/ProjectEditor/ChangeIcon/ChangeIcon';
+import EditableAvatar from '../../components/EditableAvatar/EditableAvatar';
 import { getUsers } from '../../api/user/user';
 import 'react-toastify/dist/ReactToastify.css';
 import checkAccess from '../../utils/helpers';
@@ -66,6 +65,64 @@ export default function Setting() {
   const webUrlRef = useRef<InputV2Handle>(null);
   const descriptionRef = useRef<InputV2Handle>(null);
 
+  const updateFormData = (updateData: IProjectData) => {
+    setLoading(true);
+    updateProject(projectId, updateData)
+      .then((res: AxiosResponse) => {
+        if (!res.data) {
+          return;
+        }
+        setOriginalData(data);
+        toast.success('Your profile has been successfully updated', {
+          theme: 'colored',
+          className: 'primaryColorBackground'
+        });
+      })
+      .catch(() => {
+        toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleClickSave = () => {
+    const isNameValid = nameRef.current?.validate() ?? false;
+    const isProjectKeyValid = projectKeyRef.current?.validate() ?? false;
+    const isWebUrlValid = webUrlRef.current?.validate() ?? false;
+    const isDescriptionValid = descriptionRef.current?.validate() ?? false;
+
+    if (!isNameValid || !isProjectKeyValid || !isWebUrlValid || !isDescriptionValid) {
+      return;
+    }
+
+    if (JSON.stringify(data) === JSON.stringify(originalData)) {
+      return;
+    }
+
+    const copiedData = { ...data };
+    updateFormData(copiedData);
+  };
+
+  const handleUploadSuccess = (photoData: any) => {
+    const updateData = { ...data };
+    updateData.iconUrl = photoData;
+    setData(updateData);
+  };
+
+  const handleFormFieldChange = (e: IMinEvent) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updateData = {
+      [e.target.name]: e.target.value,
+      key: e.target.value.substring(0, 3).toUpperCase()
+    };
+
+    setData({ ...data, ...updateData });
+  };
+
   useEffect(() => {
     if (Object.keys(userInfo).length === 0 || !userInfo) {
       return;
@@ -83,7 +140,8 @@ export default function Setting() {
           projectLead: projectDesc?.projectLead?.id ?? '',
           description: projectDesc?.description ?? '',
           websiteUrl: projectDesc?.websiteUrl ?? '',
-          owner: projectDesc?.owner ?? {}
+          owner: projectDesc?.owner ?? {},
+          iconUrl: projectDesc?.iconUrl ?? ''
         };
         setOriginalData(initialData);
         setData(initialData);
@@ -105,171 +163,115 @@ export default function Setting() {
     getUsersList();
   }, [userList]);
 
-  const update = (updateData: IProjectData) => {
-    setLoading(true);
-    updateProject(projectId, updateData)
-      .then((res: AxiosResponse) => {
-        if (!res.data) {
-          return;
-        }
-        setOriginalData(data);
-        toast.success('Your profile has been successfully updated', {
-          theme: 'colored',
-          className: 'primaryColorBackground'
-        });
-      })
-      .catch(() => {
-        toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const onClickSave = () => {
-    const isNameValid = nameRef.current?.validate() ?? false;
-    const isProjectKeyValid = projectKeyRef.current?.validate() ?? false;
-    const isWebUrlValid = webUrlRef.current?.validate() ?? false;
-    const isDescriptionValid = descriptionRef.current?.validate() ?? false;
-
-    if (!isNameValid || !isProjectKeyValid || !isWebUrlValid || !isDescriptionValid) {
-      return;
-    }
-
-    if (JSON.stringify(data) === JSON.stringify(originalData)) {
-      return;
-    }
-
-    const copiedData = { ...data };
-    update(copiedData);
-  };
-
-  const uploadSuccess = (photoData: any) => {
-    const updateData = { ...data };
-    updateData.iconUrl = photoData[0].location;
-    setData(updateData);
-    update({ iconUrl: updateData.iconUrl });
-  };
-
-  const onChange = (e: IMinEvent) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
-
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updateData = {
-      [e.target.name]: e.target.value,
-      key: e.target.value.substring(0, 3).toUpperCase()
-    };
-
-    setData({ ...data, ...updateData });
-  };
-
   return (
     <div className={[styles.settingPage, 'relative'].join(' ')} data-testid="setting-page">
       <MainMenuV2 />
       <SubSettingMenu items={subMenuItem(projectId)} />
       <div className={styles.settingContainer}>
-        <div className={styles.settingMiniContainer}>
-          <header>
-            <h1 className={styles.headerText}>Project Settings</h1>
-            <hr className={styles.divider} />
-          </header>
-          <SettingCard title="Project Information">
-            <ChangeIcon uploadSuccess={uploadSuccess} value={data?.iconUrl} loading={!data} />
-            <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
-              <InputV2
-                ref={nameRef}
-                label="Project Name"
-                onValueChanged={onChangeName}
-                onValueBlur={() => {}}
-                value={data?.name}
-                defaultValue={data?.name}
-                name="name"
-                loading={!data}
-                dataTestId="projectName"
-                required
-              />
-              <InputV2
-                ref={projectKeyRef}
-                label="Project Key"
-                onValueChanged={onChange}
-                onValueBlur={() => {}}
-                value={data?.key}
-                defaultValue={data?.key}
-                name="key"
-                loading={!data}
-                dataTestId="projectKey"
-                required
-              />
-            </div>
-            <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
-              <DropdownV2
-                label="Project Lead"
-                dataTestId="projectLead"
-                onValueChanged={onChange}
-                onValueBlur={() => {}}
-                value={data?.projectLead}
-                placeHolder={userList.find((item) => item.id === data?.projectLead)?.name ?? ''}
-                name="projectLead"
-                loading={!data}
-                options={userList.map((item) => {
-                  return {
-                    label: item.name,
-                    value: item.id
-                  };
-                })}
-                required
-              />
-              <InputV2
-                ref={webUrlRef}
-                label="Website Url"
-                onValueChanged={onChange}
-                onValueBlur={() => {}}
-                value={data?.websiteUrl}
-                defaultValue={data?.websiteUrl}
-                name="websiteUrl"
-                loading={!data}
-                dataTestId="websiteUrl"
-              />
-            </div>
-            <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
-              <InputV2
-                ref={descriptionRef}
-                label="Description"
-                onValueChanged={onChange}
-                onValueBlur={() => {}}
-                value={data?.description}
-                defaultValue={data?.description}
-                name="description"
-                loading={!data}
-                dataTestId="description"
-              />
-            </div>
+        <header>
+          <h1 className={styles.headerText}>Project Settings</h1>
+          <hr className={styles.divider} />
+        </header>
+        <SettingCard title="Project Information">
+          <EditableAvatar
+            uploadSuccess={handleUploadSuccess}
+            avatarIcon={data?.iconUrl}
+            loading={!data}
+            addPredefinedIcons
+          />
+          <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
+            <InputV2
+              ref={nameRef}
+              label="Project Name"
+              onValueChanged={handleNameChange}
+              onValueBlur={() => {}}
+              value={data?.name}
+              defaultValue={data?.name}
+              name="name"
+              loading={!data}
+              dataTestId="projectName"
+              required
+            />
+            <InputV2
+              ref={projectKeyRef}
+              label="Project Key"
+              onValueChanged={handleFormFieldChange}
+              onValueBlur={() => {}}
+              value={data?.key}
+              defaultValue={data?.key}
+              name="key"
+              loading={!data}
+              dataTestId="projectKey"
+              required
+            />
+          </div>
+          <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
+            <DropdownV2
+              label="Project Lead"
+              dataTestId="projectLead"
+              onValueChanged={handleFormFieldChange}
+              onValueBlur={() => {}}
+              value={data?.projectLead}
+              placeHolder={userList.find((item) => item.id === data?.projectLead)?.name ?? ''}
+              name="projectLead"
+              loading={!data}
+              options={userList.map((item) => {
+                return {
+                  label: item.name,
+                  value: item.id
+                };
+              })}
+              required
+            />
+            <InputV2
+              ref={webUrlRef}
+              label="Website Url"
+              onValueChanged={handleFormFieldChange}
+              onValueBlur={() => {}}
+              value={data?.websiteUrl}
+              defaultValue={data?.websiteUrl}
+              name="websiteUrl"
+              loading={!data}
+              dataTestId="websiteUrl"
+            />
+          </div>
+          <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
+            <InputV2
+              ref={descriptionRef}
+              label="Description"
+              onValueChanged={handleFormFieldChange}
+              onValueBlur={() => {}}
+              value={data?.description}
+              defaultValue={data?.description}
+              name="description"
+              loading={!data}
+              dataTestId="description"
+            />
+          </div>
+          <ButtonV2
+            disabled={JSON.stringify(data) === JSON.stringify(originalData)}
+            text="SAVE CHANGES"
+            onClick={handleClickSave}
+            loading={loading}
+            dataTestId="projectUpdateBtn"
+          />
+        </SettingCard>
+        {checkAccess('delete:projects', projectId) && (
+          <SettingCard title="Delete Project">
+            <p className={styles.p}>
+              Delete your project and all of your source data. This is irreversible.
+            </p>
             <ButtonV2
-              disabled={JSON.stringify(data) === JSON.stringify(originalData)}
-              text="SAVE CHANGES"
-              onClick={onClickSave}
-              loading={loading}
-              dataTestId="projectUpdateBtn"
+              text="DELETE"
+              danger
+              size="xs"
+              dataTestId="delete-project"
+              onClick={() => {
+                setShowDeleteModal(true);
+              }}
             />
           </SettingCard>
-          {checkAccess('delete:projects', projectId) && (
-            <SettingCard title="Delete Project">
-              <p className={styles.p}>
-                Delete your project and all of your source data. This is irreversible.
-              </p>
-              <ButtonV2
-                text="DELETE"
-                danger
-                size="xs"
-                dataTestId="delete-project"
-                onClick={() => {
-                  setShowDeleteModal(true);
-                }}
-              />
-            </SettingCard>
-          )}
-        </div>
+        )}
       </div>
       {showDeleteModal && (
         <Modal classesName={styles.modal}>
