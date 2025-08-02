@@ -70,8 +70,9 @@ export default function BacklogPage() {
     source: DraggableLocation,
     destination?: DraggableLocation | null
   ) => {
-    const movingToSprint = destination?.droppableId !== 'backlog';
-    const movingFromBacklog = source.droppableId === 'backlog';
+    const backlog = 'backlog';
+    const movingToSprint = destination?.droppableId !== backlog;
+    const movingFromBacklog = source.droppableId === backlog;
     if (movingToSprint && movingFromBacklog) {
       return projectDetails?.statuses?.[0]?.id;
     }
@@ -171,7 +172,7 @@ export default function BacklogPage() {
 
     const backlog = 'backlog';
     const sprintId = destination.droppableId === backlog ? null : destination.droppableId;
-    const statusId = getStatusId(currentTicket, destination);
+    const statusId = getUpdatedStatusId(currentTicket, destination);
 
     const newRank = calculateRankAfterDrag(destination, source, draggableId);
 
