@@ -10,6 +10,7 @@ import { VscNewFile } from 'react-icons/vsc';
 import styles from './ProjectNavigationV3.module.scss';
 import DailyScrumModal from '../../components/DailyScrum/DailyScrum';
 import checkAccess from '../../utils/helpers';
+import { useGlobalLoading } from '../../components/Loading/GlobalLoading';
 
 interface IItem {
   name: string;
@@ -26,7 +27,7 @@ export default function Nav() {
   const location = useLocation();
   const [showDailyScrum, setShowDailyScrum] = useState(false);
   const { projectId = '' } = useParams();
-
+  const { setIsLoading } = useGlobalLoading();
   const buttons = [
     {
       name: 'Dashboard(WIP)',
@@ -107,12 +108,21 @@ export default function Nav() {
           if (item.isDisable) {
             return;
           }
+
+          // 使用全局loading
+          setIsLoading(true);
+
           if (item.url) {
             navigate(item.url);
           }
           if (item.action) {
             item.action();
           }
+
+          // 延迟取消loading
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 500);
         }}
         key={item.name}
       >
