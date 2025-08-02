@@ -1,8 +1,9 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, DraggableLocation, DropResult } from 'react-beautiful-dnd';
 import { toast } from 'react-toastify';
 import BacklogSection from './components/BacklogSection/BacklogSection';
+import MoveIncompleteTicketsModal from './components/MoveIncompleteTicketsModal/MoveIncompleteTicketsModal';
 import styles from './BacklogPage.module.scss';
 import { getBacklogTickets } from '../../api/backlog/backlog';
 import SprintSection from './components/SprintSection/SprintSection';
@@ -16,7 +17,12 @@ import DroppableTicketItems from '../../components/Projects/DroppableTicketItems
 import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import { ModalContext } from '../../context/ModalProvider';
 import { ISprint, ITicketBasic, ITicketInput } from '../../types';
-import { createNewTicket, migrateTicketRanks, updateTicketSprint } from '../../api/ticket/ticket';
+import {
+  createNewTicket,
+  migrateTicketRanks,
+  updateTicketSprint,
+  updateTicket
+} from '../../api/ticket/ticket';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
 import checkAccess from '../../utils/helpers';
 import { Permission } from '../../utils/permission';
@@ -59,13 +65,17 @@ export default function BacklogPage() {
     fetchBacklogData(data);
   };
 
-  const getStatusId = (currentTicket: ITicketBasic, destination?: DraggableLocation | null) => {
+  const getUpdatedStatusId = (
+    currentTicket: ITicketBasic,
+    source: DraggableLocation,
+    destination?: DraggableLocation | null
+  ) => {
     const movingToSprint = destination?.droppableId !== 'backlog';
-    const hasStatus = currentTicket.status;
-    if (movingToSprint && !hasStatus) {
+    const movingFromBacklog = source.droppableId === 'backlog';
+    if (movingToSprint && movingFromBacklog) {
       return projectDetails?.statuses?.[0]?.id;
     }
-    return !movingToSprint ? null : currentTicket?.status?.id;
+    return !movingToSprint ? null : currentTicket?.status;
   };
 
   const shouldShowAlert = (result: DropResult) => {
@@ -166,13 +176,12 @@ export default function BacklogPage() {
     const newRank = calculateRankAfterDrag(destination, source, draggableId);
 
     const sprintObj = projectDetails?.sprints?.find((s) => s.id === sprintId) || undefined;
-    const statusObj = projectDetails?.statuses?.find((s) => s.id === statusId);
 
-    const updatedTicket = {
+    const updatedTicket: ITicketBasic = {
       ...currentTicket,
       rank: newRank,
       sprint: sprintObj,
-      status: statusObj
+      status: statusId
     };
 
     setTickets((prevTickets) =>
@@ -262,6 +271,61 @@ export default function BacklogPage() {
     return grouped;
   }, [tickets]);
 
+  const onSprintComplete = useCallback(
+    async (sprintId: string) => {
+      const sprintTickets = ticketsBySprintId[sprintId];
+      const statusDone = projectDetails.statuses.find((s) => s.slug === 'done');
+      const incompleteTickets = sprintTickets.filter((ticket) => ticket.status !== statusDone?.id);
+      const incompleteSprints = projectDetails.sprints.filter(
+        (sprint) => !sprint.isComplete && sprint.id !== sprintId
+      );
+
+      const onClickConfirmModal = async (target: 'sprint' | 'backlog') => {
+        const closestSprint = incompleteSprints[0];
+        await Promise.all(
+          incompleteTickets.map((ticket) =>
+            updateTicket(ticket.id, {
+              sprint: target === 'sprint' ? closestSprint.id : null,
+              status: target === 'sprint' ? ticket.status : null
+            })
+          )
+        );
+
+        closeModal('move-incomplete-tickets');
+        await fetchBacklogData();
+      };
+
+      const showMoveIncompleteTicketsModal = async () =>
+        new Promise<'sprint' | 'backlog' | null>((resolve) => {
+          showModal(
+            'move-incomplete-tickets',
+            <MoveIncompleteTicketsModal
+              onConfirm={async (target: 'sprint' | 'backlog') => {
+                await onClickConfirmModal(target);
+                resolve(target);
+              }}
+              onClickCloseModal={() => {
+                closeModal('move-incomplete-tickets');
+                resolve(null);
+              }}
+            />
+          );
+        });
+
+      const hasIncompleteTickets = incompleteTickets.length > 0;
+      const hasNextSprint = incompleteSprints.length > 0;
+
+      if (hasIncompleteTickets && hasNextSprint) {
+        const result = await showMoveIncompleteTicketsModal();
+        if (!result) return false;
+      } else if (hasIncompleteTickets) {
+        await onClickConfirmModal('backlog');
+      }
+      return true;
+    },
+    [ticketsBySprintId, projectDetails, showModal, closeModal, fetchBacklogData]
+  );
+
   if (projectDetails.isLoadingDetails) {
     return (
       <div className="container">
@@ -293,6 +357,7 @@ export default function BacklogPage() {
                   key={sprint.id}
                   sprint={sprint}
                   totalIssue={ticketsBySprintId[sprint.id]?.length ?? 0}
+                  onSprintComplete={onSprintComplete}
                   dataTestId={`sprint-${sprint.id}`}
                 >
                   <DroppableTicketItems
