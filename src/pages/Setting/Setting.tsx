@@ -75,7 +75,9 @@ export default function Setting() {
     setLoading(true);
     updateProject(projectId, updateData)
       .then((res: AxiosResponse) => {
-        if (!res.data) {
+        // eslint-disable-next-line no-console
+        console.log('res is:', res);
+        if (!res || !res.data) {
           return;
         }
         setOriginalData(formValues);
@@ -91,9 +93,9 @@ export default function Setting() {
 
   const handleClickSave = () => {
     const isValid = validateAll();
-    const isFormDirty = JSON.stringify(formValues) !== JSON.stringify(originalData);
+    const isFormUpdated = JSON.stringify(formValues) !== JSON.stringify(originalData);
 
-    if (!isValid || !isFormDirty) {
+    if (!isValid || !isFormUpdated) {
       return;
     }
 
@@ -121,10 +123,11 @@ export default function Setting() {
     };
 
     // manually call trigger validation
-    const copiedE = {
+    const simulatedChangeEvent = {
       target: { name: 'key', value: keyValue }
     } as React.ChangeEvent<HTMLInputElement>;
-    handleFieldChange(copiedE);
+
+    handleFieldChange(simulatedChangeEvent);
 
     setFormValues((prev) => ({ ...prev, ...updateData }));
   };
@@ -139,13 +142,16 @@ export default function Setting() {
     }
     showProject(projectId)
       .then((res) => {
+        if (!res || !res.data) {
+          return;
+        }
         const projectDesc = res?.data;
         const initialData = { ...projectDesc, projectLead: projectDesc?.projectLead?.id ?? '' };
         setFormValues(initialData);
         setOriginalData(initialData);
       })
       .catch((e) => {
-        if (e.response.status === 403) {
+        if (e?.response?.status === 403) {
           navigate('/unauthorize');
         }
       });
