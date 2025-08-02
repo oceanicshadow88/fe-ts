@@ -1,4 +1,3 @@
-/* eslint-disable no-return-assign */
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './Modal.module.scss';
