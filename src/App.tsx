@@ -53,6 +53,7 @@ import { ProjectDetailsProvider } from './context/ProjectDetailsProvider';
 import CreateStripeCheckoutSession from './pages/CreateStripeCheckoutSession/CreateStripeCheckoutSession';
 import SubscriptionSuccessPage from './pages/SubscriptionSuccessPage/SubscriptionSuccessPage';
 import EpicPage from './pages/EpicPage/EpicPage';
+import { LoadingProvider } from './components/Loading/GlobalLoading';
 
 function App() {
   const [isRootDomain, setIsRootDomain] = useState<any>(null);
@@ -99,72 +100,74 @@ function App() {
     <>
       <ToastContainer style={{ width: '400px' }} />
       <UserProvider>
-        <Routes>
-          <Route
-            path=""
-            element={
-              <ProjectDetailsProvider>
-                <ModalProvider>
-                  <Outlet />
-                </ModalProvider>
-              </ProjectDetailsProvider>
-            }
-          >
-            {isRootDomain && <Route path="register" element={<RegisterPageV2 />} />}
-            <Route path="/faq" element={<FAQPage />} />
-            {/* active new user TODO: fix */}
-            <Route path="/verify" element={<VerifyPageV2 />} />
-            {/* confirm existing user */}
-            {/*  <Route path="/user-confirm" element={<VerifyPageV2 />} />  */}
-            <Route path="login" element={<LoginPageV2 isRootDomain={isRootDomain || false} />} />
-            <Route path="/" element={getRootPage()} />
-            <Route path="/login/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/features/report" element={<ReportPage />} />
-            <Route path="/login/change-password" element={<ChangePasswordPage />} />
-            <Route path="/cookie-policy" element={<CookiePolicyPage />} />
-            <Route path="/gdpr" element={<GdprPage />} />
-            <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-            <Route path="/privacy-statement" element={<PrivacyStatementPage />} />
-            <Route path="/refund-policy" element={<RefundPolicyPage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/about-t2" element={<AboutPageT2 />} />
-            <Route path="/about-t3" element={<AboutPageT3 />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/careers" element={<CareerPage />} />
-            <Route path="/security-page" element={<SecurityPage />} />
-            <Route path="/errorPage" element={<ErrorPage />} />
-            <Route path="/features/my-work" element={<MyWorkPage />} />
-            <Route path="/unauthorize" element={<UnauthorizePage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/price" element={<PricePage />} />
-            <Route path="/checkout" element={<CreateStripeCheckoutSession />} />
-            <Route path="/features/kanban-board" element={<KanbanBoardPage />} />
-            <Route path="/support-center" element={<SupportCenterPage />} />
-            <Route path="" element={<AuthenticationRoute />}>
-              <Route path="/projects/:projectId/" element={<DashboardLayout />}>
-                <Route path="board" element={<BoardPage />} />
-                <Route path="backlog" element={<BacklogPage />} />
-                <Route path="shortcuts" element={<ShortcutPage />} />
-                <Route path="dashboard" element={<DashBoardPage />} />
-                <Route path="members" element={<ProjectMembersPage />} />
-                <Route path="retro" element={<RetroPage />} />
-                <Route path="epic" element={<EpicPage />} />
+        <LoadingProvider>
+          <Routes>
+            <Route
+              path=""
+              element={
+                <ProjectDetailsProvider>
+                  <ModalProvider>
+                    <Outlet />
+                  </ModalProvider>
+                </ProjectDetailsProvider>
+              }
+            >
+              {isRootDomain && <Route path="register" element={<RegisterPageV2 />} />}
+              <Route path="/faq" element={<FAQPage />} />
+              {/* active new user TODO: fix */}
+              <Route path="/verify" element={<VerifyPageV2 />} />
+              {/* confirm existing user */}
+              {/*  <Route path="/user-confirm" element={<VerifyPageV2 />} />  */}
+              <Route path="login" element={<LoginPageV2 isRootDomain={isRootDomain || false} />} />
+              <Route path="/" element={getRootPage()} />
+              <Route path="/login/reset-password" element={<ResetPasswordPage />} />
+              <Route path="/features/report" element={<ReportPage />} />
+              <Route path="/login/change-password" element={<ChangePasswordPage />} />
+              <Route path="/cookie-policy" element={<CookiePolicyPage />} />
+              <Route path="/gdpr" element={<GdprPage />} />
+              <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+              <Route path="/privacy-statement" element={<PrivacyStatementPage />} />
+              <Route path="/refund-policy" element={<RefundPolicyPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/about-t2" element={<AboutPageT2 />} />
+              <Route path="/about-t3" element={<AboutPageT3 />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/careers" element={<CareerPage />} />
+              <Route path="/security-page" element={<SecurityPage />} />
+              <Route path="/errorPage" element={<ErrorPage />} />
+              <Route path="/features/my-work" element={<MyWorkPage />} />
+              <Route path="/unauthorize" element={<UnauthorizePage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/price" element={<PricePage />} />
+              <Route path="/checkout" element={<CreateStripeCheckoutSession />} />
+              <Route path="/features/kanban-board" element={<KanbanBoardPage />} />
+              <Route path="/support-center" element={<SupportCenterPage />} />
+              <Route path="" element={<AuthenticationRoute />}>
+                <Route path="/projects/:projectId/" element={<DashboardLayout />}>
+                  <Route path="board" element={<BoardPage />} />
+                  <Route path="backlog" element={<BacklogPage />} />
+                  <Route path="shortcuts" element={<ShortcutPage />} />
+                  <Route path="dashboard" element={<DashBoardPage />} />
+                  <Route path="members" element={<ProjectMembersPage />} />
+                  <Route path="retro" element={<RetroPage />} />
+                  <Route path="epic" element={<EpicPage />} />
+                </Route>
+                <Route path="/payment/success" element={<SubscriptionSuccessPage />} />
+                <Route path="/settings/:projectId" element={<Setting />} />
+                <Route path="/me" element={<UserMePage />} />
+                <Route path="/user/:id" element={<UserPage />} />
+                <Route path="/access" element={<AccessPage />} />
+                <Route path="/projects" element={<ProjectPage />} />
+                <Route path="/create-projects" element={<CreateProject />} />
+                <Route path="/account-settings" element={<AccountSettingsPage />} />
+                <Route path="/account-settings/change-password" element={<AccountSettingsPage />} />
+                <Route path="/account-settings/delete-account" element={<AccountSettingsPage />} />
+                <Route path="/projects/:projectId/roles" element={<RolePage />} />
               </Route>
-              <Route path="/payment/success" element={<SubscriptionSuccessPage />} />
-              <Route path="/settings/:projectId" element={<Setting />} />
-              <Route path="/me" element={<UserMePage />} />
-              <Route path="/user/:id" element={<UserPage />} />
-              <Route path="/access" element={<AccessPage />} />
-              <Route path="/projects" element={<ProjectPage />} />
-              <Route path="/create-projects" element={<CreateProject />} />
-              <Route path="/account-settings" element={<AccountSettingsPage />} />
-              <Route path="/account-settings/change-password" element={<AccountSettingsPage />} />
-              <Route path="/account-settings/delete-account" element={<AccountSettingsPage />} />
-              <Route path="/projects/:projectId/roles" element={<RolePage />} />
+              <Route path="*" element={<ErrorPage />} />
             </Route>
-            <Route path="*" element={<ErrorPage />} />
-          </Route>
-        </Routes>
+          </Routes>
+        </LoadingProvider>
       </UserProvider>
     </>
   );
