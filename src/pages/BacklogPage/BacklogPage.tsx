@@ -172,7 +172,7 @@ export default function BacklogPage() {
 
     const backlog = 'backlog';
     const sprintId = destination.droppableId === backlog ? null : destination.droppableId;
-    const statusId = getUpdatedStatusId(currentTicket, destination);
+    const statusId = getUpdatedStatusId(currentTicket, source, destination);
 
     const newRank = calculateRankAfterDrag(destination, source, draggableId);
 
