@@ -75,8 +75,6 @@ export default function Setting() {
     setLoading(true);
     updateProject(projectId, updateData)
       .then((res: AxiosResponse) => {
-        // eslint-disable-next-line no-console
-        console.log('res is:', res);
         if (!res || !res.data) {
           return;
         }
