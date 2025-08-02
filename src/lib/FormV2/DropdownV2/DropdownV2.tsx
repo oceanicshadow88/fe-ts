@@ -26,17 +26,17 @@ interface IDropdownV2 {
 
 export default function DropdownV2(props: IDropdownV2) {
   const {
-    value = '',
+    value,
     name,
     label,
-    placeHolder = '',
+    placeHolder,
     type = 'button',
-    required = false,
+    required,
     options,
     onValueChanged,
     onValueBlur = null,
     loading = false,
-    dataTestId = null,
+    dataTestId,
     hasBorder = true,
     addNullOptions = false,
     color
@@ -46,7 +46,7 @@ export default function DropdownV2(props: IDropdownV2) {
   const [isActive, setIsActive] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
-  const finalValue = options?.find((item) => item?.value?.toString() === value?.toString())?.label;
+  const finalValue = options?.filter((item) => item.value === value)[0]?.label;
 
   const onChangeSelect = (val: string | null) => {
     const e = { target: { value: val, name } };
@@ -61,6 +61,8 @@ export default function DropdownV2(props: IDropdownV2) {
     if (onValueBlur) {
       onValueBlur(e);
     }
+    const errorMessage = getErrorMessage(e.target.value, props);
+    setError(errorMessage);
     setIsActive(false);
   };
 
@@ -138,7 +140,7 @@ export default function DropdownV2(props: IDropdownV2) {
           onBlur={onBlurValue}
         >
           <p className={[textStyle].join(' ')} style={color ? { color } : undefined}>
-            {finalValue ?? defaultPlaceHolder}
+            {!finalValue ? defaultPlaceHolder : finalValue}
           </p>
         </button>
         {hasBorder && <RiArrowDropDownLine className={defaultStyles.dropDown} />}
@@ -148,3 +150,13 @@ export default function DropdownV2(props: IDropdownV2) {
     </div>
   );
 }
+
+DropdownV2.defaultProps = {
+  required: false,
+  placeHolder: '',
+  type: 'button',
+  onValueBlur: null,
+  value: '',
+  loading: false,
+  dataTestId: null
+};

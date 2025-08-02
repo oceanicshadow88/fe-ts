@@ -1,5 +1,5 @@
 import React from 'react';
-import InputV2 from '../../../../lib/FormV2/InputV2/InputV2';
+import InputV2 from '../../../../lib/FormV3/InputV3/InputV3';
 import Row from '../../../../lib/Grid/Row/Row';
 
 import styles from './ShortcutContent.module.scss';
