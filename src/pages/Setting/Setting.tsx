@@ -252,7 +252,10 @@ export default function Setting() {
               />
             </div>
             <ButtonV2
-              disabled={JSON.stringify(formValues) === JSON.stringify(originalData)}
+              disabled={
+                JSON.stringify(formValues) === JSON.stringify(originalData) ||
+                Object.values(formErrors)?.some((value) => value != null)
+              }
               text="SAVE CHANGES"
               onClick={handleClickSave}
               loading={loading}
