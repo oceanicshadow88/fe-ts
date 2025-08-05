@@ -1,6 +1,7 @@
 import React, { useState, useContext, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, DraggableLocation, DropResult } from 'react-beautiful-dnd';
+import { toast } from 'react-toastify';
 import BacklogSection from './components/BacklogSection/BacklogSection';
 import MoveIncompleteTicketsModal from './components/MoveIncompleteTicketsModal/MoveIncompleteTicketsModal';
 import styles from './BacklogPage.module.scss';
@@ -25,7 +26,7 @@ import {
 import ProjectHOC from '../../components/HOC/ProjectHOC';
 import checkAccess from '../../utils/helpers';
 import { Permission } from '../../utils/permission';
-import { customCompare, generateKeyBetween } from '../../utils/lexoRank';
+import { customCompare, generateRankBetweenTwoTickets } from '../../utils/lexoRank';
 
 export default function BacklogPage() {
   const { projectId = '' } = useParams();
@@ -40,20 +41,20 @@ export default function BacklogPage() {
       const ticketsData = response || [];
       const needsMigration = ticketsData.some((ticket) => !ticket.rank);
 
-      if (needsMigration && !isMigrating) {
-        setIsMigrating(true);
-        try {
-          await migrateTicketRanks(projectId);
-
-          const updatedResponse = await getBacklogTickets(projectId, filterData);
-          setTickets(updatedResponse || []);
-        } catch (error) {
-          alert('Migrate Ticket Ranks Failed!');
-        } finally {
-          setIsMigrating(false);
-        }
-      } else {
+      if (!needsMigration || isMigrating) {
         setTickets(ticketsData);
+        return;
+      }
+
+      setIsMigrating(true);
+      try {
+        await migrateTicketRanks(projectId);
+        const updatedResponse = await getBacklogTickets(projectId, filterData);
+        setTickets(updatedResponse || []);
+      } catch (error) {
+        toast.error('Migrate Ticket Ranks Failed!');
+      } finally {
+        setIsMigrating(false);
       }
     } catch (error) {
       setTickets([]);
@@ -69,8 +70,9 @@ export default function BacklogPage() {
     source: DraggableLocation,
     destination?: DraggableLocation | null
   ) => {
-    const movingToSprint = destination?.droppableId !== 'backlog';
-    const movingFromBacklog = source.droppableId === 'backlog';
+    const backlog = 'backlog';
+    const movingToSprint = destination?.droppableId !== backlog;
+    const movingFromBacklog = source.droppableId === backlog;
     if (movingToSprint && movingFromBacklog) {
       return projectDetails?.statuses?.[0]?.id;
     }
@@ -103,32 +105,48 @@ export default function BacklogPage() {
     return false;
   };
 
-  function calculateNewRank(destination, source, draggableId) {
-    const sectionTickets =
-      destination.droppableId === 'backlog'
-        ? tickets.filter((t) => !t.sprint)
-        : tickets.filter(
-            (t) => t.sprint && String(t.sprint.id ?? t.sprint) === destination.droppableId
-          );
+  function calculateRankAfterDrag(destination, source, draggableId) {
+    const sortedTickets = [...tickets]
+      .filter((t) => t.id !== draggableId)
+      .sort((a, b) => customCompare(a?.rank, b?.rank));
 
-    const sortedTickets = [...sectionTickets].sort((a, b) => customCompare(a?.rank, b?.rank));
+    const destinationTickets = sortedTickets.filter((t) => {
+      const backlog = 'backlog';
+      if (destination.droppableId === backlog) {
+        return !t.sprint;
+      }
+      return t.sprint && String(t.sprint.id ?? t.sprint) === destination.droppableId;
+    });
 
-    const ticketsWithoutCurrent =
-      source.droppableId === destination.droppableId
-        ? sortedTickets.filter((t) => t.id !== draggableId)
-        : sortedTickets;
-
-    if (destination.index === 0) {
-      const firstTicket = ticketsWithoutCurrent[0];
-      return generateKeyBetween(null, firstTicket?.rank || null);
+    const noTicketsInColumn = destinationTickets.length === 0;
+    if (noTicketsInColumn) {
+      const lastGlobalTicket = sortedTickets[sortedTickets.length - 1];
+      return generateRankBetweenTwoTickets(lastGlobalTicket?.rank || null, null);
     }
-    if (destination.index >= ticketsWithoutCurrent.length) {
-      const lastTicket = ticketsWithoutCurrent[ticketsWithoutCurrent.length - 1];
-      return generateKeyBetween(lastTicket?.rank || null, null);
+
+    const isDraggedToTop = destination.index === 0;
+    if (isDraggedToTop) {
+      const firstTicket = destinationTickets[0];
+      const firstTicketGlobalIndex = sortedTickets.findIndex((t) => t.id === firstTicket.id);
+      const prevTicket =
+        firstTicketGlobalIndex > 0 ? sortedTickets[firstTicketGlobalIndex - 1] : null;
+      return generateRankBetweenTwoTickets(prevTicket?.rank || null, firstTicket?.rank || null);
     }
-    const prevTicket = ticketsWithoutCurrent[destination.index - 1];
-    const nextTicket = ticketsWithoutCurrent[destination.index];
-    return generateKeyBetween(prevTicket?.rank || null, nextTicket?.rank || null);
+
+    const isDraggedToBottom = destination.index >= destinationTickets.length;
+    if (isDraggedToBottom) {
+      const lastTicket = destinationTickets[destinationTickets.length - 1];
+      const lastTicketGlobalIndex = sortedTickets.findIndex((t) => t.id === lastTicket.id);
+      const nextTicket =
+        lastTicketGlobalIndex < sortedTickets.length - 1
+          ? sortedTickets[lastTicketGlobalIndex + 1]
+          : null;
+      return generateRankBetweenTwoTickets(lastTicket?.rank || null, nextTicket?.rank || null);
+    }
+
+    const prevTicket = destinationTickets[destination.index - 1];
+    const nextTicket = destinationTickets[destination.index];
+    return generateRankBetweenTwoTickets(prevTicket?.rank || null, nextTicket?.rank || null);
   }
 
   const onDragEventHandler = async (result: DropResult) => {
@@ -139,7 +157,7 @@ export default function BacklogPage() {
     }
 
     if (shouldShowAlert(result)) {
-      alert(
+      toast.error(
         'Unless it can be finished within this sprint, Please consider move a ticket out of the sprint first, or put the new ticket in next sprint if it cannot be finished'
       );
     }
@@ -152,10 +170,11 @@ export default function BacklogPage() {
     const currentTicket = tickets.find((item) => item.id === draggableId);
     if (!currentTicket) return;
 
-    const sprintId = destination.droppableId === 'backlog' ? null : destination.droppableId;
+    const backlog = 'backlog';
+    const sprintId = destination.droppableId === backlog ? null : destination.droppableId;
     const statusId = getUpdatedStatusId(currentTicket, source, destination);
 
-    const newRank = calculateNewRank(destination, source, draggableId);
+    const newRank = calculateRankAfterDrag(destination, source, draggableId);
 
     const sprintObj = projectDetails?.sprints?.find((s) => s.id === sprintId) || undefined;
 
@@ -173,7 +192,7 @@ export default function BacklogPage() {
     try {
       await updateTicketSprint(draggableId, sprintId, { status: statusId, rank: newRank });
     } catch (error) {
-      alert('Failed to update Ticket!');
+      toast.error('Failed to update Ticket!');
     }
   };
 
@@ -181,18 +200,15 @@ export default function BacklogPage() {
     if (data.sprintId) {
       const sprint = projectDetails?.sprints?.find((item) => item.id === data.sprintId);
       if (sprint?.currentSprint) {
-        alert(
+        toast.error(
           'Unless it can be finished within this sprint, Please consider move a ticket out of the sprint first, or put it the new ticket in next sprint if it cannot be finished'
         );
       }
     }
-    const sectionTickets = data.sprintId
-      ? tickets.filter((t) => t.sprint && String(t.sprint.id ?? t.sprint) === data.sprintId)
-      : tickets.filter((t) => !t.sprint);
 
-    const sorted = [...sectionTickets].sort((a, b) => customCompare(a?.rank, b?.rank));
+    const sorted = [...tickets].sort((a, b) => customCompare(a?.rank, b?.rank));
     const lastRank = sorted.length > 0 ? sorted[sorted.length - 1].rank : null;
-    const newRank = generateKeyBetween(lastRank, null);
+    const newRank = generateRankBetweenTwoTickets(lastRank, null);
 
     const ticketData = { ...data, rank: newRank };
     await createNewTicket(ticketData);

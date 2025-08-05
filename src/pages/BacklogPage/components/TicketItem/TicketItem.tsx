@@ -111,6 +111,7 @@ export default function TicketItem({
   const onChangeEpic = async (ticketId: string, updatedEpicId: string | null) => {
     await updateTicket(ticketId, { epic: updatedEpicId });
     setEpicId(updatedEpicId);
+    onTicketChanged();
   };
 
   useEffect(() => {

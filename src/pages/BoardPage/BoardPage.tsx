@@ -14,7 +14,7 @@ import ProjectHOC from '../../components/HOC/ProjectHOC';
 import CreateBoardTicket from './components/CreateBoardTicket/CreateBoardTicket';
 import ButtonV2 from '../../lib/FormV2/ButtonV2/ButtonV2';
 import { getSprintById } from '../../utils/sprintUtils';
-import { generateKeyBetween, customCompare } from '../../utils/lexoRank';
+import { generateRankBetweenTwoTickets, customCompare } from '../../utils/lexoRank';
 
 export default function BoardPage() {
   const [tickets, setTickets] = useState<ITicketBoard[]>([]);
@@ -95,8 +95,8 @@ export default function BoardPage() {
 
     const newRank =
       allTicketsSorted.length > 0
-        ? generateKeyBetween(allTicketsSorted[allTicketsSorted.length - 1]?.rank, null)
-        : generateKeyBetween(null, null);
+        ? generateRankBetweenTwoTickets(allTicketsSorted[allTicketsSorted.length - 1]?.rank, null)
+        : generateRankBetweenTwoTickets(null, null);
 
     const ticketData = { ...data, rank: newRank };
 
@@ -109,14 +109,17 @@ export default function BoardPage() {
     allTicketsSorted: ITicketBoard[],
     destinationTickets: ITicketBoard[]
   ) => {
-    if (destinationIndex === 0) {
+    const isDraggedToTop = destinationIndex === 0;
+    const isDraggedToBottom = destinationIndex >= destinationTickets.length;
+
+    if (isDraggedToTop) {
       const [topTicket] = destinationTickets;
       if (topTicket) {
         const globalIndex = allTicketsSorted.findIndex((t) => t.id === topTicket.id);
         const prevTicket = globalIndex > 0 ? allTicketsSorted[globalIndex - 1] : undefined;
         return { prevRank: prevTicket?.rank || null, nextRank: topTicket.rank };
       }
-    } else if (destinationIndex >= destinationTickets.length) {
+    } else if (isDraggedToBottom) {
       const lastTicket = destinationTickets[destinationTickets.length - 1];
       if (lastTicket) {
         const globalIndex = allTicketsSorted.findIndex((t) => t.id === lastTicket.id);
@@ -165,20 +168,21 @@ export default function BoardPage() {
         destinationTickets
       );
 
-      if (destination.droppableId === source.droppableId) {
+      const dragToSameColumn = destination.droppableId === source.droppableId;
+      if (dragToSameColumn) {
         needsRankUpdate = true;
-        newRank = generateKeyBetween(prevRank, nextRank);
+        newRank = generateRankBetweenTwoTickets(prevRank, nextRank);
       } else {
         const currentRank = ticket.rank || '';
-        const fitsCorrectly =
+        const rankOrderFitsCorrectly =
           (prevRank === null || customCompare(prevRank, currentRank) < 0) &&
           (nextRank === null || customCompare(currentRank, nextRank) < 0);
 
-        if (fitsCorrectly) {
+        if (rankOrderFitsCorrectly) {
           needsRankUpdate = false;
         } else {
           needsRankUpdate = true;
-          newRank = generateKeyBetween(prevRank, nextRank);
+          newRank = generateRankBetweenTwoTickets(prevRank, nextRank);
         }
       }
     }
