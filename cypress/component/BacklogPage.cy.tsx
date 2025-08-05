@@ -282,7 +282,7 @@ describe('BacklogPage.cy.ts', () => {
     setupBacklogTestEnvironment();
     cy.wait('@getBacklog');
 
-    cy.simulateDndForReactBeautifulDnd(
+    cy.dragAndDrop(
       `[data-rbd-draggable-id="${ticket.id}"]`,
       `[data-rbd-droppable-id="${sprint.id}"]`
     );
@@ -323,7 +323,7 @@ describe('BacklogPage.cy.ts', () => {
     setupBacklogTestEnvironment();
     cy.wait('@getBacklog');
 
-    cy.simulateDndForReactBeautifulDnd(
+    cy.dragAndDrop(
       `[data-rbd-draggable-id="${ticket.id}"]`,
       `[data-rbd-droppable-id="backlog"]`
     );
@@ -393,7 +393,7 @@ describe('BacklogPage.cy.ts', () => {
     cy.wait('@getProjectDetails');
     cy.wait('@getBacklog');
 
-    cy.simulateDndForReactBeautifulDnd(
+    cy.dragAndDrop(
       `[data-rbd-draggable-id="${ticket.id}"]`,
       `[data-rbd-droppable-id="${sprintB.id}"]`
     );
