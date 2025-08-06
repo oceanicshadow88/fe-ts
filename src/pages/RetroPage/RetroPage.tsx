@@ -114,7 +114,7 @@ export default function RetroPage() {
   const hasSprint = projectDetails.sprints.map((item) => item.currentSprint) && boardDetails;
   const loading = projectDetails.isLoadingDetails;
 
-  const onRetroItemCreate = async (data, columnId: string) => {
+  const onRetroItemCreate = async (data: IRetroItem, columnId: string) => {
     if (data.content === '') {
       return;
     }
@@ -132,24 +132,23 @@ export default function RetroPage() {
     setRetroItemsUpdated(true);
   };
 
-  const onUpdateItem = async (id: string, data) => {
-    // eslint-disable-next-line no-console
-    console.log('data,', data);
+  const onUpdateItem = async (id: string, data: IRetroItem) => {
     if (data.content === '') {
       return;
     }
-    // await updateRetroItem(id, data);
-    // setRetroItems(
-    //   retroItems.map((item) => {
-    //     if (item.id === id) {
-    //       return{
-    //         ..item,
-    //         content:data.content
-    //       }
-    //     }
-    //   })
-    // );
-    // setRetroItemsUpdated(true);
+    await updateRetroItem(id, data);
+    const updatedRetroItems = retroItems.map((item: IRetroItem) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          content: data.content
+        };
+      }
+      return item;
+    });
+
+    setRetroItems(updatedRetroItems);
+    setRetroItemsUpdated(true);
   };
 
   const dragEventHandler = async (result: DropResult) => {

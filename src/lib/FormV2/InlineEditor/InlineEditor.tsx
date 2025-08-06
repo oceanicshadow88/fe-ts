@@ -1,27 +1,32 @@
-import React, { TextareaHTMLAttributes, useState } from 'react';
+import React, { TextareaHTMLAttributes, useRef, useState } from 'react';
 import { PiCheckBold, PiWarningDiamondFill, PiWarningFill } from 'react-icons/pi';
 import { RxCross2 } from 'react-icons/rx';
 import { getErrorMessage } from '../../../utils/formUtils';
 import styles from '../FormV2.module.scss';
 
 interface IInlineEditor extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  onValueChanged: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onValueChanged?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onDestroy: () => void;
+  onSave: (content: string) => void;
   defaultValue: string;
   dataTestId: string;
   maxLength?: number;
 }
 
 export default function InlineEditor({
-  defaultValue,
   onValueChanged,
+  onDestroy,
+  onSave,
+  defaultValue,
   dataTestId,
   maxLength = 225,
   ...props
 }: IInlineEditor) {
   const [requiredError, setRequiredError] = useState<null | string>(null);
   const [maxLengthError, setMaxLengthError] = useState<null | string>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextareaValueChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const requiredErrorMessage = getErrorMessage(e.target.value, {
       required: true,
       label: 'Summary'
@@ -30,22 +35,38 @@ export default function InlineEditor({
       limit: maxLength
     });
 
-    setRequiredError(requiredErrorMessage);
-    setMaxLengthError(maxLengthErrorMessage);
-    onValueChanged(e);
+    if (requiredErrorMessage) setRequiredError(requiredErrorMessage);
+    if (maxLengthErrorMessage) setMaxLengthError(maxLengthErrorMessage);
+    onValueChanged?.(e);
+  };
+
+  const handleSave = () => {
+    if (textareaRef.current) {
+      const requiredErrorMessage = getErrorMessage(textareaRef.current.value, {
+        required: true,
+        label: 'Summary'
+      });
+
+      if (requiredErrorMessage) {
+        setRequiredError(requiredErrorMessage);
+      } else {
+        onSave(textareaRef.current.value);
+      }
+    }
   };
 
   return (
     <>
       <textarea
+        ref={textareaRef}
+        defaultValue={defaultValue}
         // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus
         className={[
           styles.inlineEditor,
           requiredError ? styles.borderError : '',
           maxLengthError ? styles.borderWarning : ''
         ].join(' ')}
-        onChange={handleChange}
+        onChange={handleTextareaValueChange}
         data-testid={dataTestId}
         maxLength={maxLength}
         // eslint-disable-next-line react/jsx-props-no-spreading
@@ -53,10 +74,10 @@ export default function InlineEditor({
       />
       <div className={styles.btnSetContainer}>
         <button>
-          <RxCross2 size={18} />
+          <RxCross2 size={18} onClick={onDestroy} />
         </button>
         <button>
-          <PiCheckBold size={18} />
+          <PiCheckBold size={18} onClick={handleSave} />
         </button>
       </div>
       {requiredError && (
