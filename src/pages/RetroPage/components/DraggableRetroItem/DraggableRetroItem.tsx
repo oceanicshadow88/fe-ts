@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { GoTrash } from 'react-icons/go';
 import { FiEdit } from 'react-icons/fi';
@@ -6,9 +6,10 @@ import styles from './DraggableRetroItem.module.scss';
 import checkAccess from '../../../../utils/helpers';
 import { Permission } from '../../../../utils/permission';
 import InlineEditor from '../../../../lib/FormV2/InlineEditor/InlineEditor';
+import { IRetroItem } from '../../../../types';
 
 interface IDraggableBoardCard {
-  item: any;
+  item: IRetroItem;
   index: number;
   projectId: string;
   onRemoveItem: (id: string) => void;
@@ -20,12 +21,13 @@ export default function DraggableRetroItem(props: IDraggableBoardCard) {
   const { item, index, onRemoveItem, onUpdateItem, projectId, draggableId } = props;
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
-  const handleInlineEditorChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    // eslint-disable-next-line no-console
-    // console.log(e);
-    // eslint-disable-next-line no-console
-    // console.log(item);
-    onUpdateItem(item.id, { content: e.target.value, status: item.columnId });
+  const handleDestroy = () => {
+    setIsEdit(false);
+  };
+
+  const handleSave = (content: string) => {
+    onUpdateItem(item.id, { ...item, content });
+    setIsEdit(false);
   };
 
   return (
@@ -43,7 +45,8 @@ export default function DraggableRetroItem(props: IDraggableBoardCard) {
           >
             {isEdit ? (
               <InlineEditor
-                onValueChanged={handleInlineEditorChange}
+                onDestroy={handleDestroy}
+                onSave={handleSave}
                 defaultValue={item.content}
                 dataTestId={`retro-item-editor-${item.id}`}
               />

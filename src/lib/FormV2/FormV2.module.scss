@@ -112,11 +112,11 @@ $transition: all 0.25s ease-in-out;
 }
 
 .borderError {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 2px $errorRed;
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px $errorRed;
   border-radius: 6px;
 }
 .borderWarning {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 2px $errorOrange;
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px $errorOrange;
   border-radius: 6px;
 }
 
@@ -142,7 +142,7 @@ $transition: all 0.25s ease-in-out;
 }
 
 .inlineEditor {
-  line-height: 1;
+  line-height: 1.5;
   box-sizing: border-box;
   position: relative;
   padding: 4px;
@@ -151,15 +151,15 @@ $transition: all 0.25s ease-in-out;
   border-radius: 6px;
   border: none;
   font-family: inherit;
-  font-size: inherit;
+  font-size: 14px;
   field-sizing: content;
   resize: none;
   overflow: hidden;
+  border: 2px solid $primaryColor;
   &:focus-visible {
     border: 2px solid $primaryColor;
     outline: none;
   }
-  border: 2px solid $primaryColor;
 }
 .btnSetContainer {
   position: absolute;
