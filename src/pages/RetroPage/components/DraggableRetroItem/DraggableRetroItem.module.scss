@@ -4,7 +4,9 @@
   box-sizing: border-box;
   padding: 12px;
   max-width: 270px;
+  min-height: 55px;
   border-radius: 15px !important;
+  cursor: pointer !important;
   user-select: none;
   display: flex;
   position: relative;
@@ -38,6 +40,7 @@
     p {
       margin: 0;
       display: inline-block;
+      color: red;
     }
   }
   .iconBtn {

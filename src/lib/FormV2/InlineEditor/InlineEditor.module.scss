@@ -1,0 +1,162 @@
+$errorRed: rgb(221, 42, 59);
+$lightColor: rgb(145, 145, 161);
+$lightBorder: rgb(238, 239, 246);
+$textColor: rgb(79, 83, 102);
+$promptsBackgroundColour: rgb(250, 251, 252);
+$transition: all 0.25s ease-in-out;
+.input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 9px 14px;
+  box-sizing: border-box;
+  min-height: 34px;
+}
+
+.textArea {
+  min-height: 250px;
+  width: 100%;
+  border: none;
+}
+
+.input::placeholder {
+  color: $lightColor;
+}
+
+.input:focus {
+  outline: 0px;
+  border-color: $textColor;
+}
+
+.errorMessage {
+  position: absolute;
+  z-index: 2;
+  left: 7px;
+  bottom: -32px;
+  background-color: $promptsBackgroundColour;
+  padding: 5px 10px;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  overflow: hidden;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  color: $errorRed;
+  text-align: left;
+  letter-spacing: 0px;
+  transition: $transition;
+}
+
+.label {
+  position: absolute;
+  left: 10px;
+  z-index: 1;
+  background-color: $promptsBackgroundColour;
+  letter-spacing: 0.2px;
+  font-size: 12px;
+  padding: 0px 5px;
+  max-width: 315px;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 1;
+  color: rgb(145, 145, 161);
+  top: -10px;
+  transition: $transition;
+}
+
+.errorRed {
+  color: $errorRed !important;
+}
+
+.borderRed {
+  border: 2px solid $errorRed !important;
+  border-radius: 6px;
+}
+
+.lightGrey {
+  color: $lightColor !important;
+}
+
+.inputContainer {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  cursor: auto;
+  border-radius: 6px;
+  font-size: 15px;
+  color: $textColor;
+  border: 2px solid $lightBorder;
+  transition: $transition;
+  background: transparent;
+  text-align: left;
+  line-height: 20px;
+  padding: 0;
+  min-width: 120px;
+}
+
+.inputContainer:focus-visible {
+  outline: none;
+}
+
+.inputContainer:hover label {
+  font-weight: bold;
+  color: $textColor;
+}
+
+.inputContainerNoBorder {
+  @extend .inputContainer;
+  border: none;
+
+  &:hover {
+    background-color: #ebecf0;
+  }
+}
+
+.dropDown {
+  position: absolute;
+  right: 5px;
+  bottom: 37%;
+  font-size: 20px;
+}
+
+.active {
+  color: $textColor;
+  font-weight: 600;
+}
+
+.borderActive {
+  outline: none;
+}
+
+.skeleton {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  cursor: auto;
+  border-radius: 6px;
+  font-size: 15px;
+  color: $textColor;
+  border: 2px solid #e9e9e9;
+  transition: $transition;
+  background: #e9e9e9;
+  text-align: left;
+  line-height: 20px;
+  height: 37px;
+  padding: 0;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    opacity: (1);
+  }
+  100% {
+    opacity: (0.5);
+  }
+}

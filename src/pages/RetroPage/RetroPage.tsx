@@ -14,6 +14,7 @@ import {
   deleteRetroItem,
   getRetroBoards,
   getSprintRetroItems,
+  updateRetroItem,
   updateRetroStatus
 } from '../../api/retro/retro';
 import CreateRetroItem from './components/CreateRetroItem/CreateRetroItem';
@@ -131,6 +132,26 @@ export default function RetroPage() {
     setRetroItemsUpdated(true);
   };
 
+  const onUpdateItem = async (id: string, data) => {
+    // eslint-disable-next-line no-console
+    console.log('data,', data);
+    if (data.content === '') {
+      return;
+    }
+    // await updateRetroItem(id, data);
+    // setRetroItems(
+    //   retroItems.map((item) => {
+    //     if (item.id === id) {
+    //       return{
+    //         ..item,
+    //         content:data.content
+    //       }
+    //     }
+    //   })
+    // );
+    // setRetroItemsUpdated(true);
+  };
+
   const dragEventHandler = async (result: DropResult) => {
     const toId = result.destination?.droppableId;
     const retroId = result.draggableId;
@@ -229,6 +250,7 @@ export default function RetroPage() {
                         item={item}
                         index={index}
                         onRemoveItem={onRemoveItem}
+                        onUpdateItem={onUpdateItem}
                         projectId={projectId}
                         draggableId={`${item.id}`}
                       />

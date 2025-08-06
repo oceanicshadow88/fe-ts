@@ -1,9 +1,13 @@
+@import '../../variables.scss';
+
 $errorRed: rgb(221, 42, 59);
+$errorOrange: rgb(221, 114, 42);
 $lightColor: rgb(145, 145, 161);
 $lightBorder: rgb(238, 239, 246);
 $textColor: rgb(79, 83, 102);
 $promptsBackgroundColour: rgb(250, 251, 252);
 $transition: all 0.25s ease-in-out;
+
 .input {
   width: 100%;
   border: none;
@@ -49,7 +53,36 @@ $transition: all 0.25s ease-in-out;
   letter-spacing: 0px;
   transition: $transition;
 }
-
+.inlineErrorMessage {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+  left: 264px;
+  top: 10px;
+  background-color: #fff;
+  padding: 18px;
+  border-radius: 4px;
+  box-shadow: 0 6px 8px rgba(37, 33, 33, 0.18), 0 0 0.8px rgba(44, 23, 77, 0.35);
+  max-width: 260px;
+  overflow: hidden;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  color: $errorRed;
+  text-align: left;
+  letter-spacing: 0px;
+  transition: $transition;
+  p {
+    color: black;
+  }
+}
+.warningColor {
+  color: $errorOrange;
+}
 .label {
   position: absolute;
   left: 10px;
@@ -78,6 +111,15 @@ $transition: all 0.25s ease-in-out;
   border-radius: 6px;
 }
 
+.borderError {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 2px $errorRed;
+  border-radius: 6px;
+}
+.borderWarning {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 2px $errorOrange;
+  border-radius: 6px;
+}
+
 .lightGrey {
   color: $lightColor !important;
 }
@@ -97,6 +139,55 @@ $transition: all 0.25s ease-in-out;
   line-height: 20px;
   padding: 0;
   min-width: 120px;
+}
+
+.inlineEditor {
+  line-height: 1;
+  box-sizing: border-box;
+  position: relative;
+  padding: 4px;
+  width: 100%;
+  min-height: 32px;
+  border-radius: 6px;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  field-sizing: content;
+  resize: none;
+  overflow: hidden;
+  &:focus-visible {
+    border: 2px solid $primaryColor;
+    outline: none;
+  }
+  border: 2px solid $primaryColor;
+}
+.btnSetContainer {
+  position: absolute;
+  bottom: -26px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  gap: 4px;
+  button {
+    border: 1.5px solid #dddcdf;
+    border-radius: 4px;
+    color: $textColor;
+    background-color: #fff;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: $transition;
+    cursor: pointer !important;
+    box-shadow: 0 4px 8px rgba(37, 33, 33, 0.18);
+    &:hover {
+      background-color: #f6f5f8;
+    }
+    &:active {
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px $primaryColor;
+    }
+  }
 }
 
 .inputContainer:focus-visible {
