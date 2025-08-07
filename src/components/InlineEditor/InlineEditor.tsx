@@ -1,8 +1,8 @@
 import React, { TextareaHTMLAttributes, useState } from 'react';
 import { PiCheckBold, PiWarningDiamondFill, PiWarningFill } from 'react-icons/pi';
 import { RxCross2 } from 'react-icons/rx';
-import { getErrorMessage } from '../../../utils/formUtils';
-import styles from '../FormV2.module.scss';
+import { getErrorMessage } from '../../utils/formUtils';
+import styles from './InlineEditor.module.scss';
 
 interface IInlineEditor extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   onDestroy: () => void;

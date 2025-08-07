@@ -5,8 +5,8 @@ import { FiEdit } from 'react-icons/fi';
 import styles from './DraggableRetroItem.module.scss';
 import checkAccess from '../../../../utils/helpers';
 import { Permission } from '../../../../utils/permission';
-import InlineEditor from '../../../../lib/FormV2/InlineEditor/InlineEditor';
 import { IRetroItem } from '../../../../types';
+import InlineEditor from '../../../../components/InlineEditor/InlineEditor';
 
 interface IDraggableBoardCard {
   currentEditId: string | null;
