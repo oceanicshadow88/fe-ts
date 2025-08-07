@@ -33,7 +33,7 @@ export default function DraggableRetroItem(props: IDraggableBoardCard) {
 
   const isEdit = currentEditId === item.id;
 
-  const handleDestroy = () => {
+  const handleClose = () => {
     setCurrentEditId(null);
   };
 
@@ -57,8 +57,7 @@ export default function DraggableRetroItem(props: IDraggableBoardCard) {
           >
             {isEdit ? (
               <InlineEditor
-                onClose={handleDestroy}
-                onDestroy={handleDestroy}
+                onClose={handleClose}
                 onSave={handleSave}
                 defaultValue={item.content}
                 dataTestId={`retro-item-editor-${item.id}`}

@@ -4,8 +4,7 @@ import { RxCross2 } from 'react-icons/rx';
 import { getErrorMessage } from '../../utils/formUtils';
 import styles from './InlineEditor.module.scss';
 
-interface IInlineEditor extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  onDestroy: () => void;
+export interface IInlineEditorProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   onSave: (content: string) => void;
   onClose: () => void;
   defaultValue: string;
@@ -14,14 +13,13 @@ interface IInlineEditor extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 }
 
 export default function InlineEditor({
-  onDestroy,
   onSave,
   onClose,
   defaultValue,
   dataTestId,
   maxLength = 225,
   ...props
-}: IInlineEditor) {
+}: IInlineEditorProps) {
   const [requiredError, setRequiredError] = useState<null | string>(null);
   const [maxLengthError, setMaxLengthError] = useState<null | string>(null);
   const [value, setValue] = useState<string>(defaultValue);
@@ -78,10 +76,10 @@ export default function InlineEditor({
         onKeyDown={handleKeyDown}
       />
       <div className={styles.btnSetContainer}>
-        <button type="button" onClick={onDestroy}>
+        <button type="button" onClick={onClose} onMouseDown={(e) => e.preventDefault()}>
           <RxCross2 size={18} />
         </button>
-        <button type="button" onClick={handleSave}>
+        <button type="button" onClick={handleSave} onMouseDown={(e) => e.preventDefault()}>
           <PiCheckBold size={18} />
         </button>
       </div>
