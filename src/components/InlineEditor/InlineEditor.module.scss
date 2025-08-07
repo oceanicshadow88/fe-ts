@@ -47,7 +47,9 @@ $transition: all 0.25s ease-in-out;
   box-shadow: 0 0 0 1px #fff, 0 0 0 3px $errorOrange;
   border-radius: 6px;
 }
-
+.textareaWrapper {
+  width: 100%;
+}
 .inlineEditor {
   line-height: 1.5;
   box-sizing: border-box;

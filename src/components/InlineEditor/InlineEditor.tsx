@@ -1,4 +1,4 @@
-import React, { TextareaHTMLAttributes, useState } from 'react';
+import React, { TextareaHTMLAttributes, useRef, useState } from 'react';
 import { PiCheckBold, PiWarningDiamondFill, PiWarningFill } from 'react-icons/pi';
 import { RxCross2 } from 'react-icons/rx';
 import { getErrorMessage } from '../../utils/formUtils';
@@ -23,6 +23,7 @@ export default function InlineEditor({
   const [requiredError, setRequiredError] = useState<null | string>(null);
   const [maxLengthError, setMaxLengthError] = useState<null | string>(null);
   const [value, setValue] = useState<string>(defaultValue);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   const isValueUpdated = defaultValue !== value;
 
@@ -50,18 +51,22 @@ export default function InlineEditor({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
       handleSave();
     }
   };
+  const handleBlurCapture = (e: React.FocusEvent<HTMLDivElement>) => {
+    const next = e.relatedTarget as Node | null;
+    if (wrapperRef.current?.contains(next)) return; // still inside editor
+    onClose();
+  };
 
   return (
-    <>
+    <div onBlurCapture={handleBlurCapture} ref={wrapperRef} className={styles.textareaWrapper}>
       <textarea
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
-        onBlur={onClose}
         onChange={handleTextareaValueChange}
         value={value}
         className={[
@@ -95,6 +100,6 @@ export default function InlineEditor({
           <p>{maxLengthError}</p>
         </span>
       )}
-    </>
+    </div>
   );
 }
