@@ -67,6 +67,13 @@
     opacity: 0;
     pointer-events: none;
   }
+  .deleteBtnContainer {
+    height: 31px;
+    width: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .editorContainer:focus-within .editBtn {

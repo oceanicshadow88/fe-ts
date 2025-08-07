@@ -33,6 +33,7 @@ export default function RetroPage() {
   const [boardDetails, setBoardDetails] = useState<any>();
   const [selectedSprintId, setSelectedSprintId] = useState<string>('');
   const [selectedBoard, setSelectedBoard] = useState<any>();
+  const [currentEditId, setCurrentEditId] = useState<string | null>(null);
   const projectDetails = useContext(ProjectDetailsContext);
   const [searchParams] = useSearchParams();
   const { projectId = '' } = useParams();
@@ -245,6 +246,8 @@ export default function RetroPage() {
                   >
                     {ticketByStatus[column.id]?.map((item, index) => (
                       <DraggableRetroItem
+                        currentEditId={currentEditId}
+                        setCurrentEditId={setCurrentEditId}
                         key={item.id}
                         item={item}
                         index={index}

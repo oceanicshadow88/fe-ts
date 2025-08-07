@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { GoTrash } from 'react-icons/go';
 import { FiEdit } from 'react-icons/fi';
@@ -9,25 +9,37 @@ import InlineEditor from '../../../../lib/FormV2/InlineEditor/InlineEditor';
 import { IRetroItem } from '../../../../types';
 
 interface IDraggableBoardCard {
+  currentEditId: string | null;
+  setCurrentEditId: (currentEditId: string | null) => void;
   item: IRetroItem;
   index: number;
   projectId: string;
   onRemoveItem: (id: string) => void;
-  onUpdateItem: (id: string, data) => void;
+  onUpdateItem: (id: string, data: IRetroItem) => void;
   draggableId: string;
 }
 
 export default function DraggableRetroItem(props: IDraggableBoardCard) {
-  const { item, index, onRemoveItem, onUpdateItem, projectId, draggableId } = props;
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const {
+    currentEditId,
+    setCurrentEditId,
+    item,
+    index,
+    onRemoveItem,
+    onUpdateItem,
+    projectId,
+    draggableId
+  } = props;
+
+  const isEdit = currentEditId === item.id;
 
   const handleDestroy = () => {
-    setIsEdit(false);
+    setCurrentEditId(null);
   };
 
   const handleSave = (content: string) => {
     onUpdateItem(item.id, { ...item, content });
-    setIsEdit(false);
+    setCurrentEditId(null);
   };
 
   return (
@@ -45,6 +57,7 @@ export default function DraggableRetroItem(props: IDraggableBoardCard) {
           >
             {isEdit ? (
               <InlineEditor
+                onClose={handleDestroy}
                 onDestroy={handleDestroy}
                 onSave={handleSave}
                 defaultValue={item.content}
@@ -59,26 +72,28 @@ export default function DraggableRetroItem(props: IDraggableBoardCard) {
                     data-testid={`update-retro-item-${item.id}`}
                     type="button"
                     className={[styles.iconBtn, styles.editBtn].join(' ')}
-                    onClick={() => setIsEdit(true)}
+                    onClick={() => setCurrentEditId(item.id)}
                   >
-                    <FiEdit size={14} />
+                    <FiEdit size={14} style={{ margin: 'auto' }} />
                   </button>
                 </p>
               </span>
             )}
 
             {checkAccess(Permission.DeleteRetro, projectId) && !isEdit && (
-              <button
-                type="button"
-                className={styles.iconBtn}
-                onClick={() => onRemoveItem(item.id)}
-              >
-                <GoTrash
-                  size={16}
-                  data-testid={`delete-retro-item-${item.id}`}
-                  aria-label="Delete"
-                />
-              </button>
+              <div className={styles.deleteBtnContainer}>
+                <button
+                  type="button"
+                  className={styles.iconBtn}
+                  onClick={() => onRemoveItem(item.id)}
+                >
+                  <GoTrash
+                    size={16}
+                    data-testid={`delete-retro-item-${item.id}`}
+                    aria-label="Delete"
+                  />
+                </button>
+              </div>
             )}
           </div>
         );

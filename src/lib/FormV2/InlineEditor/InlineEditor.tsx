@@ -1,22 +1,22 @@
-import React, { TextareaHTMLAttributes, useRef, useState } from 'react';
+import React, { TextareaHTMLAttributes, useState } from 'react';
 import { PiCheckBold, PiWarningDiamondFill, PiWarningFill } from 'react-icons/pi';
 import { RxCross2 } from 'react-icons/rx';
 import { getErrorMessage } from '../../../utils/formUtils';
 import styles from '../FormV2.module.scss';
 
 interface IInlineEditor extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  onValueChanged?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onDestroy: () => void;
   onSave: (content: string) => void;
+  onClose: () => void;
   defaultValue: string;
   dataTestId: string;
   maxLength?: number;
 }
 
 export default function InlineEditor({
-  onValueChanged,
   onDestroy,
   onSave,
+  onClose,
   defaultValue,
   dataTestId,
   maxLength = 225,
@@ -24,7 +24,9 @@ export default function InlineEditor({
 }: IInlineEditor) {
   const [requiredError, setRequiredError] = useState<null | string>(null);
   const [maxLengthError, setMaxLengthError] = useState<null | string>(null);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [value, setValue] = useState<string>(defaultValue);
+
+  const isValueUpdated = defaultValue !== value;
 
   const handleTextareaValueChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const requiredErrorMessage = getErrorMessage(e.target.value, {
@@ -35,49 +37,52 @@ export default function InlineEditor({
       limit: maxLength
     });
 
-    if (requiredErrorMessage) setRequiredError(requiredErrorMessage);
-    if (maxLengthErrorMessage) setMaxLengthError(maxLengthErrorMessage);
-    onValueChanged?.(e);
+    setRequiredError(requiredErrorMessage);
+    setMaxLengthError(maxLengthErrorMessage);
+
+    setValue(e.target.value);
   };
 
   const handleSave = () => {
-    if (textareaRef.current) {
-      const requiredErrorMessage = getErrorMessage(textareaRef.current.value, {
-        required: true,
-        label: 'Summary'
-      });
+    if (!isValueUpdated) {
+      onClose();
+    } else if (!requiredError && !maxLengthError) {
+      onSave(value);
+    }
+  };
 
-      if (requiredErrorMessage) {
-        setRequiredError(requiredErrorMessage);
-      } else {
-        onSave(textareaRef.current.value);
-      }
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSave();
     }
   };
 
   return (
     <>
       <textarea
-        ref={textareaRef}
-        defaultValue={defaultValue}
         // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus
+        onBlur={onClose}
+        onChange={handleTextareaValueChange}
+        value={value}
         className={[
           styles.inlineEditor,
           requiredError ? styles.borderError : '',
           maxLengthError ? styles.borderWarning : ''
         ].join(' ')}
-        onChange={handleTextareaValueChange}
-        data-testid={dataTestId}
-        maxLength={maxLength}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
+        data-testid={dataTestId}
+        maxLength={maxLength}
+        onKeyDown={handleKeyDown}
       />
       <div className={styles.btnSetContainer}>
-        <button>
-          <RxCross2 size={18} onClick={onDestroy} />
+        <button type="button" onClick={onDestroy}>
+          <RxCross2 size={18} />
         </button>
-        <button>
-          <PiCheckBold size={18} onClick={handleSave} />
+        <button type="button" onClick={handleSave}>
+          <PiCheckBold size={18} />
         </button>
       </div>
       {requiredError && (
