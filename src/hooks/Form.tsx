@@ -39,8 +39,7 @@ export function useForm<T extends Record<string, string | null>>(projectFormConf
 
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement> | IMinEvent) => {
     const { name, value } = e.target;
-    const currentField = formFields[name];
-    setFormValues((prev) => ({ ...prev, [name]: { ...currentField, value } }));
+    setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFieldChangeNValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
