@@ -10,6 +10,7 @@ type FieldOptions = {
 };
 
 type FormField = {
+  label?: string;
   value: string;
   rules?: FieldOptions;
 };
@@ -23,6 +24,12 @@ export function useForm<T extends Record<string, string | null>>(projectFormConf
       return acc;
     }, {} as T)
   );
+
+  const formFields = Object.keys(projectFormConfig).reduce((acc, key: keyof T) => {
+    acc[key] = { ...projectFormConfig[key], value: formValues[key] };
+    return acc;
+  }, {} as FormConfig<T>);
+
   const [formErrors, setFormErrors] = useState<Record<keyof T, string | null>>(
     Object.keys(projectFormConfig).reduce((acc, key: keyof T) => {
       acc[key] = null;
@@ -30,42 +37,42 @@ export function useForm<T extends Record<string, string | null>>(projectFormConf
     }, {} as Record<keyof T, string | null>)
   );
 
-  const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement> | IMinEvent) => {
     const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
-    const { rules } = projectFormConfig[name];
-    const error = getErrorMessage(value, { ...rules, label: name });
-    setFormErrors((prev) => ({ ...prev, [name]: error }));
+    const currentField = formFields[name];
+    setFormValues((prev) => ({ ...prev, [name]: { ...currentField, value } }));
   };
 
-  const handleFieldBlur = (e: React.ChangeEvent<HTMLInputElement> | IMinEvent) => {
+  const handleFieldChangeNValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleFieldChange(e);
     const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
+    const { rules, label } = formFields[name];
+    const error = getErrorMessage(value, { ...rules, label });
+    setFormErrors((prev) => ({ ...prev, [name]: error }));
   };
 
   const validateAll = () => {
     const newErrors = {} as Record<keyof T, string | null>;
     let isValid = true;
-    Object.keys(formValues).forEach((key: keyof T) => {
-      const value = formValues[key];
-      const rules = projectFormConfig[String(key)]?.rules;
+    Object.keys(formFields).forEach((key: keyof T) => {
+      const { value, label, rules } = formFields[key];
       if (rules) {
-        const error = getErrorMessage(value, { ...rules, label: String(key) });
+        const error = getErrorMessage(value, { ...rules, label });
         newErrors[key] = error;
         if (error) isValid = false;
       }
     });
-
     setFormErrors(newErrors);
     return isValid;
   };
 
   return {
+    formFields,
     formValues,
     setFormValues,
     formErrors,
-    handleFieldChange,
-    handleFieldBlur,
+    handleFieldChange: handleFieldChangeNValidation,
+    handleFieldBlur: handleFieldChange,
     validateAll
   };
 }

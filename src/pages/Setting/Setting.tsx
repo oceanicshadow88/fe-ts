@@ -61,15 +61,26 @@ export default function Setting() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [originalData, setOriginalData] = useState<IProjectForm | null>(null);
 
-  const { formValues, setFormValues, formErrors, handleFieldChange, handleFieldBlur, validateAll } =
-    useForm<IProjectForm>({
-      name: { value: '', rules: { required: true } },
-      key: { value: '', rules: { required: true } },
-      projectLead: { value: '', rules: { required: true } },
-      description: { value: '' },
-      websiteUrl: { value: '' },
-      iconUrl: { value: '' }
-    });
+  const {
+    formValues,
+    setFormValues,
+    formFields,
+    formErrors,
+    handleFieldChange,
+    handleFieldBlur,
+    validateAll
+  } = useForm<IProjectForm>({
+    name: { label: 'Project Name', value: '', rules: { required: true } },
+    key: { label: 'Project Key', value: '', rules: { required: true } },
+    projectLead: {
+      label: 'Project Lead',
+      value: '',
+      rules: { required: true }
+    },
+    description: { label: 'Description', value: '' },
+    websiteUrl: { label: 'Website Url', value: '' },
+    iconUrl: { value: '' }
+  });
 
   const updateFormData = (updateData: IProjectData) => {
     setLoading(true);
@@ -184,10 +195,10 @@ export default function Setting() {
             />
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <InputV3
-                label="Project Name"
+                label={formFields.name.label ?? ''}
                 onValueChanged={handleNameChange}
                 onValueBlur={handleFieldBlur}
-                value={formValues?.name}
+                value={formFields.name.value}
                 error={formErrors?.name}
                 name="name"
                 loading={!formValues}
@@ -195,10 +206,10 @@ export default function Setting() {
                 required
               />
               <InputV3
-                label="Project Key"
+                label={formFields.key.label ?? ''}
                 onValueChanged={handleFieldChange}
                 onValueBlur={handleFieldBlur}
-                value={formValues?.key}
+                value={formFields.key.value}
                 error={formErrors?.key}
                 name="key"
                 loading={!formValues}
@@ -208,11 +219,11 @@ export default function Setting() {
             </div>
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <DropdownV3
-                label="Project Lead"
+                label={formFields.projectLead.label ?? ''}
                 dataTestId="projectLead"
                 onValueChanged={handleFieldChange as (e: IMinEvent) => void}
                 onValueBlur={handleFieldBlur}
-                value={formValues?.projectLead}
+                value={formFields.projectLead.value}
                 error={formErrors?.projectLead}
                 placeHolder={
                   userList.find((item) => item.id === formValues?.projectLead)?.name ?? ''
@@ -229,10 +240,10 @@ export default function Setting() {
                 addNullOptions
               />
               <InputV3
-                label="Website Url"
+                label={formFields.websiteUrl.label ?? ''}
                 onValueChanged={handleFieldChange}
                 onValueBlur={handleFieldBlur}
-                value={formValues?.websiteUrl}
+                value={formFields.websiteUrl.value}
                 error={formErrors?.websiteUrl}
                 name="websiteUrl"
                 loading={!formValues}
@@ -241,10 +252,10 @@ export default function Setting() {
             </div>
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <InputV3
-                label="Description"
+                label={formFields.description.label ?? ''}
                 onValueChanged={handleFieldChange}
                 onValueBlur={handleFieldBlur}
-                value={formValues?.description}
+                value={formFields.description.value}
                 error={formErrors?.description}
                 name="description"
                 loading={!formValues}
