@@ -5,7 +5,6 @@ import styles from './Modal.module.scss';
 interface IModal {
   children?: React.ReactNode;
   classesName?: string;
-  backdropClassName?: string;
   fullWidth?: boolean;
 }
 export default function Modal({ children, classesName, fullWidth }: IModal) {

@@ -9,7 +9,7 @@ import MainPanel from './MainPanel/MainPanel';
 import { AvatarEditPanel, IUploadImageResponse } from '../../../types';
 import styles from './AvatarEditModal.module.scss';
 import { upload } from '../../../api/upload/upload';
-import { getCroppedImg } from '../../../utils/imageProcessor';
+import { getCroppedImg } from '../../../utils/imageCanvasProcessor';
 import DefaultModalBody from '../../../lib/Modal/ModalBody/DefaultModalHeader/DefaultModalBody';
 import DefaultModalHeader from '../../../lib/Modal/ModalHeader/DefaultModalHeader/DefaultModalHeader';
 
