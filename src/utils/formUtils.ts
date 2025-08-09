@@ -1,3 +1,5 @@
+import { FieldRuleOptions } from '../types';
+
 export const defaultErrorMessage = (label) => {
   return {
     required: `${label} is required`,
@@ -7,7 +9,7 @@ export const defaultErrorMessage = (label) => {
   };
 };
 
-export const getErrorMessage = (value, props) => {
+export const getErrorMessage = (value, props: FieldRuleOptions) => {
   const { required = false, label = '', min = null, max = null, limit = null } = props;
 
   if (required && !value) {

@@ -1,16 +1,13 @@
 @import '../../../../variables.scss';
 
 .card {
+  position: relative;
   box-sizing: border-box;
   padding: 12px;
   max-width: 270px;
   min-height: 55px;
-  border-radius: 15px !important;
-  cursor: pointer !important;
+  border-radius: 15px;
   user-select: none;
-  display: flex;
-  position: relative;
-  justify-content: space-between;
   margin: 10px 0px;
   box-shadow: var(
     --ds-shadow-raised,
@@ -20,7 +17,6 @@
   transition: background-color 140ms ease-in-out 0s, color 140ms ease-in-out 0s;
   background-color: var(--ds-surface-raised, #ffffff);
   color: var(--ds-text, #172b4d);
-
   &:hover {
     background: #ebecf0;
   }
@@ -31,10 +27,14 @@
     pointer-events: auto;
   }
 
+  .cursorPointerSection {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+  }
   .editorContainer {
     display: flex;
     align-items: center;
-    gap: 0;
     word-break: break-word;
     text-align: start;
     white-space: pre-line;
@@ -45,6 +45,7 @@
       display: inline-block;
     }
   }
+
   .iconBtn {
     cursor: pointer;
     border: none;
@@ -63,6 +64,7 @@
       background-color: #dedbe5;
     }
   }
+
   .editBtn {
     opacity: 0;
     pointer-events: none;
