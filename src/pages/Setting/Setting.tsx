@@ -114,9 +114,8 @@ export default function Setting() {
 
   const handleUploadSuccess = (photoData: any) => {
     const updateData = { ...formValues };
-    updateData.iconUrl = photoData[0].location;
+    updateData.iconUrl = photoData;
     setFormValues(updateData);
-    updateFormData({ iconUrl: updateData.iconUrl });
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
