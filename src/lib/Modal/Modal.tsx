@@ -1,5 +1,5 @@
-/* eslint-disable no-return-assign */
 import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import styles from './Modal.module.scss';
 
 interface IModal {
@@ -20,12 +20,13 @@ export default function Modal({ children, classesName, fullWidth }: IModal) {
     };
   }, [show]);
 
-  return (
+  return ReactDOM.createPortal(
     <div className={styles.backdrop}>
       <div className={[styles.modal, fullWidth ? styles.fullWidth : '', classesName].join(' ')}>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 Modal.defaultProps = {
