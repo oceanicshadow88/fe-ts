@@ -8,7 +8,6 @@ import ImageCroper from './ImageCroper/ImageCroper';
 import MainPanel from './MainPanel/MainPanel';
 import { AvatarEditPanel, IUploadImageResponse } from '../../../types';
 import styles from './AvatarEditModal.module.scss';
-import modalStyles from '../../../lib/Modal/Modal.module.scss';
 import { upload } from '../../../api/upload/upload';
 import { getCroppedImg } from '../../../utils/imageProcessor';
 import DefaultModalBody from '../../../lib/Modal/ModalBody/DefaultModalHeader/DefaultModalBody';
@@ -98,7 +97,7 @@ export default function AvatarEditModal({
   }, []);
 
   return (
-    <Modal backdropClassName={modalStyles.ZIndex999}>
+    <Modal>
       <DefaultModalHeader
         title={addPredefinedIcons ? 'Choose an icon' : 'Add profile photo'}
         onClickClose={close}
