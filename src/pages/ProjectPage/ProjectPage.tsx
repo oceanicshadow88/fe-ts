@@ -413,10 +413,20 @@ export default function ProjectPage() {
                       <div
                         className={[styles.user, styles.overflowVisible, styles.relative].join(' ')}
                       >
-                        <Avatar user={project?.projectLead} size={30} />
+                        <Avatar
+                          size={30}
+                          avatarIcon={project?.projectLead?.avatarIcon}
+                          backgroundColor={project?.projectLead?.backgroundColor}
+                          name={project?.projectLead?.name}
+                        />
                         <div className={[styles.absolute, styles.profileV2].join(' ')}>
                           <div className={styles.profileV2Header}>
-                            <Avatar user={project?.projectLead} size={30} />
+                            <Avatar
+                              avatarIcon={project?.projectLead?.avatarIcon}
+                              backgroundColor={project?.projectLead?.backgroundColor}
+                              name={project?.projectLead?.name}
+                              size={30}
+                            />
                             <p>{project?.projectLead?.name || ''}</p>
                           </div>
                           <div className={[styles.profileV2Link, styles.textRight].join(' ')}>

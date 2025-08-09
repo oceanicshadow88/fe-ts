@@ -9,7 +9,7 @@ import { deleteProject, showProject, updateProject } from '../../api/projects/pr
 import { IMinEvent, IProjectData, IProjectForm } from '../../types';
 import { UserContext } from '../../context/UserInfoProvider';
 import SettingCard from '../../components/SettingCard/SettingCard';
-import ChangeIcon from '../../components/Projects/ProjectEditor/ChangeIcon/ChangeIcon';
+import EditableAvatar from '../../components/EditableAvatar/EditableAvatar';
 import { getUsers } from '../../api/user/user';
 import 'react-toastify/dist/ReactToastify.css';
 import checkAccess from '../../utils/helpers';
@@ -114,9 +114,8 @@ export default function Setting() {
 
   const handleUploadSuccess = (photoData: any) => {
     const updateData = { ...formValues };
-    updateData.iconUrl = photoData[0].location;
+    updateData.iconUrl = photoData;
     setFormValues(updateData);
-    updateFormData({ iconUrl: updateData.iconUrl });
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -187,11 +186,11 @@ export default function Setting() {
             <hr className={styles.divider} />
           </header>
           <SettingCard title="Project Information">
-            <ChangeIcon
+            <EditableAvatar
               uploadSuccess={handleUploadSuccess}
-              // todo: will resolve it in next MR
-              value={formValues}
-              loading={!formValues.iconUrl}
+              avatarIcon={formFields?.iconUrl.value}
+              loading={!formFields}
+              addPredefinedIcons
             />
             <div className={[styles.gap, styles.row, 'flex'].join(' ')}>
               <InputV3
