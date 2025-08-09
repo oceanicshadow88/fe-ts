@@ -1,7 +1,6 @@
 @import '../../variables.scss';
 
 $errorRed: rgb(221, 42, 59);
-$errorOrange: rgb(221, 114, 42);
 $lightBorder: rgb(238, 239, 246);
 $textColor: rgb(79, 83, 102);
 $transition: all 0.25s ease-in-out;
@@ -34,19 +33,10 @@ $transition: all 0.25s ease-in-out;
   }
 }
 
-.warningColor {
-  color: $errorOrange;
-}
-
 .borderError {
   box-shadow: 0 0 0 1px #fff, 0 0 0 3px $errorRed;
-  border-radius: 6px;
 }
 
-.borderWarning {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 3px $errorOrange;
-  border-radius: 6px;
-}
 .textareaWrapper {
   width: 100%;
 }
@@ -55,8 +45,9 @@ $transition: all 0.25s ease-in-out;
   box-sizing: border-box;
   position: relative;
   padding: 4px;
+  padding-bottom: 0px;
   width: 100%;
-  min-height: 32px;
+  height: 100%;
   border-radius: 6px;
   border: none;
   font-family: inherit;

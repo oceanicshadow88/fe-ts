@@ -1,64 +1,42 @@
-import React, { TextareaHTMLAttributes, useRef, useState } from 'react';
-import { PiCheckBold, PiWarningDiamondFill, PiWarningFill } from 'react-icons/pi';
+import React, { TextareaHTMLAttributes, useRef } from 'react';
+import { PiCheckBold, PiWarningDiamondFill } from 'react-icons/pi';
 import { RxCross2 } from 'react-icons/rx';
-import { getErrorMessage } from '../../utils/formUtils';
 import styles from './InlineEditor.module.scss';
 
 export interface IInlineEditorProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  onSave: (content: string) => void;
+  onValueChanged: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onSave: () => void;
   onClose: () => void;
+  name: string;
   defaultValue: string;
+  errorMsg?: string;
   dataTestId: string;
   maxLength?: number;
 }
 
 export default function InlineEditor({
+  onValueChanged,
   onSave,
   onClose,
+  name,
   defaultValue,
+  errorMsg = '',
   dataTestId,
   maxLength = 225,
   ...props
 }: IInlineEditorProps) {
-  const [requiredError, setRequiredError] = useState<null | string>(null);
-  const [maxLengthError, setMaxLengthError] = useState<null | string>(null);
-  const [value, setValue] = useState<string>(defaultValue);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
-
-  const isValueUpdated = defaultValue !== value;
-
-  const handleTextareaValueChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const requiredErrorMessage = getErrorMessage(e.target.value, {
-      required: true,
-      label: 'Summary'
-    });
-    const maxLengthErrorMessage = getErrorMessage(e.target.value, {
-      limit: maxLength
-    });
-
-    setRequiredError(requiredErrorMessage);
-    setMaxLengthError(maxLengthErrorMessage);
-
-    setValue(e.target.value);
-  };
-
-  const handleSave = () => {
-    if (!isValueUpdated) {
-      onClose();
-    } else if (!requiredError && !maxLengthError) {
-      onSave(value);
-    }
-  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
-      handleSave();
+      onSave();
+      onClose();
     }
   };
   const handleBlurCapture = (e: React.FocusEvent<HTMLDivElement>) => {
     const next = e.relatedTarget as Node | null;
-    if (wrapperRef.current?.contains(next)) return; // still inside editor
+    if (wrapperRef.current?.contains(next)) return;
     onClose();
   };
 
@@ -67,13 +45,10 @@ export default function InlineEditor({
       <textarea
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
-        onChange={handleTextareaValueChange}
-        value={value}
-        className={[
-          styles.inlineEditor,
-          requiredError ? styles.borderError : '',
-          maxLengthError ? styles.borderWarning : ''
-        ].join(' ')}
+        onChange={onValueChanged}
+        defaultValue={defaultValue}
+        name={name}
+        className={[styles.inlineEditor, errorMsg && styles.borderError].join(' ')}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
         data-testid={dataTestId}
@@ -84,20 +59,14 @@ export default function InlineEditor({
         <button type="button" onClick={onClose} onMouseDown={(e) => e.preventDefault()}>
           <RxCross2 size={18} />
         </button>
-        <button type="button" onClick={handleSave} onMouseDown={(e) => e.preventDefault()}>
+        <button type="button" onClick={onSave} onMouseDown={(e) => e.preventDefault()}>
           <PiCheckBold size={18} />
         </button>
       </div>
-      {requiredError && (
+      {errorMsg && (
         <span className={styles.inlineErrorMessage}>
           <PiWarningDiamondFill size={16} />
-          <p>{requiredError}</p>
-        </span>
-      )}
-      {maxLengthError && (
-        <span className={styles.inlineErrorMessage}>
-          <PiWarningFill size={16} className={styles.warningColor} />
-          <p>{maxLengthError}</p>
+          <p>{errorMsg}</p>
         </span>
       )}
     </div>

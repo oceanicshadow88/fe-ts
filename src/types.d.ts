@@ -562,3 +562,11 @@ export interface IRetroItem {
   updatedAt?: string;
 }
 /** ******************************************************* */
+
+export type FieldRuleOptions = {
+  required?: boolean;
+  min?: number;
+  max?: number;
+  limit?: number;
+  label?: string;
+};
