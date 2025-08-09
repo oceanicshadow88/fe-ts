@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
-import { GoDotFill } from 'react-icons/go';
 import { IMinEvent, IOptions } from '../../../types';
 import styles from '../../FormV2/FormV2.module.scss';
 import defaultStyles from '../../FormV2/DropdownV2/DropdownV2.module.scss';
@@ -84,7 +83,6 @@ function DropdownV3(props: IDropdownV3) {
           <div className={defaultStyles.dropDownList}>
             {addNullOptions && (
               <button onClick={() => handleSelect(null)} data-testid="leader-name-null">
-                <GoDotFill className={value === null ? undefined : defaultStyles.dotIcon} />
                 None
               </button>
             )}
@@ -97,9 +95,6 @@ function DropdownV3(props: IDropdownV3) {
                       onClick={() => handleSelect(item.value)}
                       data-testid={`leader-name-${item.label}`}
                     >
-                      <GoDotFill
-                        className={item.value === value ? undefined : defaultStyles.dotIcon}
-                      />
                       {item.label}
                     </button>
                   );
