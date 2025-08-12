@@ -103,7 +103,7 @@ export default function DraggableBoardCard(props: IDraggableBoardCard) {
                 <span>{`${projectDetails.details.key}-${item.ticketNumber}`}</span>
               </div>
               <div className={styles.cardFooterRight}>
-                <Avatar user={item.assign} />
+                <Avatar avatarIcon={item?.assign?.avatarIcon} name={item?.assign?.name} />
               </div>
             </div>
           </div>

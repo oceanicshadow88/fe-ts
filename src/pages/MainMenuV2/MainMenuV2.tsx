@@ -93,7 +93,11 @@ export default function MainMenuV2() {
       ReactDOM.createPortal(
         <div className={styles.userSettings}>
           <div className={styles.item}>
-            <Avatar user={userInfo} />
+            <Avatar
+              avatarIcon={userInfo.avatarIcon}
+              backgroundColor={userInfo.backgroundColor}
+              name={userInfo.name}
+            />
             {userInfo.name}
           </div>
           <hr />

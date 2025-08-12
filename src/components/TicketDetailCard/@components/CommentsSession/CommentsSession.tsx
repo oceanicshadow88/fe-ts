@@ -107,7 +107,11 @@ function CommentsSession(Props: ICommentsSessionProps) {
           <div key={comment.id} className={style.commentItem}>
             <div className={style.commentsUser}>
               <div className={style.commentsUserInfo}>
-                <Avatar user={comment.sender} />
+                <Avatar
+                  avatarIcon={comment?.sender?.avatarIcon}
+                  backgroundColor={comment?.sender?.backgroundColor}
+                  name={comment?.sender?.name}
+                />
                 <span>{comment.sender?.name}</span>
               </div>
               <TimeAgo date={comment.createdAt} className={style.timeAgo} />
