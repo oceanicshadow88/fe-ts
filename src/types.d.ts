@@ -571,3 +571,10 @@ interface IImage {
   fieldname: string;
   location: string;
 }
+export type FieldRuleOptions = {
+  required?: boolean;
+  min?: number;
+  max?: number;
+  limit?: number;
+  label?: string;
+};

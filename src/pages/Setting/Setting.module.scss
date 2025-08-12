@@ -6,10 +6,13 @@
 
 .settingContainer {
   background-color: rgb(246, 248, 249);
+  width: 100%;
+}
+
+.settingMiniContainer {
   max-width: 1080px;
   margin: auto;
 }
-
 .divider {
   flex-shrink: 0;
   width: 100%;

@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import { getErrorMessage } from '../utils/formUtils';
-import { IMinEvent } from '../types';
-
-type FieldOptions = {
-  required?: boolean;
-  min?: number;
-  max?: number;
-  label?: string;
-};
+import { FieldRuleOptions, IMinEvent } from '../types';
 
 type FormField = {
   label?: string;
   value: string;
-  rules?: FieldOptions;
+  rules?: FieldRuleOptions;
 };
 
 type FormConfig<T> = Record<keyof T, FormField>;
@@ -37,12 +30,16 @@ export function useForm<T extends Record<string, string | null>>(projectFormConf
     }, {} as Record<keyof T, string | null>)
   );
 
-  const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement> | IMinEvent) => {
+  const handleFieldChange = (
+    e: React.ChangeEvent<HTMLInputElement> | IMinEvent | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFieldChangeNValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFieldChangeNValidation = (
+    e: React.ChangeEvent<HTMLInputElement> | IMinEvent | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     handleFieldChange(e);
     const { name, value } = e.target;
     const { rules, label } = formFields[name];

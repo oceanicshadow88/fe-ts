@@ -14,6 +14,7 @@ import {
   deleteRetroItem,
   getRetroBoards,
   getSprintRetroItems,
+  updateRetroItem,
   updateRetroStatus
 } from '../../api/retro/retro';
 import CreateRetroItem from './components/CreateRetroItem/CreateRetroItem';
@@ -32,6 +33,7 @@ export default function RetroPage() {
   const [boardDetails, setBoardDetails] = useState<any>();
   const [selectedSprintId, setSelectedSprintId] = useState<string>('');
   const [selectedBoard, setSelectedBoard] = useState<any>();
+  const [currentEditId, setCurrentEditId] = useState<string | null>(null);
   const projectDetails = useContext(ProjectDetailsContext);
   const [searchParams] = useSearchParams();
   const { projectId = '' } = useParams();
@@ -113,7 +115,7 @@ export default function RetroPage() {
   const hasSprint = projectDetails.sprints.map((item) => item.currentSprint) && boardDetails;
   const loading = projectDetails.isLoadingDetails;
 
-  const onRetroItemCreate = async (data, columnId: string) => {
+  const onRetroItemCreate = async (data: IRetroItem, columnId: string) => {
     if (data.content === '') {
       return;
     }
@@ -128,6 +130,25 @@ export default function RetroPage() {
   const onRemoveItem = async (id: string) => {
     await deleteRetroItem(id);
     setRetroItems(retroItems.filter((item) => item.id !== id));
+    setRetroItemsUpdated(true);
+  };
+
+  const onUpdateItem = async (id: string, data: IRetroItem) => {
+    if (data.content === '') {
+      return;
+    }
+    await updateRetroItem(id, data);
+    const updatedRetroItems = retroItems.map((item: IRetroItem) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          content: data.content
+        };
+      }
+      return item;
+    });
+
+    setRetroItems(updatedRetroItems);
     setRetroItemsUpdated(true);
   };
 
@@ -225,10 +246,13 @@ export default function RetroPage() {
                   >
                     {ticketByStatus[column.id]?.map((item, index) => (
                       <DraggableRetroItem
+                        currentEditId={currentEditId}
+                        setCurrentEditId={setCurrentEditId}
                         key={item.id}
                         item={item}
                         index={index}
                         onRemoveItem={onRemoveItem}
+                        onUpdateItem={onUpdateItem}
                         projectId={projectId}
                         draggableId={`${item.id}`}
                       />

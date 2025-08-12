@@ -15,6 +15,9 @@ export const createRetroItem = (sprintId: string, data: any) => {
 export const deleteRetroItem = (id: string) => {
   return alphaApiV2.delete(`/retro/items/${id}`);
 };
+export const updateRetroItem = (id: string, data: any) => {
+  return alphaApiV2.put(`/retro/items/${id}`, data);
+};
 
 export const updateRetroStatus = (id: string, status: any) => {
   return alphaApiV2.put(`/retro/items/${id}`, { status });
