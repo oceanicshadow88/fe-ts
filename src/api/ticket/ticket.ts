@@ -35,7 +35,7 @@ export function updateTicket(id: string, data: any) {
     copyData.assign = !data.assign ? null : data.assign.id;
   }
   if (typeof data.status !== 'string') {
-    copyData.status = data?.status?.id;
+    copyData.status = data.status === null ? null : data?.status?.id;
   }
   if (typeof data.reporter !== 'string') {
     copyData.reporter = data?.reporter?.id;
@@ -57,17 +57,32 @@ export function updateTicket(id: string, data: any) {
 }
 
 export function updateTicketSprint(ticketId: string, sprintId?: string | null, data?: any) {
-  return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, { sprintId, ...data });
+  return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, {
+    sprint: sprintId,
+    ...data
+  });
 }
 
 export function updateTicketEpic(ticketId: string, epic?: string | null) {
   return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, { epic });
 }
 
-export function updateTicketStatus(ticketId: string, statusId: string) {
-  return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, { status: statusId });
+export function updateTicketStatus(ticketId: string, statusId: string, rank?: string) {
+  const updateData: any = { status: statusId };
+  if (rank) {
+    updateData.rank = rank;
+  }
+  return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, updateData);
+}
+
+export function batchUpdateTicketRanks(updates: Array<{ ticketId: string; rank: string }>) {
+  return alphaApiV2.put(`${config.apiAddressV2}/tickets/batch-update-ranks`, { updates });
 }
 
 export function removeTicket(id: string) {
   return alphaApiV2.delete(`${config.apiAddressV2}/tickets/${id}`);
+}
+
+export function migrateTicketRanks(projectId: string) {
+  return alphaApiV2.post(`${config.apiAddressV2}/tickets/migrate-ranks`, { projectId });
 }

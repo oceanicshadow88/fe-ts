@@ -43,7 +43,11 @@ export default function ProjectMemberMain({
           {owner && (
             <tr>
               <th className={styles.name}>
-                <Avatar user={owner} />
+                <Avatar
+                  avatarIcon={owner.avatarIcon}
+                  backgroundColor={owner.backgroundColor}
+                  name={owner.name}
+                />
                 <span>{owner.name}</span>
               </th>
               <th className={styles.email}>
@@ -53,7 +57,6 @@ export default function ProjectMemberMain({
                 <span>
                   <select value="Owner" disabled>
                     <option value={owner.id}>Owner</option>
-                    );
                   </select>
                 </span>
               </th>
@@ -63,7 +66,11 @@ export default function ProjectMemberMain({
             return (
               <tr key={member.id}>
                 <th className={styles.name}>
-                  <Avatar user={member} />
+                  <Avatar
+                    avatarIcon={member?.avatarIcon}
+                    backgroundColor={member?.backgroundColor}
+                    name={member?.name}
+                  />
                   <span>{member.name}</span>
                 </th>
                 <th className={styles.email}>

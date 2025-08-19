@@ -48,6 +48,13 @@
           a {
             text-decoration: none;
           }
+          .buttonContainer {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            flex-wrap: nowrap;
+            flex: 0 1 auto;
+          }
         }
         .searchBar {
           margin-top: 16px;

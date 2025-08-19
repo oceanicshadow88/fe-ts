@@ -47,7 +47,7 @@ export default function InputV2(props: IInputV2) {
   }, [value]);
 
   const onChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const errorMessage = getErrorMessage(e, props);
+    const errorMessage = getErrorMessage(e.target.value, props);
     setError(errorMessage);
     if (hadDefaultValue) {
       setVal(e.target.value);

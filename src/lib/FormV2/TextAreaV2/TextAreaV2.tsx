@@ -31,7 +31,7 @@ export default function TextAreaV2(props: ITextAreaV2) {
   const [isActive, setIsActive] = useState(false);
 
   const onChanged = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const errorMessage = getErrorMessage(e, props);
+    const errorMessage = getErrorMessage(e.target.value, props);
     setError(errorMessage);
     setValue(e.target.value);
     onValueChanged(e);

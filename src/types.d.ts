@@ -23,7 +23,7 @@ export interface ITicketBasic {
   title: string;
   tags?: ILabelData[];
   comments?: any;
-  status?: IStatus;
+  status?: string | null | undefined;
   priority: 'Highest' | 'High' | 'Medium' | 'Low' | 'Lowest';
   project: IProject;
   board?: string;
@@ -40,6 +40,7 @@ export interface ITicketBasic {
   updatedAt?: Date;
   epic: string;
   ticketNumber: string;
+  rank?: string;
 }
 /** **********Combine this with ITicketBasic*************** */
 export interface ITicketBoard {
@@ -63,6 +64,7 @@ export interface ITicketBoard {
   createdAt?: Date;
   updatedAt?: Date;
   ticketNumber: string;
+  rank?: string;
 }
 
 export interface ITicketInput {
@@ -85,6 +87,7 @@ export interface ITicketInput {
   epicId?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  rank?: string;
 }
 
 export interface ITicketDetails {
@@ -180,6 +183,15 @@ export interface Ticket {
 
 export interface IProjectEditor {
   [key: string]: any;
+}
+export interface IProjectForm {
+  name: string;
+  key: string;
+  projectLead: string;
+  description: string;
+  websiteUrl: string;
+  iconUrl: string;
+  [key: string]: string;
 }
 
 export interface IJobApplyEditor {
@@ -518,3 +530,51 @@ export interface IProduct {
   productDescription: string;
   prices: IPrice;
 }
+/** ******************************************************* */
+export interface IRetroBoard {
+  id: string;
+  title: string;
+  tenant?: string;
+  statuses: IRetroStatus[];
+  isPublic: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IRetroStatus {
+  id: string;
+  description: string;
+  slug: string;
+  tenant?: string;
+  isPublic: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IRetroItem {
+  id: string;
+  content: string;
+  order?: number;
+  tenant: string;
+  sprint: string;
+  status: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+/** ******************************************************* */
+
+export type AvatarEditPanel = 'MAIN' | 'CROPPER' | 'COLLECTION';
+export interface IUploadImageResponse {
+  data: IImage[];
+}
+interface IImage {
+  fieldname: string;
+  location: string;
+}
+export type FieldRuleOptions = {
+  required?: boolean;
+  min?: number;
+  max?: number;
+  limit?: number;
+  label?: string;
+};

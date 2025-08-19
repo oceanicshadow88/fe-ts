@@ -6,10 +6,11 @@ import useOutsideAlerter from '../../../../hooks/OutsideAlerter';
 interface IDroppableColumn {
   onItemCreate: (data: any) => void;
   className?: string;
+  dataTestId?: string;
 }
 
 export default function CreateRetroItem(props: IDroppableColumn) {
-  const { onItemCreate, className } = props;
+  const { onItemCreate, className, dataTestId } = props;
   const { visible, setVisible, myRef } = useOutsideAlerter(false);
   const createIssueRef = useRef<HTMLInputElement | null>(null);
 
@@ -25,14 +26,18 @@ export default function CreateRetroItem(props: IDroppableColumn) {
 
   if (visible) {
     return (
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <div className={styles.formField} ref={myRef}>
           <input
             className={styles.input}
             type="text"
             name="item"
             id="item"
-            data-testid="create-item-input"
+            data-testid={dataTestId?.concat('-input')}
             onKeyDown={onKeyDownCreateIssue}
             ref={createIssueRef}
           />
@@ -47,6 +52,7 @@ export default function CreateRetroItem(props: IDroppableColumn) {
       onClick={() => setVisible(true)}
       role="button"
       tabIndex={0}
+      data-testid={dataTestId?.concat('-button')}
     >
       <p>+ Add Item</p>
     </div>
