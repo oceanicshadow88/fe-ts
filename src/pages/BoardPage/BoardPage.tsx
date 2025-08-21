@@ -222,7 +222,7 @@ export default function BoardPage() {
                     key={status.id}
                     name={status.name}
                     id={status.id}
-                    totalTicket={ticketsByStatus[status.id]?.length ?? 0}
+                    totalTicket={groupedSortedTickets.length ?? 0}
                     projectId={projectId}
                     sprintId={selectedSprint?.id}
                     createBtn={
