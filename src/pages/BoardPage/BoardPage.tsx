@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styles from './BoardPage.module.scss';
-import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
+import { IProjectDetails, ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import { getBoardDetails, getSprintTickets } from '../../api/board/board';
 import { createNewTicket, updateTicketStatus } from '../../api/ticket/ticket';
-import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
+import BoardToolbar, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
-import { IBoard, IMinEvent, ITicketBoard } from '../../types';
+import { IBoard, IMinEvent, ISprint, ISprintTicket, IStatus } from '../../types';
 import DroppableColumn from './components/DroppableColumn/DroppableColumn';
 import DraggableBoardCard from './components/DraggableBoardCard/DraggableBoardCard';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
@@ -16,81 +16,57 @@ import ButtonV2 from '../../lib/FormV2/ButtonV2/ButtonV2';
 import { getSprintById } from '../../utils/sprintUtils';
 import { generateKeyBetween, customCompare } from '../../utils/lexoRank';
 
+interface IGroupedTickets {
+  status: IStatus;
+  tickets: ISprintTicket[];
+}
+
 export default function BoardPage() {
-  const [tickets, setTickets] = useState<ITicketBoard[]>([]);
-  const [boardDetails, setBoardDetails] = useState<IBoard>();
-  const [selectedSprint, setSelectedSprint] = useState<any>('');
-  const projectDetails = useContext(ProjectDetailsContext);
   const { projectId = '' } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const projectDetails: IProjectDetails = useContext(ProjectDetailsContext);
 
-  const fetchSprintTickets = async (filterData) => {
-    if (!selectedSprint) {
-      return;
-    }
+  const [tickets, setTickets] = useState<ISprintTicket[]>([]);
+  const [boardDetails, setBoardDetails] = useState<IBoard>();
+  const [selectedSprint, setSelectedSprint] = useState<ISprint | undefined>();
+
+  const hasSprint = selectedSprint && boardDetails;
+  const isLoadingProjectDetails = projectDetails.isLoadingDetails;
+  const sprintsOptions = useMemo(
+    () =>
+      projectDetails.sprints
+        .filter((item) => item.currentSprint)
+        .map((item) => ({
+          label: item.name,
+          value: item.id
+        })),
+    [projectDetails]
+  );
+  const ticketsByStatus = useMemo(() => {
+    const res: IGroupedTickets[] =
+      boardDetails?.statuses?.map((status: IStatus) => {
+        const groupedSortedTickets = tickets
+          .filter((ticket: ISprintTicket) => ticket.status === status.id)
+          .sort((a, b) => customCompare(a?.rank, b?.rank));
+        return { status, tickets: groupedSortedTickets };
+      }) ?? [];
+    return res;
+  }, [tickets, boardDetails]);
+
+  const fetchSprintTickets = async (filterData?: IFilterData) => {
+    if (!selectedSprint?.id) return;
     const res = await getSprintTickets(selectedSprint.id, filterData);
     setTickets(res);
   };
 
-  const fetchBoards = async () => {
-    const res = await getBoardDetails(selectedSprint.board);
+  const fetchBoardDetails = async () => {
+    if (!selectedSprint?.board) return;
+    const res = await getBoardDetails(selectedSprint?.board);
     setBoardDetails(res.data);
   };
 
-  useEffect(() => {
-    if (projectDetails.isLoadingDetails) {
-      return;
-    }
-    const sprintId = searchParams.get('sprintId');
-    const result = sprintId
-      ? projectDetails.sprints.find((item) => item.id === sprintId)
-      : projectDetails.sprints.find((item) => item.currentSprint);
-    if (!result) {
-      return;
-    }
-    setSelectedSprint(result);
-  }, [projectDetails.isLoadingDetails, searchParams]);
-
-  useEffect(() => {
-    if (projectDetails.isLoadingDetails) {
-      return;
-    }
-    if (!selectedSprint) {
-      return;
-    }
-
-    fetchBoards();
-    fetchSprintTickets(null);
-  }, [selectedSprint, projectDetails.isLoadingDetails]);
-
-  const ticketsByStatus = useMemo(() => {
-    const grouped: Record<string, ITicketBoard[]> = {};
-
-    boardDetails?.statuses.forEach((status) => {
-      grouped[status.id] = [];
-    });
-
-    tickets.forEach((ticket) => {
-      if (ticket.status && grouped[ticket.status]) {
-        grouped[ticket.status].push(ticket);
-      }
-    });
-
-    Object.keys(grouped).forEach((statusId) => {
-      grouped[statusId] = grouped[statusId].sort((a, b) => customCompare(a?.rank, b?.rank));
-    });
-
-    return grouped;
-  }, [tickets, boardDetails]);
-
-  if (projectDetails.isLoadingDetails) {
-    return <></>;
-  }
-  const hasSprint = projectDetails.sprints.map((item) => item.currentSprint) && boardDetails;
-  const loading = projectDetails.isLoadingDetails;
-
-  const onTicketCreate = async (data) => {
+  const onTicketCreate = async (newTicket: ISprintTicket) => {
     const allTicketsSorted = tickets.sort((a, b) => customCompare(a?.rank, b?.rank));
 
     const newRank =
@@ -98,43 +74,51 @@ export default function BoardPage() {
         ? generateKeyBetween(allTicketsSorted[allTicketsSorted.length - 1]?.rank, null)
         : generateKeyBetween(null, null);
 
-    const ticketData = { ...data, rank: newRank };
-
-    const res = await createNewTicket(ticketData);
+    const res = await createNewTicket({ ...newTicket, rank: newRank });
     setTickets([...tickets, res.data]);
   };
 
-  const getGlobalTicketRank = (
+  const getNewGlobalRank = (
     destinationIndex: number,
-    allTicketsSorted: ITicketBoard[],
-    destinationTickets: ITicketBoard[]
-  ) => {
-    if (destinationIndex === 0) {
-      const [topTicket] = destinationTickets;
-      if (topTicket) {
-        const globalIndex = allTicketsSorted.findIndex((t) => t.id === topTicket.id);
-        const prevTicket = globalIndex > 0 ? allTicketsSorted[globalIndex - 1] : undefined;
-        return { prevRank: prevTicket?.rank || null, nextRank: topTicket.rank };
-      }
-    } else if (destinationIndex >= destinationTickets.length) {
-      const lastTicket = destinationTickets[destinationTickets.length - 1];
-      if (lastTicket) {
-        const globalIndex = allTicketsSorted.findIndex((t) => t.id === lastTicket.id);
-        const nextTicket =
-          globalIndex < allTicketsSorted.length - 1 ? allTicketsSorted[globalIndex + 1] : undefined;
-        return { prevRank: lastTicket.rank, nextRank: nextTicket?.rank || null };
-      }
+    allTicketsSorted: ISprintTicket[],
+    destinationTickets: ISprintTicket[]
+  ): string => {
+    const lastTicketInColumnIndex = destinationTickets.length - 1;
+    const lastTicketGlobalIndex = allTicketsSorted.length - 1;
+    if (lastTicketGlobalIndex < 0 || lastTicketInColumnIndex < 0) {
+      return generateKeyBetween(null, null);
     }
-    const prevTicket = destinationTickets[destinationIndex - 1];
-    const prevGlobalIndex = allTicketsSorted.findIndex((t) => t.id === prevTicket.id);
+    const nextTicketInColumn =
+      lastTicketInColumnIndex >= destinationIndex
+        ? destinationTickets[destinationIndex]
+        : undefined;
 
-    const nextTicket = allTicketsSorted[prevGlobalIndex + 1];
-    return { prevRank: prevTicket?.rank, nextRank: nextTicket?.rank };
+    let prev: string | null = null;
+    let after: string | null = null;
+    if (nextTicketInColumn) {
+      // find the most nearest ticket that smaller than this nextTicketInColumn
+      const nextTicketInColumnGlobalIndex = allTicketsSorted.findIndex(
+        (ticket) => ticket.rank === nextTicketInColumn.rank
+      );
+      if (nextTicketInColumnGlobalIndex) {
+        after = nextTicketInColumn.rank ?? null;
+
+        if (nextTicketInColumnGlobalIndex - 1 >= 0) {
+          const nearestSmallerRankTicket = allTicketsSorted[nextTicketInColumnGlobalIndex - 1];
+          prev = nearestSmallerRankTicket.rank ?? null;
+        }
+      }
+    } else {
+      // get the greatest rank
+      const greatestRankTicket = allTicketsSorted[lastTicketGlobalIndex];
+      prev = greatestRankTicket?.rank ?? null;
+    }
+
+    return generateKeyBetween(prev, after);
   };
 
-  const dragEventHandler = async (result: DropResult) => {
-    const { destination, source, draggableId } = result;
-
+  const onTicketDrop = async (dropResult: DropResult) => {
+    const { destination, source, draggableId: currentTicketId } = dropResult;
     if (!destination) {
       return;
     }
@@ -143,85 +127,69 @@ export default function BoardPage() {
       return;
     }
 
-    const ticketId = draggableId;
-    const ticket = tickets.find((item) => item.id === ticketId);
-    if (!ticket) {
+    const currentTicket = tickets.find((item) => item.id === currentTicketId);
+    if (!currentTicket) {
       return;
     }
 
     const allTicketsSorted = tickets
-      .filter((t) => t.id !== ticketId)
+      .filter((t) => t.id !== currentTicketId)
       .sort((a, b) => customCompare(a?.rank, b?.rank));
 
-    const destinationTickets = allTicketsSorted.filter((t) => t.status === destination.droppableId);
+    const destinationTicketsSorted = allTicketsSorted.filter(
+      (t) => t.status === destination.droppableId
+    );
 
-    let newRank: string | undefined;
-    let needsRankUpdate = false;
-
-    if (destinationTickets.length !== 0) {
-      const { prevRank, nextRank } = getGlobalTicketRank(
-        destination.index,
-        allTicketsSorted,
-        destinationTickets
-      );
-
-      if (destination.droppableId === source.droppableId) {
-        needsRankUpdate = true;
-        newRank = generateKeyBetween(prevRank, nextRank);
-      } else {
-        const currentRank = ticket.rank || '';
-        const fitsCorrectly =
-          (prevRank === null || customCompare(prevRank, currentRank) < 0) &&
-          (nextRank === null || customCompare(currentRank, nextRank) < 0);
-
-        if (fitsCorrectly) {
-          needsRankUpdate = false;
-        } else {
-          needsRankUpdate = true;
-          newRank = generateKeyBetween(prevRank, nextRank);
-        }
-      }
-    }
+    const newRank = getNewGlobalRank(destination.index, allTicketsSorted, destinationTicketsSorted);
 
     const updatedTicket = {
-      ...ticket,
+      ...currentTicket,
       status: destination.droppableId,
-      ...(needsRankUpdate && newRank ? { rank: newRank } : {})
+      rank: newRank
     };
 
-    setTickets(tickets.map((item) => (item.id === ticketId ? updatedTicket : item)));
-
-    try {
-      if (needsRankUpdate && newRank) {
-        await updateTicketStatus(ticketId, destination.droppableId, newRank);
-      } else {
-        await updateTicketStatus(ticketId, destination.droppableId);
-      }
-    } catch (error) {
-      fetchSprintTickets(null);
-    }
+    setTickets(tickets.map((item) => (item.id === currentTicketId ? updatedTicket : item)));
+    await updateTicketStatus(currentTicketId, destination.droppableId, newRank);
   };
 
-  const onChangeFilter = (filterData: IFilterData) => {
-    fetchSprintTickets(filterData);
+  const onChangeFilter = async (filterData: IFilterData) => {
+    await fetchSprintTickets(filterData);
   };
 
   const onChangeSprint = (e: IMinEvent) => {
     setSelectedSprint(getSprintById(e.target.value as string, projectDetails));
   };
 
-  if (loading) {
+  // 1) initialize selectedSprint
+  useEffect(() => {
+    if (isLoadingProjectDetails) {
+      return;
+    }
+    const sprintId = searchParams.get('sprintId');
+    const currentSprint = sprintId
+      ? projectDetails.sprints.find((item) => item.id === sprintId)
+      : projectDetails.sprints.find((item) => item.currentSprint);
+
+    if (!currentSprint) {
+      return;
+    }
+    setSelectedSprint(currentSprint);
+  }, [isLoadingProjectDetails, searchParams]);
+
+  // 2) initialize board details and board tickets
+  useEffect(() => {
+    if (!selectedSprint) {
+      return;
+    }
+    (async () => {
+      await fetchSprintTickets();
+      await fetchBoardDetails();
+    })();
+  }, [selectedSprint]);
+
+  if (isLoadingProjectDetails) {
     return <></>;
   }
-
-  const sprintsOptions = projectDetails.sprints
-    .filter((item) => item.currentSprint)
-    .map((item) => {
-      return {
-        label: item.name,
-        value: item.id
-      };
-    });
 
   return (
     <ProjectHOC title="Board">
@@ -229,18 +197,17 @@ export default function BoardPage() {
         {!hasSprint && <p>No Active Sprint</p>}
         {hasSprint && (
           <>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div style={{ maxWidth: '250px', width: '100%' }}>
-                <DropdownV2
-                  label="Sprint"
-                  dataTestId="Sprint"
-                  onValueChanged={onChangeSprint}
-                  onValueBlur={() => {}}
-                  value={selectedSprint.id}
-                  name="sprint"
-                  options={sprintsOptions}
-                />
-              </div>
+            <div className={styles.boardHeader}>
+              <DropdownV2
+                label="Sprint"
+                dataTestId="Sprint"
+                onValueChanged={onChangeSprint}
+                onValueBlur={() => {}}
+                value={selectedSprint?.id}
+                name="sprint"
+                options={sprintsOptions}
+                className={styles.dropdown}
+              />
               <ButtonV2
                 text="Retro Board"
                 fill
@@ -249,42 +216,40 @@ export default function BoardPage() {
                 }}
               />
             </div>
-            <TicketSearch onChangeFilter={onChangeFilter} />
+            <BoardToolbar onChangeFilter={onChangeFilter} />
             <div className={styles.boardMainContainer}>
-              <DragDropContext onDragEnd={dragEventHandler}>
-                {boardDetails.statuses.map((column) => (
+              <DragDropContext onDragEnd={onTicketDrop}>
+                {ticketsByStatus.map(({ status, tickets: groupedSortedTickets }) => (
                   <DroppableColumn
-                    key={column.id}
-                    name={column.name}
-                    id={column.id}
-                    totalTicket={ticketsByStatus[column.id]?.length ?? 0}
+                    key={status.id}
+                    name={status.name}
+                    id={status.id}
+                    totalTicket={ticketsByStatus[status.id]?.length ?? 0}
                     projectId={projectId}
-                    sprintId={selectedSprint.id}
+                    sprintId={selectedSprint?.id}
                     createBtn={
                       <CreateBoardTicket
                         onTicketCreate={(data) => {
-                          const sprintId = selectedSprint.id;
                           onTicketCreate({
                             title: data.name,
-                            status: column.id,
+                            status: status.id,
                             type: data.type,
-                            project: projectId,
-                            sprintId,
-                            dueAt: new Date(),
-                            description: ''
+                            projectId,
+                            sprintId: selectedSprint.id,
+                            dueAt: new Date()
                           });
                         }}
                         className={styles.cardAddNewCard}
                       />
                     }
                   >
-                    {ticketsByStatus[column.id]?.map((item, index) => (
+                    {groupedSortedTickets?.map((item, index) => (
                       <DraggableBoardCard
                         key={item.id}
                         item={item}
                         index={index}
                         projectId={projectId}
-                        onTicketUpdated={() => fetchSprintTickets(null)}
+                        onTicketUpdated={() => fetchSprintTickets()}
                       />
                     ))}
                   </DroppableColumn>

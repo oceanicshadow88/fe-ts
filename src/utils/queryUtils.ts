@@ -1,8 +1,10 @@
-export const buildSearchTicketQuery = (data: any) => {
+import { IFilterData } from '../components/Board/BoardSearch/TicketSearch';
+
+export const buildSearchTicketQuery = (data?: IFilterData) => {
   if (!data) {
     return '';
   }
-  const searchQuery: any = [];
+  const searchQuery: string[] = [];
   const { title, labelIds, ticketTypesIds, ticketEpicsIds, userIds } = data;
   if (title) {
     searchQuery.push(`title=${title}`);

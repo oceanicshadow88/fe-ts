@@ -13,7 +13,7 @@ import Button from '../../components/Form/Button/Button';
 import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import CreateIssue, { ICreateIssue } from '../../components/Projects/CreateIssue/CreateIssue';
 import DroppableTicketItems from '../../components/Projects/DroppableTicketItems/DroppableTicketItems';
-import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
+import BoardToolbar, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import { ModalContext } from '../../context/ModalProvider';
 import { ISprint, ITicketBasic, ITicketInput } from '../../types';
 import {
@@ -326,7 +326,7 @@ export default function BacklogPage() {
   return (
     <ProjectHOC title="Backlog">
       <div className={styles.scrollContainer}>
-        <TicketSearch onChangeFilter={onChangeFilter} />
+        <BoardToolbar onChangeFilter={onChangeFilter} />
         <DragDropContext
           onDragEnd={(result) => {
             onDragEventHandler(result);
