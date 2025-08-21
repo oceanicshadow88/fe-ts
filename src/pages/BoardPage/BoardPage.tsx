@@ -85,7 +85,7 @@ export default function BoardPage() {
   ): string => {
     const lastTicketInColumnIndex = destinationTickets.length - 1;
     const lastTicketGlobalIndex = allTicketsSorted.length - 1;
-    if (lastTicketGlobalIndex < 0 || lastTicketInColumnIndex < 0) {
+    if (lastTicketGlobalIndex < 0) {
       return generateKeyBetween(null, null);
     }
     const nextTicketInColumn =
