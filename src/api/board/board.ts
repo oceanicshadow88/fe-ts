@@ -2,6 +2,7 @@
 import axios from 'axios';
 import config from '../../config/config';
 import { buildSearchTicketQuery } from '../../utils/queryUtils';
+import { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 
 export const getBoard = async (
   id: string,
@@ -34,7 +35,7 @@ export const getBoard = async (
   return result.data;
 };
 
-export const getSprintTickets = async (id: string, filterData: any) => {
+export const getSprintTickets = async (id: string, filterData?: IFilterData) => {
   const path = `${config.apiAddressV2}/sprints/${id}/tickets${buildSearchTicketQuery(filterData)}`;
   const result = await axios.get(path);
   return result.data;

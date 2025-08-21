@@ -7,7 +7,7 @@ import { removeTicket, updateTicket } from '../../../../api/ticket/ticket';
 import TicketDetailCard from '../../../../components/TicketDetailCard/TicketDetailCard';
 import styles from './DraggableBoardCard.module.scss';
 import { ModalContext } from '../../../../context/ModalProvider';
-import { ITicketBoard, ITicketDetails } from '../../../../types';
+import { ISprintTicket, ITicketDetails } from '../../../../types';
 import Avatar from '../../../../components/Avatar/Avatar';
 import { Permission } from '../../../../utils/permission';
 import checkAccess from '../../../../utils/helpers';
@@ -15,7 +15,7 @@ import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvide
 import IconButton from '../../../../components/Form/Button/IconButton/IconButton';
 
 interface IDraggableBoardCard {
-  item: ITicketBoard;
+  item: ISprintTicket;
   index: number;
   projectId: string;
   onTicketUpdated: () => void;
@@ -64,7 +64,7 @@ export default function DraggableBoardCard(props: IDraggableBoardCard) {
                 'ticketDetailCard',
                 <TicketDetailCard
                   projectId={projectId}
-                  ticketId={item.id}
+                  ticketId={item.id ?? ''}
                   onDeletedTicket={handleDeletedTicket}
                   onSavedTicket={handleSavedTicket}
                   isReadOnly={!checkAccess(Permission.EditTickets, projectId)}

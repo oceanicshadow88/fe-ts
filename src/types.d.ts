@@ -43,27 +43,29 @@ export interface ITicketBasic {
   rank?: string;
 }
 /** **********Combine this with ITicketBasic*************** */
-export interface ITicketBoard {
-  id: string;
+export interface ISprintTicket {
+  id?: string;
   title: string;
   tags?: ILabelData[];
   comments?: any;
   status?: string;
-  priority: 'Highest' | 'High' | 'Medium' | 'Low' | 'Lowest';
-  project: IProject;
+  priority?: 'Highest' | 'High' | 'Medium' | 'Low' | 'Lowest';
+  project?: IProject;
+  projectId?: string;
   board?: string;
   sprint?: ISprint;
+  sprintId?: string;
   description?: string;
   storyPoint?: string;
   dueAt?: Date;
   reporter?: string;
   assign?: IAssign;
   type?: ITypes;
-  isActive: boolean;
+  isActive?: boolean;
   attachmentUrls?: any;
   createdAt?: Date;
   updatedAt?: Date;
-  ticketNumber: string;
+  ticketNumber?: string;
   rank?: string;
 }
 

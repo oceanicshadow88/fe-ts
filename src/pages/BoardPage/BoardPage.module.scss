@@ -23,9 +23,16 @@
 }
 
 .mainContainer {
-  padding-left: 20px;
+  padding: 0 20px;
 }
-
+.boardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .dropdown {
+    max-width: 240px;
+  }
+}
 .boardMainContainer {
   position: relative;
   display: flex;

@@ -14,15 +14,15 @@ export interface IFilterData {
   userIds: string[] | null;
   ticketTypesIds: string[] | null;
   ticketEpicsIds: string[] | null;
-  labelsIds: string[] | null;
+  labelIds: string[] | null;
   title: string;
 }
 
-interface IBoardSearchProps {
+interface IBoardToolbarProps {
   onChangeFilter: (filterData: IFilterData) => void;
 }
 
-function TicketSearch(props: IBoardSearchProps) {
+function BoardToolbar(props: IBoardToolbarProps) {
   const { onChangeFilter } = props;
   const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
   const [selectedLabels, setSelectedLabels] = useState<ILabelData[]>([]);
@@ -44,7 +44,7 @@ function TicketSearch(props: IBoardSearchProps) {
       userIds: selectedUsers.length === 0 ? null : selectedUsers.map((item) => item.id),
       ticketTypesIds: selectedTypes.length === 0 ? null : selectedTypes.map((item) => item.id),
       ticketEpicsIds: selectedEpics.length === 0 ? null : selectedEpics.map((item) => item.id),
-      labelsIds: selectedLabels.length === 0 ? null : selectedLabels.map((item) => item.id),
+      labelIds: selectedLabels.length === 0 ? null : selectedLabels.map((item) => item.id),
       title: inputQuery
     });
   }, [selectedUsers, selectedTypes, selectedEpics, selectedLabels, inputQuery]);
@@ -77,4 +77,4 @@ function TicketSearch(props: IBoardSearchProps) {
   );
 }
 
-export default React.memo(TicketSearch);
+export default React.memo(BoardToolbar);
