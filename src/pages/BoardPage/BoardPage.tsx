@@ -100,9 +100,8 @@ export default function BoardPage() {
       const nextTicketInColumnGlobalIndex = allTicketsSorted.findIndex(
         (ticket) => ticket.rank === nextTicketInColumn.rank
       );
-      if (nextTicketInColumnGlobalIndex) {
+      if (nextTicketInColumnGlobalIndex !== undefined) {
         after = nextTicketInColumn.rank ?? null;
-
         if (nextTicketInColumnGlobalIndex - 1 >= 0) {
           const nearestSmallerRankTicket = allTicketsSorted[nextTicketInColumnGlobalIndex - 1];
           prev = nearestSmallerRankTicket.rank ?? null;
@@ -113,7 +112,6 @@ export default function BoardPage() {
       const greatestRankTicket = allTicketsSorted[lastTicketGlobalIndex];
       prev = greatestRankTicket?.rank ?? null;
     }
-
     return generateKeyBetween(prev, after);
   };
 
