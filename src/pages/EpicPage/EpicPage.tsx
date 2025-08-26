@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getBacklogTickets } from '../../api/backlog/backlog';
-import { createNewTicket, updateTicketEpic } from '../../api/ticket/ticket';
+import { createNewTicket, updateTicketEpic, migrateTicketRanks } from '../../api/ticket/ticket';
 import TicketSearch, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import Button from '../../components/Form/Button/Button';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
@@ -15,19 +15,38 @@ import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import { ITicketBasic, ITicketInput } from '../../types';
 import CreateEditEpic from './components/CreateEditEpic/CreateEditEpic';
 import styles from './EpicPage.module.scss';
+import { customCompare, generateRankBetweenTwoTickets } from '../../utils/lexoRank';
 
 function EpicPage() {
   const { projectId = '' } = useParams();
   const [tickets, setTickets] = useState<ITicketBasic[]>([]);
   const { showModal, closeModal } = useContext(ModalContext);
   const projectDetails = useContext(ProjectDetailsContext);
+  const [isMigrating, setIsMigrating] = useState(false);
 
   const fetchBacklogData = async (filterData?: IFilterData | null) => {
     try {
-      const data = await getBacklogTickets(projectId, filterData);
-      setTickets(data);
+      const response = await getBacklogTickets(projectId, filterData);
+      const ticketsData = response || [];
+      const needsMigration = ticketsData.some((ticket) => !ticket.rank);
+
+      if (!needsMigration || isMigrating) {
+        setTickets(ticketsData);
+        return;
+      }
+
+      setIsMigrating(true);
+      try {
+        await migrateTicketRanks(projectId);
+        const updatedResponse = await getBacklogTickets(projectId, filterData);
+        setTickets(updatedResponse || []);
+      } catch (error) {
+        toast.error('Migrate Ticket Ranks Failed!');
+      } finally {
+        setIsMigrating(false);
+      }
     } catch (e) {
-      toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
+      setTickets([]);
     }
   };
 
@@ -35,25 +54,107 @@ function EpicPage() {
     fetchBacklogData(data);
   };
 
+  const calculateRankAfterDrag = (destination, source, draggableId) => {
+    const sortedTickets = [...tickets]
+      .filter((t) => t.id !== draggableId)
+      .sort((a, b) => customCompare(a?.rank, b?.rank));
+
+    const destinationTickets = sortedTickets.filter((t) => {
+      return t.epic === destination.droppableId;
+    });
+
+    const noTicketsInColumn = destinationTickets.length === 0;
+    if (noTicketsInColumn) {
+      const lastGlobalTicket = sortedTickets[sortedTickets.length - 1];
+      const newRank = generateRankBetweenTwoTickets(lastGlobalTicket?.rank || null, null);
+      return newRank;
+    }
+
+    const isDraggedToTop = destination.index === 0;
+    if (isDraggedToTop) {
+      const firstTicket = destinationTickets[0];
+      const firstTicketGlobalIndex = sortedTickets.findIndex((t) => t.id === firstTicket.id);
+      const prevTicket =
+        firstTicketGlobalIndex > 0 ? sortedTickets[firstTicketGlobalIndex - 1] : null;
+      const newRank = generateRankBetweenTwoTickets(
+        prevTicket?.rank || null,
+        firstTicket?.rank || null
+      );
+      return newRank;
+    }
+
+    const isDraggedToBottom = destination.index >= destinationTickets.length;
+    if (isDraggedToBottom) {
+      const lastTicket = destinationTickets[destinationTickets.length - 1];
+      const lastTicketGlobalIndex = sortedTickets.findIndex((t) => t.id === lastTicket.id);
+      const nextTicket =
+        lastTicketGlobalIndex < sortedTickets.length - 1
+          ? sortedTickets[lastTicketGlobalIndex + 1]
+          : null;
+      const newRank = generateRankBetweenTwoTickets(
+        lastTicket?.rank || null,
+        nextTicket?.rank || null
+      );
+      return newRank;
+    }
+
+    const prevTicket = destinationTickets[destination.index - 1];
+    const nextTicket = destinationTickets[destination.index];
+    const newRank = generateRankBetweenTwoTickets(
+      prevTicket?.rank || null,
+      nextTicket?.rank || null
+    );
+    return newRank;
+  };
+
   const onDragEventHandler = async (result: DropResult) => {
-    const { destination, draggableId } = result;
+    const { destination, draggableId, source } = result;
+
+    if (!destination) {
+      return;
+    }
 
     const currentTicket = tickets.find((item) => item.id === draggableId);
     if (!currentTicket) {
       return;
     }
 
-    const droppedFailed = destination?.droppableId === currentTicket.epic;
+    const droppedFailed =
+      destination.droppableId === source.droppableId && destination.index === source.index;
     if (droppedFailed) {
       return;
     }
-    const epicId = destination?.droppableId;
-    await updateTicketEpic(draggableId, epicId);
-    fetchBacklogData(null);
+
+    const noEpic = 'no-epic';
+    const epicId = destination.droppableId === noEpic ? noEpic : destination.droppableId;
+    const newRank = calculateRankAfterDrag(destination, source, draggableId);
+
+    const updatedTicket = {
+      ...currentTicket,
+      epic: epicId,
+      rank: newRank
+    };
+
+    setTickets((prevTickets) =>
+      prevTickets.map((ticket) => (ticket.id === draggableId ? updatedTicket : ticket))
+    );
+
+    try {
+      await updateTicketEpic(draggableId, epicId, newRank);
+    } catch (error) {
+      toast.error('Failed to update Ticket!');
+      fetchBacklogData(null);
+    }
   };
 
   const onIssueCreate = async (data: ITicketInput) => {
-    await createNewTicket(data);
+    const sorted = [...tickets].sort((a, b) => customCompare(a?.rank, b?.rank));
+    const lastRank = sorted.length > 0 ? sorted[sorted.length - 1].rank : null;
+    const newRank = generateRankBetweenTwoTickets(lastRank, null);
+
+    const ticketData = { ...data, rank: newRank };
+
+    await createNewTicket(ticketData);
     fetchBacklogData();
   };
 
@@ -73,7 +174,31 @@ function EpicPage() {
 
   const epicDataFromBackend = projectDetails?.epics ?? [];
 
-  const ticketsByEpicId = tickets?.groupBy('epic') ?? {};
+  const ticketsByEpicId = useMemo(() => {
+    const noEpic = 'no-epic';
+    const grouped: Record<string, ITicketBasic[]> = { noEpic: [] };
+
+    tickets?.forEach((ticket) => {
+      const epicId =
+        typeof ticket.epic === 'object' && ticket.epic !== null
+          ? (ticket.epic as { id: string }).id
+          : ticket.epic;
+      const key = epicId || noEpic;
+
+      if (!grouped[key]) {
+        grouped[key] = [];
+      }
+
+      grouped[key].push(ticket);
+    });
+
+    Object.keys(grouped).forEach((key) => {
+      grouped[key] = grouped[key].sort((a, b) => customCompare(a?.rank, b?.rank));
+    });
+
+    return grouped;
+  }, [tickets]);
+
   return (
     <ProjectHOC title="Epic">
       <div className={styles.scrollContainer}>
