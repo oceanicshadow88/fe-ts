@@ -214,6 +214,7 @@ export default function TicketItem({
           addNullOptions
           color={projectDetails.epics.find((item) => item.id === epicId)?.color}
         />
+        <p>{ticket.sprint?.name ?? 'SPRINT'}</p>
         <StatusBtn
           statusId={ticket?.status}
           ticketId={ticket?.id}
