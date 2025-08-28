@@ -49,28 +49,39 @@ Cypress.Commands.add('login', (email: string, password: string) => {
 //   }
 // }
 
-Cypress.Commands.add(
-  'simulateDndForReactBeautifulDnd',
-  (fromSelector, toSelector, handleSelector = '') => {
-    const dragTarget = handleSelector ? `${fromSelector} ${handleSelector}` : fromSelector;
+Cypress.Commands.add('dragAndDrop', (subject, target) => {
+    const buttonIndex = 0;
+    const sloppyClickThreshold = 10;
+    cy.get(target)
+        .first()
+        .then($target => {
+            let coordsDrop = $target[0].getBoundingClientRect();
+            cy.get(subject)
+                .first()
+                .then(subject => {
+                    const coordsDrag = subject[0].getBoundingClientRect();
+                    cy.wrap(subject)
+                        .trigger('mousedown', {
+                            button: buttonIndex,
+                            clientX: coordsDrag.x,
+                            clientY: coordsDrag.y,
+                            force: true
+                        })
+                        .trigger('mousemove', {
+                            button: buttonIndex,
+                            clientX: coordsDrag.x + sloppyClickThreshold,
+                            clientY: coordsDrag.y,
+                            force: true
+                        });
+                    cy.get('body')
+                        .trigger('mousemove', {
+                            button: buttonIndex,
+                            clientX: coordsDrop.x,
+                            clientY: coordsDrop.y,
+                            force: true            
+                        })
+                        .trigger('mouseup');
+                });
+        });
+});
 
-    cy.get(dragTarget)
-      .trigger('mousedown', { button: 0, force: true })
-      .wait(100)
-      .trigger('mousemove', { clientX: 50, clientY: 10, force: true });
-
-    cy.window().then((win) => {
-      win.dispatchEvent(
-        new MouseEvent('mousemove', {
-          clientX: 100,
-          clientY: 20,
-          bubbles: true
-        })
-      );
-    });
-
-    cy.get(toSelector)
-      .trigger('mousemove', { clientX: 100, clientY: 10, force: true })
-      .trigger('mouseup', { force: true });
-  }
-);

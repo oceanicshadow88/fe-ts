@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import ButtonV2 from '../../lib/FormV2/ButtonV2/ButtonV2';
-import InputV2 from '../../lib/FormV2/InputV2/InputV2';
+import InputV2 from '../../lib/FormV3/InputV3/InputV3';
 import BtnContainer from '../../lib/Grid/BtnContainer/BtnContainer';
 import Row from '../../lib/Grid/Row/Row';
 import { IJobApplyEditor } from '../../types';

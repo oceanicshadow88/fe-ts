@@ -1,16 +1,13 @@
 @import '../../../../variables.scss';
 
 .card {
-  min-height: '50px';
+  position: relative;
   box-sizing: border-box;
   padding: 12px;
   max-width: 270px;
-  border-radius: 15px !important;
-  cursor: pointer;
+  min-height: 55px;
+  border-radius: 15px;
   user-select: none;
-  display: flex;
-  position: relative;
-  justify-content: space-between;
   margin: 10px 0px;
   box-shadow: var(
     --ds-shadow-raised,
@@ -20,84 +17,68 @@
   transition: background-color 140ms ease-in-out 0s, color 140ms ease-in-out 0s;
   background-color: var(--ds-surface-raised, #ffffff);
   color: var(--ds-text, #172b4d);
-  filter: none;
-
-  span {
-    margin-bottom: 8px;
-    overflow-wrap: break-word;
-    flex-wrap: wrap;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 6px;
-
-    .tag {
-      padding: 5px 15px;
-      background-color: $primaryColor;
-      border-radius: 12px;
-      span {
-        color: #e4d6fd;
-        font-size: 12px;
-        overflow-wrap: break-word;
-        margin: 0;
-      }
-    }
-  }
   &:hover {
     background: #ebecf0;
   }
-}
 
-.cardFooter {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 28px;
+  &:hover .editorContainer .editBtn,
+  .editorContainer:focus-within .editBtn {
+    opacity: 1;
+    pointer-events: auto;
+  }
 
-  .cardFooterLeft {
-    min-width: 0px;
-    box-sizing: border-box;
+  .cursorPointerSection {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .editorContainer {
+    display: flex;
     align-items: center;
-    margin-right: 4px;
-
-    img {
-      width: 16px;
-      height: 16px;
-      vertical-align: text-bottom;
-    }
-
-    span {
-      margin-top: 7px;
-      margin-left: 3px;
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--ds-text-subtle, #7a869a);
+    word-break: break-word;
+    text-align: start;
+    white-space: pre-line;
+    p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0;
+      display: inline-block;
     }
   }
 
-  .cardFooterRight {
-    display: flex;
-    flex-direction: column;
+  .iconBtn {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    display: inline-flex;
     justify-content: center;
-    transition: transform 200ms ease 0s, opacity 200ms ease 0s;
-    margin: 2px;
-
-    img {
-      width: 18px;
-      height: 18px;
+    align-items: center;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    transition: opacity 160ms ease, background-color 160ms ease;
+    vertical-align: baseline;
+    margin-left: 6px;
+    color: #172b4db7;
+    &:hover {
+      background-color: #dedbe5;
     }
+  }
+
+  .editBtn {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .deleteBtnContainer {
+    height: 31px;
+    width: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
-.avatorIcon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+.editorContainer:focus-within .editBtn {
+  opacity: 1;
+  pointer-events: auto;
 }

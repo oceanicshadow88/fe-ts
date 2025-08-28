@@ -22,6 +22,7 @@ interface IDropdownV2 {
   hasBorder?: boolean;
   addNullOptions?: boolean;
   color?: string;
+  className?: string;
 }
 
 export default function DropdownV2(props: IDropdownV2) {
@@ -39,7 +40,8 @@ export default function DropdownV2(props: IDropdownV2) {
     dataTestId,
     hasBorder = true,
     addNullOptions = false,
-    color
+    color,
+    className
   } = props;
   const defaultPlaceHolder = placeHolder ?? 'None';
   const [error, setError] = useState<null | string>(null);
@@ -50,7 +52,7 @@ export default function DropdownV2(props: IDropdownV2) {
 
   const onChangeSelect = (val: string | null) => {
     const e = { target: { value: val, name } };
-    const errorMessage = getErrorMessage(e, props);
+    const errorMessage = getErrorMessage(e.target.value, props);
     setError(errorMessage);
     onValueChanged(e);
     setShowMenu(false);
@@ -61,7 +63,7 @@ export default function DropdownV2(props: IDropdownV2) {
     if (onValueBlur) {
       onValueBlur(e);
     }
-    const errorMessage = getErrorMessage(e, props);
+    const errorMessage = getErrorMessage(e.target.value, props);
     setError(errorMessage);
     setIsActive(false);
   };
@@ -111,7 +113,8 @@ export default function DropdownV2(props: IDropdownV2) {
         borderCss,
         hasContainer,
         isActive ? styles.borderActive : '',
-        error ? styles.borderRed : ''
+        error ? styles.borderRed : '',
+        className
       ].join(' ')}
       data-testid={dataTestId}
     >

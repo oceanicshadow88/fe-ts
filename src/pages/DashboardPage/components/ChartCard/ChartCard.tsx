@@ -36,10 +36,37 @@ type Props = {
 };
 
 export enum ChartType {
-  BAR_CHART = 'barChart',
+  EPIC_BAR_CHART = 'epicBarChart',
   LINE_CHART = 'lineChart',
-  PIE_CHART = 'pieChart'
+  PIE_CHART = 'pieChart',
+  TYPE_BAR_CHART = 'typeBarChart'
 }
+
+const TYPE_COLOR_MAP: Record<string, string> = {
+  STORY: '#81c784',
+  BUG: '#e57373',
+  TASK: '#7ab8cc',
+  TECHDEBT: '#ffca28'
+};
+
+const TYPE_ICON_MAP: Record<string, string> = {
+  STORY:
+    'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium',
+  TASK: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium',
+  BUG: 'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium',
+  TECHDEBT:
+    'https://010001.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10308?size=medium'
+};
+
+const normalizeDataType = (type: string): string => type.toUpperCase().replace(/\s+/g, '');
+
+const pickTypeColor = (type: string): string => {
+  return TYPE_COLOR_MAP[normalizeDataType(type)] || '#ccc';
+};
+
+const pickTypeIcon = (type: string): string => {
+  return TYPE_ICON_MAP[normalizeDataType(type)] || '';
+};
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215)
@@ -80,26 +107,98 @@ function lineChart(data: any, ref: React.MutableRefObject<any>, dataKeyList: str
   );
 }
 
-function barChart(data: any) {
+function typeBarChart(data: { name: string; value: number }[]) {
   return (
-    <div className={`${styles.chartArea} ${styles['chartArea--bar']}`}>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          barSize={35}
+    <>
+      <div className={styles.chartHeader}>
+        <h3 className={styles.chartTitle}>Types of work</h3>
+        <p className={styles.chartSubtitle}>
+          Breakdown of work items by type in the current sprint.
+        </p>
+      </div>
+
+      <div className={`${styles.chartArea} ${styles['chartArea--bar']}`}>
+        <ResponsiveContainer width="100%" height={data.length * 50 + 60}>
+          <BarChart
+            layout="vertical"
+            data={data}
+            margin={{ top: 20, right: 30, left: 100, bottom: 5 }}
+          >
+            <XAxis type="number" hide />
+            <YAxis
+              type="category"
+              dataKey="name"
+              tick={({ x, y, payload }) => {
+                const type = payload.value;
+                return (
+                  <g transform={`translate(${x - 100},${y})`}>
+                    <image href={pickTypeIcon(type)} x={0} y={-10} width={16} height={16} />
+                    <text x={24} y={0} dy={4} textAnchor="start" fill="#ccc" fontSize={14}>
+                      {type}
+                    </text>
+                  </g>
+                );
+              }}
+            />
+            <Tooltip />
+            <Bar dataKey="value" barSize={40}>
+              {data.map((item) => (
+                <Cell key={`cell-${item.name}`} fill={pickTypeColor(item.name)} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </>
+  );
+}
+
+function epicBarChart(
+  data: { name: string; [status: string]: string | number }[],
+  statusKeys: string[]
+) {
+  const BAR_HEIGHT = 25;
+  const BAR_GAP = 15;
+
+  const chartHeight = data.length * (BAR_HEIGHT + BAR_GAP) + 60;
+
+  return (
+    <>
+      <div className={styles.chartHeader}>
+        <h3 className={styles.chartTitle}>Epic progress</h3>
+        <p className={styles.chartSubtitle}>See how your epics are progressing at a glance.</p>
+      </div>
+      <div className={styles.chartBarScrollWrapper}>
+        <div
+          className={`${styles.chartArea} ${styles['chartArea--bar']}`}
+          style={{ height: `${chartHeight}px` }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar key={uuidv4()} dataKey="count" fill="#6a2add" />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              layout="vertical"
+              data={data}
+              margin={{ top: 20, right: 30, left: 40, bottom: 30 }}
+              barSize={BAR_HEIGHT}
+              barCategoryGap={BAR_GAP}
+            >
+              <XAxis type="number" hide />
+              <YAxis type="category" dataKey="name" />
+              <Tooltip formatter={(value: number) => `${value}`} />
+              <Legend verticalAlign="top" />
+              {statusKeys.map((key, barIdx) => (
+                <Bar
+                  key={key}
+                  dataKey={key}
+                  stackId="a"
+                  fill={pickCartoonCategoryColor(barIdx)}
+                  name={key.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -253,8 +352,9 @@ function ChartCard({ style, dataKeyList, data, type, setChartBase64String, isSho
       )}
 
       {type === ChartType.LINE_CHART && lineChart(chartData, lineRef, chartDataKeyList)}
-      {type === ChartType.BAR_CHART && barChart(chartData)}
+      {type === ChartType.EPIC_BAR_CHART && epicBarChart(chartData, chartDataKeyList)}
       {type === ChartType.PIE_CHART && pieChart(chartData)}
+      {type === ChartType.TYPE_BAR_CHART && typeBarChart(chartData)}
 
       {showUserSelector && users.length > 0 && (
         <div className={styles.controlBar}>

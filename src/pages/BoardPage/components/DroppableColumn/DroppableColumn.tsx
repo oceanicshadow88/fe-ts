@@ -17,11 +17,9 @@ export default function DroppableColumn(props: IDroppableColumn) {
   const { name, id, projectId, children, totalTicket, createBtn } = props;
 
   return (
-    <div className={styles.columnsContainer}>
+    <div className={styles.columnsContainer} data-testid={`board-col-${id}`}>
       <div className={styles.columnInfo}>
-        <h1 className={styles.name} data-testid={`board-col-${id}`}>
-          {name}
-        </h1>
+        <h1 className={styles.name}>{name}</h1>
         <h1 className={styles.num}>{totalTicket}</h1>
       </div>
       <Droppable droppableId={id} key={id}>

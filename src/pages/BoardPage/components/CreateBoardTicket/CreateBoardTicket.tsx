@@ -18,7 +18,7 @@ export default function CreateBoardTicket(props: IDroppableColumn) {
   const createIssueRef = useRef<HTMLInputElement | null>(null);
 
   const onKeyDownCreateIssue = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== 'Enter') {
+    if (event.key !== 'Enter' || !createIssueRef?.current?.value) {
       return;
     }
     onTicketCreate({
