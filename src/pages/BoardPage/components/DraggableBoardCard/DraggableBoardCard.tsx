@@ -7,7 +7,7 @@ import { removeTicket, updateTicket } from '../../../../api/ticket/ticket';
 import TicketDetailCard from '../../../../components/TicketDetailCard/TicketDetailCard';
 import styles from './DraggableBoardCard.module.scss';
 import { ModalContext } from '../../../../context/ModalProvider';
-import { ISprintTicket, ITicketDetails } from '../../../../types';
+import { ITicketBasic, ITicketDetails } from '../../../../types';
 import Avatar from '../../../../components/Avatar/Avatar';
 import { Permission } from '../../../../utils/permission';
 import checkAccess from '../../../../utils/helpers';
@@ -15,7 +15,7 @@ import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvide
 import IconButton from '../../../../components/Form/Button/IconButton/IconButton';
 
 interface IDraggableBoardCard {
-  item: ISprintTicket;
+  item: ITicketBasic;
   index: number;
   projectId: string;
   onTicketUpdated: () => void;

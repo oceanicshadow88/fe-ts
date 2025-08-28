@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { ProjectDetailsContext } from '../../../context/ProjectDetailsProvider';
 import TicketItem from '../../../pages/BacklogPage/components/TicketItem/TicketItem';
@@ -11,13 +11,15 @@ interface IProps {
   data: ITicketBasic[];
   isBacklog?: boolean;
   droppableId: string;
+  showSpringName?: boolean;
 }
 
 export default function DroppableTicketItems({
   onTicketChanged,
   data,
   isBacklog = false,
-  droppableId
+  droppableId,
+  showSpringName = false
 }: IProps) {
   const projectDetails = useContext(ProjectDetailsContext);
   const projectId = projectDetails.details.id;
@@ -40,6 +42,17 @@ export default function DroppableTicketItems({
     totalTicket += data?.length ?? 0;
     return totalTicket > 7;
   };
+
+  const dataWithSprint = useMemo(() => {
+    const sprintData = projectDetails?.sprints ?? [];
+    return data?.map((ticket) => {
+      const sprintObj = sprintData.find(
+        (td) => td.id === (typeof ticket.sprint === 'string' ? ticket.sprint : ticket.sprint?.id)
+      );
+      return { ...ticket, sprint: sprintObj };
+    });
+  }, [data]);
+
   return (
     <Droppable droppableId={droppableId}>
       {(provided) => {
@@ -49,7 +62,7 @@ export default function DroppableTicketItems({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {data?.map((ticket, index) => {
+            {dataWithSprint?.map((ticket, index) => {
               return (
                 <Draggable key={ticket.id} draggableId={ticket.id ?? ''} index={index}>
                   {(provided2) => {
@@ -68,6 +81,7 @@ export default function DroppableTicketItems({
                             }
                             onTicketChanged={onTicketChanged}
                             isReadOnly={!checkAccess(Permission.EditTickets, projectId)}
+                            showSpringName={showSpringName}
                           />
                         )}
                       </div>

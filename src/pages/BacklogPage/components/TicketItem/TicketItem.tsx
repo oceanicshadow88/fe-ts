@@ -13,7 +13,7 @@ import useOutsideAlerter from '../../../../hooks/OutsideAlerter';
 import TicketTypeEdit from './TicketTypeEdit';
 import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvider';
 import StatusBtn from '../StatusBtn/StatusBtn';
-import { ITicketBasic, ITicketDetails } from '../../../../types';
+import { ITicketBasicRes, ITicketDetails } from '../../../../types';
 import {
   updateTicket,
   deleteTicket,
@@ -27,20 +27,22 @@ import { Permission } from '../../../../utils/permission';
 import DropdownV2 from '../../../../lib/FormV2/DropdownV2/DropdownV2';
 
 interface ITicketInput {
-  ticket: ITicketBasic;
+  ticket: ITicketBasicRes;
   showDropDownOnTop?: boolean;
   onTicketChanged: () => void;
   isReadOnly: boolean;
+  showSpringName?: boolean;
 }
 export default function TicketItem({
   ticket,
   showDropDownOnTop,
   onTicketChanged,
-  isReadOnly
+  isReadOnly,
+  showSpringName = false
 }: ITicketInput) {
   const [title, setTitle] = useState(ticket.title);
   const [value, setValue] = useState(ticket.type);
-  const [epicId, setEpicId] = useState<string | null>(ticket.epic);
+  const [epicId, setEpicId] = useState<string | null>(ticket?.epic ?? null);
   const projectDetails = useContext(ProjectDetailsContext);
   const { showModal } = useContext(ModalContext);
   const { projectId = '' } = useParams();
@@ -192,17 +194,19 @@ export default function TicketItem({
         <PriorityBtn
           showDropDownOnTop={showDropDownOnTop}
           ticketId={ticket.id}
-          priority={ticket.priority}
+          priority={ticket.priority ?? ''}
           getBacklogDataApi={onTicketChanged}
           isDisabled={isReadOnly}
         />
         <DropdownV2
-          options={projectDetails.epics.map((item) => {
-            return {
-              label: item.title,
-              value: item.id
-            };
-          })}
+          options={projectDetails.epics
+            .filter((epic) => !epic.isComplete)
+            .map((item) => {
+              return {
+                label: item.title,
+                value: item.id
+              };
+            })}
           label="Epic"
           name="epic"
           onValueChanged={(e) => {
@@ -214,7 +218,9 @@ export default function TicketItem({
           addNullOptions
           color={projectDetails.epics.find((item) => item.id === epicId)?.color}
         />
-        <p>{ticket.sprint?.name ?? 'SPRINT'}</p>
+        {showSpringName && (
+          <span className={styles.sprintText}>{ticket.sprint?.name ?? 'backlog'}</span>
+        )}
         <StatusBtn
           statusId={ticket?.status}
           ticketId={ticket?.id}

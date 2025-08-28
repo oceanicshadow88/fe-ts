@@ -7,7 +7,7 @@ import { getBoardDetails, getSprintTickets } from '../../api/board/board';
 import { createNewTicket, updateTicketStatus } from '../../api/ticket/ticket';
 import BoardToolbar, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
-import { IBoard, IMinEvent, ISprint, ISprintTicket, IStatus } from '../../types';
+import { IBoard, IMinEvent, ISprint, IStatus, ITicketBasic } from '../../types';
 import DroppableColumn from './components/DroppableColumn/DroppableColumn';
 import DraggableBoardCard from './components/DraggableBoardCard/DraggableBoardCard';
 import ProjectHOC from '../../components/HOC/ProjectHOC';
@@ -18,7 +18,7 @@ import { generateKeyBetween, customCompare } from '../../utils/lexoRank';
 
 interface IGroupedTickets {
   status: IStatus;
-  tickets: ISprintTicket[];
+  tickets: ITicketBasic[];
 }
 
 export default function BoardPage() {
@@ -27,7 +27,7 @@ export default function BoardPage() {
   const navigate = useNavigate();
   const projectDetails: IProjectDetails = useContext(ProjectDetailsContext);
 
-  const [tickets, setTickets] = useState<ISprintTicket[]>([]);
+  const [tickets, setTickets] = useState<ITicketBasic[]>([]);
   const [boardDetails, setBoardDetails] = useState<IBoard>();
   const [selectedSprint, setSelectedSprint] = useState<ISprint | undefined>();
 
@@ -47,7 +47,7 @@ export default function BoardPage() {
     const res: IGroupedTickets[] =
       boardDetails?.statuses?.map((status: IStatus) => {
         const groupedSortedTickets = tickets
-          .filter((ticket: ISprintTicket) => ticket.status === status.id)
+          .filter((ticket: ITicketBasic) => ticket.status === status.id)
           .sort((a, b) => customCompare(a?.rank, b?.rank));
         return { status, tickets: groupedSortedTickets };
       }) ?? [];
@@ -66,7 +66,7 @@ export default function BoardPage() {
     setBoardDetails(res.data);
   };
 
-  const onTicketCreate = async (newTicket: ISprintTicket) => {
+  const onTicketCreate = async (newTicket: ITicketBasic) => {
     const allTicketsSorted = tickets.sort((a, b) => customCompare(a?.rank, b?.rank));
 
     const newRank =
@@ -80,8 +80,8 @@ export default function BoardPage() {
 
   const getNewGlobalRank = (
     destinationIndex: number,
-    allTicketsSorted: ISprintTicket[],
-    destinationTickets: ISprintTicket[]
+    allTicketsSorted: ITicketBasic[],
+    destinationTickets: ITicketBasic[]
   ): string => {
     const lastTicketInColumnIndex = destinationTickets.length - 1;
     const lastTicketGlobalIndex = allTicketsSorted.length - 1;

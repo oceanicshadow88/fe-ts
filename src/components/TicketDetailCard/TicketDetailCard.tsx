@@ -30,7 +30,7 @@ import SVGPaths from '../../assets/ticketDetailCard/ticketDetailCardSvgPath';
 import DropdownV2 from '../../lib/FormV2/DropdownV2/DropdownV2';
 
 interface ITicketDetailCardProps {
-  ticketId: string;
+  ticketId?: string;
   onDeletedTicket: (id: string) => void;
   onSavedTicket: (data: any) => void;
   projectId: string;
@@ -92,7 +92,7 @@ function TicketDetailCard({
     setTicketInfo(updatedTicketInfo);
   };
 
-  if (!ticketInfo) {
+  if (!ticketInfo || !ticketId) {
     return <div />;
   }
 
