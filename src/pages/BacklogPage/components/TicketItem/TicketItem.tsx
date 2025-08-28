@@ -13,7 +13,7 @@ import useOutsideAlerter from '../../../../hooks/OutsideAlerter';
 import TicketTypeEdit from './TicketTypeEdit';
 import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvider';
 import StatusBtn from '../StatusBtn/StatusBtn';
-import { ITicketBasicRes, ITicketDetails } from '../../../../types';
+import { ITicketBasic, ITicketDetails } from '../../../../types';
 import {
   updateTicket,
   deleteTicket,
@@ -27,7 +27,7 @@ import { Permission } from '../../../../utils/permission';
 import DropdownV2 from '../../../../lib/FormV2/DropdownV2/DropdownV2';
 
 interface ITicketInput {
-  ticket: ITicketBasicRes;
+  ticket: ITicketBasic;
   showDropDownOnTop?: boolean;
   onTicketChanged: () => void;
   isReadOnly: boolean;
@@ -52,13 +52,13 @@ export default function TicketItem({
       return;
     }
     const data = { title: title.trim() };
-    await updateTicket(ticket.id, data);
+    if (ticket.id) await updateTicket(ticket.id, data);
     onTicketChanged();
   };
 
   const updateTicketType = async (newTypeId: string) => {
     const data = { type: newTypeId };
-    await updateTicket(ticket.id, data);
+    if (ticket.id) await updateTicket(ticket.id, data);
     onTicketChanged();
   };
 
@@ -74,19 +74,19 @@ export default function TicketItem({
   };
 
   const onClickDelete = async () => {
-    await deleteTicket(ticket.id);
+    if (ticket.id) await deleteTicket(ticket.id);
     onTicketChanged();
     setVisible(false);
   };
 
   const onClickAddToBacklog = async () => {
-    await updateTicketSprint(ticket.id, null);
+    if (ticket.id) await updateTicketSprint(ticket.id, null);
     onTicketChanged();
     setVisible(false);
   };
 
   const onClickAddToSprint = async (sprintId: string) => {
-    await updateTicketSprint(ticket.id, sprintId);
+    if (ticket.id) await updateTicketSprint(ticket.id, sprintId);
     onTicketChanged();
     setVisible(false);
   };
@@ -159,7 +159,7 @@ export default function TicketItem({
             defaultValue={ticket.title}
             onKeyDown={saveKeyPress}
             className={styles.taskInput}
-            data-testid={'ticket-title-input-'.concat(ticket.id)}
+            data-testid={'ticket-title-input-'.concat(ticket.id ?? '')}
             onChange={(e) => {
               setTitle(e.target.value);
             }}
@@ -193,7 +193,7 @@ export default function TicketItem({
       <div className={styles.toolBar}>
         <PriorityBtn
           showDropDownOnTop={showDropDownOnTop}
-          ticketId={ticket.id}
+          ticketId={ticket.id ?? ''}
           priority={ticket.priority ?? ''}
           getBacklogDataApi={onTicketChanged}
           isDisabled={isReadOnly}
@@ -210,7 +210,7 @@ export default function TicketItem({
           label="Epic"
           name="epic"
           onValueChanged={(e) => {
-            onChangeEpic(ticket.id, e.target.value);
+            if (ticket.id) onChangeEpic(ticket.id, e.target.value);
           }}
           value={epicId}
           hasBorder={false}
@@ -223,14 +223,14 @@ export default function TicketItem({
         )}
         <StatusBtn
           statusId={ticket?.status}
-          ticketId={ticket?.id}
+          ticketId={ticket?.id ?? ''}
           statusOptions={projectDetails.statuses}
           showDropDownOnTop={showDropDownOnTop}
           getBacklogDataApi={onTicketChanged}
           isDisabled={isReadOnly}
         />
         <AssigneeBtn
-          ticketId={ticket.id}
+          ticketId={ticket.id ?? ''}
           assignee={ticket?.assign}
           userList={projectDetails.users}
           showDropDownOnTop={showDropDownOnTop}
@@ -238,7 +238,7 @@ export default function TicketItem({
           isDisabled={isReadOnly}
         />
         <OverFlowMenuBtn
-          ticketId={ticket.id}
+          ticketId={ticket.id ?? ''}
           showDropDownOnTop={showDropDownOnTop}
           className={styles.optionBtn}
           items={[

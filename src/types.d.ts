@@ -19,6 +19,7 @@ export interface IProject {
 }
 /** ******************************************************* */
 export interface ITicketBasic {
+  id?: string;
   title: string;
   tags?: ILabelData[];
   comments?: any;
@@ -42,9 +43,6 @@ export interface ITicketBasic {
   epic?: string | null;
   ticketNumber?: string;
   rank?: string;
-}
-export interface ITicketBasicRes extends ITicketBasic {
-  id: string;
 }
 
 export interface ITicketInput {

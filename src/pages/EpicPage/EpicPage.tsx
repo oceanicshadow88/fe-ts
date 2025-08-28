@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useParams } from 'react-router-dom';
 import { getBacklogTickets } from '../../api/backlog/backlog';
@@ -11,11 +11,12 @@ import CreateIssue, { ICreateIssue } from '../../components/Projects/CreateIssue
 import DroppableTicketItems from '../../components/Projects/DroppableTicketItems/DroppableTicketItems';
 import { ModalContext } from '../../context/ModalProvider';
 import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
-import { ITicketBasicRes, ITicketInput } from '../../types';
+import { ITicketBasic, ITicketInput } from '../../types';
 import CreateEditEpic from './components/CreateEditEpic/CreateEditEpic';
 import styles from './EpicPage.module.scss';
 import UnassignedTickets from '../BacklogPage/components/BacklogSection/BacklogSection';
-import { customCompare } from '../../utils/lexoRank';
+import { customCompare, generateKeyBetween } from '../../utils/lexoRank';
+import { getNewGlobalRank } from '../../utils/reorderUtils';
 
 function EpicPage() {
   const { projectId = '' } = useParams();
@@ -23,21 +24,12 @@ function EpicPage() {
   const projectDetails = useContext(ProjectDetailsContext);
   const epicDataFromBackend = projectDetails?.epics ?? [];
 
-  const [tickets, setTickets] = useState<ITicketBasicRes[]>([]);
+  const [tickets, setTickets] = useState<ITicketBasic[]>([]);
 
   const ticketsByEpicId = tickets?.groupBy('epic') ?? {};
-
-  const ticketsWithoutEpic = useMemo(() => {
-    const groupBySprintId: Record<string, ITicketBasicRes[]> = tickets?.groupBy('sprint') ?? {};
-
-    Object.keys(groupBySprintId)?.forEach((sprintId) => {
-      groupBySprintId[sprintId] = groupBySprintId[sprintId]
-        .filter((ticket) => !ticket.epic)
-        .sort((a, b) => customCompare(a?.rank, b?.rank));
-    });
-
-    return groupBySprintId;
-  }, [tickets]);
+  const ticketsWithoutEpic = tickets
+    .filter((t) => !t.epic)
+    ?.sort((a, b) => customCompare(a?.rank, b?.rank));
 
   const fetchBacklogData = async (filterData?: IFilterData | null) => {
     const data = await getBacklogTickets(projectId, filterData);
@@ -48,32 +40,52 @@ function EpicPage() {
     await fetchBacklogData(data);
   };
 
-  const onIssueCreate = async (data: ITicketInput) => {
-    await createNewTicket(data);
-    await fetchBacklogData();
+  const onIssueCreate = async (newTicket: ITicketInput) => {
+    const allTicketsSorted = tickets.sort((a, b) => customCompare(a?.rank, b?.rank));
+
+    const newRank =
+      allTicketsSorted.length > 0
+        ? generateKeyBetween(allTicketsSorted[allTicketsSorted.length - 1]?.rank, null)
+        : generateKeyBetween(null, null);
+
+    const res = await createNewTicket({ ...newTicket, rank: newRank });
+    setTickets([...tickets, res.data]);
   };
 
-  const onDragEvent = async (result: DropResult) => {
-    const { destination, draggableId } = result;
+  const onDragEvent = async (dropResult: DropResult) => {
+    const { destination, source, draggableId: currentTicketId } = dropResult;
+    if (!destination) {
+      return;
+    }
 
-    const currentTicket = tickets.find((item) => item.id === draggableId);
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
+
+    const currentTicket = tickets.find((item) => item.id === currentTicketId);
     if (!currentTicket) {
       return;
     }
 
-    const droppedFailed = destination?.droppableId === currentTicket.epic;
-    if (droppedFailed) {
-      return;
-    }
-    const epicId = destination?.droppableId === 'unassigned' ? null : destination?.droppableId;
+    const allTicketsSorted = tickets
+      .filter((t) => t.id !== currentTicketId)
+      .sort((a, b) => customCompare(a?.rank, b?.rank));
 
-    const currentTickets = tickets.map((ticket) =>
-      ticket.id === draggableId ? { ...ticket, epic: null } : ticket
+    const destinationTicketsSorted = allTicketsSorted.filter((t) =>
+      t.epic !== null
+        ? t.epic === destination.droppableId
+        : destination.droppableId === 'unassigned'
     );
-    setTickets(currentTickets);
+    const newRank = getNewGlobalRank(destination.index, allTicketsSorted, destinationTicketsSorted);
+    const epicId = destination?.droppableId === 'unassigned' ? null : destination?.droppableId;
+    const updatedTicket = {
+      ...currentTicket,
+      epic: epicId,
+      rank: newRank
+    };
 
-    await updateTicketEpic(draggableId, epicId);
-    await fetchBacklogData(null);
+    setTickets(tickets.map((item) => (item.id === currentTicketId ? updatedTicket : item)));
+    await updateTicketEpic(currentTicketId, epicId, newRank);
   };
 
   const showCreateModal = () => {
@@ -116,7 +128,7 @@ function EpicPage() {
                 >
                   <DroppableTicketItems
                     onTicketChanged={fetchBacklogData}
-                    data={ticketsByEpicId[epic.id]}
+                    data={ticketsByEpicId[epic.id]?.sort((a, b) => customCompare(a?.rank, b?.rank))}
                     droppableId={epic.id}
                     showSpringName
                   />
@@ -143,14 +155,11 @@ function EpicPage() {
           <UnassignedTickets
             title="Tickets without epic"
             data-testid="backlog-section"
-            totalIssue={Object.values(ticketsWithoutEpic)?.reduce(
-              (acc: number, curr: ITicketBasicRes[]) => acc + curr.length,
-              0
-            )}
+            totalIssue={ticketsWithoutEpic?.length ?? 0}
           >
             <DroppableTicketItems
               onTicketChanged={fetchBacklogData}
-              data={Object.values(ticketsWithoutEpic).flat()}
+              data={ticketsWithoutEpic}
               isBacklog
               droppableId="unassigned"
               showSpringName

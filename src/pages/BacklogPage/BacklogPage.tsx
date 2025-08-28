@@ -263,11 +263,13 @@ export default function BacklogPage() {
       const onClickConfirmModal = async (target: 'sprint' | 'backlog') => {
         const closestSprint = incompleteSprints[0];
         await Promise.all(
-          incompleteTickets.map((ticket) =>
-            updateTicket(ticket.id, {
-              sprint: target === 'sprint' ? closestSprint.id : null,
-              status: target === 'sprint' ? ticket.status : null
-            })
+          incompleteTickets.map(
+            (ticket) =>
+              ticket.id &&
+              updateTicket(ticket.id, {
+                sprint: target === 'sprint' ? closestSprint.id : null,
+                status: target === 'sprint' ? ticket.status : null
+              })
           )
         );
 
