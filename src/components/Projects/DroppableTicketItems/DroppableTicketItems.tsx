@@ -40,7 +40,6 @@ export default function DroppableTicketItems({
     totalTicket += data?.length ?? 0;
     return totalTicket > 7;
   };
-
   return (
     <Droppable droppableId={droppableId}>
       {(provided) => {
