@@ -130,7 +130,6 @@ function EpicPage() {
                     onTicketChanged={fetchBacklogData}
                     data={ticketsByEpicId[epic.id]?.sort((a, b) => customCompare(a?.rank, b?.rank))}
                     droppableId={epic.id}
-                    showSpringName
                   />
                   <CreateIssue
                     onIssueCreate={(data: ICreateIssue) =>
@@ -162,7 +161,6 @@ function EpicPage() {
               data={ticketsWithoutEpic}
               isBacklog
               droppableId="unassigned"
-              showSpringName
             />
           </UnassignedTickets>
         </DragDropContext>

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { ProjectDetailsContext } from '../../../context/ProjectDetailsProvider';
 import TicketItem from '../../../pages/BacklogPage/components/TicketItem/TicketItem';
@@ -11,15 +11,13 @@ interface IProps {
   data: ITicketBasic[];
   isBacklog?: boolean;
   droppableId: string;
-  showSpringName?: boolean;
 }
 
 export default function DroppableTicketItems({
   onTicketChanged,
   data,
   isBacklog = false,
-  droppableId,
-  showSpringName = false
+  droppableId
 }: IProps) {
   const projectDetails = useContext(ProjectDetailsContext);
   const projectId = projectDetails.details.id;
@@ -43,16 +41,6 @@ export default function DroppableTicketItems({
     return totalTicket > 7;
   };
 
-  const dataWithSprint = useMemo(() => {
-    const sprintData = projectDetails?.sprints ?? [];
-    return data?.map((ticket) => {
-      const sprintObj = sprintData.find(
-        (td) => td.id === (typeof ticket.sprint === 'string' ? ticket.sprint : ticket.sprint?.id)
-      );
-      return { ...ticket, sprint: sprintObj };
-    });
-  }, [data]);
-
   return (
     <Droppable droppableId={droppableId}>
       {(provided) => {
@@ -62,7 +50,7 @@ export default function DroppableTicketItems({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {dataWithSprint?.map((ticket, index) => {
+            {data?.map((ticket, index) => {
               return (
                 <Draggable key={ticket.id} draggableId={ticket.id ?? ''} index={index}>
                   {(provided2) => {
@@ -81,7 +69,6 @@ export default function DroppableTicketItems({
                             }
                             onTicketChanged={onTicketChanged}
                             isReadOnly={!checkAccess(Permission.EditTickets, projectId)}
-                            showSpringName={showSpringName}
                           />
                         )}
                       </div>

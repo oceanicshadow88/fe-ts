@@ -31,14 +31,12 @@ interface ITicketInput {
   showDropDownOnTop?: boolean;
   onTicketChanged: () => void;
   isReadOnly: boolean;
-  showSpringName?: boolean;
 }
 export default function TicketItem({
   ticket,
   showDropDownOnTop,
   onTicketChanged,
-  isReadOnly,
-  showSpringName = false
+  isReadOnly
 }: ITicketInput) {
   const [title, setTitle] = useState(ticket.title);
   const [value, setValue] = useState(ticket.type);
@@ -136,7 +134,7 @@ export default function TicketItem({
           'ticketDetailCard',
           <TicketDetailCard
             projectId={projectId}
-            ticketId={ticket.id}
+            ticketId={ticket.id ?? ''}
             onDeletedTicket={removeTicket}
             onSavedTicket={onSavedTicket}
             isReadOnly={isReadOnly}
@@ -218,9 +216,6 @@ export default function TicketItem({
           addNullOptions
           color={projectDetails.epics.find((item) => item.id === epicId)?.color}
         />
-        {showSpringName && (
-          <span className={styles.sprintText}>{ticket.sprint?.name ?? 'backlog'}</span>
-        )}
         <StatusBtn
           statusId={ticket?.status}
           ticketId={ticket?.id ?? ''}
