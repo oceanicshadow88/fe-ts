@@ -50,13 +50,13 @@ export default function TicketItem({
       return;
     }
     const data = { title: title.trim() };
-    if (ticket.id) await updateTicket(ticket.id, data);
+    await updateTicket(ticket.id, data);
     onTicketChanged();
   };
 
   const updateTicketType = async (newTypeId: string) => {
     const data = { type: newTypeId };
-    if (ticket.id) await updateTicket(ticket.id, data);
+    await updateTicket(ticket.id, data);
     onTicketChanged();
   };
 
@@ -72,19 +72,19 @@ export default function TicketItem({
   };
 
   const onClickDelete = async () => {
-    if (ticket.id) await deleteTicket(ticket.id);
+    await deleteTicket(ticket.id);
     onTicketChanged();
     setVisible(false);
   };
 
   const onClickAddToBacklog = async () => {
-    if (ticket.id) await updateTicketSprint(ticket.id, null);
+    await updateTicketSprint(ticket.id, null);
     onTicketChanged();
     setVisible(false);
   };
 
   const onClickAddToSprint = async (sprintId: string) => {
-    if (ticket.id) await updateTicketSprint(ticket.id, sprintId);
+    await updateTicketSprint(ticket.id, sprintId);
     onTicketChanged();
     setVisible(false);
   };
@@ -134,7 +134,7 @@ export default function TicketItem({
           'ticketDetailCard',
           <TicketDetailCard
             projectId={projectId}
-            ticketId={ticket.id ?? ''}
+            ticketId={ticket.id}
             onDeletedTicket={removeTicket}
             onSavedTicket={onSavedTicket}
             isReadOnly={isReadOnly}
@@ -157,7 +157,7 @@ export default function TicketItem({
             defaultValue={ticket.title}
             onKeyDown={saveKeyPress}
             className={styles.taskInput}
-            data-testid={'ticket-title-input-'.concat(ticket.id ?? '')}
+            data-testid={'ticket-title-input-'.concat(ticket.id)}
             onChange={(e) => {
               setTitle(e.target.value);
             }}
@@ -191,7 +191,7 @@ export default function TicketItem({
       <div className={styles.toolBar}>
         <PriorityBtn
           showDropDownOnTop={showDropDownOnTop}
-          ticketId={ticket.id ?? ''}
+          ticketId={ticket.id}
           priority={ticket.priority ?? ''}
           getBacklogDataApi={onTicketChanged}
           isDisabled={isReadOnly}
@@ -218,14 +218,14 @@ export default function TicketItem({
         />
         <StatusBtn
           statusId={ticket?.status}
-          ticketId={ticket?.id ?? ''}
+          ticketId={ticket?.id}
           statusOptions={projectDetails.statuses}
           showDropDownOnTop={showDropDownOnTop}
           getBacklogDataApi={onTicketChanged}
           isDisabled={isReadOnly}
         />
         <AssigneeBtn
-          ticketId={ticket.id ?? ''}
+          ticketId={ticket.id}
           assignee={ticket?.assign}
           userList={projectDetails.users}
           showDropDownOnTop={showDropDownOnTop}
@@ -233,7 +233,7 @@ export default function TicketItem({
           isDisabled={isReadOnly}
         />
         <OverFlowMenuBtn
-          ticketId={ticket.id ?? ''}
+          ticketId={ticket.id}
           showDropDownOnTop={showDropDownOnTop}
           className={styles.optionBtn}
           items={[

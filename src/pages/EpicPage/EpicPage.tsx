@@ -14,7 +14,7 @@ import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import { ITicketBasic, ITicketInput } from '../../types';
 import CreateEditEpic from './components/CreateEditEpic/CreateEditEpic';
 import styles from './EpicPage.module.scss';
-import UnassignedTickets from '../BacklogPage/components/BacklogSection/BacklogSection';
+import UnassignedTicketsSection from '../BacklogPage/components/BacklogSection/BacklogSection';
 import { customCompare, generateKeyBetween } from '../../utils/lexoRank';
 import { getNewGlobalRank } from '../../utils/reorderUtils';
 
@@ -151,7 +151,7 @@ function EpicPage() {
               Create epic
             </Button>
           </div>
-          <UnassignedTickets
+          <UnassignedTicketsSection
             title="Tickets without epic"
             data-testid="backlog-section"
             totalIssue={ticketsWithoutEpic?.length ?? 0}
@@ -162,7 +162,7 @@ function EpicPage() {
               isBacklog
               droppableId="unassigned"
             />
-          </UnassignedTickets>
+          </UnassignedTicketsSection>
         </DragDropContext>
       </div>
     </ProjectHOC>

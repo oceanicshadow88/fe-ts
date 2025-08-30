@@ -19,11 +19,36 @@ export interface IProject {
 }
 /** ******************************************************* */
 export interface ITicketBasic {
-  id?: string;
+  id: string;
   title: string;
   tags?: ILabelData[];
   comments?: any;
   status?: string | null;
+  priority: 'Highest' | 'High' | 'Medium' | 'Low' | 'Lowest';
+  project: IProject;
+  board?: string;
+  sprint?: ISprint;
+  description?: string;
+  storyPoint?: string;
+  dueAt?: Date;
+  reporter?: string;
+  assign?: IAssign;
+  type?: ITypes;
+  isActive: boolean;
+  attachmentUrls?: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
+  epic?: string | null;
+  ticketNumber: string;
+  rank?: string;
+}
+
+export interface ISprintTicket {
+  id?: string;
+  title: string;
+  tags?: ILabelData[];
+  comments?: any;
+  status?: string;
   priority?: 'Highest' | 'High' | 'Medium' | 'Low' | 'Lowest';
   project?: IProject;
   projectId?: string;
@@ -37,10 +62,9 @@ export interface ITicketBasic {
   assign?: IAssign;
   type?: ITypes;
   isActive?: boolean;
-  attachmentUrls?: string[];
+  attachmentUrls?: any;
   createdAt?: Date;
   updatedAt?: Date;
-  epic?: string | null;
   ticketNumber?: string;
   rank?: string;
 }

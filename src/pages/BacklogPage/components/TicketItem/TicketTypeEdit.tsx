@@ -5,7 +5,7 @@ import { ProjectDetailsContext } from '../../../../context/ProjectDetailsProvide
 import { ITypes } from '../../../../types';
 
 type SelectProps = {
-  ticketId?: string;
+  ticketId: string;
   value?: ITypes;
   onChange: (value: ITypes | undefined) => void;
   updateTicketType: (newTypeId: string) => Promise<void>;

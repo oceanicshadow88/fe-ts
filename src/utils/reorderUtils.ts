@@ -1,10 +1,10 @@
-import { ITicketBasic } from '../types';
+import { ISprintTicket, ITicketBasic } from '../types';
 import { generateKeyBetween } from './lexoRank';
 
 export const getNewGlobalRank = (
   destinationIndex: number,
-  allTicketsSorted: ITicketBasic[],
-  destinationTickets: ITicketBasic[]
+  allTicketsSorted: ITicketBasic[] | ISprintTicket[],
+  destinationTickets: ITicketBasic[] | ISprintTicket[]
 ): string => {
   const lastTicketInColumnIndex = destinationTickets.length - 1;
   const lastTicketGlobalIndex = allTicketsSorted.length - 1;

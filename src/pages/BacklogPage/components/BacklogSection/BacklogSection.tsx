@@ -1,17 +1,17 @@
 import React from 'react';
 import styles from './BacklogSection.module.scss';
 
-interface IUnassignedTickets {
+interface IUnassignedTicketsSection {
   title?: string;
   totalIssue: number;
   children?: React.ReactNode | string;
 }
 
-export default function UnassignedTickets({
+export default function UnassignedTicketsSection({
   title = 'Backlogs',
   totalIssue,
   children
-}: IUnassignedTickets) {
+}: IUnassignedTicketsSection) {
   return (
     <section className={styles.container}>
       <div className={styles.header}>

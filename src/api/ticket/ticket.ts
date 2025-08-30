@@ -64,10 +64,7 @@ export function updateTicketSprint(ticketId: string, sprintId?: string | null, d
 }
 
 export function updateTicketEpic(ticketId: string, epic?: string | null, rank?: string) {
-  const updateData: any = { epic };
-  if (rank) {
-    updateData.rank = rank;
-  }
+  const updateData = { epic, rank };
   return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, updateData);
 }
 
