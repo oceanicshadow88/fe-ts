@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { getBacklogTickets } from '../../api/backlog/backlog';
 import { createNewTicket, updateTicketEpic } from '../../api/ticket/ticket';
 import BoardToolbar, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
@@ -15,46 +14,78 @@ import { ProjectDetailsContext } from '../../context/ProjectDetailsProvider';
 import { ITicketBasic, ITicketInput } from '../../types';
 import CreateEditEpic from './components/CreateEditEpic/CreateEditEpic';
 import styles from './EpicPage.module.scss';
+import UnassignedTicketsSection from '../BacklogPage/components/BacklogSection/BacklogSection';
+import { customCompare, generateKeyBetween } from '../../utils/lexoRank';
+import { getNewGlobalRank } from '../../utils/reorderUtils';
 
 function EpicPage() {
   const { projectId = '' } = useParams();
-  const [tickets, setTickets] = useState<ITicketBasic[]>([]);
   const { showModal, closeModal } = useContext(ModalContext);
   const projectDetails = useContext(ProjectDetailsContext);
+  const epicDataFromBackend = projectDetails?.epics ?? [];
+
+  const [tickets, setTickets] = useState<ITicketBasic[]>([]);
+
+  const ticketsByEpicId = tickets?.groupBy('epic') ?? {};
+  const ticketsWithoutEpic = tickets
+    .filter((t) => !t.epic)
+    ?.sort((a, b) => customCompare(a?.rank, b?.rank));
 
   const fetchBacklogData = async (filterData?: IFilterData | null) => {
-    try {
-      const data = await getBacklogTickets(projectId, filterData);
-      setTickets(data);
-    } catch (e) {
-      toast.error('Temporary Server Error. Try Again.', { theme: 'colored' });
+    const data = await getBacklogTickets(projectId, filterData);
+    setTickets(data);
+  };
+
+  const onChangeFilter = async (data: IFilterData) => {
+    await fetchBacklogData(data);
+  };
+
+  const onIssueCreate = async (newTicket: ITicketInput) => {
+    const allTicketsSorted = tickets.sort((a, b) => customCompare(a?.rank, b?.rank));
+
+    const newRank =
+      allTicketsSorted.length > 0
+        ? generateKeyBetween(allTicketsSorted[allTicketsSorted.length - 1]?.rank, null)
+        : generateKeyBetween(null, null);
+
+    const res = await createNewTicket({ ...newTicket, rank: newRank });
+    setTickets([...tickets, res.data]);
+  };
+
+  const onDragEvent = async (dropResult: DropResult) => {
+    const { destination, source, draggableId: currentTicketId } = dropResult;
+    if (!destination) {
+      return;
     }
-  };
 
-  const onChangeFilter = (data: IFilterData) => {
-    fetchBacklogData(data);
-  };
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
 
-  const onDragEventHandler = async (result: DropResult) => {
-    const { destination, draggableId } = result;
-
-    const currentTicket = tickets.find((item) => item.id === draggableId);
+    const currentTicket = tickets.find((item) => item.id === currentTicketId);
     if (!currentTicket) {
       return;
     }
 
-    const droppedFailed = destination?.droppableId === currentTicket.epic;
-    if (droppedFailed) {
-      return;
-    }
-    const epicId = destination?.droppableId;
-    await updateTicketEpic(draggableId, epicId);
-    fetchBacklogData(null);
-  };
+    const allTicketsSorted = tickets
+      .filter((t) => t.id !== currentTicketId)
+      .sort((a, b) => customCompare(a?.rank, b?.rank));
 
-  const onIssueCreate = async (data: ITicketInput) => {
-    await createNewTicket(data);
-    fetchBacklogData();
+    const destinationTicketsSorted = allTicketsSorted.filter((t) =>
+      t.epic !== null
+        ? t.epic === destination.droppableId
+        : destination.droppableId === 'unassigned'
+    );
+    const newRank = getNewGlobalRank(destination.index, allTicketsSorted, destinationTicketsSorted);
+    const epicId = destination?.droppableId === 'unassigned' ? null : destination?.droppableId;
+    const updatedTicket = {
+      ...currentTicket,
+      epic: epicId,
+      rank: newRank
+    };
+
+    setTickets(tickets.map((item) => (item.id === currentTicketId ? updatedTicket : item)));
+    await updateTicketEpic(currentTicketId, epicId, newRank);
   };
 
   const showCreateModal = () => {
@@ -71,28 +102,20 @@ function EpicPage() {
     );
   };
 
-  const epicDataFromBackend = projectDetails?.epics ?? [];
-
-  const ticketsByEpicId = tickets?.groupBy('epic') ?? {};
   return (
     <ProjectHOC title="Epic">
       <div className={styles.scrollContainer}>
         <BoardToolbar onChangeFilter={onChangeFilter} />
-        <div className={styles.toolbar}>
-          <Button onClick={showCreateModal} dataTestId="epic-create-epic-btn">
-            Create epic
-          </Button>
-        </div>
         <DragDropContext
           onDragEnd={(result) => {
-            onDragEventHandler(result);
+            onDragEvent(result);
           }}
         >
           {epicDataFromBackend
             .filter((epic) => {
               return !epic.isComplete;
             })
-            .map((epic) => {
+            ?.map((epic) => {
               return (
                 <ProjectSectionHOC
                   key={epic.id}
@@ -105,7 +128,7 @@ function EpicPage() {
                 >
                   <DroppableTicketItems
                     onTicketChanged={fetchBacklogData}
-                    data={ticketsByEpicId[epic.id]}
+                    data={ticketsByEpicId[epic.id]?.sort((a, b) => customCompare(a?.rank, b?.rank))}
                     droppableId={epic.id}
                   />
                   <CreateIssue
@@ -123,6 +146,23 @@ function EpicPage() {
                 </ProjectSectionHOC>
               );
             })}
+          <div className={styles.toolbar}>
+            <Button onClick={showCreateModal} dataTestId="epic-create-epic-btn">
+              Create epic
+            </Button>
+          </div>
+          <UnassignedTicketsSection
+            title="Tickets without epic"
+            data-testid="backlog-section"
+            totalIssue={ticketsWithoutEpic?.length ?? 0}
+          >
+            <DroppableTicketItems
+              onTicketChanged={fetchBacklogData}
+              data={ticketsWithoutEpic}
+              isBacklog
+              droppableId="unassigned"
+            />
+          </UnassignedTicketsSection>
         </DragDropContext>
       </div>
     </ProjectHOC>

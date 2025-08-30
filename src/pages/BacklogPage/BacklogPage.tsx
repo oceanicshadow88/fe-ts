@@ -1,7 +1,7 @@
 import React, { useState, useContext, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, DraggableLocation, DropResult } from 'react-beautiful-dnd';
-import BacklogSection from './components/BacklogSection/BacklogSection';
+import UnassignedTickets from './components/BacklogSection/BacklogSection';
 import MoveIncompleteTicketsModal from './components/MoveIncompleteTicketsModal/MoveIncompleteTicketsModal';
 import styles from './BacklogPage.module.scss';
 import { getBacklogTickets } from '../../api/backlog/backlog';
@@ -15,7 +15,7 @@ import CreateIssue, { ICreateIssue } from '../../components/Projects/CreateIssue
 import DroppableTicketItems from '../../components/Projects/DroppableTicketItems/DroppableTicketItems';
 import BoardToolbar, { IFilterData } from '../../components/Board/BoardSearch/TicketSearch';
 import { ModalContext } from '../../context/ModalProvider';
-import { ISprint, ITicketBasic, ITicketInput } from '../../types';
+import { ITicketBasic, ITicketInput } from '../../types';
 import {
   createNewTicket,
   migrateTicketRanks,
@@ -26,6 +26,7 @@ import ProjectHOC from '../../components/HOC/ProjectHOC';
 import checkAccess from '../../utils/helpers';
 import { Permission } from '../../utils/permission';
 import { customCompare, generateKeyBetween } from '../../utils/lexoRank';
+import { getNormalizedSprintId } from '../../utils/sprintUtils';
 
 export default function BacklogPage() {
   const { projectId = '' } = useParams();
@@ -230,12 +231,6 @@ export default function BacklogPage() {
 
   const sprintData = projectDetails?.sprints ?? [];
 
-  const getNormalizedSprintId = (sprint: string | ISprint | null | undefined): string => {
-    if (!sprint) return 'backlog';
-    if (typeof sprint === 'string') return sprint;
-    return sprint.id;
-  };
-
   const ticketsBySprintId = useMemo(() => {
     const grouped: Record<string, ITicketBasic[]> = { backlog: [] };
 
@@ -268,11 +263,13 @@ export default function BacklogPage() {
       const onClickConfirmModal = async (target: 'sprint' | 'backlog') => {
         const closestSprint = incompleteSprints[0];
         await Promise.all(
-          incompleteTickets.map((ticket) =>
-            updateTicket(ticket.id, {
-              sprint: target === 'sprint' ? closestSprint.id : null,
-              status: target === 'sprint' ? ticket.status : null
-            })
+          incompleteTickets.map(
+            (ticket) =>
+              ticket.id &&
+              updateTicket(ticket.id, {
+                sprint: target === 'sprint' ? closestSprint.id : null,
+                status: target === 'sprint' ? ticket.status : null
+              })
           )
         );
 
@@ -372,7 +369,7 @@ export default function BacklogPage() {
               </Button>
             )}
           </div>
-          <BacklogSection
+          <UnassignedTickets
             data-testid="backlog-section"
             totalIssue={ticketsBySprintId?.backlog?.length ?? 0}
           >
@@ -395,7 +392,7 @@ export default function BacklogPage() {
               }
               showDropDownOnTop={calculateShowDropDownTop()}
             />
-          </BacklogSection>
+          </UnassignedTickets>
         </DragDropContext>
         {Object.values(ticketsBySprintId).flat().length === 0 && (
           <div className={styles.emptyWrapper}>

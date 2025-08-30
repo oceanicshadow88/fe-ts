@@ -63,8 +63,9 @@ export function updateTicketSprint(ticketId: string, sprintId?: string | null, d
   });
 }
 
-export function updateTicketEpic(ticketId: string, epic?: string | null) {
-  return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, { epic });
+export function updateTicketEpic(ticketId: string, epic?: string | null, rank?: string) {
+  const updateData = { epic, rank };
+  return alphaApiV2.put(`${config.apiAddressV2}/tickets/${ticketId}`, updateData);
 }
 
 export function updateTicketStatus(ticketId: string, statusId: string, rank?: string) {

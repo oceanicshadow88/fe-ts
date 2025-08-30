@@ -23,11 +23,11 @@ export interface ITicketBasic {
   title: string;
   tags?: ILabelData[];
   comments?: any;
-  status?: string | null | undefined;
+  status?: string | null;
   priority: 'Highest' | 'High' | 'Medium' | 'Low' | 'Lowest';
   project: IProject;
   board?: string;
-  sprint?: ISprint | undefined;
+  sprint?: ISprint;
   description?: string;
   storyPoint?: string;
   dueAt?: Date;
@@ -38,11 +38,11 @@ export interface ITicketBasic {
   attachmentUrls?: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  epic: string;
+  epic?: string | null;
   ticketNumber: string;
   rank?: string;
 }
-/** **********Combine this with ITicketBasic*************** */
+
 export interface ISprintTicket {
   id?: string;
   title: string;

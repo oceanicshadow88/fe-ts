@@ -40,7 +40,7 @@ export default function TicketItem({
 }: ITicketInput) {
   const [title, setTitle] = useState(ticket.title);
   const [value, setValue] = useState(ticket.type);
-  const [epicId, setEpicId] = useState<string | null>(ticket.epic);
+  const [epicId, setEpicId] = useState<string | null>(ticket?.epic ?? null);
   const projectDetails = useContext(ProjectDetailsContext);
   const { showModal } = useContext(ModalContext);
   const { projectId = '' } = useParams();
@@ -192,21 +192,23 @@ export default function TicketItem({
         <PriorityBtn
           showDropDownOnTop={showDropDownOnTop}
           ticketId={ticket.id}
-          priority={ticket.priority}
+          priority={ticket.priority ?? ''}
           getBacklogDataApi={onTicketChanged}
           isDisabled={isReadOnly}
         />
         <DropdownV2
-          options={projectDetails.epics.map((item) => {
-            return {
-              label: item.title,
-              value: item.id
-            };
-          })}
+          options={projectDetails.epics
+            .filter((epic) => !epic.isComplete)
+            .map((item) => {
+              return {
+                label: item.title,
+                value: item.id
+              };
+            })}
           label="Epic"
           name="epic"
           onValueChanged={(e) => {
-            onChangeEpic(ticket.id, e.target.value);
+            if (ticket.id) onChangeEpic(ticket.id, e.target.value);
           }}
           value={epicId}
           hasBorder={false}
